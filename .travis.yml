@@ -26,3 +26,4 @@ android:
 before_install:    
  # Change gradlew permission
  - chmod +x gradlew
+ - yes | sdkmanager "platforms;android-27"
