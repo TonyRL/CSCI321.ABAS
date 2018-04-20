@@ -1,18 +1,145 @@
 package au.edu.uow.fyp01.abas;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
   private ProgressDialog progressDialog;
+  private FirebaseAuth firebaseAuth;
+  private EditText emailText;
+  private EditText passwordText;
+  private Button loginBtn;
+  private Button signUpBtn;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
+
+    emailText = findViewById(R.id.emailEditText);
+    passwordText = findViewById(R.id.passwordEditText);
+    loginBtn = findViewById(R.id.loginBtn);
+    signUpBtn = findViewById(R.id.signUpBtn);
+
+    loginBtn.setOnClickListener(onClickListener);
+    signUpBtn.setOnClickListener(onClickListener);
+
+    firebaseAuth = FirebaseAuth.getInstance();
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+    if (currentUser != null) {
+      Intent intent = new Intent(this, MainActivity.class);
+      startActivity(intent);
+    }
+  }
+
+  private View.OnClickListener onClickListener = new OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      switch (v.getId()) {
+        case R.id.loginBtn:
+          login();
+          break;
+        case R.id.signUpBtn:
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  private void login() {
+    if (!isFormValid()) {
+      return;
+    }
+
+    showProgressDialog();
+
+    firebaseAuth.signInWithEmailAndPassword(emailText.getText().toString(),
+        passwordText.getText().toString())
+        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+          @Override
+          public void onComplete(@NonNull Task<AuthResult> task) {
+
+            hideProgressDialog();
+
+            if (task.isSuccessful()) {
+              FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+              passwordText.setText("");
+
+              Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
+              startActivity(mainActivityIntent);
+            } else {
+              if (task.getException() != null) {
+                try {
+                  throw task.getException();
+                } catch (FirebaseAuthInvalidUserException e) {
+                  passwordText.setText("");
+                  Toast.makeText(LoginActivity.this, "Authentication failed.\nUser does not exist!",
+                      Toast.LENGTH_LONG).show();
+
+                } catch (FirebaseAuthInvalidCredentialsException e) {
+                  passwordText.setText("");
+                  Toast.makeText(LoginActivity.this,
+                      "Authentication failed.\nThe password is invalid.", Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+                  Log.e("SignIn: ", e.getMessage());
+                } finally {
+                  hideProgressDialog();
+                }
+              }
+            }
+          }
+        });
+  }
+
+  private boolean isFormValid() {
+    boolean valid = true;
+    String email = emailText.getText().toString();
+    String password = passwordText.getText().toString();
+
+    if (TextUtils.isEmpty(email) || email.indexOf('@') == -1) {
+      emailText.setError("Wrong email!");
+      emailText.requestFocus();
+      valid = false;
+    } else {
+      emailText.setError(null);
+    }
+
+    if (TextUtils.isEmpty(password) && valid) {
+      passwordText.setError("Wrong password");
+      passwordText.requestFocus();
+      valid = false;
+    } else {
+      passwordText.setError(null);
+    }
+
+    return valid;
   }
 
   private void showProgressDialog() {
