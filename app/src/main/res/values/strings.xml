@@ -9,4 +9,11 @@
   <string name="nav_header_title">Android Studio</string>
   <string name="nav_header_subtitle">android.studio@android.com</string>
   <string name="nav_header_desc">Navigation header</string>
+  <string name="name">Name:</string>
+  <string name="first_name_last_name">First Name, Last Name</string>
+  <string name="email">Email</string>
+  <string name="email_w_colon">Email:</string>
+  <string name="password">Password</string>
+  <string name="password_w_colon">Password:</string>
+  <string name="confirm_password">Confirm Password</string>
 </resources>

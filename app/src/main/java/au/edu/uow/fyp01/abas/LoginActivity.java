@@ -25,11 +25,38 @@ public class LoginActivity extends AppCompatActivity {
 
   private ProgressDialog progressDialog;
   private FirebaseAuth firebaseAuth;
+  private FirebaseUser firebaseUser;
   private EditText emailText;
   private EditText passwordText;
   private Button loginBtn;
   private Button signUpBtn;
   private Button cheatBtn;
+  private View.OnClickListener onClickListener = new OnClickListener() {
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onClick(View v) {
+      switch (v.getId()) {
+        case R.id.loginBtn:
+          login();
+          break;
+        case R.id.signUpBtn:
+          signUp();
+          break;
+        case R.id.cheatBtn:
+          emailText.setText("test123@test.com");
+          passwordText.setText("test123");
+          login();
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  private void signUp() {
+    Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
+    startActivity(signUpActivity);
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -52,34 +79,13 @@ public class LoginActivity extends AppCompatActivity {
   @Override
   protected void onStart() {
     super.onStart();
-    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+    firebaseUser = firebaseAuth.getCurrentUser();
 
-    if (currentUser != null) {
+    if (firebaseUser != null) {
       Intent intent = new Intent(this, MainActivity.class);
       startActivity(intent);
     }
   }
-
-  private View.OnClickListener onClickListener = new OnClickListener() {
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onClick(View v) {
-      switch (v.getId()) {
-        case R.id.loginBtn:
-          login();
-          break;
-        case R.id.signUpBtn:
-          break;
-        case R.id.cheatBtn:
-          emailText.setText("test123@test.com");
-          passwordText.setText("test123");
-          login();
-          break;
-        default:
-          break;
-      }
-    }
-  };
 
   private void login() {
     if (!isFormValid()) {
@@ -97,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             hideProgressDialog();
 
             if (task.isSuccessful()) {
-              FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+              firebaseUser = firebaseAuth.getCurrentUser();
 
               passwordText.setText("");
 
@@ -134,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     String password = passwordText.getText().toString();
 
     if (TextUtils.isEmpty(email) || email.indexOf('@') == -1) {
-      emailText.setError("Wrong email!");
+      emailText.setError("Invalid email");
       emailText.requestFocus();
       valid = false;
     } else {
@@ -142,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     if (TextUtils.isEmpty(password) && valid) {
-      passwordText.setError("Wrong password");
+      passwordText.setError("Invalid password");
       passwordText.requestFocus();
       valid = false;
     } else {
