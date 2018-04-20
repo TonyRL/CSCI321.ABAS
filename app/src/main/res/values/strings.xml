@@ -3,4 +3,10 @@
   <string name="login">Login</string>
   <string name="sign_up">Sign Up</string>
   <string name="app_banner_image_view_description">This is the application banner.</string>
+  <string name="navigation_drawer_open">Open navigation drawer</string>
+  <string name="navigation_drawer_close">Close navigation drawer</string>
+  <string name="action_settings">Settings</string>
+  <string name="nav_header_title">Android Studio</string>
+  <string name="nav_header_subtitle">android.studio@android.com</string>
+  <string name="nav_header_desc">Navigation header</string>
 </resources>

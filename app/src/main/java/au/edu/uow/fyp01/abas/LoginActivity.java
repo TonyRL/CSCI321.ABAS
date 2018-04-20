@@ -1,5 +1,6 @@
 package au.edu.uow.fyp01.abas;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
   private EditText passwordText;
   private Button loginBtn;
   private Button signUpBtn;
+  private Button cheatBtn;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,11 @@ public class LoginActivity extends AppCompatActivity {
     passwordText = findViewById(R.id.passwordEditText);
     loginBtn = findViewById(R.id.loginBtn);
     signUpBtn = findViewById(R.id.signUpBtn);
+    cheatBtn = findViewById(R.id.cheatBtn);
 
     loginBtn.setOnClickListener(onClickListener);
     signUpBtn.setOnClickListener(onClickListener);
+    cheatBtn.setOnClickListener(onClickListener);
 
     firebaseAuth = FirebaseAuth.getInstance();
   }
@@ -57,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
   }
 
   private View.OnClickListener onClickListener = new OnClickListener() {
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
       switch (v.getId()) {
@@ -64,6 +69,11 @@ public class LoginActivity extends AppCompatActivity {
           login();
           break;
         case R.id.signUpBtn:
+          break;
+        case R.id.cheatBtn:
+          emailText.setText("test123@test.com");
+          passwordText.setText("test123");
+          login();
           break;
         default:
           break;
