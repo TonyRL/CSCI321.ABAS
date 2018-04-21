@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
     if (firebaseUser != null) {
       Intent intent = new Intent(this, MainActivity.class);
       startActivity(intent);
+      finish();
     }
   }
 
@@ -109,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
               Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
               startActivity(mainActivityIntent);
+              finish();
             } else {
               if (task.getException() != null) {
                 try {
