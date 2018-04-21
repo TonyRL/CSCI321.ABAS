@@ -72,19 +72,27 @@ public class MainActivity extends AppCompatActivity {
       // Handle navigation view item clicks here.
       int id = item.getItemId();
 
-      if (id == R.id.nav_search_beacon) {
-        // Handle the camera action
-      } else if (id == R.id.nav_file) {
+      switch (id) {
+        case R.id.nav_search_beacon:
 
-      } else if (id == R.id.nav_record) {
+          break;
+        case R.id.nav_file:
 
-      } else if (id == R.id.nav_setting) {
+          break;
+        case R.id.nav_record:
 
-      } else if (id == R.id.nav_logout) {
-        FirebaseAuth.getInstance().signOut();
-        Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(loginActivityIntent);
-        finish();
+          break;
+        case R.id.nav_setting:
+
+          break;
+        case R.id.nav_logout:
+          FirebaseAuth.getInstance().signOut();
+          Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
+          startActivity(loginActivityIntent);
+          finish();
+          break;
+        default:
+          break;
       }
       DrawerLayout drawer = findViewById(R.id.drawer_layout);
       drawer.closeDrawer(GravityCompat.START);

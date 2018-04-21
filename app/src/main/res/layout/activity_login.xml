@@ -5,7 +5,6 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="#ffffff"
   tools:context=".LoginActivity">
 
   <ImageView
@@ -29,7 +28,7 @@
     android:layout_marginEnd="8dp"
     android:ems="10"
     android:gravity="center_horizontal|center"
-    android:hint="Your Email"
+    android:hint="@string/your_email"
     android:inputType="textEmailAddress"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.503"
@@ -44,7 +43,7 @@
     android:layout_marginEnd="8dp"
     android:ems="10"
     android:gravity="center_horizontal|center"
-    android:hint="Password"
+    android:hint="@string/password"
     android:inputType="textPassword"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -94,5 +93,6 @@
     android:text="CHEAT"
     app:layout_constraintEnd_toStartOf="@+id/loginBtn"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/passwordEditText"/>
+    app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+    tools:ignore="HardcodedText"/>
 </android.support.constraint.ConstraintLayout>

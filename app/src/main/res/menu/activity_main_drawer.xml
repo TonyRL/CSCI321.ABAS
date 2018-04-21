@@ -9,15 +9,15 @@
     <item
       android:id="@+id/nav_search_beacon"
       android:icon="@drawable/ic_search_beacon"
-      android:title="Search Beacon"/>
+      android:title="@string/search_beacon"/>
     <item
       android:id="@+id/nav_file"
       android:icon="@drawable/ic_file"
-      android:title="File"/>
+      android:title="@string/file"/>
     <item
       android:id="@+id/nav_record"
       android:icon="@drawable/ic_record"
-      android:title="Record"/>
+      android:title="@string/record"/>
   </group>
 
   <group
@@ -26,11 +26,11 @@
     <item
       android:id="@+id/nav_setting"
       android:icon="@drawable/ic_setting"
-      android:title="Setting"/>
+      android:title="@string/setting"/>
     <item
       android:id="@+id/nav_logout"
       android:icon="@drawable/ic_logout"
-      android:title="Logout"/>
+      android:title="@string/logout"/>
   </group>
 
 </menu>

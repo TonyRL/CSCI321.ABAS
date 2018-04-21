@@ -86,6 +86,7 @@ public class SignUpActivity extends AppCompatActivity {
               String newUserUid = firebaseAuth.getCurrentUser().getUid();
               dbRef = FirebaseDatabase.getInstance().getReference().child("User").child(newUserUid);
               dbRef.child("email").setValue(emailText.getText().toString());
+              //noinspection SpellCheckingInspection
               dbRef.child("fullname").setValue(nameText.getText().toString());
 
               hideProgressDialog();
