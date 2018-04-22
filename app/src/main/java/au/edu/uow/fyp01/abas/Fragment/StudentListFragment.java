@@ -2,8 +2,10 @@ package au.edu.uow.fyp01.abas.Fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,42 @@ public class StudentListFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+
+        //Instantiate the database
+        db = FirebaseDatabase.getInstance();
+
+        //RecyclerView
+        studentListRecyclerView = view.findViewById(R.id.studentListRecyclerView);
+        studentListRecyclerView.setHasFixedSize(true);
+        studentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        dbref = db.getReference().child("Student").child(schID).child(classID);
+
+        //set options for adapter
+        //dbref is set to order the list by CLASS NUMBER.
+        options = new FirebaseRecyclerOptions.Builder<StudentModel>().
+                setQuery(dbref.orderByChild("classnumber"),StudentModel.class).build();
+
+        firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<StudentModel, StudentModelViewHolder>(options) {
+                    @Override
+                    protected void onBindViewHolder(@NonNull StudentModelViewHolder holder, int position, @NonNull StudentModel model) {
+                        //bind object
+                        holder.setsID(model.getSid());
+                        holder.setClassnumber(model.getClassnumber());
+                        holder.setFirstname(model.getFirstname());
+                        holder.setLastname(model.getLastname());
+                        holder.setButton();
+                    }
+
+                    @NonNull
+                    @Override
+                    public StudentModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view1 = LayoutInflater.from(parent.getContext())
+                                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                        return new StudentModelViewHolder(view1);
+                    }
+                };
 
     }
 
