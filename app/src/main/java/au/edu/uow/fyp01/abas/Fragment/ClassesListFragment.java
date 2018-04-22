@@ -65,7 +65,7 @@ public class ClassesListFragment extends Fragment {
         db = FirebaseDatabase.getInstance();
 
         //RecyclerView
-        classesListRecyclerView = (RecyclerView) view.findViewById(R.id.classesListRecyclerView);
+        classesListRecyclerView = view.findViewById(R.id.classesListRecyclerView);
         classesListRecyclerView.setHasFixedSize(true);
         classesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -75,6 +75,7 @@ public class ClassesListFragment extends Fragment {
         dbref = db.getReference().child("School").child("SchID1");
         //</editor-fold>
 
+        //set options for adapter
         options = new FirebaseRecyclerOptions.Builder<SchoolModel>().
                 setQuery(dbref,SchoolModel.class).build();
 
