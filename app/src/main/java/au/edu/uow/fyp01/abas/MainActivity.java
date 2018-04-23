@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     setSupportActionBar(toolbar);
 
     //TODO Replace with search beacon
-    FloatingActionButton fab = findViewById(R.id.fab);
-    fab.setOnClickListener(new View.OnClickListener() {
+    FloatingActionButton searchBeaconFab = findViewById(R.id.searchBeaconFab);
+    searchBeaconFab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
