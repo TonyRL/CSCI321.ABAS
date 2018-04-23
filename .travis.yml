@@ -40,4 +40,4 @@ cache:
   - $HOME/.android/build-cache
 script:
  - ./gradlew check
- - ./gradlew clean build --stacktrace --info
+ - ./gradlew clean build --stacktrace --warn
