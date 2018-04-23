@@ -38,3 +38,6 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
   - $HOME/.android/build-cache
+script:
+ - ./gradlew check
+ - ./gradlew clean build --stacktrace --info
