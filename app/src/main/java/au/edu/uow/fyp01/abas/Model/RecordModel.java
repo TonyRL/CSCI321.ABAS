@@ -9,16 +9,18 @@ public class RecordModel {
     String date;
     String english;
     String math;
+    String order;
 
     public RecordModel() {}
 
     //add more subjects if needed
     //also add subjects in database!
-    public RecordModel(String chinese, String date, String english, String math) {
+    public RecordModel(String chinese, String date, String english, String math, String order) {
         this.chinese = chinese;
         this.date = date;
         this.english = english;
         this.math = math;
+        this.order = order;
     }
 
     //<editor-fold desc="chinese setter and getter">
@@ -58,6 +60,16 @@ public class RecordModel {
 
     public String getMath() {
         return math;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="order setter and getter">
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getOrder() {
+        return order;
     }
     //</editor-fold>
 }
