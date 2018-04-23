@@ -155,9 +155,11 @@ public class StudentListFragment extends Fragment {
                     Fragment newFragment = new RecordFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                    //Passing 'sID' to StudentListFragment
+                    //Passing 'sID','classID','schID' to RecordFragment
                     Bundle args = new Bundle();
                     args.putString("sID", sID);
+                    args.putString("classID", classID);
+                    args.putString("schID", schID);
                     newFragment.setArguments(args);
 
                     transaction.replace(R.id.studentListFrame, newFragment);
