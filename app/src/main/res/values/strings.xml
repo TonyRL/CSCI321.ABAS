@@ -22,4 +22,7 @@
   <string name="record">Record</string>
   <string name="setting">Setting</string>
   <string name="logout">Logout</string>
+  <string name="the_search_beacon_image_button">The search beacon image button</string>
+  <string name="the_file_image_button">The file image button</string>
+  <string name="the_record_image_button">The record image button</string>
 </resources>
