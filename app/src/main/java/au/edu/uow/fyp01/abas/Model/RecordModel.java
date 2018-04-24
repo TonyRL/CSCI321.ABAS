@@ -5,47 +5,49 @@ package au.edu.uow.fyp01.abas.Model;
  */
 
 public class RecordModel {
-    String grade;
-    String date;
-    String order;
 
-    public RecordModel() {}
+  String grade;
+  String date;
+  String order;
 
-    public RecordModel(String grade, String date, String order) {
-        this.grade = grade;
-        this.date = date;
-        this.order = order;
-    }
+  public RecordModel() {
+  }
 
-
-    //<editor-fold desc="date setter and getter">
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getDate() {
-        return date;
-    }
-    //</editor-fold>
+  public RecordModel(String grade, String date, String order) {
+    this.grade = grade;
+    this.date = date;
+    this.order = order;
+  }
 
 
-    //<editor-fold desc="order setter and getter">
-    public void setOrder(String order) {
-        this.order = order;
-    }
+  //<editor-fold desc="date setter and getter">
+  public void setDate(String date) {
+    this.date = date;
+  }
 
-    public String getOrder() {
-        return order;
-    }
-    //</editor-fold>
+  public String getDate() {
+    return date;
+  }
+  //</editor-fold>
 
-    //<editor-fold desc="grade setter and getter">
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
 
-    public String getGrade() {
-        return grade;
-    }
-    //</editor-fold>
+  //<editor-fold desc="order setter and getter">
+  public void setOrder(String order) {
+    this.order = order;
+  }
+
+  public String getOrder() {
+    return order;
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="grade setter and getter">
+  public void setGrade(String grade) {
+    this.grade = grade;
+  }
+
+  public String getGrade() {
+    return grade;
+  }
+  //</editor-fold>
 }
