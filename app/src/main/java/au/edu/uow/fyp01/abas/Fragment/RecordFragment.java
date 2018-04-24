@@ -52,6 +52,7 @@ public class RecordFragment extends Fragment {
 
         //setup the QueryClasses used to fetch data from a database
         studentQueryClass = new StudentQueryClass(schID,sID,classID);
+        studentModel = new StudentModel(null, null,null,null,null);
         studentModel = studentQueryClass.getStudentModel();
 
 
@@ -86,13 +87,14 @@ public class RecordFragment extends Fragment {
 
 
     //<editor-fold desc="RecordPagerAdapter - The PageViewer adapter>
-    public static class RecordPagerAdapter extends FragmentPagerAdapter {
+    public class RecordPagerAdapter extends FragmentPagerAdapter {
 
         //the number of pages
-        //TODO dynamically change (just in case theres different subjects)
+        //TODO dynamically change the number of pages (just in case theres different subjects)
         //idea = make a list of nodes with a list of subjects in a school
         // SCHID -> SubjectID1 + subjectID2 + subjectID3 etc...
-        private static int NUM_ITEMS = 3;
+
+        private int NUM_ITEMS = 3;
 
         public RecordPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -110,16 +112,30 @@ public class RecordFragment extends Fragment {
             switch (position) {
                 case 0: // ENGLISH
 
-                    //fragment newfragment = ...
-                    // bundle args = new bundle
-                    //pass args
-                    //newfragment.setarguments(args)
-                    //return newfragment...
-                    //return FirstFragment.newInstance(0, "English");
+                    Fragment newfragment0 = new RecordOverviewFragment();
+                    Bundle args0 = new Bundle();
+                    args0.putString("sID", sID);
+                    args0.putString("subject", "English");
+                    newfragment0.setArguments(args0);
+                    return newfragment0;
 
                 case 1: // MATH
-                    //return SecondFragment.newInstance(1, "Chinese");
+
+                    Fragment newfragment1 = new RecordOverviewFragment();
+                    Bundle args1 = new Bundle();
+                    args1.putString("sID", sID);
+                    args1.putString("subject", "Math");
+                    newfragment1.setArguments(args1);
+                    return newfragment1;
+
                 case 2: // CHINESE
+
+                    Fragment newfragment2 = new RecordOverviewFragment();
+                    Bundle args2 = new Bundle();
+                    args2.putString("sID", sID);
+                    args2.putString("subject", "Chinese");
+                    newfragment2.setArguments(args2);
+                    return newfragment2;
 
                 default:
                     return null;

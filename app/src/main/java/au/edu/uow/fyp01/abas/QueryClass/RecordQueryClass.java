@@ -21,19 +21,21 @@ public class RecordQueryClass {
 
     private ArrayList<RecordModel> recordList;
     private String sID;
+    private String subject;
     private FirebaseDatabase db;
     private DatabaseReference dbref;
     private Query query;
 
-    public RecordQueryClass(String sID){
+    public RecordQueryClass(String sID, String subject){
 
         recordList = new ArrayList<RecordModel>();
 
         this.sID = sID;
+        this.subject = subject;
 
         //instantiate the database
         db = FirebaseDatabase.getInstance();
-        dbref = db.getReference().child("Record").child(sID);
+        dbref = db.getReference().child("Record").child(sID).child(subject);
         query = dbref.orderByChild("order");
 
 
