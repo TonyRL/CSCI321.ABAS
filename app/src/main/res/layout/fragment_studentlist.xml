@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/studentListFrame"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/studentListFrame"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <TextView
+      android:id="@+id/studentListTextView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/DarkerPurplishBlue"
+      android:text="Students"
+      android:textAlignment="center"
+      android:textColor="@color/White"
+      android:textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/studentListTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/DarkerPurplishBlue"
-            android:text="Students"
-            android:textAlignment="center"
-            android:textColor="@color/White"
-            android:textSize="18sp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/studentListRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/studentListRecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
+  </LinearLayout>
 </FrameLayout>

@@ -15,51 +15,50 @@ import au.edu.uow.fyp01.abas.Model.StudentModel;
 
 public class StudentQueryClass {
 
-    private String schID;
-    private String sID;
-    private String classID;
-    private StudentModel studentModel;
-    private FirebaseDatabase db;
-    private DatabaseReference dbref;
-    private Query query;
+  private String schID;
+  private String sID;
+  private String classID;
+  private StudentModel studentModel;
+  private FirebaseDatabase db;
+  private DatabaseReference dbref;
+  private Query query;
 
-    public StudentQueryClass (String schID, String sID, String classID){
-        this.schID = schID;
-        this.sID = sID;
-        this.classID = classID;
+  public StudentQueryClass(String schID, String sID, String classID) {
+    this.schID = schID;
+    this.sID = sID;
+    this.classID = classID;
 
-        //instantiate the database
-        db = FirebaseDatabase.getInstance();
-        dbref = db.getReference().child("Student").child(schID).child(classID);
-        query = dbref.orderByChild("sID").equalTo(sID);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists() ) {
+    //instantiate the database
+    db = FirebaseDatabase.getInstance();
+    dbref = db.getReference().child("Student").child(schID).child(classID);
+    query = dbref.orderByChild("sID").equalTo(sID);
+    query.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
 
-                    //get value of retrieved node
+          //get value of retrieved node
 
-                    for (DataSnapshot node : dataSnapshot.getChildren()){
-                        StudentModel studentModel = node.getValue(StudentModel.class);
-                        setStudentModel(studentModel);
-                    }
-                }
-            }
+          for (DataSnapshot node : dataSnapshot.getChildren()) {
+            StudentModel studentModel = node.getValue(StudentModel.class);
+            setStudentModel(studentModel);
+          }
+        }
+      }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-    }
+      }
+    });
+  }
 
 
+  public void setStudentModel(StudentModel studentModel) {
+    this.studentModel = studentModel;
+  }
 
-    public void setStudentModel(StudentModel studentModel) {
-        this.studentModel = studentModel;
-    }
-
-    public StudentModel getStudentModel() {
-        return studentModel;
-    }
+  public StudentModel getStudentModel() {
+    return studentModel;
+  }
 }
