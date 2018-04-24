@@ -5,33 +5,18 @@ package au.edu.uow.fyp01.abas.Model;
  */
 
 public class RecordModel {
-    String chinese;
+    String grade;
     String date;
-    String english;
-    String math;
     String order;
 
     public RecordModel() {}
 
-    //add more subjects if needed
-    //also add subjects in database!
-    public RecordModel(String chinese, String date, String english, String math, String order) {
-        this.chinese = chinese;
+    public RecordModel(String grade, String date, String order) {
+        this.grade = grade;
         this.date = date;
-        this.english = english;
-        this.math = math;
         this.order = order;
     }
 
-    //<editor-fold desc="chinese setter and getter">
-    public void setChinese(String chinese) {
-        this.chinese = chinese;
-    }
-
-    public String getChinese() {
-        return chinese;
-    }
-    //</editor-fold>
 
     //<editor-fold desc="date setter and getter">
     public void setDate(String date) {
@@ -43,25 +28,6 @@ public class RecordModel {
     }
     //</editor-fold>
 
-    //<editor-fold desc="english setter and getter">
-    public void setEnglish(String english) {
-        this.english = english;
-    }
-
-    public String getEnglish() {
-        return english;
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="math setter and getter">
-    public void setMath(String math) {
-        this.math = math;
-    }
-
-    public String getMath() {
-        return math;
-    }
-    //</editor-fold>
 
     //<editor-fold desc="order setter and getter">
     public void setOrder(String order) {
@@ -70,6 +36,16 @@ public class RecordModel {
 
     public String getOrder() {
         return order;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="grade setter and getter">
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getGrade() {
+        return grade;
     }
     //</editor-fold>
 }
