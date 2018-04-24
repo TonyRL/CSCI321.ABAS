@@ -43,7 +43,7 @@ public class StudentListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //Grabbing args (classID and schID from ClassesListFragment)
+        //Grabbing args (classID and schID from ClassListFragment)
         classID = getArguments().getString("classID");
         schID = getArguments().getString("schID");
 

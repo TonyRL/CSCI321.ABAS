@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -19,15 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import au.edu.uow.fyp01.abas.Model.SchoolModel;
-import au.edu.uow.fyp01.abas.Model.StudentModel;
 import au.edu.uow.fyp01.abas.R;
 
 /**
  * This fragment lists out the classes in a particular school (the user's school).
  */
-public class ClassesListFragment extends Fragment {
+public class ClassListFragment extends Fragment {
 
-    private RecyclerView classesListRecyclerView;
+    private RecyclerView classListRecyclerView;
     private DatabaseReference dbref;
     private FirebaseRecyclerOptions<SchoolModel> options;
     private FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder> firebaseRecyclerAdapter;
@@ -36,7 +34,7 @@ public class ClassesListFragment extends Fragment {
     private String schID;
 
 
-    public ClassesListFragment() {
+    public ClassListFragment() {
         // Required empty public constructor
     }
 
@@ -65,9 +63,9 @@ public class ClassesListFragment extends Fragment {
         db = FirebaseDatabase.getInstance();
 
         //RecyclerView
-        classesListRecyclerView = view.findViewById(R.id.classesListRecyclerView);
-        classesListRecyclerView.setHasFixedSize(true);
-        classesListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        classListRecyclerView = view.findViewById(R.id.classListRecyclerView);
+        classListRecyclerView.setHasFixedSize(true);
+        classListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //TODO replace '.child("SchID1")' with .child(SchID) whereas SchID is grabbed from a query class
         //<editor-fold desc="PROTOTYPE: dbref refers directly to School->SchID1">
@@ -145,7 +143,7 @@ public class ClassesListFragment extends Fragment {
                     args.putString("schID", schID);
                     newFragment.setArguments(args);
 
-                    transaction.replace(R.id.classesListFrame, newFragment);
+                    transaction.replace(R.id.classListFrame, newFragment);
                     transaction.addToBackStack(null);
 
                     transaction.commit();
