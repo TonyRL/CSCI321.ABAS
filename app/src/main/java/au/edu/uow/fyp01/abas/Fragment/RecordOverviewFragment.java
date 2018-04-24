@@ -63,12 +63,15 @@ public class RecordOverviewFragment extends Fragment {
 
         //Average Grade
         TextView recordOverviewAverageGrade = view.findViewById(R.id.recordOverviewAverageGrade);
+        recordOverviewAverageGrade.setText(findAverageGrade());
 
         //Highest Grade
         TextView recordOverviewHighestGrade = view.findViewById(R.id.recordOverviewHighestGrade);
+        recordOverviewHighestGrade.setText(findHighestGrade());
 
         //Lowest Grade
         TextView recordOverviewLowestGrade = view.findViewById(R.id.recordOverviewLowestGrade);
+        recordOverviewLowestGrade.setText(findLowestGrade());
 
         //Set up the graph
         GraphView recordOverviewGraph = view.findViewById(R.id.recordOverviewGraph);
