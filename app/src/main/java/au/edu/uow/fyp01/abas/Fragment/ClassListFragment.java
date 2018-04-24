@@ -47,7 +47,7 @@ public class ClassListFragment extends Fragment {
       container.removeAllViews();
     }
 
-    return inflater.inflate(R.layout.fragment_classeslist, container, false);
+    return inflater.inflate(R.layout.fragment_classlist, container, false);
 
   }
 
