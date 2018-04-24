@@ -42,6 +42,9 @@ dependencies {
 
     // Use implementation instead of compile
     implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.jjoe64:graphview:4.2.1'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'
