@@ -5,4 +5,8 @@
   <color name="colorAccent">#FF4081</color>
   <color name="primary_material_light_1">#f5f5f5</color>
   <color name="primary_material_light_2">#f5f5f5</color>
+  <color name="PurplishBlue">#546fff</color>
+  <color name="White">#ffffff</color>
+  <color name="DarkerPurplishBlue">#323cc6</color>
+  <color name="ReallyDarkBlue">#23307e</color>
 </resources>
