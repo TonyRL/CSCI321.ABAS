@@ -3,6 +3,7 @@ package au.edu.uow.fyp01.abas.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,22 @@ public class RecordOverviewFragment extends Fragment {
         recordOverviewLatestComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //handle click here
+
+                //<editor-fold desc="Transaction to move to 'CommentListFragment'">
+                Fragment newFragment = new CommentListFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                //passing 'sID' and 'subject' to CommentListFragment
+                Bundle args = new Bundle();
+                args.putString("sID", sID);
+                args.putString("subject",subject);
+                newFragment.setArguments(args);
+
+                transaction.replace(R.id.recordOverviewFrame, newFragment);
+                transaction.addToBackStack(null);
+
+                transaction.commit();
+                //</editor-fold>
             }
         });
 
