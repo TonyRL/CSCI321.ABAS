@@ -8,15 +8,15 @@ public class RecordModel {
 
   String grade;
   String date;
-  String order;
+  Long timestamp;
 
   public RecordModel() {
   }
 
-  public RecordModel(String grade, String date, String order) {
+  public RecordModel(String grade, String date, Long timestamp) {
     this.grade = grade;
     this.date = date;
-    this.order = order;
+    this.timestamp = timestamp;
   }
 
 
@@ -32,12 +32,12 @@ public class RecordModel {
 
 
   //<editor-fold desc="order setter and getter">
-  public void setOrder(String order) {
-    this.order = order;
+  public void setOrder(Long timestamp) {
+    this.timestamp = timestamp;
   }
 
-  public String getOrder() {
-    return order;
+  public Long getOrder() {
+    return timestamp;
   }
   //</editor-fold>
 
