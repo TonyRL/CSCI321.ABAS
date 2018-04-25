@@ -32,7 +32,7 @@ public class CommentQueryClass {
 
         //instantiate the database
         db = FirebaseDatabase.getInstance();
-        dbref = db.getReference().child("Comment").child(sID).child(subject);
+        dbref = db.getReference().child("Comment").child(this.sID).child(this.subject);
 
         query.addChildEventListener(new ChildEventListener() {
             @Override

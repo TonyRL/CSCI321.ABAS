@@ -95,6 +95,8 @@ public class StudentListFragment extends Fragment {
           }
         };
 
+    studentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
   }
 
   @Override

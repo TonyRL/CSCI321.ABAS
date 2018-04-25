@@ -10,15 +10,17 @@ public class CommentModel {
   String commentor;
   String date;
   Long timestamp;
+  String commentID;
 
   public CommentModel() {
   }
 
-  public CommentModel(String comment, String commentor, String date, Long timestamp) {
+  public CommentModel(String comment, String commentor, String date, Long timestamp, String commentID) {
     this.comment = comment;
     this.commentor = commentor;
     this.date = date;
     this.timestamp = timestamp;
+    this.commentID = commentID;
   }
 
   //<editor-fold desc="comment setter and getter">
@@ -58,6 +60,16 @@ public class CommentModel {
 
   public Long getTimestamp() {
     return timestamp;
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="commentID setter and getter">
+  public void setCommentID(String commentID) {
+    this.commentID = commentID;
+  }
+
+  public String getCommentID() {
+    return commentID;
   }
   //</editor-fold>
 }

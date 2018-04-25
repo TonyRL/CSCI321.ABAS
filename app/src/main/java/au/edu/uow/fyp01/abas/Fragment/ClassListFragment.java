@@ -95,6 +95,8 @@ public class ClassListFragment extends Fragment {
           }
         };
 
+    classListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
 
   }
 
