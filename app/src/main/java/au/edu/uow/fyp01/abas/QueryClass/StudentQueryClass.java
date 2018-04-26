@@ -30,8 +30,8 @@ public class StudentQueryClass {
 
     //instantiate the database
     db = FirebaseDatabase.getInstance();
-    dbref = db.getReference().child("Student").child(schID).child(classID);
-    query = dbref.orderByChild("sID").equalTo(sID);
+    dbref = db.getReference().child("Student").child(this.schID).child(this.classID);
+    query = dbref.orderByChild("sID").equalTo(this.sID);
     query.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {

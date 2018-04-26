@@ -35,8 +35,8 @@ public class RecordQueryClass {
 
     //instantiate the database
     db = FirebaseDatabase.getInstance();
-    dbref = db.getReference().child("Record").child(sID).child(subject);
-    query = dbref.orderByChild("order");
+    dbref = db.getReference().child("Record").child(this.sID).child(this.subject);
+    query = dbref.orderByChild("timestamp");
 
     query.addChildEventListener(new ChildEventListener() {
       @Override
