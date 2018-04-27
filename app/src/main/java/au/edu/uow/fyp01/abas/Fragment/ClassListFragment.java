@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import au.edu.uow.fyp01.abas.Model.SchoolModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.QueryClass.UserQueryClass;
 import au.edu.uow.fyp01.abas.R;
 
 /**
@@ -30,6 +32,8 @@ public class ClassListFragment extends Fragment {
   private FirebaseRecyclerOptions<SchoolModel> options;
   private FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder> firebaseRecyclerAdapter;
   private FirebaseDatabase db;
+  //Current user's metadata
+  private UserQueryClass userQueryClass;
 
   private String schID;
 
@@ -53,10 +57,14 @@ public class ClassListFragment extends Fragment {
 
   public void onViewCreated(View view, Bundle savedInstanceState) {
 
-    //TODO retrieve schID from Users in database
+    //DONE retrieve schID from Users in database
     //<editor-fold desc="PROTOTYPE: schID directly refers to SchID1>
-    schID = "SchID1";
+    //schID = "SchID1";
     //</editor-fold>
+
+    userQueryClass = new UserQueryClass();
+    schID = userQueryClass.getUserModel().getSchID();
+
 
     //Instantiate the database
     db = FirebaseDatabase.getInstance();
@@ -66,10 +74,10 @@ public class ClassListFragment extends Fragment {
     classListRecyclerView.setHasFixedSize(true);
     classListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-    //TODO replace '.child("SchID1")' with .child(SchID) whereas SchID is grabbed from a query class
+    //DONE replace '.child("SchID1")' with .child(SchID) whereas SchID is grabbed from a query class
     //<editor-fold desc="PROTOTYPE: dbref refers directly to School->SchID1">
     //Instantiate dbref
-    dbref = db.getReference().child("School").child("SchID1");
+    dbref = db.getReference().child("School").child(schID);
     //</editor-fold>
 
     //set options for adapter
