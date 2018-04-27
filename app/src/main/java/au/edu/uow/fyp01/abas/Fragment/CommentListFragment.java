@@ -36,6 +36,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import au.edu.uow.fyp01.abas.Model.CommentModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.QueryClass.UserQueryClass;
 import au.edu.uow.fyp01.abas.R;
 
 /**
@@ -48,6 +50,10 @@ public class CommentListFragment extends Fragment {
     private FirebaseRecyclerOptions<CommentModel> options;
     private FirebaseRecyclerAdapter<CommentModel, CommentModelViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase db;
+    //QueryClass to retrieve metadata
+    private UserQueryClass userQueryClass;
+    //Model to hold user metadata
+    private UserModel userModel;
 
     private String sID;
     private String subject;
@@ -75,6 +81,10 @@ public class CommentListFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        //Setup userModel
+        userQueryClass = new UserQueryClass();
+        userModel = userQueryClass.getUserModel();
 
 
         //instantiate the database
@@ -151,9 +161,9 @@ public class CommentListFragment extends Fragment {
                         //handle user input into database input
                         Map<String, Object> addToDatabase = new HashMap<>();
 
-                        //TODO Change TestUser to retrieved User's name
+                        //DONE Change TestUser to retrieved User's name
                         //<editor-fold desc="PROTOTYPE commentor is refered to as 'TestUser'>
-                        addToDatabase.put("commentor", "TestUser");
+                        addToDatabase.put("commentor", userModel.getFullname());
                         //</editor-fold>
 
                         addToDatabase.put("comment",input_Text);
