@@ -16,7 +16,7 @@
     <string name="password_w_colon">Password:</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="back">Back</string>
-    <string name="your_email">Your Email</string>
+    <string name="your_email">Email</string>
     <string name="search_beacon">Search Beacon</string>
     <string name="file">File</string>
     <string name="record">Record</string>

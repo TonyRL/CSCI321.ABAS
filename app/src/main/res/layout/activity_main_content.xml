@@ -10,6 +10,7 @@
   tools:showIn="@layout/activity_main_app_bar">
 
   <Button
+
     android:id="@+id/searchBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
@@ -20,6 +21,7 @@
     android:background="?attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
+
   <LinearLayout
     android:id="@+id/searchBtnLayout"
     android:layout_width="160dp"
