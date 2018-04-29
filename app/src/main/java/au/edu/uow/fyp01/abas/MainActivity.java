@@ -37,6 +37,17 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
+    Button searchBtn = findViewById(R.id.searchBtn);
+    Button fileBtn = findViewById(R.id.fileBtn);
+    Button recordBtn = findViewById(R.id.recordBtn);
+    Button settingBtn = findViewById(R.id.settingBtn);
+
+    
+
+
+
+
+
     DrawerLayout drawer = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -56,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
       super.onBackPressed();
     }
   }
+
+
 
   /**
    * Do not create option menu in app bar/action bar
