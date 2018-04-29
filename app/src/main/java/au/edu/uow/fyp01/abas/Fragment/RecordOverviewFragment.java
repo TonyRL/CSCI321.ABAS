@@ -36,7 +36,8 @@ import static android.content.ContentValues.TAG;
 public class RecordOverviewFragment extends Fragment {
 
     private String sID;
-    private String subject;
+    private String subjectname;
+    private String subjectID;
     private ArrayList<RecordModel> recordList;
     private ArrayList<CommentModel> commentList;
 
@@ -52,10 +53,14 @@ public class RecordOverviewFragment extends Fragment {
 
         //Grabbing args (sID, subject from RecordFragment)
         sID = getArguments().getString("sID");
-        subject = getArguments().getString("subject");
+        subjectname = getArguments().getString("subjectname");
+        subjectID = getArguments().getString("subjectID");
 
-        if (sID == null || subject == null) {
+
+
+        if (sID == null || subjectname == null || subjectID == null) {
             //TODO prevent NULL here (refer to RecordFragment)
+
         }
 
 
@@ -80,6 +85,7 @@ public class RecordOverviewFragment extends Fragment {
                 recordList = new ArrayList<RecordModel>();
                 recordList = recordList1;
 
+
                 //->CommentQueryClass
                 CommentQueryClass(new CommentCallBack() {
                     @Override
@@ -87,10 +93,15 @@ public class RecordOverviewFragment extends Fragment {
                         commentList = new ArrayList<CommentModel>();
                         commentList = commentList1;
 
+                        //Subject
+                        TextView recordOverviewSubject = view.findViewById(R.id.recordOverviewSubject);
+                        recordOverviewSubject.setText(subjectname);
+
 
                         //Average Grade
                         TextView recordOverviewAverageGrade = view.findViewById(R.id.recordOverviewAverageGrade);
                         recordOverviewAverageGrade.setText(findAverageGrade());
+
 
                         //Highest Grade
                         TextView recordOverviewHighestGrade = view.findViewById(R.id.recordOverviewHighestGrade);
@@ -114,10 +125,11 @@ public class RecordOverviewFragment extends Fragment {
                                 Fragment newFragment = new CommentListFragment();
                                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                                //passing 'sID' and 'subject' to CommentListFragment
+                                //passing 'sID','subject', and 'subjectID' to CommentListFragment
                                 Bundle args = new Bundle();
                                 args.putString("sID", sID);
-                                args.putString("subject", subject);
+                                args.putString("subjectID", subjectID);
+                                args.putString("subjectname",subjectname);
                                 newFragment.setArguments(args);
 
                                 transaction.replace(R.id.recordOverviewFrame, newFragment);
@@ -130,7 +142,7 @@ public class RecordOverviewFragment extends Fragment {
 
                         //Set up the graph
                         GraphView recordOverviewGraph = view.findViewById(R.id.recordOverviewGraph);
-                        recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getContext()));
+
 
                         //<editor-fold desc="Graph plotting">
                         //Assuming the list of grades was retrieved,
@@ -155,6 +167,7 @@ public class RecordOverviewFragment extends Fragment {
                             LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
 
                             recordOverviewGraph.addSeries(lineGraphSeries);
+                            recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getContext(), new SimpleDateFormat("dd/MM")));
                         }
                         //</editor-fold>
 
@@ -162,6 +175,12 @@ public class RecordOverviewFragment extends Fragment {
                 });//CommentQueryClass end
             }
         });//RecordQueryClass end
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
     }
 
     //<editor-fold desc="findHighestGrade() -> Finds the highest grade in the list">
@@ -255,7 +274,8 @@ public class RecordOverviewFragment extends Fragment {
 
     private void RecordQueryClass(final RecordCallBack recordCallBack) {
         FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-        DatabaseReference dbref2 = db2.getReference().child("Record").child(this.sID).child(this.subject);
+
+        DatabaseReference dbref2 = db2.getReference().child("Record").child(this.sID).child(this.subjectID);
         Query query;
         query = dbref2.orderByChild("timestamp");
 
@@ -302,7 +322,7 @@ public class RecordOverviewFragment extends Fragment {
 
     private void CommentQueryClass(final CommentCallBack commentCallBack) {
         FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-        DatabaseReference dbref2 = db2.getReference().child("Comment").child(this.sID).child(this.subject);
+        DatabaseReference dbref2 = db2.getReference().child("Comment").child(this.sID).child(this.subjectID);
         Query query;
         query = dbref2.orderByChild("timestamp");
 
@@ -348,6 +368,5 @@ public class RecordOverviewFragment extends Fragment {
     private interface CommentCallBack {
         void onCallBack(ArrayList<CommentModel> commentList);
     }
-
 
 }

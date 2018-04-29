@@ -21,7 +21,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="338dp"
+                    android:layout_width="315dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@color/WhiteishBlue"
@@ -33,7 +33,7 @@
 
                 <Button
                     android:id="@+id/commentListAddBtn"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="0"
                     android:background="@android:drawable/ic_input_add"
