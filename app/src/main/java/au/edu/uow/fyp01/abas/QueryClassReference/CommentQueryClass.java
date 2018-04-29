@@ -1,4 +1,4 @@
-package au.edu.uow.fyp01.abas.QueryClass;
+package au.edu.uow.fyp01.abas.QueryClassReference;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

@@ -14,12 +14,15 @@ import android.widget.Button;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import au.edu.uow.fyp01.abas.Model.SchoolModel;
 import au.edu.uow.fyp01.abas.Model.UserModel;
-import au.edu.uow.fyp01.abas.QueryClass.UserQueryClass;
 import au.edu.uow.fyp01.abas.R;
 
 /**
@@ -32,9 +35,11 @@ public class ClassListFragment extends Fragment {
   private FirebaseRecyclerOptions<SchoolModel> options;
   private FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder> firebaseRecyclerAdapter;
   private FirebaseDatabase db;
-  //Current user's metadata
-  private UserQueryClass userQueryClass;
 
+  //Current user's metadata
+  private UserModel userModel;
+  private String uID;
+  private FirebaseAuth auth;
   private String schID;
 
 
@@ -55,19 +60,29 @@ public class ClassListFragment extends Fragment {
 
   }
 
-  public void onViewCreated(View view, Bundle savedInstanceState) {
+  public void onViewCreated(final View view, Bundle savedInstanceState) {
 
     //DONE retrieve schID from Users in database
     //<editor-fold desc="PROTOTYPE: schID directly refers to SchID1>
     //schID = "SchID1";
     //</editor-fold>
 
-    userQueryClass = new UserQueryClass();
-    schID = userQueryClass.getUserModel().getSchID();
+
+    //get current user
+    uID = auth.getInstance().getCurrentUser().getUid();
+
+    schID = "";
+
+    UserQueryClass(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(UserModel userModel) {
+        schID = userModel.getSchID();
+
 
 
     //Instantiate the database
     db = FirebaseDatabase.getInstance();
+
 
     //RecyclerView
     classListRecyclerView = view.findViewById(R.id.classListRecyclerView);
@@ -104,21 +119,15 @@ public class ClassListFragment extends Fragment {
         };
 
     classListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+
+      }
+    });
 
 
   }
 
-  @Override
-  public void onStart() {
-    super.onStart();
-    firebaseRecyclerAdapter.startListening();
-  }
 
-  @Override
-  public void onStop() {
-    super.onStop();
-    firebaseRecyclerAdapter.stopListening();
-  }
 
   public class SchoolModelViewHolder extends RecyclerView.ViewHolder {
 
@@ -164,6 +173,27 @@ public class ClassListFragment extends Fragment {
     }
 
 
+  }
+
+  private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
+    dbref2.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        userModel = dataSnapshot.getValue(UserModel.class);
+        firebaseCallBack.onCallBack(userModel);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  private interface FirebaseCallBack {
+    void onCallBack(UserModel userModel);
   }
 
 

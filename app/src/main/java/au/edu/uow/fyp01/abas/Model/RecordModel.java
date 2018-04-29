@@ -31,16 +31,6 @@ public class RecordModel {
   //</editor-fold>
 
 
-  //<editor-fold desc="order setter and getter">
-  public void setOrder(Long timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public Long getOrder() {
-    return timestamp;
-  }
-  //</editor-fold>
-
   //<editor-fold desc="grade setter and getter">
   public void setGrade(String grade) {
     this.grade = grade;

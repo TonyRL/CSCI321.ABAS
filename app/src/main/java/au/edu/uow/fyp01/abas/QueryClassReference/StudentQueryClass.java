@@ -1,4 +1,4 @@
-package au.edu.uow.fyp01.abas.QueryClass;
+package au.edu.uow.fyp01.abas.QueryClassReference;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,10 +55,12 @@ public class StudentQueryClass {
 
 
   public void setStudentModel(StudentModel studentModel) {
+
     this.studentModel = studentModel;
   }
 
   public StudentModel getStudentModel() {
+
     return studentModel;
   }
 }

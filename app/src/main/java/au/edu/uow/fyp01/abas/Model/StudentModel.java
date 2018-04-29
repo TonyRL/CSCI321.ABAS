@@ -10,7 +10,7 @@ public class StudentModel {
   public String classnumber;
   public String firstname;
   public String lastname;
-  public String sID;
+  public String sid;
 
   public StudentModel() {
   }
@@ -21,7 +21,7 @@ public class StudentModel {
     this.classnumber = classnumber;
     this.firstname = firstname;
     this.lastname = lastname;
-    this.sID = sid;
+    this.sid = sid;
   }
 
   //<editor-fold desc="classname setter and getter">
@@ -66,11 +66,11 @@ public class StudentModel {
 
   //<editor-fold desc="sID setter and getter">
   public void setSid(String sID) {
-    this.sID = sID;
+    this.sid = sID;
   }
 
   public String getSid() {
-    return sID;
+    return sid;
   }
   //</editor-fold>
 }
