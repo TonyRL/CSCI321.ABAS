@@ -102,13 +102,11 @@
       android:text="Academic Records:"
       android:textAppearance="@style/TextAppearance.AppCompat"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/recordPager"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recordRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="346dp">
+        android:layout_height="match_parent" />
 
-
-    </android.support.v4.view.ViewPager>
 
   </LinearLayout>
 </FrameLayout>

@@ -52,7 +52,8 @@ public class CommentListFragment extends Fragment {
     private UserModel userModel;
 
     private String sID;
-    private String subject;
+    private String subjectname;
+    private String subjectID;
 
 
 
@@ -67,7 +68,8 @@ public class CommentListFragment extends Fragment {
 
         //Grabbing args (sID and subject from RecordFragment)
         sID = getArguments().getString("sID");
-        subject = getArguments().getString("subject");
+        subjectname = getArguments().getString("subjectname");
+        subjectID = getArguments().getString("subjectID");
 
         if (container != null) {
             container.removeAllViews();
@@ -94,7 +96,7 @@ public class CommentListFragment extends Fragment {
         commentListRecyclerView.setHasFixedSize(true);
         commentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        dbref = db.getReference().child("Comment").child(sID).child(subject);
+        dbref = db.getReference().child("Comment").child(sID).child(subjectID);
 
 
 
@@ -250,7 +252,7 @@ public class CommentListFragment extends Fragment {
         public void deleteComment() {
 
             FirebaseDatabase db = FirebaseDatabase.getInstance();
-            DatabaseReference dbref = db.getReference().child("Comment").child(sID).child(subject);
+            DatabaseReference dbref = db.getReference().child("Comment").child(sID).child(subjectID);
             final Query query = dbref.orderByChild("commentID").equalTo(commentID);
 
             //Ask for user confirmation

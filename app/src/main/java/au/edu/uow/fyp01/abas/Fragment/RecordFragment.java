@@ -2,17 +2,24 @@ package au.edu.uow.fyp01.abas.Fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +28,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import au.edu.uow.fyp01.abas.Model.StudentModel;
+import au.edu.uow.fyp01.abas.Model.SubjectModel;
 import au.edu.uow.fyp01.abas.R;
 
 import static android.content.ContentValues.TAG;
@@ -34,6 +42,13 @@ public class RecordFragment extends Fragment {
     private FragmentPagerAdapter adapterViewPager;
     private ViewPager viewPager;
     private Query query;
+
+    private FirebaseDatabase db;
+    private RecyclerView recordRecyclerView;
+    private DatabaseReference dbref;
+    private FirebaseRecyclerOptions<SubjectModel> options;
+    private FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder> firebaseRecyclerAdapter;
+
 
 
     public RecordFragment() {
@@ -84,10 +99,42 @@ public class RecordFragment extends Fragment {
                 TextView recordSIDTextView = view.findViewById(R.id.recordSIDTextView);
                 recordSIDTextView.setText(studentModel.getSid());
 
-                //viewpager (the sliding thing)
-                viewPager = view.findViewById(R.id.recordPager);
-                adapterViewPager = new RecordPagerAdapter(getFragmentManager());
-                viewPager.setAdapter(adapterViewPager);
+                //instantiate db
+                db = FirebaseDatabase.getInstance();
+
+                //RecyclerView
+                recordRecyclerView = view.findViewById(R.id.recordRecyclerView);
+                recordRecyclerView.setHasFixedSize(true);
+                recordRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                dbref = db.getReference().child("Subject").child(sID);
+
+                //set options for adapter
+                options = new FirebaseRecyclerOptions.Builder<SubjectModel>().
+                        setQuery(dbref, SubjectModel.class).build();
+
+
+                firebaseRecyclerAdapter =
+                        new FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder>(options) {
+                            @Override
+                            protected void onBindViewHolder(@NonNull SubjectModelViewHolder holder, int position,
+                                                            @NonNull SubjectModel model) {
+                                //bind object
+                                holder.setSubjectID(model.getSubjectID());
+                                holder.setSubjectname(model.getSubjectname());
+                            }
+
+                            @NonNull
+                            @Override
+                            public SubjectModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                                View view1 = LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                                return new SubjectModelViewHolder(view1);
+                            }
+                        };
+
+                recordRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                firebaseRecyclerAdapter.startListening();
 
             }
         });
@@ -95,90 +142,48 @@ public class RecordFragment extends Fragment {
     }
 
 
-    //<editor-fold desc="RecordPagerAdapter - The PageViewer adapter>
-    public class RecordPagerAdapter extends FragmentPagerAdapter {
+    public class SubjectModelViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+        String subjectname;
+        String subjectID;
 
-        //the number of pages
-        //TODO dynamically change the number of pages (just in case theres different subjects)
-        //idea = make a list of nodes with a list of subjects in a school
-        // SCHID -> SubjectID1 + subjectID2 + subjectID3 etc...
-
-        private int NUM_ITEMS = 3;
-
-        public RecordPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
+        public SubjectModelViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
         }
 
-        // Returns total number of pages
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
+        public void setSubjectID(String subjectID) {
+            this.subjectID = subjectID;
         }
 
-        // Returns the fragment to display for that page
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0: // ENGLISH
+        public void setSubjectname(String subjectname1) {
+            Button subjectNameButtonView = mView.findViewById(R.id.modelSingleBtn);
+            subjectNameButtonView.setText(subjectname1);
+            this.subjectname = subjectname1;
 
-                    Fragment newfragment0 = new RecordOverviewFragment();
-                    Bundle args0 = new Bundle();
-                    args0.putString("sID", sID);
-                    args0.putString("subject", "English");
-                    newfragment0.setArguments(args0);
-                    return newfragment0;
+            subjectNameButtonView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
+                    Fragment newFragment = new RecordOverviewFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                case 1: // MATH
+                    //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
+                    Bundle args = new Bundle();
+                    args.putString("subjectname", subjectname);
+                    args.putString("subjectID", subjectID);
+                    args.putString("sID", sID);
+                    newFragment.setArguments(args);
 
-                    Fragment newfragment1 = new RecordOverviewFragment();
-                    Bundle args1 = new Bundle();
-                    args1.putString("sID", sID);
-                    args1.putString("subject", "Math");
-                    newfragment1.setArguments(args1);
-                    return newfragment1;
+                    transaction.replace(R.id.recordFrame, newFragment);
+                    transaction.addToBackStack(null);
 
-                case 2: // CHINESE
-
-                    Fragment newfragment2 = new RecordOverviewFragment();
-                    Bundle args2 = new Bundle();
-                    args2.putString("sID", sID);
-                    args2.putString("subject", "Chinese");
-                    newfragment2.setArguments(args2);
-                    return newfragment2;
-
-                default:
-                    Fragment defaultfragment = new RecordOverviewFragment();
-                    Bundle defaultargs = new Bundle();
-                    defaultargs.putString("sID", sID);
-                    defaultargs.putString("subject", "English");
-                    defaultfragment.setArguments(defaultargs);
-                    return defaultfragment;
-            }
+                    transaction.commit();
+                    //</editor-fold>
+                }
+            });
         }
-
-        // Returns the page title for the top indicator
-        @Override
-        public CharSequence getPageTitle(int position) {
-            //return "Page " + position;
-            switch (position) {
-
-                case 0: //ENGLISH
-                    return "English";
-
-                case 1: //MATH
-                    return "Math";
-
-                case 2: //CHINESE
-                    return "Chinese";
-
-                default:
-                    return null;
-
-            }
-        }
-
     }
-    //</editor-fold>
 
     private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
         FirebaseDatabase db2 = FirebaseDatabase.getInstance();
@@ -209,5 +214,7 @@ public class RecordFragment extends Fragment {
     private interface FirebaseCallBack {
         void onCallBack(StudentModel studentModel);
     }
+
+
 
 }
