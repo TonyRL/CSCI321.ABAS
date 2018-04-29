@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +19,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
@@ -37,7 +36,6 @@ import java.util.UUID;
 
 import au.edu.uow.fyp01.abas.Model.CommentModel;
 import au.edu.uow.fyp01.abas.Model.UserModel;
-import au.edu.uow.fyp01.abas.QueryClass.UserQueryClass;
 import au.edu.uow.fyp01.abas.R;
 
 /**
@@ -50,8 +48,6 @@ public class CommentListFragment extends Fragment {
     private FirebaseRecyclerOptions<CommentModel> options;
     private FirebaseRecyclerAdapter<CommentModel, CommentModelViewHolder> firebaseRecyclerAdapter;
     private FirebaseDatabase db;
-    //QueryClass to retrieve metadata
-    private UserQueryClass userQueryClass;
     //Model to hold user metadata
     private UserModel userModel;
 
@@ -80,11 +76,14 @@ public class CommentListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_commentlist, container,false);
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
 
         //Setup userModel
-        userQueryClass = new UserQueryClass();
-        userModel = userQueryClass.getUserModel();
+        UserQueryClass(new FirebaseCallBack() {
+            @Override
+            public void onCallBack(UserModel userModel1) {
+                userModel = userModel1;
+
 
 
         //instantiate the database
@@ -124,6 +123,8 @@ public class CommentListFragment extends Fragment {
                 };
 
         commentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+
+                firebaseRecyclerAdapter.startListening();
 
         //<editor-fold desc="Add button for new comments">
         Button commentListAddBtn = view.findViewById(R.id.commentListAddBtn);
@@ -187,19 +188,12 @@ public class CommentListFragment extends Fragment {
             }
         });
         //</editor-fold>
+
+
+            }
+        });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        firebaseRecyclerAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        firebaseRecyclerAdapter.stopListening();
-    }
 
     public class CommentModelViewHolder extends RecyclerView.ViewHolder {
 
@@ -308,6 +302,31 @@ public class CommentListFragment extends Fragment {
             //end of confirmation
         }
         //</editor-fold>
+    }
+
+
+    private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
+
+        //get current user
+        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+        DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
+        dbref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userModel = dataSnapshot.getValue(UserModel.class);
+                firebaseCallBack.onCallBack(userModel);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private interface FirebaseCallBack {
+        void onCallBack(UserModel userModel);
     }
 
 }

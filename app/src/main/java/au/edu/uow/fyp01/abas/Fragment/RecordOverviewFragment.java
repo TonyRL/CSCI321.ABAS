@@ -4,32 +4,39 @@ package au.edu.uow.fyp01.abas.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import au.edu.uow.fyp01.abas.Model.CommentModel;
 import au.edu.uow.fyp01.abas.Model.RecordModel;
-import au.edu.uow.fyp01.abas.QueryClass.CommentQueryClass;
-import au.edu.uow.fyp01.abas.QueryClass.RecordQueryClass;
+import au.edu.uow.fyp01.abas.QueryClassReference.CommentQueryClass;
+import au.edu.uow.fyp01.abas.QueryClassReference.RecordQueryClass;
 import au.edu.uow.fyp01.abas.R;
+
+import static android.content.ContentValues.TAG;
 
 public class RecordOverviewFragment extends Fragment {
 
     private String sID;
     private String subject;
-    private RecordQueryClass recordQueryClass;
-    private CommentQueryClass commentQueryClass;
     private ArrayList<RecordModel> recordList;
     private ArrayList<CommentModel> commentList;
 
@@ -51,17 +58,6 @@ public class RecordOverviewFragment extends Fragment {
             //TODO prevent NULL here (refer to RecordFragment)
         }
 
-        //setup the Queryclasses used to fetch data from a database
-        //-> RecordQueryClass
-        recordQueryClass = new RecordQueryClass(sID, subject);
-        recordList = null;
-        recordList = recordQueryClass.getRecordList();
-
-        //->CommentQueryClass
-        commentQueryClass = new CommentQueryClass(sID, subject);
-        commentList = null;
-        commentList = commentQueryClass.getCommentList();
-
 
         if (container != null) {
             container.removeAllViews();
@@ -71,77 +67,101 @@ public class RecordOverviewFragment extends Fragment {
 
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-        //Average Grade
-        TextView recordOverviewAverageGrade = view.findViewById(R.id.recordOverviewAverageGrade);
-        recordOverviewAverageGrade.setText(findAverageGrade());
+        recordList = new ArrayList<RecordModel>();
+        commentList = new ArrayList<CommentModel>();
 
-        //Highest Grade
-        TextView recordOverviewHighestGrade = view.findViewById(R.id.recordOverviewHighestGrade);
-        recordOverviewHighestGrade.setText(findHighestGrade());
 
-        //Lowest Grade
-        TextView recordOverviewLowestGrade = view.findViewById(R.id.recordOverviewLowestGrade);
-        recordOverviewLowestGrade.setText(findLowestGrade());
-
-        //Latest Comment
-        TextView recordOverviewLatestComment = view.findViewById(R.id.recordOverviewLatestComment);
-        recordOverviewLatestComment.setText(findLatestComment());
-
-        //Latest Comment on click
-        //Goes to Comments overview
-        recordOverviewLatestComment.setOnClickListener(new View.OnClickListener() {
+        //-> RecordQueryClass
+        RecordQueryClass(new RecordCallBack() {
             @Override
-            public void onClick(View v) {
+            public void onCallBack(ArrayList<RecordModel> recordList1) {
+                recordList = new ArrayList<RecordModel>();
+                recordList = recordList1;
 
-                //<editor-fold desc="Transaction to move to 'CommentListFragment'">
-                Fragment newFragment = new CommentListFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                //->CommentQueryClass
+                CommentQueryClass(new CommentCallBack() {
+                    @Override
+                    public void onCallBack(ArrayList<CommentModel> commentList1) {
+                        commentList = new ArrayList<CommentModel>();
+                        commentList = commentList1;
 
-                //passing 'sID' and 'subject' to CommentListFragment
-                Bundle args = new Bundle();
-                args.putString("sID", sID);
-                args.putString("subject",subject);
-                newFragment.setArguments(args);
 
-                transaction.replace(R.id.recordOverviewFrame, newFragment);
-                transaction.addToBackStack(null);
+                        //Average Grade
+                        TextView recordOverviewAverageGrade = view.findViewById(R.id.recordOverviewAverageGrade);
+                        recordOverviewAverageGrade.setText(findAverageGrade());
 
-                transaction.commit();
-                //</editor-fold>
+                        //Highest Grade
+                        TextView recordOverviewHighestGrade = view.findViewById(R.id.recordOverviewHighestGrade);
+                        recordOverviewHighestGrade.setText(findHighestGrade());
+
+                        //Lowest Grade
+                        TextView recordOverviewLowestGrade = view.findViewById(R.id.recordOverviewLowestGrade);
+                        recordOverviewLowestGrade.setText(findLowestGrade());
+
+                        //Latest Comment
+                        TextView recordOverviewLatestComment = view.findViewById(R.id.recordOverviewLatestComment);
+                        recordOverviewLatestComment.setText(findLatestComment());
+
+                        //Latest Comment on click
+                        //Goes to Comments overview
+                        recordOverviewLatestComment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                //<editor-fold desc="Transaction to move to 'CommentListFragment'">
+                                Fragment newFragment = new CommentListFragment();
+                                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                                //passing 'sID' and 'subject' to CommentListFragment
+                                Bundle args = new Bundle();
+                                args.putString("sID", sID);
+                                args.putString("subject", subject);
+                                newFragment.setArguments(args);
+
+                                transaction.replace(R.id.recordOverviewFrame, newFragment);
+                                transaction.addToBackStack(null);
+
+                                transaction.commit();
+                                //</editor-fold>
+                            }
+                        });
+
+                        //Set up the graph
+                        GraphView recordOverviewGraph = view.findViewById(R.id.recordOverviewGraph);
+                        recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getContext()));
+
+                        //<editor-fold desc="Graph plotting">
+                        //Assuming the list of grades was retrieved,
+                        //Plot the graph
+                        if (recordList.size() != 0) {
+
+                            //Declare an array of Datapoints first
+                            DataPoint[] dataPoint = new DataPoint[recordList.size()];
+
+                            for (int i = 0; i < recordList.size(); i++) {
+                                String datefromSQL = recordList.get(i).getDate();
+                                try {
+                                    //String date -> Date date1
+                                    Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(datefromSQL);
+                                    //A point is (DATE, GRADE). E.g. (25-04-2018, 70)
+                                    dataPoint[i] = new DataPoint(date1, Integer.parseInt(recordList.get(i).getGrade()));
+                                } catch (Exception e) {
+                                    //
+                                }
+                            }
+
+                            LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
+
+                            recordOverviewGraph.addSeries(lineGraphSeries);
+                        }
+                        //</editor-fold>
+
+                    }
+                });//CommentQueryClass end
             }
-        });
-
-        //Set up the graph
-        GraphView recordOverviewGraph = view.findViewById(R.id.recordOverviewGraph);
-
-        //<editor-fold desc="Graph plotting">
-        //Assuming the list of grades was retrieved,
-        //Plot the graph
-        if (recordList.size() != 0) {
-
-            //Declare an array of Datapoints first
-            DataPoint[] dataPoint = new DataPoint[recordList.size()];
-
-            for (int i = 0; i < recordList.size(); i++) {
-                String datefromSQL = recordList.get(i).getDate();
-                try {
-                    //String date -> Date date1
-                    Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(datefromSQL);
-                    //A point is (DATE, GRADE). E.g. (25-04-2018, 70)
-                    dataPoint[i] = new DataPoint(date1, Integer.parseInt(recordList.get(i).getGrade()));
-                } catch (Exception e) {
-                    //
-                }
-            }
-
-            LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
-
-            recordOverviewGraph.addSeries(lineGraphSeries);
-        }
-        //</editor-fold>
-
+        });//RecordQueryClass end
     }
 
     //<editor-fold desc="findHighestGrade() -> Finds the highest grade in the list">
@@ -198,18 +218,18 @@ public class RecordOverviewFragment extends Fragment {
             return "Record not found!";
 
         } else {
-            int average = 0;
-            int total = 0;
-            int temp = 0;
+            double average = 0;
+            double total = 0;
+            double temp = 0;
 
             for (int i = 0; i < recordList.size(); i++) {
-                temp = Integer.parseInt(recordList.get(i).getGrade());
-                temp += total;
+                temp = Double.parseDouble(recordList.get(i).getGrade());
+                total += temp;
             }
 
             average = total / (recordList.size());
 
-            return Integer.toString(average);
+            return Double.toString(average);
         }
     }
     //</editor-fold>
@@ -231,4 +251,103 @@ public class RecordOverviewFragment extends Fragment {
 
     }
     //</editor-fold>
+
+
+    private void RecordQueryClass(final RecordCallBack recordCallBack) {
+        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+        DatabaseReference dbref2 = db2.getReference().child("Record").child(this.sID).child(this.subject);
+        Query query;
+        query = dbref2.orderByChild("timestamp");
+
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+
+                    RecordModel recordModel = dataSnapshot.getValue(RecordModel.class);
+                    recordList.add(recordModel);
+
+                }
+
+                recordCallBack.onCallBack(recordList);
+            }
+
+            //<editor-fold desc="others">
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+            //</editor-fold>
+        });
+    }
+
+    private interface RecordCallBack {
+        void onCallBack(ArrayList<RecordModel> recordList);
+    }
+
+    private void CommentQueryClass(final CommentCallBack commentCallBack) {
+        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+        DatabaseReference dbref2 = db2.getReference().child("Comment").child(this.sID).child(this.subject);
+        Query query;
+        query = dbref2.orderByChild("timestamp");
+
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+
+                    //get values of retrieved nodes
+
+                    CommentModel commentModel = dataSnapshot.getValue(CommentModel.class);
+                    commentList.add(commentModel);
+
+
+                }
+                commentCallBack.onCallBack(commentList);
+            }
+
+            //<editor-fold desc="others">
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+            //</editor-fold>
+        });
+    }
+
+    private interface CommentCallBack {
+        void onCallBack(ArrayList<CommentModel> commentList);
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package au.edu.uow.fyp01.abas.QueryClass;
+package au.edu.uow.fyp01.abas.QueryClassReference;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -8,8 +8,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import au.edu.uow.fyp01.abas.Model.RecordModel;
 

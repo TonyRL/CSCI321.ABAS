@@ -1,12 +1,12 @@
-package au.edu.uow.fyp01.abas.QueryClass;
+package au.edu.uow.fyp01.abas.QueryClassReference;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import au.edu.uow.fyp01.abas.Model.UserModel;
 
@@ -29,27 +29,37 @@ public class UserQueryClass {
         //instantiate the database
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference().child("User").child(uID);
+        userModel = new UserModel();
 
-        dbref.addChildEventListener(new ChildEventListener() {
+        readData(new FirebaseCallBack() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onCallBack(UserModel userModel1) {
+                userModel = userModel1;
+            }
+        });
+
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
+    }
+
+    public UserModel getUserModel() {
+
+
+        return userModel;
+    }
+
+    public String getuID() {
+        return uID;
+    }
+
+    private void readData(final FirebaseCallBack firebaseCallBack) {
+        dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 userModel = dataSnapshot.getValue(UserModel.class);
-                setUserModel(userModel);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                firebaseCallBack.onCallBack(userModel);
             }
 
             @Override
@@ -59,15 +69,7 @@ public class UserQueryClass {
         });
     }
 
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
-    }
-
-    public UserModel getUserModel() {
-        return userModel;
-    }
-
-    public String getuID() {
-        return uID;
+    private interface FirebaseCallBack {
+        void onCallBack(UserModel userModel);
     }
 }
