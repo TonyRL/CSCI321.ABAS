@@ -61,6 +61,43 @@ public class MainActivity extends AppCompatActivity {
       }
     }
   };
+  @SuppressWarnings("StatementWithEmptyBody")
+  private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new OnNavigationItemSelectedListener() {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+      // Handle navigation view item clicks here.
+      int id = item.getItemId();
+
+      switch (id) {
+        case R.id.nav_home:
+          swapFragment(R.id.nav_home);
+          break;
+        case R.id.nav_search_beacon:
+          swapFragment(R.id.searchBtn);
+          break;
+        case R.id.nav_file:
+          swapFragment(R.id.fileBtn);
+          break;
+        case R.id.nav_record:
+          swapFragment(R.id.recordBtn);
+          break;
+        case R.id.nav_setting:
+          Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
+          startActivity(settingActivityIntent);
+          break;
+        case R.id.nav_logout:
+          FirebaseAuth.getInstance().signOut();
+          Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
+          startActivity(loginActivityIntent);
+          finish();
+          break;
+        default:
+          break;
+      }
+      drawer.closeDrawer(GravityCompat.START);
+      return true;
+    }
+  };
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -124,44 +161,6 @@ public class MainActivity extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     return false;
   }
-
-  @SuppressWarnings("StatementWithEmptyBody")
-  private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new OnNavigationItemSelectedListener() {
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-      // Handle navigation view item clicks here.
-      int id = item.getItemId();
-
-      switch (id) {
-        case R.id.nav_home:
-          swapFragment(R.id.nav_home);
-          break;
-        case R.id.nav_search_beacon:
-          swapFragment(R.id.searchBtn);
-          break;
-        case R.id.nav_file:
-          swapFragment(R.id.fileBtn);
-          break;
-        case R.id.nav_record:
-          swapFragment(R.id.recordBtn);
-          break;
-        case R.id.nav_setting:
-          Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
-          startActivity(settingActivityIntent);
-          break;
-        case R.id.nav_logout:
-          FirebaseAuth.getInstance().signOut();
-          Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
-          startActivity(loginActivityIntent);
-          finish();
-          break;
-        default:
-          break;
-      }
-      drawer.closeDrawer(GravityCompat.START);
-      return true;
-    }
-  };
 
   private void swapFragment(int itemId) {
     Fragment fragment = null;

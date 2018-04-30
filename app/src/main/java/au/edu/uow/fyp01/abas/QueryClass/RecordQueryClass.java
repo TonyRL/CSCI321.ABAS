@@ -1,17 +1,13 @@
 package au.edu.uow.fyp01.abas.QueryClass;
 
+import au.edu.uow.fyp01.abas.Model.RecordModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import au.edu.uow.fyp01.abas.Model.RecordModel;
 
 /**
  * Created by Athens on 2018/04/23.

@@ -25,52 +25,52 @@ public class StudentModel {
   }
 
   //<editor-fold desc="classname setter and getter">
-  public void setClassname(String classname) {
-    this.classname = classname;
-  }
-
   public String getClassname() {
     return classname;
+  }
+
+  public void setClassname(String classname) {
+    this.classname = classname;
   }
   //</editor-fold>
 
   //<editor-fold desc="classnumber setter and getter">
-  public void setClassnumber(String classnumber) {
-    this.classnumber = classnumber;
-  }
-
   public String getClassnumber() {
     return classnumber;
+  }
+
+  public void setClassnumber(String classnumber) {
+    this.classnumber = classnumber;
   }
   //</editor-fold>
 
   //<editor-fold desc="firstname setter and getter">
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
   public String getFirstname() {
     return firstname;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
   //</editor-fold>
 
   //<editor-fold desc="lastname setter and getter">
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
-
   public String getLastname() {
     return lastname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
   //</editor-fold>
 
   //<editor-fold desc="sID setter and getter">
-  public void setSid(String sID) {
-    this.sID = sID;
-  }
-
   public String getSid() {
     return sID;
+  }
+
+  public void setSid(String sID) {
+    this.sID = sID;
   }
   //</editor-fold>
 }

@@ -1,13 +1,12 @@
 package au.edu.uow.fyp01.abas.QueryClass;
 
+import au.edu.uow.fyp01.abas.Model.StudentModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import au.edu.uow.fyp01.abas.Model.StudentModel;
 
 /**
  * Created by Athens on 2018/04/23.
@@ -53,12 +52,11 @@ public class StudentQueryClass {
     });
   }
 
+  public StudentModel getStudentModel() {
+    return studentModel;
+  }
 
   public void setStudentModel(StudentModel studentModel) {
     this.studentModel = studentModel;
-  }
-
-  public StudentModel getStudentModel() {
-    return studentModel;
   }
 }

@@ -10,12 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
-import au.edu.uow.fyp01.abas.Model.RecordModel;
 import au.edu.uow.fyp01.abas.Model.StudentModel;
-import au.edu.uow.fyp01.abas.QueryClass.RecordQueryClass;
 import au.edu.uow.fyp01.abas.QueryClass.StudentQueryClass;
 import au.edu.uow.fyp01.abas.R;
 

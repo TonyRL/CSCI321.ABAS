@@ -18,13 +18,12 @@ public class SchoolModel {
   }
 
   //<editor-fold desc="classID setter and getter">
-  public void setClassID(String classID) {
-    this.classID = classID;
-  }
-
-
   public String getClassID() {
     return classID;
+  }
+
+  public void setClassID(String classID) {
+    this.classID = classID;
   }
   //</editor-fold>
 
