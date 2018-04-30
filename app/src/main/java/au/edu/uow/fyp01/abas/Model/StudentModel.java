@@ -70,7 +70,7 @@ public class StudentModel {
   }
 
   public void setSid(String sID) {
-    this.sID = sID;
+    this.sid = sID;
   }
   //</editor-fold>
 }
