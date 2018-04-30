@@ -7,6 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,17 +18,71 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import au.edu.uow.fyp01.abas.Fragment.ClassListFragment;
+import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
 
+  private DrawerLayout drawer;
+  private Toolbar toolbar;
+  private NavigationView navigationView;
+
+  @SuppressWarnings("StatementWithEmptyBody")
+  private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new OnNavigationItemSelectedListener() {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+      // Handle navigation view item clicks here.
+      int id = item.getItemId();
+
+      switch (id) {
+        case R.id.nav_home:
+          swapFragment(R.id.nav_home);
+          break;
+        case R.id.nav_search_beacon:
+          swapFragment(R.id.nav_search_beacon);
+          break;
+        case R.id.nav_file:
+          swapFragment(R.id.nav_file);
+          break;
+        case R.id.nav_record:
+          swapFragment(R.id.nav_record);
+          break;
+        case R.id.nav_setting:
+          Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
+          startActivity(settingActivityIntent);
+          break;
+        case R.id.nav_logout:
+          FirebaseAuth.getInstance().signOut();
+          Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
+          startActivity(loginActivityIntent);
+          finish();
+          break;
+        default:
+          break;
+      }
+      drawer.closeDrawer(GravityCompat.START);
+      return true;
+    }
+  };
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    Toolbar toolbar = findViewById(R.id.toolbar);
+    toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
+
+//    searchBtn = findViewById(R.id.searchBtn);
+//    fileBtn = findViewById(R.id.fileBtn);
+//    recordBtn = findViewById(R.id.recordBtn);
+//    settingBtn = findViewById(R.id.settingBtn);
+//
+//    searchBtn.setOnClickListener(onClickListener);
+//    fileBtn.setOnClickListener(onClickListener);
+//    recordBtn.setOnClickListener(onClickListener);
+//    settingBtn.setOnClickListener(onClickListener);
 
     //TODO Replace with search beacon
     FloatingActionButton searchBeaconFab = findViewById(R.id.searchBeaconFab);
@@ -37,38 +94,49 @@ public class MainActivity extends AppCompatActivity {
       }
     });
 
-    Button searchBtn = findViewById(R.id.searchBtn);
-    Button fileBtn = findViewById(R.id.fileBtn);
-    Button recordBtn = findViewById(R.id.recordBtn);
-    Button settingBtn = findViewById(R.id.settingBtn);
-
-    
-
-
-
-
-
-    DrawerLayout drawer = findViewById(R.id.drawer_layout);
+    drawer = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
 
-    NavigationView navigationView = findViewById(R.id.nav_view);
+    navigationView = findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
+    swapFragment(R.id.nav_home);
+
+    this.getSupportFragmentManager().addOnBackStackChangedListener(
+        new FragmentManager.OnBackStackChangedListener() {
+          public void onBackStackChanged() {
+            Fragment current = getCurrentFragment();
+            if (current instanceof HomeFragment) {
+              navigationView.setCheckedItem(R.id.nav_home);
+            }
+            /* else if (current instanceof ClassListFragment) {
+              navigationView.setCheckedItem(R.id.nav_search_beacon);
+            } else if (current instanceof ClassListFragment) {
+              navigationView.setCheckedItem(R.id.nav_file);
+            } */
+            else if (current instanceof ClassListFragment) {
+              navigationView.setCheckedItem(R.id.nav_record);
+            }
+          }
+        });
   }
 
   @Override
   public void onBackPressed() {
-    DrawerLayout drawer = findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
-      super.onBackPressed();
+      if (getFragmentManager().getBackStackEntryCount() > 1) {
+        getFragmentManager().popBackStack();
+        //additional code
+      } else {
+        super.onBackPressed();
+      }
     }
+
   }
-
-
 
   /**
    * Do not create option menu in app bar/action bar
@@ -78,38 +146,44 @@ public class MainActivity extends AppCompatActivity {
     return false;
   }
 
-  @SuppressWarnings("StatementWithEmptyBody")
-  private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new OnNavigationItemSelectedListener() {
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-      // Handle navigation view item clicks here.
-      int id = item.getItemId();
+  private void swapFragment(int itemId) {
+    Fragment fragment = null;
+    Class fragmentClass;
 
-      switch (id) {
-        case R.id.nav_search_beacon:
-
-          break;
-        case R.id.nav_file:
-
-          break;
-        case R.id.nav_record:
-
-          break;
-        case R.id.nav_setting:
-
-          break;
-        case R.id.nav_logout:
-          FirebaseAuth.getInstance().signOut();
-          Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
-          startActivity(loginActivityIntent);
-          finish();
-          break;
-        default:
-          break;
-      }
-      DrawerLayout drawer = findViewById(R.id.drawer_layout);
-      drawer.closeDrawer(GravityCompat.START);
-      return true;
+    switch (itemId) {
+      case R.id.nav_home:
+        fragmentClass = HomeFragment.class;
+        break;
+      case R.id.nav_search_beacon:
+        fragmentClass = HomeFragment.class;
+        //fragmentClass = searchFragment.class;
+        break;
+      case R.id.nav_file:
+        fragmentClass = HomeFragment.class;
+        //fragmentClass = fileFragment.class;
+        break;
+      case R.id.nav_record:
+        fragmentClass = ClassListFragment.class;
+        break;
+      default:
+        fragmentClass = HomeFragment.class;
+        break;
     }
-  };
+
+    try {
+      fragment = (Fragment) fragmentClass.newInstance();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // Insert the fragment by replacing any existing fragment
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction tx = fragmentManager.beginTransaction();
+
+    tx.replace(R.id.activity_main_content, fragment).addToBackStack(null).commit();
+  }
+
+  private Fragment getCurrentFragment() {
+    return this.getSupportFragmentManager().findFragmentById(R.id.activity_main_content);
+  }
 }
