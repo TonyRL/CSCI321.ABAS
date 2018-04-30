@@ -7,6 +7,10 @@
     android:id="@+id/menu_top"
     android:checkableBehavior="single">
     <item
+      android:id="@+id/nav_home"
+      android:icon="@drawable/ic_home"
+      android:title="@string/home"/>
+    <item
       android:id="@+id/nav_search_beacon"
       android:icon="@drawable/ic_search_beacon"
       android:title="@string/search_beacon"/>
