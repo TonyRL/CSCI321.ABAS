@@ -45,6 +45,8 @@ public class ClassListFragment extends Fragment {
       container.removeAllViews();
     }
 
+    getActivity().setTitle("Record");
+
     return inflater.inflate(R.layout.fragment_classlist, container, false);
 
   }

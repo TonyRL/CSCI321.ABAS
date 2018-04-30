@@ -18,8 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import au.edu.uow.fyp01.abas.Fragment.ClassListFragment;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,36 +29,6 @@ public class MainActivity extends AppCompatActivity {
   private Toolbar toolbar;
   private NavigationView navigationView;
 
-  private Button searchBtn;
-  private Button fileBtn;
-  private Button recordBtn;
-  private Button settingBtn;
-
-
-  private View.OnClickListener onClickListener = new OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      // Create a new fragment and specify the fragment to show based on nav item clicked
-
-      switch (v.getId()) {
-        case R.id.searchBtn:
-          swapFragment(v.getId());
-          break;
-        case R.id.fileBtn:
-          swapFragment(v.getId());
-          break;
-        case R.id.recordBtn:
-          swapFragment(v.getId());
-          break;
-        case R.id.settingBtn:
-          Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
-          startActivity(settingActivityIntent);
-          return;
-        default:
-          break;
-      }
-    }
-  };
   @SuppressWarnings("StatementWithEmptyBody")
   private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new OnNavigationItemSelectedListener() {
     @Override
@@ -73,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
           swapFragment(R.id.nav_home);
           break;
         case R.id.nav_search_beacon:
-          swapFragment(R.id.searchBtn);
+          swapFragment(R.id.nav_search_beacon);
           break;
         case R.id.nav_file:
-          swapFragment(R.id.fileBtn);
+          swapFragment(R.id.nav_file);
           break;
         case R.id.nav_record:
-          swapFragment(R.id.recordBtn);
+          swapFragment(R.id.nav_record);
           break;
         case R.id.nav_setting:
           Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
@@ -106,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
     toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-    searchBtn = findViewById(R.id.searchBtn);
-    fileBtn = findViewById(R.id.fileBtn);
-    recordBtn = findViewById(R.id.recordBtn);
-    settingBtn = findViewById(R.id.settingBtn);
-
-    searchBtn.setOnClickListener(onClickListener);
-    fileBtn.setOnClickListener(onClickListener);
-    recordBtn.setOnClickListener(onClickListener);
-    settingBtn.setOnClickListener(onClickListener);
+//    searchBtn = findViewById(R.id.searchBtn);
+//    fileBtn = findViewById(R.id.fileBtn);
+//    recordBtn = findViewById(R.id.recordBtn);
+//    settingBtn = findViewById(R.id.settingBtn);
+//
+//    searchBtn.setOnClickListener(onClickListener);
+//    fileBtn.setOnClickListener(onClickListener);
+//    recordBtn.setOnClickListener(onClickListener);
+//    settingBtn.setOnClickListener(onClickListener);
 
     //TODO Replace with search beacon
     FloatingActionButton searchBeaconFab = findViewById(R.id.searchBeaconFab);
@@ -134,6 +102,25 @@ public class MainActivity extends AppCompatActivity {
 
     navigationView = findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
+    swapFragment(R.id.nav_home);
+
+    this.getSupportFragmentManager().addOnBackStackChangedListener(
+        new FragmentManager.OnBackStackChangedListener() {
+          public void onBackStackChanged() {
+            Fragment current = getCurrentFragment();
+            if (current instanceof HomeFragment) {
+              navigationView.setCheckedItem(R.id.nav_home);
+            }
+            /* else if (current instanceof ClassListFragment) {
+              navigationView.setCheckedItem(R.id.nav_search_beacon);
+            } else if (current instanceof ClassListFragment) {
+              navigationView.setCheckedItem(R.id.nav_file);
+            } */
+            else if (current instanceof ClassListFragment) {
+              navigationView.setCheckedItem(R.id.nav_record);
+            }
+          }
+        });
   }
 
   @Override
@@ -141,16 +128,13 @@ public class MainActivity extends AppCompatActivity {
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
-      super.onBackPressed();
+      if (getFragmentManager().getBackStackEntryCount() > 1) {
+        getFragmentManager().popBackStack();
+        //additional code
+      } else {
+        super.onBackPressed();
+      }
     }
-//      int count = getSupportFragmentManager().getBackStackEntryCount();
-//
-//      if (count == 0) {
-//        super.onBackPressed();
-//        //additional code
-//      } else {
-//        getFragmentManager().popBackStack();
-//      }
 
   }
 
@@ -170,15 +154,15 @@ public class MainActivity extends AppCompatActivity {
       case R.id.nav_home:
         fragmentClass = HomeFragment.class;
         break;
-      case R.id.searchBtn:
+      case R.id.nav_search_beacon:
         fragmentClass = HomeFragment.class;
         //fragmentClass = searchFragment.class;
         break;
-      case R.id.fileBtn:
+      case R.id.nav_file:
         fragmentClass = HomeFragment.class;
         //fragmentClass = fileFragment.class;
         break;
-      case R.id.recordBtn:
+      case R.id.nav_record:
         fragmentClass = ClassListFragment.class;
         break;
       default:
@@ -197,5 +181,9 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction tx = fragmentManager.beginTransaction();
 
     tx.replace(R.id.activity_main_content, fragment).addToBackStack(null).commit();
+  }
+
+  private Fragment getCurrentFragment() {
+    return this.getSupportFragmentManager().findFragmentById(R.id.activity_main_content);
   }
 }
