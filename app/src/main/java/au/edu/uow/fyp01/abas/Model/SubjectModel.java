@@ -6,29 +6,30 @@ package au.edu.uow.fyp01.abas.Model;
 
 public class SubjectModel {
 
-    public String subjectname;
-    public String subjectID;
+  public String subjectname;
+  public String subjectID;
 
-    public SubjectModel(){}
+  public SubjectModel() {
+  }
 
-    public SubjectModel(String subjectname, String subjectID){
-        this.subjectname = subjectname;
-        this.subjectID = subjectID;
-    }
+  public SubjectModel(String subjectname, String subjectID) {
+    this.subjectname = subjectname;
+    this.subjectID = subjectID;
+  }
 
-    public void setSubjectID(String subjectID) {
-        this.subjectID = subjectID;
-    }
+  public void setSubjectID(String subjectID) {
+    this.subjectID = subjectID;
+  }
 
-    public String getSubjectID() {
-        return subjectID;
-    }
+  public String getSubjectID() {
+    return subjectID;
+  }
 
-    public void setSubjectname(String subjectname) {
-        this.subjectname = subjectname;
-    }
+  public void setSubjectname(String subjectname) {
+    this.subjectname = subjectname;
+  }
 
-    public String getSubjectname() {
-        return subjectname;
-    }
+  public String getSubjectname() {
+    return subjectname;
+  }
 }

@@ -70,7 +70,6 @@ public class ClassListFragment extends Fragment {
     //schID = "SchID1";
     //</editor-fold>
 
-
     //get current user
     uID = auth.getInstance().getCurrentUser().getUid();
 
@@ -81,47 +80,45 @@ public class ClassListFragment extends Fragment {
       public void onCallBack(UserModel userModel) {
         schID = userModel.getSchID();
 
+        //Instantiate the database
+        db = FirebaseDatabase.getInstance();
 
+        //RecyclerView
+        classListRecyclerView = view.findViewById(R.id.classListRecyclerView);
+        classListRecyclerView.setHasFixedSize(true);
+        classListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-    //Instantiate the database
-    db = FirebaseDatabase.getInstance();
+        //DONE replace '.child("SchID1")' with .child(SchID) whereas SchID is grabbed from a query class
+        //<editor-fold desc="PROTOTYPE: dbref refers directly to School->SchID1">
+        //Instantiate dbref
+        dbref = db.getReference().child("School").child(schID);
+        //</editor-fold>
 
+        //set options for adapter
+        options = new FirebaseRecyclerOptions.Builder<SchoolModel>().
+            setQuery(dbref, SchoolModel.class).build();
 
-    //RecyclerView
-    classListRecyclerView = view.findViewById(R.id.classListRecyclerView);
-    classListRecyclerView.setHasFixedSize(true);
-    classListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        firebaseRecyclerAdapter =
+            new FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder>(options) {
+              @Override
+              protected void onBindViewHolder(@NonNull SchoolModelViewHolder holder, int position,
+                  @NonNull SchoolModel model) {
+                //bind object
+                holder.setClassID(model.getClassID());
+                holder.setClassname(model.getClassname());
+              }
 
-    //DONE replace '.child("SchID1")' with .child(SchID) whereas SchID is grabbed from a query class
-    //<editor-fold desc="PROTOTYPE: dbref refers directly to School->SchID1">
-    //Instantiate dbref
-    dbref = db.getReference().child("School").child(schID);
-    //</editor-fold>
+              @NonNull
+              @Override
+              public SchoolModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                  int viewType) {
+                View view1 = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                return new SchoolModelViewHolder(view1);
+              }
+            };
 
-    //set options for adapter
-    options = new FirebaseRecyclerOptions.Builder<SchoolModel>().
-        setQuery(dbref, SchoolModel.class).build();
-
-    firebaseRecyclerAdapter =
-        new FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder>(options) {
-          @Override
-          protected void onBindViewHolder(@NonNull SchoolModelViewHolder holder, int position,
-              @NonNull SchoolModel model) {
-            //bind object
-            holder.setClassID(model.getClassID());
-            holder.setClassname(model.getClassname());
-          }
-
-          @NonNull
-          @Override
-          public SchoolModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view1 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
-            return new SchoolModelViewHolder(view1);
-          }
-        };
-
-    classListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        classListRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
 
       }
@@ -129,7 +126,6 @@ public class ClassListFragment extends Fragment {
 
 
   }
-
 
 
   public class SchoolModelViewHolder extends RecyclerView.ViewHolder {
@@ -196,6 +192,7 @@ public class ClassListFragment extends Fragment {
   }
 
   private interface FirebaseCallBack {
+
     void onCallBack(UserModel userModel);
   }
 
