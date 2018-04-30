@@ -1,6 +1,6 @@
-package au.edu.uow.fyp01.abas.QueryClass;
+package au.edu.uow.fyp01.abas.QueryClassReference;
 
-import au.edu.uow.fyp01.abas.Model.RecordModel;
+import au.edu.uow.fyp01.abas.Model.CommentModel;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -10,29 +10,27 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 /**
- * Created by Athens on 2018/04/23.
+ * Created by Athens on 2018/04/25.
  */
 
-public class RecordQueryClass {
+public class CommentQueryClass {
 
-  private ArrayList<RecordModel> recordList;
+  private ArrayList<CommentModel> commentList;
   private String sID;
   private String subject;
   private FirebaseDatabase db;
   private DatabaseReference dbref;
   private Query query;
 
-  public RecordQueryClass(String sID, String subject) {
+  public CommentQueryClass(String sID, String subject) {
 
-    recordList = new ArrayList<RecordModel>();
-
+    commentList = new ArrayList<CommentModel>();
     this.sID = sID;
     this.subject = subject;
 
     //instantiate the database
     db = FirebaseDatabase.getInstance();
-    dbref = db.getReference().child("Record").child(this.sID).child(this.subject);
-    query = dbref.orderByChild("timestamp");
+    dbref = db.getReference().child("Comment").child(this.sID).child(this.subject);
 
     query.addChildEventListener(new ChildEventListener() {
       @Override
@@ -41,16 +39,15 @@ public class RecordQueryClass {
 
           //get values of retrieved nodes
           for (DataSnapshot node : dataSnapshot.getChildren()) {
-            RecordModel recordModel = node.getValue(RecordModel.class);
-            recordList.add(recordModel);
-            setRecordList(recordList);
+            CommentModel commentModel = node.getValue(CommentModel.class);
+            commentList.add(commentModel);
+            setCommentList(commentList);
           }
-
-
         }
       }
 
       //<editor-fold desc="others">
+
       @Override
       public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
@@ -73,20 +70,18 @@ public class RecordQueryClass {
       //</editor-fold>
     });
 
-
   }
 
-  public ArrayList<RecordModel> getRecordList() {
+  public ArrayList<CommentModel> getCommentList() {
 
-    //TODO make a backup query if recordList is null
-    return recordList;
+    //TODO make a backup query if commentList is null
+    return commentList;
   }
 
-  //<editor-fold desc="setRecordList - Sets the recordList">
-  public void setRecordList(ArrayList<RecordModel> recordList) {
-    this.recordList = recordList;
+  //<editor-fold desc="setCommentList - Sets the commentList">
+  public void setCommentList(ArrayList<CommentModel> commentList) {
+    this.commentList = commentList;
   }
   //</editor-fold>
-
 
 }

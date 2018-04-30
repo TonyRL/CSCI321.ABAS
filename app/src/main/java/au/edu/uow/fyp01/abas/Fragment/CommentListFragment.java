@@ -20,6 +20,7 @@ import au.edu.uow.fyp01.abas.Model.CommentModel;
 import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,19 +34,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import au.edu.uow.fyp01.abas.Model.CommentModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.R;
+
 /**
  * This fragment lists out the comments/remarks a student
  */
 public class CommentListFragment extends Fragment {
 
-  private RecyclerView commentListRecyclerView;
-  private DatabaseReference dbref;
-  private FirebaseRecyclerOptions<CommentModel> options;
-  private FirebaseRecyclerAdapter<CommentModel, CommentModelViewHolder> firebaseRecyclerAdapter;
-  private FirebaseDatabase db;
+    private RecyclerView commentListRecyclerView;
+    private DatabaseReference dbref;
+    private FirebaseRecyclerOptions<CommentModel> options;
+    private FirebaseRecyclerAdapter<CommentModel, CommentModelViewHolder> firebaseRecyclerAdapter;
+    private FirebaseDatabase db;
+    //Model to hold user metadata
+    private UserModel userModel;
 
-  private String sID;
-  private String subject;
+    private String sID;
+    private String subjectname;
+    private String subjectID;
 
 
   public CommentListFragment() {
@@ -61,40 +69,34 @@ public class CommentListFragment extends Fragment {
     sID = getArguments().getString("sID");
     subject = getArguments().getString("subject");
 
-    if (container != null) {
-      container.removeAllViews();
-    }
+        //Grabbing args (sID and subject from RecordFragment)
+        sID = getArguments().getString("sID");
+        subjectname = getArguments().getString("subjectname");
+        subjectID = getArguments().getString("subjectID");
 
     return inflater.inflate(R.layout.fragment_commentlist, container, false);
   }
 
   public void onViewCreated(View view, Bundle savedInstanceState) {
 
-    //instantiate the database
-    db = FirebaseDatabase.getInstance();
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
 
-    //RecyclerView
-    commentListRecyclerView = view.findViewById(R.id.commentListRecyclerView);
-    commentListRecyclerView.setHasFixedSize(true);
-    commentListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //Setup userModel
+        UserQueryClass(new FirebaseCallBack() {
+            @Override
+            public void onCallBack(UserModel userModel1) {
+                userModel = userModel1;
 
-    dbref = db.getReference().child("Comment").child(sID).child(subject);
+
+
+        //instantiate the database
+        db = FirebaseDatabase.getInstance();
 
     //set options for adapter
     options = new FirebaseRecyclerOptions.Builder<CommentModel>().
         setQuery(dbref, CommentModel.class).build();
 
-    firebaseRecyclerAdapter =
-        new FirebaseRecyclerAdapter<CommentModel, CommentModelViewHolder>(options) {
-          @Override
-          protected void onBindViewHolder(@NonNull CommentModelViewHolder holder, int position,
-              @NonNull CommentModel model) {
-            //bind object
-            holder.setCommentID(model.getCommentID());
-            holder.setComment(model.getComment());
-            holder.setCommentor(model.getCommentor());
-            holder.setDate(model.getDate());
-          }
+        dbref = db.getReference().child("Comment").child(sID).child(subjectID);
 
           @NonNull
           @Override
@@ -135,8 +137,15 @@ public class CommentListFragment extends Fragment {
             String strDate = dateFormat.format(date).toString();
             long timestamp = date.getTime();
 
-            //get the user input for comment
-            String input_Text = input.getText().toString();
+                firebaseRecyclerAdapter.startListening();
+
+        //<editor-fold desc="Add button for new comments">
+        Button commentListAddBtn = view.findViewById(R.id.commentListAddBtn);
+        commentListAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+                builder.setTitle("Add new comment/remark: ");
 
             //create a new unique comment ID
             String commentID = UUID.randomUUID().toString();
@@ -166,11 +175,10 @@ public class CommentListFragment extends Fragment {
           }
         });
 
-        builder.show();
-      }
-    });
-    //</editor-fold>
-  }
+                        //DONE Change TestUser to retrieved User's name
+                        //<editor-fold desc="PROTOTYPE commentor is refered to as 'TestUser'>
+                        addToDatabase.put("commentor", userModel.getFullname());
+                        //</editor-fold>
 
   @Override
   public void onStart() {
@@ -186,28 +194,18 @@ public class CommentListFragment extends Fragment {
 
   public class CommentModelViewHolder extends RecyclerView.ViewHolder {
 
-    View mView;
-    String commentID;
+                builder.show();
+            }
+        });
+        //</editor-fold>
 
-    public CommentModelViewHolder(View itemView) {
-      super(itemView);
-      mView = itemView;
+
+            }
+        });
     }
 
-    public void setCommentID(String commentID) {
-      this.commentID = commentID;
-    }
 
-    public void setComment(String comment) {
-      final TextView commentModelComment = mView.findViewById(R.id.commentModelCommentBoxTextView);
-      commentModelComment.setText(comment);
-      commentModelComment.setOnLongClickListener(new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-          deleteComment();
-          return true;
-        }
-      });
+    public class CommentModelViewHolder extends RecyclerView.ViewHolder {
 
     }
 
@@ -265,8 +263,9 @@ public class CommentListFragment extends Fragment {
                     //get the values of the retrieved node
                     for (DataSnapshot issue : dataSnapshot.getChildren()) {
 
-                      //delete node (this points to the event child node)
-                      issue.getRef().removeValue();
+            FirebaseDatabase db = FirebaseDatabase.getInstance();
+            DatabaseReference dbref = db.getReference().child("Comment").child(sID).child(subjectID);
+            final Query query = dbref.orderByChild("commentID").equalTo(commentID);
 
 
                     }
@@ -293,6 +292,31 @@ public class CommentListFragment extends Fragment {
     }
     //</editor-fold>
   }
+
+
+    private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
+
+        //get current user
+        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+        DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
+        dbref2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userModel = dataSnapshot.getValue(UserModel.class);
+                firebaseCallBack.onCallBack(userModel);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private interface FirebaseCallBack {
+        void onCallBack(UserModel userModel);
+    }
 
 }
 
