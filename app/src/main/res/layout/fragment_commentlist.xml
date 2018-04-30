@@ -21,26 +21,6 @@
         android:orientation="horizontal">
 
         <TextView
-          android:layout_width="338dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="0"
-          android:background="@color/WhiteishBlue"
-          android:text="Remarks"
-          android:textAlignment="center"
-          android:textAppearance="@style/TextAppearance.AppCompat"
-          android:textColor="@color/White"
-          android:textSize="18sp"/>
-
-        <Button
-          android:id="@+id/commentListAddBtn"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:layout_weight="0"
-          android:background="@android:drawable/ic_input_add"
-          android:backgroundTint="@color/White"
-          android:drawableTint="@color/White"/>
-
-        <TextView
           android:layout_width="315dp"
           android:layout_height="wrap_content"
           android:layout_weight="0"
@@ -49,7 +29,7 @@
           android:textAlignment="center"
           android:textAppearance="@style/TextAppearance.AppCompat"
           android:textColor="@color/White"
-          android:textSize="18sp"/>
+          android:textSize="18sp" />
 
         <Button
           android:id="@+id/commentListAddBtn"
@@ -58,7 +38,7 @@
           android:layout_weight="0"
           android:background="@android:drawable/ic_input_add"
           android:backgroundTint="@color/White"
-          android:drawableTint="@color/White"/>
+          android:drawableTint="@color/White" />
 
       </LinearLayout>
 
@@ -67,13 +47,7 @@
     <android.support.v7.widget.RecyclerView
       android:id="@+id/commentListRecyclerView"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_height="match_parent" />
   </LinearLayout>
 
-  <android.support.v7.widget.RecyclerView
-    android:id="@+id/commentListRecyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
-</LinearLayout>
-
-  </FrameLayout>
+</FrameLayout>
