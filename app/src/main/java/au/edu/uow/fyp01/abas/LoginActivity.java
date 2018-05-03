@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
   private Button loginBtn;
   private Button signUpBtn;
   private Button cheatBtn;
+
   private View.OnClickListener onClickListener = new OnClickListener() {
     @SuppressLint("SetTextI18n")
     @Override
@@ -52,11 +53,6 @@ public class LoginActivity extends AppCompatActivity {
       }
     }
   };
-
-  private void signUp() {
-    Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
-    startActivity(signUpActivity);
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +82,11 @@ public class LoginActivity extends AppCompatActivity {
       startActivity(intent);
       finish();
     }
+  }
+
+  private void signUp() {
+    Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
+    startActivity(signUpActivity);
   }
 
   private void login() {

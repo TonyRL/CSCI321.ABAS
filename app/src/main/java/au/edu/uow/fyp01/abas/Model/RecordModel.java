@@ -19,25 +19,33 @@ public class RecordModel {
     this.timestamp = timestamp;
   }
 
-
   //<editor-fold desc="date setter and getter">
-  public void setDate(String date) {
-    this.date = date;
-  }
-
   public String getDate() {
     return date;
   }
+
+  public void setDate(String date) {
+    this.date = date;
+  }
   //</editor-fold>
 
-
-  //<editor-fold desc="grade setter and getter">
-  public void setGrade(String grade) {
-    this.grade = grade;
+  //<editor-fold desc="order setter and getter">
+  public Long getOrder() {
+    return timestamp;
   }
 
+  public void setOrder(Long timestamp) {
+    this.timestamp = timestamp;
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="grade setter and getter">
   public String getGrade() {
     return grade;
+  }
+
+  public void setGrade(String grade) {
+    this.grade = grade;
   }
   //</editor-fold>
 }

@@ -11,15 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-
+import au.edu.uow.fyp01.abas.Model.StudentModel;
+import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import au.edu.uow.fyp01.abas.Model.StudentModel;
-import au.edu.uow.fyp01.abas.R;
 
 public class StudentListFragment extends Fragment {
 

@@ -16,60 +16,60 @@ import au.edu.uow.fyp01.abas.Model.UserModel;
 
 public class UserQueryClass {
 
-    private String uID;
-    private UserModel userModel;
-    private FirebaseDatabase db;
-    private DatabaseReference dbref;
-    private Query query;
-    private FirebaseAuth auth;
+  private String uID;
+  private UserModel userModel;
+  private FirebaseDatabase db;
+  private DatabaseReference dbref;
+  private Query query;
+  private FirebaseAuth auth;
 
-    public UserQueryClass() {
-        //get current user
-        uID = auth.getInstance().getCurrentUser().getUid();
-        //instantiate the database
-        db = FirebaseDatabase.getInstance();
-        dbref = db.getReference().child("User").child(uID);
-        userModel = new UserModel();
+  public UserQueryClass() {
+    //get current user
+    uID = auth.getInstance().getCurrentUser().getUid();
+    //instantiate the database
+    db = FirebaseDatabase.getInstance();
+    dbref = db.getReference().child("User").child(uID);
+    userModel = new UserModel();
 
-        readData(new FirebaseCallBack() {
-            @Override
-            public void onCallBack(UserModel userModel1) {
-                userModel = userModel1;
-            }
-        });
+    readData(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(UserModel userModel1) {
+        userModel = userModel1;
+      }
+    });
 
-    }
+  }
 
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
-    }
+  public void setUserModel(UserModel userModel) {
+    this.userModel = userModel;
+  }
 
-    public UserModel getUserModel() {
+  public UserModel getUserModel() {
 
+    return userModel;
+  }
 
-        return userModel;
-    }
+  public String getuID() {
+    return uID;
+  }
 
-    public String getuID() {
-        return uID;
-    }
+  private void readData(final FirebaseCallBack firebaseCallBack) {
+    dbref.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        userModel = dataSnapshot.getValue(UserModel.class);
+        firebaseCallBack.onCallBack(userModel);
+      }
 
-    private void readData(final FirebaseCallBack firebaseCallBack) {
-        dbref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userModel = dataSnapshot.getValue(UserModel.class);
-                firebaseCallBack.onCallBack(userModel);
-            }
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+      }
+    });
+  }
 
-            }
-        });
-    }
+  private interface FirebaseCallBack {
 
-    private interface FirebaseCallBack {
-        void onCallBack(UserModel userModel);
-    }
+    void onCallBack(UserModel userModel);
+  }
 }
