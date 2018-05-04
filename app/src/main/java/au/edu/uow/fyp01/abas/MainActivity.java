@@ -18,7 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import au.edu.uow.fyp01.abas.Fragment.ClassListFragment;
+
+import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
       // Handle navigation view item clicks here.
       int id = item.getItemId();
 
+
       switch (id) {
         case R.id.nav_home:
           swapFragment(R.id.nav_home);
@@ -47,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
           swapFragment(R.id.nav_file);
           break;
         case R.id.nav_record:
-          swapFragment(R.id.nav_record);
+          //swapFragment(R.id.nav_record);
+          Intent recordActivityIntent = new Intent(MainActivity.this, ClassListActivity.class);
+          startActivity(recordActivityIntent);
           break;
         case R.id.nav_setting:
           Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
@@ -115,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
               navigationView.setCheckedItem(R.id.nav_search_beacon);
             } else if (current instanceof ClassListFragment) {
               navigationView.setCheckedItem(R.id.nav_file);
-            } */
+            }
             else if (current instanceof ClassListFragment) {
               navigationView.setCheckedItem(R.id.nav_record);
-            }
+            }*/
           }
         });
   }
@@ -163,7 +167,8 @@ public class MainActivity extends AppCompatActivity {
         //fragmentClass = fileFragment.class;
         break;
       case R.id.nav_record:
-        fragmentClass = ClassListFragment.class;
+        //TODO ClassList changed to Activity
+        fragmentClass = HomeFragment.class;
         break;
       default:
         fragmentClass = HomeFragment.class;
