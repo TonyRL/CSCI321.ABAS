@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.SettingActivity;
 
@@ -34,8 +36,8 @@ public class HomeFragment extends Fragment {
           navigationView.getMenu().getItem(1).setChecked(true);
           break;
         case R.id.fileBtn:
-          swapFragment(R.id.nav_file);
-          navigationView.getMenu().getItem(2).setChecked(true);
+          Intent fileActitvityIntent = new Intent(getActivity(), FileSharingHome.class);
+          startActivity(fileActitvityIntent);
           break;
         case R.id.recordBtn:
           swapFragment(R.id.nav_record);

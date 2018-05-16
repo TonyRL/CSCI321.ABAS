@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="au.edu.uow.fyp01.abas.Activity.FileSharingAdd">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_file_sharing_add_recylerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/activity_file_sharing_add_text_toselect" />
+
+    <TextView
+        android:id="@+id/activity_file_sharing_file_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="83dp"
+        android:text="File:"
+        android:textSize="20sp" />
+
+    <ImageButton
+        android:id="@+id/activity_file_sharing_add_addFile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="72dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <EditText
+        android:id="@+id/activity_file_sharing_add_filename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/activity_file_sharing_add_addFile_button"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/activity_file_sharing_file_name_text"
+        android:layout_below="@+id/activity_file_sharing_add_addFile_button"
+        android:layout_marginTop="11dp"
+        android:text="Expiry Date:"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/activity_file_sharing_date_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_file_sharing_add_addFile_button"
+        android:layout_toEndOf="@+id/textView5"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/activity_file_sharing_add_text_toselect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/activity_file_sharing_date_input"
+        android:layout_marginTop="13dp"
+        android:text="Select:"
+        android:textSize="24sp" />
+
+</RelativeLayout>

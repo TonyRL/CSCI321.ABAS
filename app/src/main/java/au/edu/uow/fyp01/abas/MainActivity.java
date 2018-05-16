@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
+import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -46,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
           swapFragment(R.id.nav_search_beacon);
           break;
         case R.id.nav_file:
-          swapFragment(R.id.nav_file);
+          Intent fileActivityIntent = new Intent(MainActivity.this, FileSharingHome.class);
+          startActivity(fileActivityIntent);
           break;
         case R.id.nav_record:
           //swapFragment(R.id.nav_record);
