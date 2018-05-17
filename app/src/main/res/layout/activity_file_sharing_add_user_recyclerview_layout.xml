@@ -4,11 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <CheckBox
         android:id="@+id/activity_file_sharing_add_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/DarkerPurplishBlue"
-        android:text="blank"
-        android:textColor="@color/White" />
+        android:background="@drawable/message_text_background"
+        android:buttonTint="@color/common_google_signin_btn_text_dark_default"
+        android:text="b"
+        android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
 </LinearLayout>

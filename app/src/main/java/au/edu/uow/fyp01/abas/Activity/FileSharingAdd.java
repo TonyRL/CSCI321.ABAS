@@ -295,7 +295,7 @@ public class FileSharingAdd extends AppCompatActivity {
         }
 
         public void setFullName(String fullname) {
-            TextView nameCheck = mView.findViewById(R.id.activity_file_sharing_add_username);
+            CheckBox nameCheck = (CheckBox) mView.findViewById(R.id.activity_file_sharing_add_username);
             nameCheck.setText(fullname);
         }
 
