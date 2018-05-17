@@ -88,7 +88,7 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/activity_file_sharing_file_type_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="256dp"
@@ -98,7 +98,7 @@
         tools:layout_editor_absoluteY="143dp" />
 
     <ImageButton
-        android:id="@+id/imageButton3"
+        android:id="@+id/activity_file_sharing_image_button_date"
         android:layout_width="45dp"
         android:layout_height="35dp"
         android:layout_x="321dp"
@@ -119,7 +119,7 @@
         tools:layout_editor_absoluteY="161dp" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/activity_file_sharing_time_input"
         android:layout_width="189dp"
         android:layout_height="wrap_content"
         android:layout_x="115dp"
@@ -130,7 +130,7 @@
         tools:layout_editor_absoluteY="117dp" />
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/activity_file_sharing_time_image_button"
         android:layout_width="45dp"
         android:layout_height="39dp"
         android:layout_x="322dp"
@@ -140,7 +140,7 @@
         tools:layout_editor_absoluteY="134dp" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/activity_file_sharing_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="211dp"
@@ -150,7 +150,7 @@
         tools:layout_editor_absoluteY="196dp" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/activity_file_sharing_add_confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_x="74dp"

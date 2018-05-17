@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -53,11 +54,18 @@ import au.edu.uow.fyp01.abas.R;
 
 public class FileSharingAdd extends AppCompatActivity {
 
-    ImageButton addFileButton;
-
+    private ImageButton addFileButton;
+    private ImageButton dateImageButton;
+    private ImageButton timeImageButton;
 
     private TextView fileNameDisplay;
+    private TextView fileTypeDisplay;
     private TextView dateInput;
+    private TextView timeInput;
+
+    private String nameOfFile;
+    private String nameFileType;
+
     private static int file_pick =1;
     private File filePicked;
     private RecyclerView allUsersList;
@@ -76,13 +84,20 @@ public class FileSharingAdd extends AppCompatActivity {
 
         //Initialize the onscreen items and set them
         addFileButton = (ImageButton) findViewById(R.id.activity_file_sharing_add_addFile_button);
+        dateImageButton = (ImageButton) findViewById(R.id.activity_file_sharing_image_button_date);
+        timeImageButton = (ImageButton) findViewById(R.id.activity_file_sharing_time_image_button);
 
         fileNameDisplay = (TextView) findViewById(R.id.activity_file_sharing_add_filename);
+        fileTypeDisplay = (TextView) findViewById(R.id.activity_file_sharing_file_type_view);
         dateInput = (TextView) findViewById(R.id.activity_file_sharing_date_input);
+        timeInput = (TextView) findViewById(R.id.activity_file_sharing_time_input);
+
         allUsersList = (RecyclerView) findViewById(R.id.activity_file_sharing_add_recylerview);
 
         allUsersList.setHasFixedSize(true);
         allUsersList.setLayoutManager(new LinearLayoutManager(FileSharingAdd.this));
+
+        allUsersList.addItemDecoration(new SpacesItemDecoration(3));
 
 
         filePicked = null;
@@ -144,9 +159,9 @@ public class FileSharingAdd extends AppCompatActivity {
 
             filePicked = new File(selectedFile.getPath());
 
-            String selectedPath = selectedFile.getLastPathSegment();
+            nameFileType = getMimeType(this,selectedFile);
 
-            fileNameDisplay.setText(selectedPath);
+            fileTypeDisplay.setText("."+nameFileType);
         }
     }
 
@@ -301,5 +316,49 @@ public class FileSharingAdd extends AppCompatActivity {
 
 
     }
+
+
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int halfSpace;
+
+        public SpacesItemDecoration(int space) {
+            this.halfSpace = space / 2;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            if (parent.getPaddingLeft() != halfSpace) {
+                parent.setPadding(halfSpace, halfSpace, halfSpace, halfSpace);
+                parent.setClipToPadding(false);
+            }
+
+            outRect.top = halfSpace;
+            outRect.bottom = halfSpace;
+            outRect.left = halfSpace;
+            outRect.right = halfSpace;
+        }
+    }
+
+    public static String getMimeType(Context context, Uri uri) {
+        String extension;
+
+        //Check uri format to avoid null
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+
+        }
+
+        return extension;
+    }
+
 
 }
