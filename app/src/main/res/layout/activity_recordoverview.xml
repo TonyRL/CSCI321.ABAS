@@ -136,33 +136,12 @@
           android:layout_height="71dp"
           android:orientation="horizontal">
 
-          <TextView
-            android:id="@+id/textView2"
-            android:layout_width="247dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Latest Comment:"
-            android:textAppearance="@style/TextAppearance.AppCompat"/>
-
-          <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <LinearLayout
-              android:layout_width="match_parent"
+          <Button
+              android:id="@+id/recordOverviewComments"
+              android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:orientation="vertical">
-
-              <TextView
-                android:id="@+id/recordOverviewLatestComment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="No comments/remarks yet"
-                android:textAppearance="@style/TextAppearance.AppCompat"/>
-            </LinearLayout>
-          </ScrollView>
-
+              android:layout_weight="1"
+              android:text="Remarks/Comments" />
         </LinearLayout>
 
         <LinearLayout
@@ -175,6 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tap the latest to see all remarks/comments"/>
+
         </LinearLayout>
 
       </LinearLayout>
