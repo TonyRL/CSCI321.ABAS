@@ -31,6 +31,7 @@
         <activity android:name=".Activity.StudentListActivity" />
         <activity android:name=".Activity.RecordActivity" />
         <activity android:name=".Activity.RecordOverviewActivity" />
+        <activity android:name=".searchBeaconPage"/>
         <activity android:name=".Activity.CommentListActivity"></activity>
     </application>
 
