@@ -239,6 +239,7 @@ public class FileSharingAdd extends AppCompatActivity {
 
             nameFileType = getMimeType(this,selectedFile);
 
+
             fileTypeDisplay.setText("."+nameFileType);
         }
     }
@@ -273,6 +274,8 @@ public class FileSharingAdd extends AppCompatActivity {
 
             StorageReference filePath = storeFileStorageReference.child(messsage_push_id);
 
+            nameOfFile = fileNameDisplay.getText().toString();
+
             filePath.putFile(resultsURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -297,17 +300,17 @@ public class FileSharingAdd extends AppCompatActivity {
                         Map map1 = new HashMap();
                         map1.put("Link:",downloadURL);
                         map1.put("Filename:",nameOfFile);
-                        map1.put("File-Type:",nameFileType);
+                        map1.put("File_Type:",nameFileType);
                         map1.put("Sender:",currentUserID);
                         map1.put("Receiver:",idToPass);
-                        map1.put("Date-Expire:",date);
-                        map1.put("Time-Expire",time);
+                        map1.put("Date_Expire:",date);
+                        map1.put("Time_Expire",time);
 
 
                         Map map2 = new HashMap();
                         map2.put("Link:",downloadURL);
                         map2.put("Filename:",nameOfFile);
-                        map2.put("File-Type:",nameFileType);
+                        map2.put("File_Type:",nameFileType);
                         map2.put("Sender:",currentUserID);
                         map2.put("Receiver:",idToPass);
                         map2.put("Date-Expire:",date);
@@ -316,11 +319,11 @@ public class FileSharingAdd extends AppCompatActivity {
                         Map map1link = new HashMap();
                         map1link.put("Link:",downloadURL);
                         map1link.put("Filename:",nameOfFile);
-                        map1link.put("File-Type:",nameFileType);
+                        map1link.put("File_Type:",nameFileType);
                         map1link.put("Sender:",currentUserID);
                         map1link.put("Receiver:",idToPass);
-                        map1link.put("Date-Expire:",date);
-                        map1link.put("Time-Expire",time);
+                        map1link.put("Date_Expire:",date);
+                        map1link.put("Time_Expire",time);
                         map1link.put("ID:",messsage_push_id);
 
 
@@ -328,11 +331,11 @@ public class FileSharingAdd extends AppCompatActivity {
                         Map map2link = new HashMap();
                         map2link.put("Link:",downloadURL);
                         map2link.put("Filename:",nameOfFile);
-                        map2link.put("File-Type:",nameFileType);
+                        map2link.put("File_Type:",nameFileType);
                         map2link.put("Sender:",currentUserID);
                         map2link.put("Receiver:",idToPass);
-                        map2link.put("Date-Expire:",date);
-                        map2link.put("Time-Expire",time);
+                        map2link.put("Date_Expire:",date);
+                        map2link.put("Time_Expire",time);
                         map2link.put("ID",messsage_push_id);
 
 
