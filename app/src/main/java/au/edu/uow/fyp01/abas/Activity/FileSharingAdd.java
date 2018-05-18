@@ -1,6 +1,7 @@
 package au.edu.uow.fyp01.abas.Activity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -35,6 +36,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -67,8 +69,7 @@ import au.edu.uow.fyp01.abas.R;
 public class FileSharingAdd extends AppCompatActivity {
 
     private ImageButton addFileButton;
-    private ImageButton dateImageButton;
-    private ImageButton timeImageButton;
+
 
     private Button confirmButton;
     private Button cancelButton;
@@ -76,7 +77,7 @@ public class FileSharingAdd extends AppCompatActivity {
     private TextView fileNameDisplay;
     private TextView fileTypeDisplay;
     private EditText dateInput;
-    private TextView timeInput;
+    private EditText timeInput;
 
     private String nameOfFile;
     private String nameFileType;
@@ -106,8 +107,6 @@ public class FileSharingAdd extends AppCompatActivity {
 
         //Initialize the onscreen items and set them
         addFileButton = (ImageButton) findViewById(R.id.activity_file_sharing_add_addFile_button);
-        dateImageButton = (ImageButton) findViewById(R.id.activity_file_sharing_image_button_date);
-        timeImageButton = (ImageButton) findViewById(R.id.activity_file_sharing_time_image_button);
 
         confirmButton = (Button) findViewById(R.id.activity_file_sharing_add_confirm_button);
         cancelButton = (Button) findViewById(R.id.activity_file_sharing_cancel_button);
@@ -115,7 +114,7 @@ public class FileSharingAdd extends AppCompatActivity {
         fileNameDisplay = (TextView) findViewById(R.id.activity_file_sharing_add_filename);
         fileTypeDisplay = (TextView) findViewById(R.id.activity_file_sharing_file_type_view);
         dateInput = (EditText) findViewById(R.id.activity_file_sharing_date_input);
-        timeInput = (TextView) findViewById(R.id.activity_file_sharing_time_input);
+        timeInput = (EditText) findViewById(R.id.activity_file_sharing_time_input);
 
         allUsersList = (RecyclerView) findViewById(R.id.activity_file_sharing_add_recylerview);
 
@@ -200,6 +199,12 @@ public class FileSharingAdd extends AppCompatActivity {
             }
         });
 
+
+        setDate fromDate = new setDate(dateInput, this);
+        SetTime fromTime = new SetTime(timeInput, this);
+
+
+
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,14 +216,17 @@ public class FileSharingAdd extends AppCompatActivity {
                 }
 
                 while(itr.hasNext()){
-                    Toast.makeText(FileSharingAdd.this, itr.next().toString().trim(),Toast.LENGTH_LONG).show();
+                    upload(view,itr.next().toString().trim(),dateInput.getText().toString(),timeInput.getText().toString());
                 }
+
+                Intent back = new Intent(FileSharingAdd.this,FileSharingHome.class);
+                startActivity(back);
 
             }
         });
 
 
-        setDate fromDate = new setDate(dateInput, this);
+
 
     }
 
@@ -247,7 +255,7 @@ public class FileSharingAdd extends AppCompatActivity {
         firebaseRecyclerAdapter.stopListening();
     }
 
-    public void upload(View v, String ID ){
+    public void upload(View v, String ID, final String date, final String time ){
 
         final String idToPass = ID;
 
@@ -288,30 +296,44 @@ public class FileSharingAdd extends AppCompatActivity {
 
                         Map map1 = new HashMap();
                         map1.put("Link:",downloadURL);
-                        map1.put("Filename:",resultsURI.getLastPathSegment());
+                        map1.put("Filename:",nameOfFile);
+                        map1.put("File-Type:",nameFileType);
                         map1.put("Sender:",currentUserID);
                         map1.put("Receiver:",idToPass);
+                        map1.put("Date-Expire:",date);
+                        map1.put("Time-Expire",time);
+
 
                         Map map2 = new HashMap();
                         map2.put("Link:",downloadURL);
-                        map2.put("Filename:",resultsURI.getLastPathSegment());
+                        map2.put("Filename:",nameOfFile);
+                        map2.put("File-Type:",nameFileType);
                         map2.put("Sender:",currentUserID);
                         map2.put("Receiver:",idToPass);
+                        map2.put("Date-Expire:",date);
+                        map2.put("Time-Expire",time);
 
                         Map map1link = new HashMap();
                         map1link.put("Link:",downloadURL);
-                        map1link.put("Filename:",resultsURI.getLastPathSegment());
+                        map1link.put("Filename:",nameOfFile);
+                        map1link.put("File-Type:",nameFileType);
                         map1link.put("Sender:",currentUserID);
                         map1link.put("Receiver:",idToPass);
+                        map1link.put("Date-Expire:",date);
+                        map1link.put("Time-Expire",time);
                         map1link.put("ID:",messsage_push_id);
+
 
 
                         Map map2link = new HashMap();
                         map2link.put("Link:",downloadURL);
-                        map2link.put("Filename:",resultsURI.getLastPathSegment());
+                        map2link.put("Filename:",nameOfFile);
+                        map2link.put("File-Type:",nameFileType);
                         map2link.put("Sender:",currentUserID);
                         map2link.put("Receiver:",idToPass);
-                        map2link.put("ID",idToPass);
+                        map2link.put("Date-Expire:",date);
+                        map2link.put("Time-Expire",time);
+                        map2link.put("ID",messsage_push_id);
 
 
 
@@ -436,7 +458,7 @@ public class FileSharingAdd extends AppCompatActivity {
         return extension;
     }
 
-    class setDate implements View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
+    private class setDate implements View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
 
         private EditText editText;
         private Calendar myCalendar;
@@ -473,5 +495,34 @@ public class FileSharingAdd extends AppCompatActivity {
 
     }
 
+    class SetTime implements View.OnFocusChangeListener, TimePickerDialog.OnTimeSetListener {
+
+        private EditText editText;
+        private Calendar myCalendar;
+
+        public SetTime(EditText editText, Context ctx){
+            this.editText = editText;
+            this.editText.setOnFocusChangeListener(this);
+            this.myCalendar = Calendar.getInstance();
+
+        }
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            // TODO Auto-generated method stub
+            if(hasFocus){
+                int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
+                int minute = myCalendar.get(Calendar.MINUTE);
+                new TimePickerDialog(FileSharingAdd.this, this, hour, minute, true).show();
+            }
+        }
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // TODO Auto-generated method stub
+            this.editText.setText( hourOfDay + ":" + minute);
+        }
+
+    }
 
 }

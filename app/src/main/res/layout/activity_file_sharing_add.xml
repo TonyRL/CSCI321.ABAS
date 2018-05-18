@@ -66,12 +66,12 @@
 
     <EditText
         android:id="@+id/activity_file_sharing_date_input"
-        android:layout_width="183dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/activity_file_sharing_add_addFile_button"
         android:layout_toEndOf="@+id/textView5"
-        android:layout_x="118dp"
-        android:layout_y="74dp"
+        android:layout_x="132dp"
+        android:layout_y="73dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -93,19 +93,8 @@
         android:layout_height="wrap_content"
         android:layout_x="256dp"
         android:layout_y="31dp"
-        android:text="TextView"
         tools:layout_editor_absoluteX="117dp"
         tools:layout_editor_absoluteY="143dp" />
-
-    <ImageButton
-        android:id="@+id/activity_file_sharing_image_button_date"
-        android:layout_width="45dp"
-        android:layout_height="35dp"
-        android:layout_x="321dp"
-        android:layout_y="80dp"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
-        tools:layout_editor_absoluteX="302dp"
-        tools:layout_editor_absoluteY="70dp" />
 
     <TextView
         android:id="@+id/textView9"
@@ -120,24 +109,14 @@
 
     <EditText
         android:id="@+id/activity_file_sharing_time_input"
-        android:layout_width="189dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="115dp"
+        android:layout_x="134dp"
         android:layout_y="151dp"
         android:ems="10"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="3dp"
         tools:layout_editor_absoluteY="117dp" />
-
-    <ImageButton
-        android:id="@+id/activity_file_sharing_time_image_button"
-        android:layout_width="45dp"
-        android:layout_height="39dp"
-        android:layout_x="322dp"
-        android:layout_y="149dp"
-        app:srcCompat="@android:drawable/ic_menu_recent_history"
-        tools:layout_editor_absoluteX="300dp"
-        tools:layout_editor_absoluteY="134dp" />
 
     <Button
         android:id="@+id/activity_file_sharing_cancel_button"
