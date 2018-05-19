@@ -21,8 +21,17 @@
       android:textSize="18sp"/>
 
     <android.support.v7.widget.RecyclerView
-      android:id="@+id/classListRecyclerView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+        android:id="@+id/classListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="450dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/classListProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
   </LinearLayout>
 </FrameLayout>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -48,6 +49,9 @@ public class RecordOverviewActivity extends Activity {
 
         recordList = new ArrayList<RecordModel>();
         commentList = new ArrayList<CommentModel>();
+
+        final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
+        recordOverviewProgressBar.setIndeterminate(true);
 
         //-> RecordQueryClass
         RecordQueryClass(new RecordCallBack() {
@@ -126,6 +130,8 @@ public class RecordOverviewActivity extends Activity {
                             recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(
                                     new DateAsXAxisLabelFormatter(getApplicationContext(), new SimpleDateFormat("dd/MM")));
                         }
+
+                        recordOverviewProgressBar.setVisibility(View.GONE);
                         //</editor-fold>
 
             }

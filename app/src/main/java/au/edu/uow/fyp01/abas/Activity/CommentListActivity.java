@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -66,6 +67,9 @@ public class CommentListActivity extends Activity {
         subjectname = bundle.getString("subjectname");
         subjectID = bundle.getString("subjectID");
 
+        final ProgressBar commentListProgressBar = findViewById(R.id.commentListProgressBar);
+        commentListProgressBar.setIndeterminate(true);
+
         //Setup userModel
         UserQueryClass(new FirebaseCallBack() {
             @Override
@@ -112,6 +116,7 @@ public class CommentListActivity extends Activity {
 
 
                 firebaseRecyclerAdapter.startListening();
+                commentListProgressBar.setVisibility(View.GONE);
 
                 //<editor-fold desc="Add button for new comments">
                 Button commentListAddBtn = findViewById(R.id.commentListAddBtn);

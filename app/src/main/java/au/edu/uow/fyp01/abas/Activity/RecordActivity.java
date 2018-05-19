@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -53,6 +54,9 @@ public class RecordActivity extends Activity {
         sID = bundle.getString("sID");
         schID = bundle.getString("schID");
         classID = bundle.getString("classID");
+
+        final ProgressBar recordProgressBar = findViewById(R.id.recordProgressBar);
+        recordProgressBar.setIndeterminate(true);
 
 
         StudentQueryClass(new FirebaseCallBack() {
@@ -109,6 +113,7 @@ public class RecordActivity extends Activity {
 
                 recordRecyclerView.setAdapter(firebaseRecyclerAdapter);
                 firebaseRecyclerAdapter.startListening();
+                recordProgressBar.setVisibility(View.GONE);
 
             }
         });
