@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -58,6 +59,9 @@ public class AdminClassListActivity extends Activity {
         uID = auth.getInstance().getCurrentUser().getUid();
 
         schID = "";
+
+        final ProgressBar adminClassListProgressBar = findViewById(R.id.adminClassListProgressBar);
+        adminClassListProgressBar.setIndeterminate(true);
 
         UserQueryClass(new FirebaseCallBack() {
             @Override
@@ -104,6 +108,7 @@ public class AdminClassListActivity extends Activity {
 
                 classListRecyclerView.setAdapter(firebaseRecyclerAdapter);
                 firebaseRecyclerAdapter.startListening();
+                adminClassListProgressBar.setVisibility(View.GONE);
 
                 //<editor-fold desc="Add new class button">
                 Button adminClassListAddBtn = findViewById(R.id.adminClassListAddBtn);
@@ -184,17 +189,17 @@ public class AdminClassListActivity extends Activity {
 
                     //<editor-fold desc="Transaction to move to 'AdminStudentListActivity'">
 
-                    /*
-                    Intent i = new Intent(getApplicationContext(),StudentListActivity.class);
 
-                    //Passing 'classID' & 'schID' to StudentListFragment
+                    Intent i = new Intent(getApplicationContext(),AdminStudentListActivity.class);
+
+                    //Passing 'classID' & 'schID' to AdminStudentListFragment
                     Bundle args = new Bundle();
                     args.putString("classID", classID);
                     args.putString("schID", schID);
                     i.putExtras(args);
 
                     startActivity(i);
-                    */
+
 
                     //</editor-fold>
                 }
