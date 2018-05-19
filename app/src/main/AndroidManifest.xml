@@ -29,7 +29,8 @@
         <activity android:name=".Activity.RecordOverviewActivity" />
         <activity android:name=".Activity.CommentListActivity" />
         <activity android:name=".Activity.AdminClassListActivity" />
-        <activity android:name=".Activity.AdminStudentListActivity"></activity>
+        <activity android:name=".Activity.AdminStudentListActivity" />
+        <activity android:name=".Activity.AdminAddStudentActivity"></activity>
     </application>
 
 </manifest>
