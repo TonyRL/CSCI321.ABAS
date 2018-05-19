@@ -118,6 +118,7 @@ public class CommentListActivity extends Activity {
                 commentListAddBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //BUTTON BUILDER SET STYLE HERE
                         AlertDialog.Builder builder = new AlertDialog.Builder(CommentListActivity.this, THEME_DEVICE_DEFAULT_DARK);
                         builder.setTitle("Comment/Remark: ");
 
