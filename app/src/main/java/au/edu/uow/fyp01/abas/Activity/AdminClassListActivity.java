@@ -177,7 +177,7 @@ public class AdminClassListActivity extends Activity {
             this.classID = classID;
         }
 
-        public void setClassname(String classname) {
+        public void setClassname(final String classname) {
             //points to recyclermodellayout_singlebutton
             //The button is for each class (e.g. 1A, 1B, 1C)
             final Button classNameButtonView = mView.findViewById(R.id.modelSingleBtn);
@@ -194,6 +194,7 @@ public class AdminClassListActivity extends Activity {
 
                     //Passing 'classID' & 'schID' to AdminStudentListFragment
                     Bundle args = new Bundle();
+                    args.putString("classname",classname);
                     args.putString("classID", classID);
                     args.putString("schID", schID);
                     i.putExtras(args);

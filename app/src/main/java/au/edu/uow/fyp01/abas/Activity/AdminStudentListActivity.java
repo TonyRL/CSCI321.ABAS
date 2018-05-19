@@ -30,6 +30,7 @@ public class AdminStudentListActivity extends Activity {
 
     private String classID;
     private String schID;
+    private String classname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,8 @@ public class AdminStudentListActivity extends Activity {
         setContentView(R.layout.activity_adminstudentlist);
         Bundle bundle = getIntent().getExtras();
 
-        //Grabbing args (classID and schID from ClassListFragment)
+        //Grabbing args (classID and schID from ClassListActivity)
+        classname = bundle.getString("classname");
         classID = bundle.getString("classID");
         schID = bundle.getString("schID");
 
@@ -85,6 +87,32 @@ public class AdminStudentListActivity extends Activity {
 
         adminStudentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
         adminStudentListProgressBar.setVisibility(View.GONE);
+
+        //<editor-fold desc="Add Button for new students in a class">
+        Button adminStudentListAddBtn = findViewById(R.id.adminStudentListAddBtn);
+        adminStudentListAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //<editor-fold desc="Transaction to move to 'AdminAddStudentActivity'">
+
+
+                    Intent i = new Intent(getApplicationContext(),AdminStudentListActivity.class);
+
+                    //Passing 'sID','classID','schID' to AdminAddStudentActivity
+                    Bundle args = new Bundle();
+                    args.putString("classID", classID);
+                    args.putString("schID", schID);
+                    args.putString("classname",classname);
+
+                    i.putExtras(args);
+
+                    startActivity(i);
+
+
+                //</editor-fold>
+            }
+        });
+        //</editor-fold>
 
     }
 
