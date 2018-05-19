@@ -27,7 +27,7 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/adminClassesListAddBtn"
+                android:id="@+id/adminClassListAddBtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="0"
@@ -36,7 +36,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/adminClassesListRecyclerView"
+            android:id="@+id/adminClassListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

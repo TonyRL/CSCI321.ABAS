@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -43,6 +44,10 @@ public class StudentListActivity extends Activity {
 
         //Instantiate the database
         db = FirebaseDatabase.getInstance();
+
+        //Progress bar
+        ProgressBar studentListProgressBar = findViewById(R.id.studentListProgressBar);
+        studentListProgressBar.setIndeterminate(true);
 
         //RecyclerView
         studentListRecyclerView = findViewById(R.id.studentListRecyclerView);
@@ -80,6 +85,7 @@ public class StudentListActivity extends Activity {
                 };
 
         studentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        studentListProgressBar.setVisibility(View.GONE);
 
 
     }

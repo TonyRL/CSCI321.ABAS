@@ -46,9 +46,15 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-      android:id="@+id/commentListRecyclerView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+        android:id="@+id/commentListRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="450dp" />
+
+    <ProgressBar
+        android:id="@+id/commentListProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
   </LinearLayout>
 
 </FrameLayout>
