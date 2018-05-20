@@ -38,7 +38,7 @@ import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 
 public class AdminClassListActivity extends Activity {
 
-    private RecyclerView classListRecyclerView;
+    private RecyclerView adminClassListRecyclerView;
     private DatabaseReference dbref;
     private FirebaseRecyclerOptions<SchoolModel> options;
     private FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder> firebaseRecyclerAdapter;
@@ -72,9 +72,9 @@ public class AdminClassListActivity extends Activity {
                 db = FirebaseDatabase.getInstance();
 
                 //RecyclerView
-                classListRecyclerView = findViewById(R.id.classListRecyclerView);
-                classListRecyclerView.setHasFixedSize(true);
-                classListRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                adminClassListRecyclerView = findViewById(R.id.adminClassListRecyclerView);
+                adminClassListRecyclerView.setHasFixedSize(true);
+                adminClassListRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                 //DONE replace '.child("SchID1")' with .child(SchID) whereas SchID is grabbed from a query class
                 //<editor-fold desc="PROTOTYPE: dbref refers directly to School->SchID1">
@@ -106,7 +106,7 @@ public class AdminClassListActivity extends Activity {
                             }
                         };
 
-                classListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+                adminClassListRecyclerView.setAdapter(firebaseRecyclerAdapter);
                 firebaseRecyclerAdapter.startListening();
                 adminClassListProgressBar.setVisibility(View.GONE);
 

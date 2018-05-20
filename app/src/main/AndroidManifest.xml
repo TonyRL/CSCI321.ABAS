@@ -34,7 +34,10 @@
         <activity android:name=".Activity.CommentListActivity" />
         <activity android:name=".Activity.AdminClassListActivity" />
         <activity android:name=".Activity.AdminStudentListActivity" />
-        <activity android:name=".Activity.AdminAddStudentActivity"></activity>
+        <activity android:name=".Activity.AdminAddStudentActivity" />
+        <activity android:name=".Activity.AdminStudentDetailsActivity" />
+        <activity android:name=".Activity.AdminStudentSubjectListActivity" />
+        <activity android:name=".Activity.AdminManageMenu"></activity>
     </application>
 
 </manifest>

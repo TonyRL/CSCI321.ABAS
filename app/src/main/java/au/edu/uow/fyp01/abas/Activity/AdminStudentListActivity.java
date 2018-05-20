@@ -1,9 +1,11 @@
 package au.edu.uow.fyp01.abas.Activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -96,20 +98,60 @@ public class AdminStudentListActivity extends Activity {
                 //<editor-fold desc="Transaction to move to 'AdminAddStudentActivity'">
 
 
-                    Intent i = new Intent(getApplicationContext(),AdminStudentListActivity.class);
+                Intent i = new Intent(getApplicationContext(), AdminAddStudentActivity.class);
 
-                    //Passing 'sID','classID','schID' to AdminAddStudentActivity
-                    Bundle args = new Bundle();
-                    args.putString("classID", classID);
-                    args.putString("schID", schID);
-                    args.putString("classname",classname);
+                //Passing 'sID','classID','schID' to AdminAddStudentActivity
+                Bundle args = new Bundle();
+                args.putString("classID", classID);
+                args.putString("schID", schID);
+                args.putString("classname", classname);
 
-                    i.putExtras(args);
+                i.putExtras(args);
 
-                    startActivity(i);
+                startActivity(i);
 
 
                 //</editor-fold>
+            }
+        });
+        //</editor-fold>
+
+        //<editor-fold desc="Delete class button">
+        Button adminStudentListDeleteClassBtn = findViewById(R.id.adminStudentListDeleteClassBtn);
+        adminStudentListDeleteClassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Ask for user confirmation
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminStudentListActivity.this);
+                builder1.setMessage("Are you sure you want to delete this class?");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //Delete Student->SchID->ClassID
+                                dbref.removeValue();
+                                dbref = db.getReference().child("School").child(schID).child(classID);
+                                //Delete School->SchID->ClassID
+                                dbref.removeValue();
+
+                                //close activity
+                                finish();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+                //end of confirmation
             }
         });
         //</editor-fold>
@@ -173,21 +215,22 @@ public class AdminStudentListActivity extends Activity {
                 @Override
                 public void onClick(View v) {
 
-                    //<editor-fold desc="Transaction to move to 'AdminStudentDetails'">
+                    //<editor-fold desc="Transaction to move to 'AdminStudentDetailsActivity'">
 
-                    /*
-                    Intent i = new Intent(getApplicationContext(),RecordActivity.class);
 
-                    //Passing 'sID','classID','schID' to RecordFragment
+                    Intent i = new Intent(getApplicationContext(),AdminStudentDetailsActivity.class);
+
+                    //Passing 'sID','classID','schID' to AdminStudentDetailsActivity
                     Bundle args = new Bundle();
                     args.putString("sID", sID);
                     args.putString("classID", classID);
                     args.putString("schID", schID);
+                    args.putString("classname", classname);
 
                     i.putExtras(args);
 
                     startActivity(i);
-                    */
+
 
                     //</editor-fold>
                 }
