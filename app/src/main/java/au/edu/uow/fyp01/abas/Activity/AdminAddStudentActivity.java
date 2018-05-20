@@ -31,7 +31,7 @@ public class AdminAddStudentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adminstudentlist);
+        setContentView(R.layout.activity_adminaddstudent);
         Bundle bundle = getIntent().getExtras();
 
         //Grabbing args (classID and schID from AdminStudentListActivity)
@@ -85,7 +85,9 @@ public class AdminAddStudentActivity extends Activity {
                                     addToDatabase.put("lastname",lastname);
                                     addToDatabase.put("sid",sID);
 
-                                    dbref.updateChildren(addToDatabase);
+                                    //update children of Student->SchID->ClassID
+                                    //move one level down to ->StudentID
+                                    dbref.child(sID).updateChildren(addToDatabase);
 
                                     Toast.makeText(AdminAddStudentActivity.this,"Added to new student to class " + classname, Toast.LENGTH_SHORT)
                                             .show();

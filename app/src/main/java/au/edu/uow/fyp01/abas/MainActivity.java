@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,12 +58,20 @@ public class MainActivity extends AppCompatActivity {
           Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
           startActivity(settingActivityIntent);
           break;
+
         case R.id.nav_logout:
           FirebaseAuth.getInstance().signOut();
           Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
           startActivity(loginActivityIntent);
           finish();
           break;
+
+        //Hide/Delete
+        case R.id.nav_admin:
+          Intent adminActivityIntent = new Intent(MainActivity.this, AdminManageMenu.class);
+          startActivity(adminActivityIntent);
+          break;
+
         default:
           break;
       }

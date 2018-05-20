@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,8 +32,6 @@ public class RecordActivity extends Activity {
     private String schID;
     private String classID;
     private StudentModel studentModel;
-    private FragmentPagerAdapter adapterViewPager;
-    private ViewPager viewPager;
     private Query query;
 
     private FirebaseDatabase db;
@@ -66,7 +62,6 @@ public class RecordActivity extends Activity {
 
                 //First name
                 TextView recordFirstNameTextView = findViewById(R.id.recordFirstNameTextView);
-
                 recordFirstNameTextView.setText(studentModel.getFirstname());
 
                 //Last name
@@ -146,7 +141,7 @@ public class RecordActivity extends Activity {
             subjectNameButtonView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //<editor-fold desc="Transaction to move to 'RecordOverviewActivity'">
+                    //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
                     Intent i = new Intent(getApplicationContext(),RecordOverviewActivity.class);
 
                     //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
