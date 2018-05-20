@@ -1,5 +1,11 @@
 package au.edu.uow.fyp01.abas;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +21,7 @@ import org.altbeacon.beacon.Region;
 public class SearchBeaconActivity extends AppCompatActivity implements BeaconConsumer {
 
   protected static final String TAG = "RangingActivity";
+
   private BeaconManager beaconManager;
 
   @Override
@@ -23,11 +30,13 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     setContentView(R.layout.activity_search_beacon);
 
     beaconManager = BeaconManager.getInstanceForApplication(this);
-    beaconManager.getBeaconParsers().add(
-        //new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
-        new BeaconParser().setBeaconLayout("s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19"));
+    // Detect iBeacon only. No EddyStone, no AltBeacon
+    beaconManager.getBeaconParsers().clear();
+    beaconManager.getBeaconParsers()
+        .add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
     beaconManager.bind(this);
   }
+
 
   @Override
   protected void onDestroy() {
@@ -36,13 +45,21 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+  }
+
+  @Override
   public void onBeaconServiceConnect() {
     beaconManager.addRangeNotifier(new RangeNotifier() {
       @Override
       public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
         if (beacons.size() > 0) {
-          Log.i(TAG, "The first beacon I see is about " + beacons.iterator().next().getDistance()
-              + " meters away.");
+          Beacon firstBeacon = beacons.iterator().next();
+          Log.i(TAG,
+              "The first beacon UUID:" + firstBeacon.getId1() + " Major:" + firstBeacon.getId2()
+                  + " Minor: " + firstBeacon.getId3() + " I see is about " + firstBeacon
+                  .getDistance() + " meters away.");
         }
       }
     });
