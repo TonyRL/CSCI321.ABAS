@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,13 +36,15 @@ public class MainActivity extends AppCompatActivity {
       // Handle navigation view item clicks here.
       int id = item.getItemId();
 
-
       switch (id) {
         case R.id.nav_home:
           swapFragment(R.id.nav_home);
           break;
         case R.id.nav_search_beacon:
-          swapFragment(R.id.nav_search_beacon);
+          //swapFragment(R.id.nav_search_beacon);
+          Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
+              SearchBeaconActivity.class);
+          startActivity(searchBeaconActivityIntent);
           break;
         case R.id.nav_file:
           swapFragment(R.id.nav_file);
