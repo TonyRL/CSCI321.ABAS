@@ -79,7 +79,7 @@ public class ClassListActivity extends Activity {
 
                 //set options for adapter
                 options = new FirebaseRecyclerOptions.Builder<SchoolModel>().
-                        setQuery(dbref, SchoolModel.class).build();
+                        setQuery(dbref.orderByChild("classname"), SchoolModel.class).build();
 
                 firebaseRecyclerAdapter =
                         new FirebaseRecyclerAdapter<SchoolModel, SchoolModelViewHolder>(options) {
