@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
           swapFragment(R.id.nav_home);
           break;
         case R.id.nav_search_beacon:
-          swapFragment(R.id.nav_search_beacon);
+          //swapFragment(R.id.nav_search_beacon);
+          Intent searchBeaconPageIntent = new Intent(MainActivity.this, searchBeaconPage.class);
+          startActivity(searchBeaconPageIntent);
           break;
         case R.id.nav_file:
           swapFragment(R.id.nav_file);

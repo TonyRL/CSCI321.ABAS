@@ -43,11 +43,11 @@ public class LoginActivity extends AppCompatActivity {
         case R.id.signUpBtn:
           signUp();
           break;
-        case R.id.cheatBtn:
-          emailText.setText("test123@test.com");
-          passwordText.setText("test123");
-          login();
-          break;
+//        case R.id.cheatBtn:
+//          emailText.setText("test123@test.com");
+//          passwordText.setText("test123");
+//          login();
+          //break;
         default:
           break;
       }
@@ -63,11 +63,11 @@ public class LoginActivity extends AppCompatActivity {
     passwordText = findViewById(R.id.passwordEditText);
     loginBtn = findViewById(R.id.loginBtn);
     signUpBtn = findViewById(R.id.signUpBtn);
-    cheatBtn = findViewById(R.id.cheatBtn);
+    //cheatBtn = findViewById(R.id.cheatBtn);
 
     loginBtn.setOnClickListener(onClickListener);
     signUpBtn.setOnClickListener(onClickListener);
-    cheatBtn.setOnClickListener(onClickListener);
+//    cheatBtn.setOnClickListener(onClickListener);
 
     firebaseAuth = FirebaseAuth.getInstance();
   }

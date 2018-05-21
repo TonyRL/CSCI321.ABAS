@@ -17,9 +17,10 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="back">Back</string>
     <string name="search_beacon">Search Beacon</string>
-    <string name="file">File</string>
+    <string name="sendfile">Send File</string>
     <string name="record">Record</string>
     <string name="setting">Setting</string>
+    <string name="receivefile">Receive File"</string>
     <string name="logout">Logout</string>
     <string name="the_search_beacon_image_button">The search beacon image button</string>
     <string name="the_file_image_button">The file image button</string>
