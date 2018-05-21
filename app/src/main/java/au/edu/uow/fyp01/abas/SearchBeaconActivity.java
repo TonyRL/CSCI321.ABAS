@@ -1,15 +1,15 @@
 package au.edu.uow.fyp01.abas;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter;
+import au.edu.uow.fyp01.abas.Utils.RecyclerViewDividerItemDecoration;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -22,12 +22,19 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   protected static final String TAG = "RangingActivity";
 
+  private RecyclerView recyclerView;
+  private RecyclerView.Adapter adapter;
+  private RecyclerView.LayoutManager layoutManager;
+
   private BeaconManager beaconManager;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search_beacon);
+    initData();
+    initView();
 
     beaconManager = BeaconManager.getInstanceForApplication(this);
     // Detect iBeacon only. No EddyStone, no AltBeacon
@@ -35,6 +42,29 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     beaconManager.getBeaconParsers()
         .add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
     beaconManager.bind(this);
+  }
+
+  private void initData() {
+    layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+    adapter = new RecyclerViewAdapter(getData());
+  }
+
+  private void initView() {
+    recyclerView = findViewById(R.id.recyclerView);
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setAdapter(adapter);
+    recyclerView.setItemAnimator(new DefaultItemAnimator());
+    recyclerView.addItemDecoration(
+        new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+  }
+
+  private ArrayList<String> getData() {
+    ArrayList<String> data = new ArrayList<>();
+    String temp = " item";
+    for (int i = 0; i < 20; i++) {
+      data.add(i + temp);
+    }
+    return data;
   }
 
 
@@ -65,7 +95,8 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     });
 
     try {
-      beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
+      beaconManager
+          .startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
     } catch (RemoteException e) {
     }
 
