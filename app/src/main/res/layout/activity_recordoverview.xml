@@ -132,9 +132,9 @@
           android:textAppearance="@style/TextAppearance.AppCompat"/>
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="71dp"
-          android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:orientation="horizontal">
 
           <Button
               android:id="@+id/recordOverviewComments"
@@ -150,11 +150,11 @@
           android:layout_weight="1"
           android:orientation="vertical">
 
-          <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tap the latest to see all remarks/comments"/>
-
+          <ProgressBar
+              android:id="@+id/recordOverviewProgressBar"
+              style="?android:attr/progressBarStyleHorizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" />
         </LinearLayout>
 
       </LinearLayout>
