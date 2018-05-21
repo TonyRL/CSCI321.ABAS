@@ -158,6 +158,7 @@ public class AdminStudentDetailsActivity extends Activity {
                         args.putString("schID", schID);
                         args.putString("firstname", studentModel.getFirstname());
                         args.putString("lastname",studentModel.getLastname());
+                        args.putString("classID",classID);
 
                         i.putExtras(args);
 

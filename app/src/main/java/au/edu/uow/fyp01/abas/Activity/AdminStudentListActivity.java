@@ -222,6 +222,8 @@ public class AdminStudentListActivity extends Activity {
 
                     //Passing 'sID','classID','schID' to AdminStudentDetailsActivity
                     Bundle args = new Bundle();
+
+                    args.putString("classID", classID);
                     args.putString("sID", sID);
                     args.putString("classID", classID);
                     args.putString("schID", schID);
