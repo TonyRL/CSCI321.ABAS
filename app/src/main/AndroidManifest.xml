@@ -19,26 +19,26 @@
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".SettingActivity" />
-    <activity android:name=".SearchBeaconActivity">
-        <activity android:name=".Activity.ClassListActivity" />
-        <activity android:name=".Activity.StudentListActivity" />
-        <activity android:name=".Activity.RecordActivity" />
-        <activity android:name=".Activity.RecordOverviewActivity" />
-        <activity android:name=".Activity.CommentListActivity" />
-        <activity android:name=".Activity.AdminClassListActivity" />
-        <activity android:name=".Activity.AdminStudentListActivity" />
-        <activity android:name=".Activity.AdminAddStudentActivity" />
-        <activity android:name=".Activity.AdminStudentDetailsActivity" />
-        <activity android:name=".Activity.AdminStudentSubjectListActivity" />
-        <activity android:name=".Activity.AdminManageMenu"></activity>
-    </application>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+      android:name=".MainActivity"
+      android:theme="@style/AppTheme.NoActionBar"/>
+    <activity android:name=".SignUpActivity"/>
+    <activity android:name=".SettingActivity"/>
+    <activity android:name=".SearchBeaconActivity"></activity>
+    <activity android:name=".Activity.ClassListActivity"/>
+    <activity android:name=".Activity.StudentListActivity"/>
+    <activity android:name=".Activity.RecordActivity"/>
+    <activity android:name=".Activity.RecordOverviewActivity"/>
+    <activity android:name=".Activity.CommentListActivity"/>
+    <activity android:name=".Activity.AdminClassListActivity"/>
+    <activity android:name=".Activity.AdminStudentListActivity"/>
+    <activity android:name=".Activity.AdminAddStudentActivity"/>
+    <activity android:name=".Activity.AdminStudentDetailsActivity"/>
+    <activity android:name=".Activity.AdminStudentSubjectListActivity"/>
+    <activity android:name=".Activity.AdminManageMenu"/>
+  </application>
 
 </manifest>
