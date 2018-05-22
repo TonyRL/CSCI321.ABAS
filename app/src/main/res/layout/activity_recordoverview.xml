@@ -32,7 +32,7 @@
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/recordOverviewAllRecords"
+            android:id="@+id/recordOverviewGradesHistoryBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="0"
