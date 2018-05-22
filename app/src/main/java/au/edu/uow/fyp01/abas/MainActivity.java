@@ -1,7 +1,9 @@
 package au.edu.uow.fyp01.abas;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +25,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.DUMMYSEARCHBEACON;
@@ -184,14 +185,13 @@ public class MainActivity extends AppCompatActivity {
     try {
       if (!BeaconManager.getInstanceForApplication(this).checkAvailability()) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Bluetooth not enabled");
-        builder.setMessage("Please enable bluetooth in settings and restart this application.");
+        builder.setTitle("Bluetooth is not enabled");
+        builder.setMessage("The application requires Location Permission to start Bluetooth.");
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
           @Override
           public void onDismiss(DialogInterface dialog) {
-            finish();
-            System.exit(0);
+            BluetoothAdapter.getDefaultAdapter().enable();
           }
         });
         builder.show();

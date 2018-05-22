@@ -1,4 +1,4 @@
-package au.edu.uow.fyp01.abas.Adapter;
+package au.edu.uow.fyp01.abas.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
