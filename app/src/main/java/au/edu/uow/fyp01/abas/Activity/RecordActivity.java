@@ -28,166 +28,164 @@ import au.edu.uow.fyp01.abas.R;
 
 public class RecordActivity extends Activity {
 
-    private String sID;
-    private String schID;
-    private String classID;
-    private StudentModel studentModel;
-    private Query query;
+  private String sID;
+  private String schID;
+  private String classID;
+  private StudentModel studentModel;
+  private Query query;
 
-    private FirebaseDatabase db;
-    private RecyclerView recordRecyclerView;
-    private DatabaseReference dbref;
-    private FirebaseRecyclerOptions<SubjectModel> options;
-    private FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder> firebaseRecyclerAdapter;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record);
-        Bundle bundle = getIntent().getExtras();
-
-        sID = bundle.getString("sID");
-        schID = bundle.getString("schID");
-        classID = bundle.getString("classID");
-
-        final ProgressBar recordProgressBar = findViewById(R.id.recordProgressBar);
-        recordProgressBar.setIndeterminate(true);
+  private FirebaseDatabase db;
+  private RecyclerView recordRecyclerView;
+  private DatabaseReference dbref;
+  private FirebaseRecyclerOptions<SubjectModel> options;
+  private FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder> firebaseRecyclerAdapter;
 
 
-        StudentQueryClass(new FirebaseCallBack() {
-            @Override
-            public void onCallBack(StudentModel studentModel1) {
-                studentModel = studentModel1;
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_record);
+    Bundle bundle = getIntent().getExtras();
 
-                //First name
-                TextView recordFirstNameTextView = findViewById(R.id.recordFirstNameTextView);
-                recordFirstNameTextView.setText(studentModel.getFirstname());
+    sID = bundle.getString("sID");
+    schID = bundle.getString("schID");
+    classID = bundle.getString("classID");
 
-                //Last name
-                TextView recordLastNameTextView = findViewById(R.id.recordLastNameTextView);
-                recordLastNameTextView.setText(studentModel.getLastname());
+    final ProgressBar recordProgressBar = findViewById(R.id.recordProgressBar);
+    recordProgressBar.setIndeterminate(true);
 
-                //SID
-                TextView recordSIDTextView = findViewById(R.id.recordSIDTextView);
-                recordSIDTextView.setText(studentModel.getSid());
+    StudentQueryClass(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(StudentModel studentModel1) {
+        studentModel = studentModel1;
 
-                //instantiate db
-                db = FirebaseDatabase.getInstance();
+        //First name
+        TextView recordFirstNameTextView = findViewById(R.id.recordFirstNameTextView);
+        recordFirstNameTextView.setText(studentModel.getFirstname());
 
-                //RecyclerView
-                recordRecyclerView = findViewById(R.id.recordRecyclerView);
-                recordRecyclerView.setHasFixedSize(true);
-                recordRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //Last name
+        TextView recordLastNameTextView = findViewById(R.id.recordLastNameTextView);
+        recordLastNameTextView.setText(studentModel.getLastname());
 
-                dbref = db.getReference().child("Subject").child(schID).child(classID).child(sID);
+        //SID
+        TextView recordSIDTextView = findViewById(R.id.recordSIDTextView);
+        recordSIDTextView.setText(studentModel.getSid());
 
-                //set options for adapter
-                options = new FirebaseRecyclerOptions.Builder<SubjectModel>().
-                        setQuery(dbref, SubjectModel.class).build();
+        //instantiate db
+        db = FirebaseDatabase.getInstance();
 
-                firebaseRecyclerAdapter =
-                        new FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder>(options) {
-                            @Override
-                            protected void onBindViewHolder(@NonNull SubjectModelViewHolder holder, int position,
-                                                            @NonNull SubjectModel model) {
-                                //bind object
-                                holder.setSubjectID(model.getSubjectID());
-                                holder.setSubjectname(model.getSubjectname());
-                            }
+        //RecyclerView
+        recordRecyclerView = findViewById(R.id.recordRecyclerView);
+        recordRecyclerView.setHasFixedSize(true);
+        recordRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                            @NonNull
-                            @Override
-                            public SubjectModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                             int viewType) {
-                                View view1 = LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
-                                return new SubjectModelViewHolder(view1);
-                            }
-                        };
+        dbref = db.getReference().child("Subject").child(schID).child(classID).child(sID);
 
-                recordRecyclerView.setAdapter(firebaseRecyclerAdapter);
-                firebaseRecyclerAdapter.startListening();
-                recordProgressBar.setVisibility(View.GONE);
+        //set options for adapter
+        options = new FirebaseRecyclerOptions.Builder<SubjectModel>().
+            setQuery(dbref, SubjectModel.class).build();
 
-            }
-        });
+        firebaseRecyclerAdapter =
+            new FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder>(options) {
+              @Override
+              protected void onBindViewHolder(@NonNull SubjectModelViewHolder holder, int position,
+                  @NonNull SubjectModel model) {
+                //bind object
+                holder.setSubjectID(model.getSubjectID());
+                holder.setSubjectname(model.getSubjectname());
+              }
+
+              @NonNull
+              @Override
+              public SubjectModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                  int viewType) {
+                View view1 = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                return new SubjectModelViewHolder(view1);
+              }
+            };
+
+        recordRecyclerView.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+        recordProgressBar.setVisibility(View.GONE);
+
+      }
+    });
 
 
+  }
 
+
+  public class SubjectModelViewHolder extends RecyclerView.ViewHolder {
+
+    View mView;
+    String subjectname;
+    String subjectID;
+
+    public SubjectModelViewHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
     }
 
+    public void setSubjectID(String subjectID) {
+      this.subjectID = subjectID;
+    }
 
-    public class SubjectModelViewHolder extends RecyclerView.ViewHolder {
+    public void setSubjectname(String subjectname1) {
+      Button subjectNameButtonView = mView.findViewById(R.id.modelSingleBtn);
+      subjectNameButtonView.setText(subjectname1);
+      this.subjectname = subjectname1;
 
-        View mView;
-        String subjectname;
-        String subjectID;
+      subjectNameButtonView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
+          Intent i = new Intent(getApplicationContext(), RecordOverviewActivity.class);
 
-        public SubjectModelViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
+          //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
+          Bundle args = new Bundle();
+          args.putString("subjectname", subjectname);
+          args.putString("subjectID", subjectID);
+          args.putString("sID", sID);
+          i.putExtras(args);
+
+          startActivity(i);
+          //</editor-fold>
         }
+      });
+    }
+  }
 
-        public void setSubjectID(String subjectID) {
-            this.subjectID = subjectID;
+  private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("Student").child(this.schID)
+        .child(this.classID);
+
+    query = dbref2.orderByChild("sid").equalTo(this.sID);
+    query.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
+
+          for (DataSnapshot node : dataSnapshot.getChildren()) {
+            StudentModel studentModel = node.getValue(StudentModel.class);
+            firebaseCallBack.onCallBack(studentModel);
+          }
+
         }
+      }
 
-        public void setSubjectname(String subjectname1) {
-            Button subjectNameButtonView = mView.findViewById(R.id.modelSingleBtn);
-            subjectNameButtonView.setText(subjectname1);
-            this.subjectname = subjectname1;
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
 
-            subjectNameButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
-                    Intent i = new Intent(getApplicationContext(),RecordOverviewActivity.class);
+      }
+    });
+  }
 
-                    //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
-                    Bundle args = new Bundle();
-                    args.putString("subjectname", subjectname);
-                    args.putString("subjectID", subjectID);
-                    args.putString("sID", sID);
-                    i.putExtras(args);
+  private interface FirebaseCallBack {
 
-                    startActivity(i);
-                    //</editor-fold>
-                }
-            });
-        }
-    }
-
-    private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
-        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-        DatabaseReference dbref2 = db2.getReference().child("Student").child(this.schID)
-                .child(this.classID);
-
-        query = dbref2.orderByChild("sid").equalTo(this.sID);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    for (DataSnapshot node : dataSnapshot.getChildren()) {
-                        StudentModel studentModel = node.getValue(StudentModel.class);
-                        firebaseCallBack.onCallBack(studentModel);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private interface FirebaseCallBack {
-
-        void onCallBack(StudentModel studentModel);
-    }
+    void onCallBack(StudentModel studentModel);
+  }
 
 
 }

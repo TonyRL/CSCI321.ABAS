@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 //          emailText.setText("test123@test.com");
 //          passwordText.setText("test123");
 //          login();
-          //break;
+        //break;
         default:
           break;
       }

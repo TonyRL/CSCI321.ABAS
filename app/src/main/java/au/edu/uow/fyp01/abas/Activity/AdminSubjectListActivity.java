@@ -5,4 +5,5 @@ package au.edu.uow.fyp01.abas.Activity;
  */
 
 public class AdminSubjectListActivity {
+
 }

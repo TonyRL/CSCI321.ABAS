@@ -29,273 +29,269 @@ import au.edu.uow.fyp01.abas.R;
 
 public class RecordOverviewActivity extends Activity {
 
-    private String sID;
-    private String subjectname;
-    private String subjectID;
-    private ArrayList<RecordModel> recordList;
-    private ArrayList<CommentModel> commentList;
+  private String sID;
+  private String subjectname;
+  private String subjectID;
+  private ArrayList<RecordModel> recordList;
+  private ArrayList<CommentModel> commentList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recordoverview);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_recordoverview);
 
-        Bundle bundle = getIntent().getExtras();
-        //Grabbing args (sID, subject from RecordFragment)
-        sID = bundle.getString("sID");
-        subjectname = bundle.getString("subjectname");
-        subjectID = bundle.getString("subjectID");
+    Bundle bundle = getIntent().getExtras();
+    //Grabbing args (sID, subject from RecordFragment)
+    sID = bundle.getString("sID");
+    subjectname = bundle.getString("subjectname");
+    subjectID = bundle.getString("subjectID");
 
+    recordList = new ArrayList<RecordModel>();
+    commentList = new ArrayList<CommentModel>();
 
+    final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
+    recordOverviewProgressBar.setIndeterminate(true);
+
+    //-> RecordQueryClass
+    RecordQueryClass(new RecordCallBack() {
+      @Override
+      public void onCallBack(ArrayList<RecordModel> recordList1) {
         recordList = new ArrayList<RecordModel>();
-        commentList = new ArrayList<CommentModel>();
+        recordList = recordList1;
 
-        final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
-        recordOverviewProgressBar.setIndeterminate(true);
+        //Subject
+        TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
+        recordOverviewSubject.setText(subjectname);
 
-        //-> RecordQueryClass
-        RecordQueryClass(new RecordCallBack() {
-            @Override
-            public void onCallBack(ArrayList<RecordModel> recordList1) {
-                recordList = new ArrayList<RecordModel>();
-                recordList = recordList1;
+        //Average Grade
+        TextView recordOverviewAverageGrade = findViewById(R.id.recordOverviewAverageGrade);
+        recordOverviewAverageGrade.setText(findAverageGrade());
 
+        //Highest Grade
+        TextView recordOverviewHighestGrade = findViewById(R.id.recordOverviewHighestGrade);
+        recordOverviewHighestGrade.setText(findHighestGrade());
 
-                //Subject
-                TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
-                recordOverviewSubject.setText(subjectname);
+        //Lowest Grade
+        TextView recordOverviewLowestGrade = findViewById(R.id.recordOverviewLowestGrade);
+        recordOverviewLowestGrade.setText(findLowestGrade());
 
+        //Latest Comment
+        Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
 
-                //Average Grade
-                TextView recordOverviewAverageGrade = findViewById(R.id.recordOverviewAverageGrade);
-                recordOverviewAverageGrade.setText(findAverageGrade());
+        //Latest Comment on click
+        //Goes to Comments overview
+        recordOverviewComments.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            Intent commentListActivityIntent = new Intent(getApplicationContext(),
+                CommentListActivity.class);
 
-                //Highest Grade
-                TextView recordOverviewHighestGrade = findViewById(R.id.recordOverviewHighestGrade);
-                recordOverviewHighestGrade.setText(findHighestGrade());
+            Bundle args = new Bundle();
+            args.putString("sID", sID);
+            args.putString("subjectID", subjectID);
+            args.putString("subjectname", subjectname);
 
-                //Lowest Grade
-                TextView recordOverviewLowestGrade = findViewById(R.id.recordOverviewLowestGrade);
-                recordOverviewLowestGrade.setText(findLowestGrade());
-
-                //Latest Comment
-                Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
-
-                //Latest Comment on click
-                //Goes to Comments overview
-                recordOverviewComments.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent commentListActivityIntent = new Intent(getApplicationContext(), CommentListActivity.class);
-
-                        Bundle args = new Bundle();
-                        args.putString("sID", sID);
-                        args.putString("subjectID", subjectID);
-                        args.putString("subjectname", subjectname);
-
-                        commentListActivityIntent.putExtras(args);
-                        startActivity(commentListActivityIntent);
-                    }
-                });
-
-
-                //Set up the graph
-                GraphView recordOverviewGraph = findViewById(R.id.recordOverviewGraph);
-
-                //<editor-fold desc="Graph plotting">
-                //Assuming the list of grades was retrieved,
-                //Plot the graph
-                if (recordList.size() != 0) {
-
-                    //Declare an array of Datapoints first
-                    DataPoint[] dataPoint = new DataPoint[recordList.size()];
-
-                    for (int i = 0; i < recordList.size(); i++) {
-                        String datefromSQL = recordList.get(i).getDate();
-                        try {
-                            //String date -> Date date1
-                            Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(datefromSQL);
-                            //A point is (DATE, GRADE). E.g. (25-04-2018, 70)
-                            dataPoint[i] = new DataPoint(date1,
-                                    Integer.parseInt(recordList.get(i).getGrade()));
-                        } catch (Exception e) {
-                            //
-                        }
-                    }
-
-                    LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
-
-                    recordOverviewGraph.addSeries(lineGraphSeries);
-                    recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(
-                            new DateAsXAxisLabelFormatter(getApplicationContext(), new SimpleDateFormat("dd/MM")));
-                }
-
-                recordOverviewProgressBar.setVisibility(View.GONE);
-                //</editor-fold>
-
-
-
-            }
-        });//RecordQueryClass end
-
-        //<editor-fold desc="Grades History button">
-        Button recordOverviewGradeHistoryBtn = findViewById(R.id.recordOverviewGradesHistoryBtn);
-        recordOverviewGradeHistoryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), RecordGradesHistoryActivity.class);
-
-                Bundle args = new Bundle();
-                args.putString("sID", sID);
-                args.putString("subjectID", subjectID);
-
-                i.putExtras(args);
-                startActivity(i);
-            }
+            commentListActivityIntent.putExtras(args);
+            startActivity(commentListActivityIntent);
+          }
         });
+
+        //Set up the graph
+        GraphView recordOverviewGraph = findViewById(R.id.recordOverviewGraph);
+
+        //<editor-fold desc="Graph plotting">
+        //Assuming the list of grades was retrieved,
+        //Plot the graph
+        if (recordList.size() != 0) {
+
+          //Declare an array of Datapoints first
+          DataPoint[] dataPoint = new DataPoint[recordList.size()];
+
+          for (int i = 0; i < recordList.size(); i++) {
+            String datefromSQL = recordList.get(i).getDate();
+            try {
+              //String date -> Date date1
+              Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(datefromSQL);
+              //A point is (DATE, GRADE). E.g. (25-04-2018, 70)
+              dataPoint[i] = new DataPoint(date1,
+                  Integer.parseInt(recordList.get(i).getGrade()));
+            } catch (Exception e) {
+              //
+            }
+          }
+
+          LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
+
+          recordOverviewGraph.addSeries(lineGraphSeries);
+          recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(
+              new DateAsXAxisLabelFormatter(getApplicationContext(),
+                  new SimpleDateFormat("dd/MM")));
+        }
+
+        recordOverviewProgressBar.setVisibility(View.GONE);
         //</editor-fold>
 
-    }
+      }
+    });//RecordQueryClass end
 
+    //<editor-fold desc="Grades History button">
+    Button recordOverviewGradeHistoryBtn = findViewById(R.id.recordOverviewGradesHistoryBtn);
+    recordOverviewGradeHistoryBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent i = new Intent(getApplicationContext(), RecordGradesHistoryActivity.class);
 
-    //<editor-fold desc="findHighestGrade() -> Finds the highest grade in the list">
-    public String findHighestGrade() {
+        Bundle args = new Bundle();
+        args.putString("sID", sID);
+        args.putString("subjectID", subjectID);
 
-        //In case there is no records found for this particular subject
-        if (recordList.size() == 0) {
-            return "Record not found!";
-        }
-
-        int highest = 0;
-
-        for (int i = 0; i < recordList.size(); i++) {
-
-            if (Integer.parseInt(recordList.get(i).getGrade()) > highest) {
-                highest = Integer.parseInt(recordList.get(i).getGrade());
-            }
-
-        }
-
-        return Integer.toString(highest);
-
-    }
+        i.putExtras(args);
+        startActivity(i);
+      }
+    });
     //</editor-fold>
 
-    //<editor-fold desc="findLowestGrade() -> Finds the lowest grade in the list">
-    public String findLowestGrade() {
+  }
 
-        //In case there is no records found for this particular subject
-        if (recordList.size() == 0) {
-            return "Record not found!";
+
+  //<editor-fold desc="findHighestGrade() -> Finds the highest grade in the list">
+  public String findHighestGrade() {
+
+    //In case there is no records found for this particular subject
+    if (recordList.size() == 0) {
+      return "Record not found!";
+    }
+
+    int highest = 0;
+
+    for (int i = 0; i < recordList.size(); i++) {
+
+      if (Integer.parseInt(recordList.get(i).getGrade()) > highest) {
+        highest = Integer.parseInt(recordList.get(i).getGrade());
+      }
+
+    }
+
+    return Integer.toString(highest);
+
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="findLowestGrade() -> Finds the lowest grade in the list">
+  public String findLowestGrade() {
+
+    //In case there is no records found for this particular subject
+    if (recordList.size() == 0) {
+      return "Record not found!";
+    }
+
+    int lowest = 100;
+
+    for (int i = 0; i < recordList.size(); i++) {
+
+      if (Integer.parseInt(recordList.get(i).getGrade()) < lowest) {
+        lowest = Integer.parseInt(recordList.get(i).getGrade());
+      }
+
+    }
+
+    return Integer.toString(lowest);
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="findAverageGrade() -> Finds the average grade of the subject">
+  public String findAverageGrade() {
+
+    //In case there is no records found for this particular subject
+    if (recordList.size() == 0) {
+
+      return "Record not found!";
+
+    } else {
+      double average = 0;
+      double total = 0;
+      double temp = 0;
+
+      for (int i = 0; i < recordList.size(); i++) {
+        temp = Double.parseDouble(recordList.get(i).getGrade());
+        total += temp;
+      }
+
+      average = total / (recordList.size());
+
+      return Double.toString(average);
+    }
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="findLatestComment() -> Finds the latest comment only">
+  public String findLatestComment() {
+
+    if (commentList.size() == 0) {
+
+      return "No comments/remarks yet";
+
+    } else {
+
+      //Comments are retrieved in (assuming) ascending order so last one should be latest!
+      CommentModel commentModel = commentList.get(commentList.size() - 1);
+      return commentModel.getComment() + " by " + commentModel.getCommentor();
+
+    }
+
+  }
+  //</editor-fold>
+
+
+  private void RecordQueryClass(final RecordCallBack recordCallBack) {
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+
+    DatabaseReference dbref2 = db2.getReference().child("Record").child(this.sID)
+        .child(this.subjectID);
+    Query query;
+    query = dbref2.orderByChild("timestamp");
+
+    query.addChildEventListener(new ChildEventListener() {
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        if (dataSnapshot.exists()) {
+
+          RecordModel recordModel = dataSnapshot.getValue(RecordModel.class);
+          recordList.add(recordModel);
+
         }
 
-        int lowest = 100;
+        recordCallBack.onCallBack(recordList);
+      }
 
-        for (int i = 0; i < recordList.size(); i++) {
+      //<editor-fold desc="others">
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            if (Integer.parseInt(recordList.get(i).getGrade()) < lowest) {
-                lowest = Integer.parseInt(recordList.get(i).getGrade());
-            }
+      }
 
-        }
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-        return Integer.toString(lowest);
-    }
-    //</editor-fold>
+      }
 
-    //<editor-fold desc="findAverageGrade() -> Finds the average grade of the subject">
-    public String findAverageGrade() {
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-        //In case there is no records found for this particular subject
-        if (recordList.size() == 0) {
+      }
 
-            return "Record not found!";
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
 
-        } else {
-            double average = 0;
-            double total = 0;
-            double temp = 0;
+      }
+      //</editor-fold>
+    });
+  }
 
-            for (int i = 0; i < recordList.size(); i++) {
-                temp = Double.parseDouble(recordList.get(i).getGrade());
-                total += temp;
-            }
+  private interface RecordCallBack {
 
-            average = total / (recordList.size());
-
-            return Double.toString(average);
-        }
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="findLatestComment() -> Finds the latest comment only">
-    public String findLatestComment() {
-
-        if (commentList.size() == 0) {
-
-            return "No comments/remarks yet";
-
-        } else {
-
-            //Comments are retrieved in (assuming) ascending order so last one should be latest!
-            CommentModel commentModel = commentList.get(commentList.size() - 1);
-            return commentModel.getComment() + " by " + commentModel.getCommentor();
-
-        }
-
-    }
-    //</editor-fold>
-
-
-    private void RecordQueryClass(final RecordCallBack recordCallBack) {
-        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-
-        DatabaseReference dbref2 = db2.getReference().child("Record").child(this.sID)
-                .child(this.subjectID);
-        Query query;
-        query = dbref2.orderByChild("timestamp");
-
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
-
-                    RecordModel recordModel = dataSnapshot.getValue(RecordModel.class);
-                    recordList.add(recordModel);
-
-                }
-
-                recordCallBack.onCallBack(recordList);
-            }
-
-            //<editor-fold desc="others">
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-            //</editor-fold>
-        });
-    }
-
-    private interface RecordCallBack {
-
-        void onCallBack(ArrayList<RecordModel> recordList);
-    }
+    void onCallBack(ArrayList<RecordModel> recordList);
+  }
 
 
 }

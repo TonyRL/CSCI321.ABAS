@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter;
-import au.edu.uow.fyp01.abas.Utils.RecyclerViewDividerItemDecoration;
+import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.altbeacon.beacon.Beacon;

@@ -25,186 +25,186 @@ import au.edu.uow.fyp01.abas.R;
 
 public class AdminStudentDetailsActivity extends Activity {
 
-    private FirebaseDatabase db;
-    private DatabaseReference dbref;
-    private Query query;
+  private FirebaseDatabase db;
+  private DatabaseReference dbref;
+  private Query query;
 
-    private String classID;
-    private String schID;
-    private String classname;
-    private String sID;
+  private String classID;
+  private String schID;
+  private String classname;
+  private String sID;
 
-    private StudentModel studentModel;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adminstudentdetails);
+  private StudentModel studentModel;
 
 
-        Bundle bundle = getIntent().getExtras();
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_adminstudentdetails);
 
-        //Grabbing args (classID and schID from AdminStudentListActivity)
-        classname = bundle.getString("classname");
-        classID = bundle.getString("classID");
-        schID = bundle.getString("schID");
-        sID = bundle.getString("sID");
+    Bundle bundle = getIntent().getExtras();
 
-        //instantiate db
-        db = FirebaseDatabase.getInstance();
-        dbref = db.getReference().child("Student").child(schID).child(classID).child(sID);
+    //Grabbing args (classID and schID from AdminStudentListActivity)
+    classname = bundle.getString("classname");
+    classID = bundle.getString("classID");
+    schID = bundle.getString("schID");
+    sID = bundle.getString("sID");
 
-        StudentQueryClass(new FirebaseCallBack() {
-            @Override
-            public void onCallBack(StudentModel studentModel1) {
-                studentModel = studentModel1;
+    //instantiate db
+    db = FirebaseDatabase.getInstance();
+    dbref = db.getReference().child("Student").child(schID).child(classID).child(sID);
 
-                //First name
-                final EditText adminStudentDetailsFirstName = findViewById(R.id.adminStudentDetailsFirstName);
-                adminStudentDetailsFirstName.setText(studentModel.getFirstname());
+    StudentQueryClass(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(StudentModel studentModel1) {
+        studentModel = studentModel1;
 
-                //Last name
-                final EditText adminStudentDetailsLastName = findViewById(R.id.adminStudentDetailsLastName);
-                adminStudentDetailsLastName.setText(studentModel.getLastname());
+        //First name
+        final EditText adminStudentDetailsFirstName = findViewById(
+            R.id.adminStudentDetailsFirstName);
+        adminStudentDetailsFirstName.setText(studentModel.getFirstname());
 
-                //Class number
-                final EditText adminStudentDetailsClassNumber = findViewById(R.id.adminStudentDetailsClassNumber);
-                adminStudentDetailsClassNumber.setText(studentModel.getClassnumber());
+        //Last name
+        final EditText adminStudentDetailsLastName = findViewById(R.id.adminStudentDetailsLastName);
+        adminStudentDetailsLastName.setText(studentModel.getLastname());
 
-                //Student ID
-                final EditText adminStudentDetailsID = findViewById(R.id.adminStudentDetailsID);
-                adminStudentDetailsID.setText(studentModel.getSid());
+        //Class number
+        final EditText adminStudentDetailsClassNumber = findViewById(
+            R.id.adminStudentDetailsClassNumber);
+        adminStudentDetailsClassNumber.setText(studentModel.getClassnumber());
 
-                //<editor-fold desc="Edit student details button">
-                Button adminStudentDetailsEditBtn = findViewById(R.id.adminStudentDetailsEditBtn);
-                adminStudentDetailsEditBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //GET TEXT FROM INPUT FIRST
-                        String firstname = adminStudentDetailsFirstName.getText().toString();
-                        String lastname = adminStudentDetailsLastName.getText().toString();
-                        String classnumber = adminStudentDetailsClassNumber.getText().toString();
-                        String sID = adminStudentDetailsID.getText().toString();
+        //Student ID
+        final EditText adminStudentDetailsID = findViewById(R.id.adminStudentDetailsID);
+        adminStudentDetailsID.setText(studentModel.getSid());
 
-                        //handle user input into database
-                        Map<String, Object> addToDatabase = new HashMap<>();
+        //<editor-fold desc="Edit student details button">
+        Button adminStudentDetailsEditBtn = findViewById(R.id.adminStudentDetailsEditBtn);
+        adminStudentDetailsEditBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            //GET TEXT FROM INPUT FIRST
+            String firstname = adminStudentDetailsFirstName.getText().toString();
+            String lastname = adminStudentDetailsLastName.getText().toString();
+            String classnumber = adminStudentDetailsClassNumber.getText().toString();
+            String sID = adminStudentDetailsID.getText().toString();
 
-                        addToDatabase.put("classnumber",classnumber);
-                        addToDatabase.put("firstname",firstname);
-                        addToDatabase.put("lastname",lastname);
-                        addToDatabase.put("sid",sID);
+            //handle user input into database
+            Map<String, Object> addToDatabase = new HashMap<>();
 
-                        //update children of Student->SchID->ClassID->StudentID
-                        dbref.updateChildren(addToDatabase);
+            addToDatabase.put("classnumber", classnumber);
+            addToDatabase.put("firstname", firstname);
+            addToDatabase.put("lastname", lastname);
+            addToDatabase.put("sid", sID);
 
-                        Toast.makeText(AdminStudentDetailsActivity.this,"Student details saved", Toast.LENGTH_SHORT)
-                                .show();
+            //update children of Student->SchID->ClassID->StudentID
+            dbref.updateChildren(addToDatabase);
 
-                    }
-                });
-                //</editor-fold>
+            Toast.makeText(AdminStudentDetailsActivity.this, "Student details saved",
+                Toast.LENGTH_SHORT)
+                .show();
 
-                //<editor-fold desc="Remove student from class button">
-                Button adminStudentDetailsDeleteBtn = findViewById(R.id.adminStudentDetailsDeleteBtn);
-                adminStudentDetailsDeleteBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //Ask for user confirmation
-                        AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminStudentDetailsActivity.this);
-                        builder1.setMessage("Are you sure you want to remove the student from this class?");
-                        builder1.setCancelable(true);
-
-                        builder1.setPositiveButton(
-                                "Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //Delete Student->SchID->ClassID->StudentID
-                                        dbref.removeValue();
-
-                                        //close activity
-                                        finish();
-                                    }
-                                });
-
-                        builder1.setNegativeButton(
-                                "No",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        AlertDialog alert11 = builder1.create();
-                        alert11.show();
-                        //end of confirmation
-                    }
-                });
-                //</editor-fold>
-
-                //<editor-fold desc="Student's subjects button>
-                Button adminStudentDetailsSubjectsBtn = findViewById(R.id.adminStudentDetailsSubjectsBtn);
-                adminStudentDetailsSubjectsBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //<editor-fold desc="Transaction to move to 'AdminStudentSubjectListActivity'">
-
-
-                        Intent i = new Intent(getApplicationContext(),AdminStudentSubjectListActivity.class);
-
-                        //Passing 'sID','classID','schID' to AdminStudentSubjectListActivity
-                        Bundle args = new Bundle();
-                        args.putString("sID", sID);
-                        args.putString("schID", schID);
-                        args.putString("firstname", studentModel.getFirstname());
-                        args.putString("lastname",studentModel.getLastname());
-                        args.putString("classID",classID);
-
-                        i.putExtras(args);
-
-                        startActivity(i);
-
-
-                        //</editor-fold>
-                    }
-                });
-                //</editor-fold>
-
-
-            } //on callback end
-        });//query class end
-
-    }
-
-    private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
-        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-        DatabaseReference dbref2 = db2.getReference().child("Student").child(this.schID)
-                .child(this.classID);
-
-        query = dbref2.orderByChild("sid").equalTo(this.sID);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    for (DataSnapshot node : dataSnapshot.getChildren()) {
-                        StudentModel studentModel = node.getValue(StudentModel.class);
-                        firebaseCallBack.onCallBack(studentModel);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+          }
         });
-    }
+        //</editor-fold>
 
-    private interface FirebaseCallBack {
+        //<editor-fold desc="Remove student from class button">
+        Button adminStudentDetailsDeleteBtn = findViewById(R.id.adminStudentDetailsDeleteBtn);
+        adminStudentDetailsDeleteBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            //Ask for user confirmation
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(
+                AdminStudentDetailsActivity.this);
+            builder1.setMessage("Are you sure you want to remove the student from this class?");
+            builder1.setCancelable(true);
 
-        void onCallBack(StudentModel studentModel);
-    }
+            builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                    //Delete Student->SchID->ClassID->StudentID
+                    dbref.removeValue();
+
+                    //close activity
+                    finish();
+                  }
+                });
+
+            builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                  }
+                });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+            //end of confirmation
+          }
+        });
+        //</editor-fold>
+
+        //<editor-fold desc="Student's subjects button>
+        Button adminStudentDetailsSubjectsBtn = findViewById(R.id.adminStudentDetailsSubjectsBtn);
+        adminStudentDetailsSubjectsBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            //<editor-fold desc="Transaction to move to 'AdminStudentSubjectListActivity'">
+
+            Intent i = new Intent(getApplicationContext(), AdminStudentSubjectListActivity.class);
+
+            //Passing 'sID','classID','schID' to AdminStudentSubjectListActivity
+            Bundle args = new Bundle();
+            args.putString("sID", sID);
+            args.putString("schID", schID);
+            args.putString("firstname", studentModel.getFirstname());
+            args.putString("lastname", studentModel.getLastname());
+            args.putString("classID", classID);
+
+            i.putExtras(args);
+
+            startActivity(i);
+
+            //</editor-fold>
+          }
+        });
+        //</editor-fold>
+
+      } //on callback end
+    });//query class end
+
+  }
+
+  private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("Student").child(this.schID)
+        .child(this.classID);
+
+    query = dbref2.orderByChild("sid").equalTo(this.sID);
+    query.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
+
+          for (DataSnapshot node : dataSnapshot.getChildren()) {
+            StudentModel studentModel = node.getValue(StudentModel.class);
+            firebaseCallBack.onCallBack(studentModel);
+          }
+
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(StudentModel studentModel);
+  }
 
 }
