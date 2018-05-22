@@ -21,6 +21,7 @@ import android.view.View;
 
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
+import au.edu.uow.fyp01.abas.Activity.DUMMYSEARCHBEACON;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -45,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
           break;
         case R.id.nav_search_beacon:
           //swapFragment(R.id.nav_search_beacon);
-          Intent searchBeaconPageIntent = new Intent(MainActivity.this, searchBeaconPage.class);
+
+          //TODO SWITCH DUMMY WITH ACTUAL SEARCHBEACON
+          Intent searchBeaconPageIntent = new Intent(MainActivity.this, DUMMYSEARCHBEACON.class);
           startActivity(searchBeaconPageIntent);
           break;
         case R.id.nav_file:
