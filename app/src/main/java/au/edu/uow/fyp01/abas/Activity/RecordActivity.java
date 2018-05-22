@@ -80,7 +80,7 @@ public class RecordActivity extends Activity {
                 recordRecyclerView.setHasFixedSize(true);
                 recordRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                dbref = db.getReference().child("Subject").child(sID);
+                dbref = db.getReference().child("Subject").child(schID).child(classID).child(sID);
 
                 //set options for adapter
                 options = new FirebaseRecyclerOptions.Builder<SubjectModel>().

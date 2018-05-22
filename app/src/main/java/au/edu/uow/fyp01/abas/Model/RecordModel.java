@@ -9,14 +9,16 @@ public class RecordModel {
   String grade;
   String date;
   Long timestamp;
+  String recordID;
 
   public RecordModel() {
   }
 
-  public RecordModel(String grade, String date, Long timestamp) {
+  public RecordModel(String grade, String date, Long timestamp, String recordID) {
     this.grade = grade;
     this.date = date;
     this.timestamp = timestamp;
+    this.recordID = recordID;
   }
 
   //<editor-fold desc="date setter and getter">
@@ -48,4 +50,20 @@ public class RecordModel {
     this.grade = grade;
   }
   //</editor-fold>
+
+  public String getRecordID() {
+    return recordID;
+  }
+
+  public void setRecordID(String recordID) {
+    this.recordID = recordID;
+  }
+
+  public void setTimestamp(Long timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public Long getTimestamp() {
+    return timestamp;
+  }
 }

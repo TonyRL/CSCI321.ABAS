@@ -43,6 +43,7 @@ public class AdminStudentSubjectListActivity extends Activity {
     private String sID;
     private String firstname;
     private String lastname;
+    private String classID;
 
     private FirebaseDatabase db;
     private RecyclerView adminStudentListRecyclerView;
@@ -61,11 +62,13 @@ public class AdminStudentSubjectListActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
 
-        //Grabbing args (classID and schID from AdminStudentListActivity)
+        //Grabbing args (classID and schID from AdminStudentDetailsActivity)
         schID = bundle.getString("schID");
         sID = bundle.getString("sID");
         firstname = bundle.getString("firstname");
         lastname = bundle.getString("lastname");
+        classID = bundle.getString("classID");
+
 
         //Set the subject's textview (the title)
         TextView adminStudentSubjectNameTextView = findViewById(R.id.adminStudentSubjectNameTextView);
@@ -85,8 +88,7 @@ public class AdminStudentSubjectListActivity extends Activity {
 
                 //instantiate db
                 db = FirebaseDatabase.getInstance();
-                dbref = db.getReference().child("Subject").child(sID);
-
+                dbref = db.getReference().child("Subject").child(schID).child(classID).child(sID);
 
                 subjectsList = subjectsList1;
                 subjectsMap = subjectsMap1;
@@ -166,8 +168,8 @@ public class AdminStudentSubjectListActivity extends Activity {
                                 addToDatabase.put("subjectID", subjectID);
 
                                 //new db ref
-                                DatabaseReference dbref2 = db.getReference().child("Subject").child(sID)
-                                        .child(subjectID);
+                                DatabaseReference dbref2 = db.getReference().child("Subject")
+                                        .child(schID).child(classID).child(sID).child(subjectID);
 
                                 dbref2.updateChildren(addToDatabase);
                             }

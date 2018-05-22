@@ -61,81 +61,99 @@ public class RecordOverviewActivity extends Activity {
                 recordList = recordList1;
 
 
-
-                        //Subject
-                        TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
-                        recordOverviewSubject.setText(subjectname);
-
-
-                        //Average Grade
-                        TextView recordOverviewAverageGrade = findViewById(R.id.recordOverviewAverageGrade);
-                        recordOverviewAverageGrade.setText(findAverageGrade());
-
-                        //Highest Grade
-                        TextView recordOverviewHighestGrade = findViewById(R.id.recordOverviewHighestGrade);
-                        recordOverviewHighestGrade.setText(findHighestGrade());
-
-                        //Lowest Grade
-                        TextView recordOverviewLowestGrade = findViewById(R.id.recordOverviewLowestGrade);
-                        recordOverviewLowestGrade.setText(findLowestGrade());
-
-                        //Latest Comment
-                        Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
-
-                        //Latest Comment on click
-                        //Goes to Comments overview
-                        recordOverviewComments.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent commentListActivityIntent = new Intent(getApplicationContext(),CommentListActivity.class);
-
-                                Bundle args = new Bundle();
-                                args.putString("sID", sID);
-                                args.putString("subjectID", subjectID);
-                                args.putString("subjectname", subjectname);
-
-                                commentListActivityIntent.putExtras(args);
-                                startActivity(commentListActivityIntent);
-                            }
-                        });
+                //Subject
+                TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
+                recordOverviewSubject.setText(subjectname);
 
 
-                        //Set up the graph
-                        GraphView recordOverviewGraph = findViewById(R.id.recordOverviewGraph);
+                //Average Grade
+                TextView recordOverviewAverageGrade = findViewById(R.id.recordOverviewAverageGrade);
+                recordOverviewAverageGrade.setText(findAverageGrade());
 
-                        //<editor-fold desc="Graph plotting">
-                        //Assuming the list of grades was retrieved,
-                        //Plot the graph
-                        if (recordList.size() != 0) {
+                //Highest Grade
+                TextView recordOverviewHighestGrade = findViewById(R.id.recordOverviewHighestGrade);
+                recordOverviewHighestGrade.setText(findHighestGrade());
 
-                            //Declare an array of Datapoints first
-                            DataPoint[] dataPoint = new DataPoint[recordList.size()];
+                //Lowest Grade
+                TextView recordOverviewLowestGrade = findViewById(R.id.recordOverviewLowestGrade);
+                recordOverviewLowestGrade.setText(findLowestGrade());
 
-                            for (int i = 0; i < recordList.size(); i++) {
-                                String datefromSQL = recordList.get(i).getDate();
-                                try {
-                                    //String date -> Date date1
-                                    Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(datefromSQL);
-                                    //A point is (DATE, GRADE). E.g. (25-04-2018, 70)
-                                    dataPoint[i] = new DataPoint(date1,
-                                            Integer.parseInt(recordList.get(i).getGrade()));
-                                } catch (Exception e) {
-                                    //
-                                }
-                            }
+                //Latest Comment
+                Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
 
-                            LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
+                //Latest Comment on click
+                //Goes to Comments overview
+                recordOverviewComments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent commentListActivityIntent = new Intent(getApplicationContext(), CommentListActivity.class);
 
-                            recordOverviewGraph.addSeries(lineGraphSeries);
-                            recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(
-                                    new DateAsXAxisLabelFormatter(getApplicationContext(), new SimpleDateFormat("dd/MM")));
+                        Bundle args = new Bundle();
+                        args.putString("sID", sID);
+                        args.putString("subjectID", subjectID);
+                        args.putString("subjectname", subjectname);
+
+                        commentListActivityIntent.putExtras(args);
+                        startActivity(commentListActivityIntent);
+                    }
+                });
+
+
+                //Set up the graph
+                GraphView recordOverviewGraph = findViewById(R.id.recordOverviewGraph);
+
+                //<editor-fold desc="Graph plotting">
+                //Assuming the list of grades was retrieved,
+                //Plot the graph
+                if (recordList.size() != 0) {
+
+                    //Declare an array of Datapoints first
+                    DataPoint[] dataPoint = new DataPoint[recordList.size()];
+
+                    for (int i = 0; i < recordList.size(); i++) {
+                        String datefromSQL = recordList.get(i).getDate();
+                        try {
+                            //String date -> Date date1
+                            Date date1 = new SimpleDateFormat("dd-MM-yyyy").parse(datefromSQL);
+                            //A point is (DATE, GRADE). E.g. (25-04-2018, 70)
+                            dataPoint[i] = new DataPoint(date1,
+                                    Integer.parseInt(recordList.get(i).getGrade()));
+                        } catch (Exception e) {
+                            //
                         }
+                    }
 
-                        recordOverviewProgressBar.setVisibility(View.GONE);
-                        //</editor-fold>
+                    LineGraphSeries<DataPoint> lineGraphSeries = new LineGraphSeries<>(dataPoint);
+
+                    recordOverviewGraph.addSeries(lineGraphSeries);
+                    recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(
+                            new DateAsXAxisLabelFormatter(getApplicationContext(), new SimpleDateFormat("dd/MM")));
+                }
+
+                recordOverviewProgressBar.setVisibility(View.GONE);
+                //</editor-fold>
+
+
 
             }
         });//RecordQueryClass end
+
+        //<editor-fold desc="Grades History button">
+        Button recordOverviewGradeHistoryBtn = findViewById(R.id.recordOverviewGradesHistoryBtn);
+        recordOverviewGradeHistoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), RecordGradesHistoryActivity.class);
+
+                Bundle args = new Bundle();
+                args.putString("sID", sID);
+                args.putString("subjectID", subjectID);
+
+                i.putExtras(args);
+                startActivity(i);
+            }
+        });
+        //</editor-fold>
 
     }
 
@@ -279,55 +297,5 @@ public class RecordOverviewActivity extends Activity {
         void onCallBack(ArrayList<RecordModel> recordList);
     }
 
-    private void CommentQueryClass(final CommentCallBack commentCallBack) {
-        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-        DatabaseReference dbref2 = db2.getReference().child("Comment").child(this.sID)
-                .child(this.subjectID);
-        Query query;
-        query = dbref2.orderByChild("timestamp");
-
-        query.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
-
-                    //get values of retrieved nodes
-
-                    CommentModel commentModel = dataSnapshot.getValue(CommentModel.class);
-                    commentList.add(commentModel);
-
-
-                }
-                commentCallBack.onCallBack(commentList);
-            }
-
-            //<editor-fold desc="others">
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-            //</editor-fold>
-        });
-    }
-
-    private interface CommentCallBack {
-
-        void onCallBack(ArrayList<CommentModel> commentList);
-    }
 
 }

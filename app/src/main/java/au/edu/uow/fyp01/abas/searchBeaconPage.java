@@ -96,11 +96,15 @@ public class searchBeaconPage extends AppCompatActivity {
 
       IntentFilter BTIntent = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
       registerReceiver(mBroadcastReceiver1, BTIntent);
-
     }
-
-
   }
+
+
+
+
+
+
+
 
 
 }
