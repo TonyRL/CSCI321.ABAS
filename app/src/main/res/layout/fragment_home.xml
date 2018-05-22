@@ -166,10 +166,11 @@
     android:layout_width="160dp"
     android:layout_height="160dp"
     android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
     android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"
-    tools:ignore="UseCompoundDrawables"
-    tools:layout_editor_absoluteX="16dp">
+    tools:ignore="UseCompoundDrawables">
     <ImageView
       android:id="@+id/settingBtnImage"
       android:layout_width="match_parent"
