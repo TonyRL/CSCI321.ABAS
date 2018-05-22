@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -115,8 +114,9 @@ public class MainActivity extends AppCompatActivity {
     searchBeaconFab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
+        //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Intent searchBeaconActivityIntent = new Intent(MainActivity.this, SearchBeaconActivity.class);
+        startActivity(searchBeaconActivityIntent);
       }
     });
 
@@ -199,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
     } catch (RuntimeException e) {
       final AlertDialog.Builder builder = new AlertDialog.Builder(this);
       builder.setTitle("Bluetooth LE not available");
-      builder.setMessage("Sorry, this device does not support Bluetooth LE.\nYou cannot search any beacons.");
+      builder.setMessage(
+          "Sorry, this device does not support Bluetooth LE.\nYou cannot search any beacons.");
       builder.setPositiveButton(android.R.string.ok, null);
       builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
         @Override

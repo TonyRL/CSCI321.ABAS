@@ -67,7 +67,6 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     return data;
   }
 
-
   @Override
   protected void onDestroy() {
     super.onDestroy();
