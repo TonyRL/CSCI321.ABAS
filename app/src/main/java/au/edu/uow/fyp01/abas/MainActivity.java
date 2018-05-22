@@ -199,13 +199,13 @@ public class MainActivity extends AppCompatActivity {
     } catch (RuntimeException e) {
       final AlertDialog.Builder builder = new AlertDialog.Builder(this);
       builder.setTitle("Bluetooth LE not available");
-      builder.setMessage("Sorry, this device does not support Bluetooth LE.");
+      builder.setMessage("Sorry, this device does not support Bluetooth LE.\nYou cannot search any beacons.");
       builder.setPositiveButton(android.R.string.ok, null);
       builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
         @Override
         public void onDismiss(DialogInterface dialog) {
-          finish();
-          System.exit(0);
+//          finish();
+//          System.exit(0);
         }
       });
       builder.show();
