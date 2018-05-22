@@ -13,13 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import au.edu.uow.fyp01.abas.R;
 
@@ -27,10 +34,7 @@ public class FileSharingHome extends AppCompatActivity {
 
 
     //textview
-    private TextView fileNameDisplay;
-    private TextView userFromDisplay;
-    private TextView dateExpireDisplay;
-    private TextView timeExpireDisplay;
+
 
     //Buttons
     private Button activity_file_sharing_add_file_button;
@@ -48,13 +52,10 @@ public class FileSharingHome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_sharing_home);
-        //Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
 
-        //text
-        fileNameDisplay = findViewById(R.id.activity_file_sharing_home_user_recyclerview_smaple_file_name);
-         userFromDisplay = findViewById(R.id.activity_file_sharing_home_user_recyclerview_sample_from_users);;
-        dateExpireDisplay = findViewById(R.id.activity_file_sharing_home_user_recyclerview_sample_date);
-         timeExpireDisplay = findViewById(R.id.activity_file_sharing_home_user_recyclerview_sample_time);
+
+
 
         activity_file_sharing_add_file_button = (Button) findViewById(R.id.activity_file_sharing_add_file_button);
         fileRecyclerView = (RecyclerView) findViewById(R.id.activity_file_sharing_home_recycler_view);
@@ -65,16 +66,24 @@ public class FileSharingHome extends AppCompatActivity {
         fileRecyclerView.addItemDecoration(new SpacesItemDecoration(5));
 
 
-
         mDataBase = FirebaseDatabase.getInstance();
-        allDatabaseUserReference = mDataBase.getReference().child("Shared_Files_Link");
 
-        firebaseOptions = new FirebaseRecyclerOptions.Builder<FileSharingHomeRecyclerClass>().setQuery(allDatabaseUserReference,FileSharingHomeRecyclerClass.class).build();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child("Sent_Files").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        firebaseOptions = new FirebaseRecyclerOptions.Builder<FileSharingHomeRecyclerClass>().
+                setQuery(ref,FileSharingHomeRecyclerClass.class).build();
 
         //to load the list
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FileSharingHomeRecyclerClass, FileSharingHomeHolder>(firebaseOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FileSharingHomeHolder holder, int position, @NonNull FileSharingHomeRecyclerClass model) {
+
+
+                holder.setFileName(model.getFileName());
+                holder.setDate_Expire(model.getDate_Expire());
+                holder.setTime_Expire(model.getTime_Expire());
 
             }
 
@@ -87,6 +96,7 @@ public class FileSharingHome extends AppCompatActivity {
             }
         };
 
+        fileRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
 
         activity_file_sharing_add_file_button.setOnClickListener(new View.OnClickListener() {
@@ -103,45 +113,71 @@ public class FileSharingHome extends AppCompatActivity {
 
     public static class FileSharingHomeHolder extends RecyclerView.ViewHolder {
         View mView;
-        private String Date_Expire;
-        private String Time_Expire;
-        private String File_Name;
-        private String File_Type;
-        private String ID;
-        private String Receiver;
-        private String Sender;
-        private String Link;
 
-
+        TextView fileNameDisplay;
+        TextView dateExpireDisplay;
+        TextView timeExpireDisplay;
 
         public FileSharingHomeHolder(View itemView) {
             super(itemView);
             mView = itemView;
 
+
         }
 
-        public void setFile_Name(String file_Name) {
-            File_Name = file_Name;
+        public void setFileName(String file_Name) {
+            //text
+            fileNameDisplay = mView.findViewById(R.id.activity_file_sharing_home_user_recyclerview_sample_file_name);
+            fileNameDisplay.setText(file_Name);
 
         }
 
         public void setFile_Type(String file_Type) {
-            File_Type = file_Type;
+
+
         }
 
         public void setDate_Expire(String date_Expire) {
-            Date_Expire = date_Expire;
+            //text
+            dateExpireDisplay = mView.findViewById(R.id.activity_file_sharing_home_user_recyclerview_sample_date);
+            dateExpireDisplay.setText(date_Expire);
+
         }
 
         public void setTime_Expire(String time_Expire) {
-            Time_Expire = time_Expire;
+            //text
+            timeExpireDisplay= mView.findViewById(R.id.activity_file_sharing_home_user_recyclerview_sample_time);
+            timeExpireDisplay.setText(time_Expire);
         }
 
         public void setLink(String link) {
-            Link = link;
+
+
+
+        }
+
+        public  void setSender(String sender){
+            //Sender = sender;
+            //text
+            //userFromDisplay.setText(sender);
+
         }
 
 
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {

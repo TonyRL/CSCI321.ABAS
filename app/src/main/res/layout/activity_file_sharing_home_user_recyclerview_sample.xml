@@ -26,22 +26,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/activity_file_sharing_home_user_recyclerview_smaple_file_name"
+                    android:id="@+id/activity_file_sharing_home_user_recyclerview_sample_file_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="File"
                     android:textColor="@color/White"
                     android:textSize="25sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/activity_file_sharing_home_user_recyclerview_sample_from_users"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="From Users"
-                    android:textColor="@color/White"
-                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView

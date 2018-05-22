@@ -70,6 +70,7 @@ public class FileSharingAdd extends AppCompatActivity {
 
     private ImageButton addFileButton;
 
+    private static int counter;
 
     private Button confirmButton;
     private Button cancelButton;
@@ -102,6 +103,8 @@ public class FileSharingAdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_sharing_add);
+
+        counter = 0;
 
         itemStateArray= new SparseBooleanArray();
 
@@ -164,17 +167,6 @@ public class FileSharingAdd extends AppCompatActivity {
                         });
 
 
-//                        holder.mView.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//
-//                                String vist_profile_id = getRef(position).getKey();
-//                                upload(view,vist_profile_id);
-//                                Intent back = new Intent(FileSharingAdd.this,FileSharingHome.class);
-//                                startActivity(back);
-//
-//
-//                        }});
                         }
 
 
@@ -214,13 +206,14 @@ public class FileSharingAdd extends AppCompatActivity {
                 if(listID.isEmpty()){
                     Toast.makeText(FileSharingAdd.this, "FUCK",Toast.LENGTH_LONG).show();
                 }
+                else {
 
-                while(itr.hasNext()){
-                    upload(view,itr.next().toString().trim(),dateInput.getText().toString(),timeInput.getText().toString());
+                    upload(view, dateInput.getText().toString(), timeInput.getText().toString());
+                    Intent back = new Intent(FileSharingAdd.this,FileSharingHome.class);
+                    startActivity(back);
                 }
 
-                Intent back = new Intent(FileSharingAdd.this,FileSharingHome.class);
-                startActivity(back);
+
 
             }
         });
@@ -256,142 +249,180 @@ public class FileSharingAdd extends AppCompatActivity {
         firebaseRecyclerAdapter.stopListening();
     }
 
-    public void upload(View v, String ID, final String date, final String time ){
-
-        final String idToPass = ID;
-
-
-        if(resultsURI!=null){
-
-            final String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            StorageReference storeFileStorageReference = FirebaseStorage.getInstance()
-                    .getReference().child("Shared_Files");
-
-            DatabaseReference storeSharedFileReferenceDB = FirebaseDatabase.getInstance().getReference()
-                    .child("Shared_Files").child(currentUserID).child(idToPass).push();
-            final String messsage_push_id = storeSharedFileReferenceDB.getKey();
-
-
-            StorageReference filePath = storeFileStorageReference.child(messsage_push_id);
-
-            nameOfFile = fileNameDisplay.getText().toString();
-
-            filePath.putFile(resultsURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if(task.isSuccessful()){
-
-                        final String downloadURL = task.getResult().getDownloadUrl().toString();
-
-
-                        DatabaseReference passDB1 = FirebaseDatabase.getInstance().getReference()
-                                .child("Shared_Files").child(currentUserID).child(idToPass).child(messsage_push_id);
-
-                        DatabaseReference passDB2 = FirebaseDatabase.getInstance().getReference()
-                                .child("Shared_Files").child(idToPass).child(currentUserID).child(messsage_push_id);
-
-                        DatabaseReference passDB1link = FirebaseDatabase.getInstance().getReference()
-                                .child("Shared_Files_Link").child(currentUserID).child(idToPass);
-
-                        DatabaseReference passDB2link = FirebaseDatabase.getInstance().getReference()
-                                .child("Shared_Files_Link").child(idToPass).child(currentUserID);
-
-
-                        Map map1 = new HashMap();
-                        map1.put("Link:",downloadURL);
-                        map1.put("Filename:",nameOfFile);
-                        map1.put("File_Type:",nameFileType);
-                        map1.put("Sender:",currentUserID);
-                        map1.put("Receiver:",idToPass);
-                        map1.put("Date_Expire:",date);
-                        map1.put("Time_Expire",time);
-
-
-                        Map map2 = new HashMap();
-                        map2.put("Link:",downloadURL);
-                        map2.put("Filename:",nameOfFile);
-                        map2.put("File_Type:",nameFileType);
-                        map2.put("Sender:",currentUserID);
-                        map2.put("Receiver:",idToPass);
-                        map2.put("Date-Expire:",date);
-                        map2.put("Time-Expire",time);
-
-                        Map map1link = new HashMap();
-                        map1link.put("Link:",downloadURL);
-                        map1link.put("Filename:",nameOfFile);
-                        map1link.put("File_Type:",nameFileType);
-                        map1link.put("Sender:",currentUserID);
-                        map1link.put("Receiver:",idToPass);
-                        map1link.put("Date_Expire:",date);
-                        map1link.put("Time_Expire",time);
-                        map1link.put("ID:",messsage_push_id);
+    public void upload(View v, final String date, final String time ){
 
 
 
-                        Map map2link = new HashMap();
-                        map2link.put("Link:",downloadURL);
-                        map2link.put("Filename:",nameOfFile);
-                        map2link.put("File_Type:",nameFileType);
-                        map2link.put("Sender:",currentUserID);
-                        map2link.put("Receiver:",idToPass);
-                        map2link.put("Date_Expire:",date);
-                        map2link.put("Time_Expire",time);
-                        map2link.put("ID",messsage_push_id);
+        final Iterator itr = listID.iterator();
 
 
 
-                        passDB1.updateChildren(map1, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                            {
-                                if(databaseError!=null)
-                                {
-                                    Log.d("Chat_Log",databaseError.getMessage().toString());
+            if (resultsURI != null) {
+
+                final String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                StorageReference storeFileStorageReference = FirebaseStorage.getInstance()
+                        .getReference().child("Shared_Files");
+
+                DatabaseReference storeSharedFileReferenceDB = FirebaseDatabase.getInstance().getReference()
+                        .child("Shared_Files").child(currentUserID).push();
+                final String messsage_push_id = storeSharedFileReferenceDB.getKey();
+
+                final int sizeOfReceive = listID.size();
+
+
+                while(itr.hasNext()) {
+
+
+
+                    final String idToPass = itr.next().toString().trim();
+
+                    storeSharedFileReferenceDB = storeSharedFileReferenceDB.child(idToPass);
+
+                StorageReference filePath = storeFileStorageReference.child(messsage_push_id);
+
+                nameOfFile = fileNameDisplay.getText().toString();
+
+                filePath.putFile(resultsURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            final String downloadURL = task.getResult().getDownloadUrl().toString();
+
+
+                            DatabaseReference passDB1 = FirebaseDatabase.getInstance().getReference()
+                                    .child("Shared_Files").child(currentUserID).child(messsage_push_id).child(idToPass);
+
+                            DatabaseReference passDB2 = FirebaseDatabase.getInstance().getReference()
+                                    .child("Shared_Files").child(idToPass).child(messsage_push_id).child(currentUserID);
+
+                            DatabaseReference passDB1link = FirebaseDatabase.getInstance().getReference()
+                                    .child("Sent_Files").child(currentUserID).child(messsage_push_id);
+
+                            DatabaseReference passDB2link = FirebaseDatabase.getInstance().getReference()
+                                    .child("Received_Files").child(idToPass).child(messsage_push_id);
+
+                            DatabaseReference fileRef = FirebaseDatabase.getInstance().getReference()
+                                    .child("Files").child(messsage_push_id);
+
+                            Map mapOfFileRef = new HashMap();
+                            mapOfFileRef.put("Link", downloadURL);
+                            mapOfFileRef.put("Filename", nameOfFile);
+                            mapOfFileRef.put("File_Type", nameFileType);
+                            mapOfFileRef.put("Sender", currentUserID);
+                            mapOfFileRef.put("Receiver", idToPass);
+                            mapOfFileRef.put("Date_Expire", date);
+                            mapOfFileRef.put("Time_Expire", time);
+                            mapOfFileRef.put("Number_Recevied", sizeOfReceive);
+
+
+                            Map map1 = new HashMap();
+                            map1.put("Link", downloadURL);
+                            map1.put("Filename", nameOfFile);
+                            map1.put("File_Type", nameFileType);
+                            map1.put("Sender", currentUserID);
+                            map1.put("Receiver", idToPass);
+                            map1.put("Date_Expire", date);
+                            map1.put("Time_Expire", time);
+                            map1.put("Number_Recevied", sizeOfReceive);
+
+
+                            Map map2 = new HashMap();
+                            map2.put("Link", downloadURL);
+                            map2.put("Filename", nameOfFile);
+                            map2.put("File_Type", nameFileType);
+                            map2.put("Sender", currentUserID);
+                            map2.put("Receiver", idToPass);
+                            map2.put("Date-Expire", date);
+                            map2.put("Time-Expire", time);
+                            map2.put("Number_Recevied", sizeOfReceive);
+
+
+                            Map map1link = new HashMap();
+                            map1link.put("Link", downloadURL);
+                            map1link.put("Filename", nameOfFile);
+                            map1link.put("File_Type", nameFileType);
+                            map1link.put("Sender", currentUserID);
+                            map1link.put("Receiver", idToPass);
+                            map1link.put("Date_Expire", date);
+                            map1link.put("Time_Expire", time);
+                            map1link.put("ID", messsage_push_id);
+                            map1link.put("Number_Recevied", sizeOfReceive);
+
+
+                            Map map2link = new HashMap();
+                            map2link.put("Link", downloadURL);
+                            map2link.put("Filename", nameOfFile);
+                            map2link.put("File_Type", nameFileType);
+                            map2link.put("Sender", currentUserID);
+                            //map2link.put("Receiver:", idToPass);
+                            map2link.put("Date_Expire", date);
+                            map2link.put("Time_Expire", time);
+                            map2link.put("ID", messsage_push_id);
+                            map2link.put("Number_Recevied", sizeOfReceive);
+
+
+                            fileRef.updateChildren(map1, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    if (databaseError != null) {
+                                        Log.d("Chat_Log", databaseError.getMessage().toString());
+                                    }
+                                    Toast.makeText(FileSharingAdd.this, "Sent!", Toast.LENGTH_LONG).show();
                                 }
-                                Toast.makeText(FileSharingAdd.this,"Sent!" , Toast.LENGTH_LONG).show();
-                            }
-                        });
+                            });
 
-                        passDB2.updateChildren(map2, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                            {
-                                if(databaseError!=null)
-                                {
-                                    Log.d("Chat_Log",databaseError.getMessage().toString());
+
+                            passDB1.updateChildren(map1, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    if (databaseError != null) {
+                                        Log.d("Chat_Log", databaseError.getMessage().toString());
+                                    }
+                                    Toast.makeText(FileSharingAdd.this, "Sent!", Toast.LENGTH_LONG).show();
                                 }
-                            }
-                        });
+                            });
 
-                        passDB1link.updateChildren(map1link, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                            {
-                                if(databaseError!=null)
-                                {
-                                    Log.d("Chat_Log",databaseError.getMessage().toString());
+                            passDB2.updateChildren(map2, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    if (databaseError != null) {
+                                        Log.d("Chat_Log", databaseError.getMessage().toString());
+                                    }
                                 }
-                                Toast.makeText(FileSharingAdd.this,"Sent!" , Toast.LENGTH_LONG).show();
-                            }
-                        });
+                            });
 
-                        passDB2link.updateChildren(map2link, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference)
-                            {
-                                if(databaseError!=null)
-                                {
-                                    Log.d("Chat_Log",databaseError.getMessage().toString());
+                            passDB1link.updateChildren(map1link, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    if (databaseError != null) {
+                                        Log.d("Chat_Log", databaseError.getMessage().toString());
+                                    }
+                                    Toast.makeText(FileSharingAdd.this, "Sent!", Toast.LENGTH_LONG).show();
                                 }
-                            }
-                        });
+                            });
+
+                            passDB2link.updateChildren(map2link, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                    if (databaseError != null) {
+                                        Log.d("Chat_Log", databaseError.getMessage().toString());
+                                    }
+                                }
+                            });
 
 
-
+                        }
                     }
-                }
-            });
+                });
 
+
+                    if(counter<sizeOfReceive+1) {
+                        updateCounter();
+                    }
+
+
+            }
         }
 
     }
@@ -441,6 +472,12 @@ public class FileSharingAdd extends AppCompatActivity {
             outRect.left = halfSpace;
             outRect.right = halfSpace;
         }
+    }
+
+    public void updateCounter(){
+
+        counter++;
+
     }
 
     public static String getMimeType(Context context, Uri uri) {
