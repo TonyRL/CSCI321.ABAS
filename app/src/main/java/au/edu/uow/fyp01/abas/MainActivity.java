@@ -1,6 +1,11 @@
 package au.edu.uow.fyp01.abas;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -24,10 +29,13 @@ import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.DUMMYSEARCHBEACON;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import org.altbeacon.beacon.BeaconManager;
 
 
 public class MainActivity extends AppCompatActivity {
 
+  protected static final String TAG = "MainActivity";
+  private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
   private DrawerLayout drawer;
   private Toolbar toolbar;
   private NavigationView navigationView;
@@ -138,6 +146,70 @@ public class MainActivity extends AppCompatActivity {
             }*/
           }
         });
+
+    verifyBluetooth();
+    verifyLocation();
+  }
+
+  private void verifyLocation() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      // Android M Permission check
+      if (this.checkSelfPermission(
+          android.Manifest.permission.ACCESS_COARSE_LOCATION)
+          != PackageManager.PERMISSION_GRANTED) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("This app needs location access");
+        builder.setMessage(
+            "Please grant location access so this app can detect beacons in the background.");
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+          @TargetApi(23)
+          @Override
+          public void onDismiss(DialogInterface dialog) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                PERMISSION_REQUEST_COARSE_LOCATION);
+          }
+
+        });
+        builder.show();
+      }
+    }
+  }
+
+  /**
+   * Check the device: whether bluetooth is on and support BLE technology
+   */
+  private void verifyBluetooth() {
+    try {
+      if (!BeaconManager.getInstanceForApplication(this).checkAvailability()) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bluetooth not enabled");
+        builder.setMessage("Please enable bluetooth in settings and restart this application.");
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+          @Override
+          public void onDismiss(DialogInterface dialog) {
+            finish();
+            System.exit(0);
+          }
+        });
+        builder.show();
+      }
+    } catch (RuntimeException e) {
+      final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setTitle("Bluetooth LE not available");
+      builder.setMessage("Sorry, this device does not support Bluetooth LE.");
+      builder.setPositiveButton(android.R.string.ok, null);
+      builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+          finish();
+          System.exit(0);
+        }
+      });
+      builder.show();
+    }
   }
 
   @Override
