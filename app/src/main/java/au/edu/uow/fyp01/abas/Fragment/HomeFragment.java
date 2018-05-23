@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.SettingActivity;

@@ -72,13 +72,14 @@
       android:contentDescription="@string/the_file_image_button"
       android:gravity="center"
       android:src="@drawable/ic_file"/>
+
     <TextView
-      android:id="@+id/fileBtnText"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/file"
-      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
+        android:id="@+id/fileBtnText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="send file"
+        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
   </LinearLayout>
 
   <Button
@@ -117,6 +118,8 @@
       android:text="@string/record"
       android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
   </LinearLayout>
+
+
 
   <Button
     android:id="@+id/settingBtn"

@@ -29,7 +29,8 @@
         <activity android:name=".Activity.RecordOverviewActivity" />
         <activity android:name=".Activity.CommentListActivity" />
         <activity android:name=".Activity.FileSharingHome" />
-        <activity android:name=".Activity.FileSharingAdd"></activity>
+        <activity android:name=".Activity.FileSharingAdd" />
+        <activity android:name=".Activity.FileReceiveHome"></activity>
     </application>
 
 </manifest>
