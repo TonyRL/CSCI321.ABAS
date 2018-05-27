@@ -1,18 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="@dimen/common_item_height"
   android:orientation="vertical">
   <TextView
     android:id="@+id/itemTV"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="55dp"
+    android:layout_height="35dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center"
-    tools:text="item"/>
-</LinearLayout>
+    android:text="Name"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+  <TextView
+    android:id="@+id/proximity_uuid"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:text="UUID"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/itemTV"/>
+  <TextView
+    android:id="@+id/major"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:text="Major"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/proximity_uuid"/>
+  <TextView
+    android:id="@+id/minor"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:text="Minor"
+    app:layout_constraintStart_toEndOf="@+id/major"
+    app:layout_constraintTop_toBottomOf="@+id/proximity_uuid"/>
+</android.support.constraint.ConstraintLayout>
 
 

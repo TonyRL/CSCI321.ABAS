@@ -7,8 +7,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter;
 import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
+import butterknife.BindView;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.altbeacon.beacon.Beacon;
@@ -28,11 +30,10 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   private BeaconManager beaconManager;
 
-
-  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search_beacon);
+
     initData();
     initView();
 
@@ -58,12 +59,13 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
         new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
   }
 
-  private ArrayList<String> getData() {
-    ArrayList<String> data = new ArrayList<>();
-    String temp = " item";
-    for (int i = 0; i < 20; i++) {
-      data.add(i + temp);
-    }
+  private ArrayList<Beacon> getData() {
+    ArrayList<Beacon> data = new ArrayList<>();
+//    String temp = "Beacon ";
+//    for (int i = 0; i < 20; i++) {
+//      data.add(temp + i);
+//    }
+    //TODO data.add()
     return data;
   }
 
