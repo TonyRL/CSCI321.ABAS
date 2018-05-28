@@ -23,5 +23,14 @@ public class AdminManageMenu extends Activity {
                 startActivity(i);
             }
         });
+
+        Button adminManageMenuSubjects = findViewById(R.id.adminManageMenuSubjects);
+        adminManageMenuSubjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent (getApplicationContext(),AdminSubjectsListActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }

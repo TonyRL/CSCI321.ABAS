@@ -42,7 +42,8 @@
         <activity android:name=".Activity.RecordGradesHistoryActivity" />
         <activity android:name=".Activity.RecordAddNewGradeActivity" />
         <activity android:name=".Activity.RecordEditGradeActivity" />
-        <activity android:name=".Activity.DUMMYSEARCHBEACON"></activity>
+        <activity android:name=".Activity.DUMMYSEARCHBEACON" />
+        <activity android:name=".Activity.AdminSubjectsListActivity"></activity>
     </application>
 
 </manifest>
