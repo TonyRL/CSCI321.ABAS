@@ -36,7 +36,7 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     initView();
 
     beaconManager = BeaconManager.getInstanceForApplication(this);
-    beaconManager.setForegroundScanPeriod(1000);
+    beaconManager.setForegroundScanPeriod(3000);
     // Detect iBeacon only. No EddyStone, no AltBeacon
     beaconManager.getBeaconParsers().clear();
     beaconManager.getBeaconParsers()
@@ -95,7 +95,6 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
           });
           mFoundBeacons.clear();
 
-
           for (final Beacon beacon : beacons) {
             if (!isBeaconAlreadyFound(beacon, mFoundBeacons)) {
               mFoundBeacons.add(beacon);
@@ -119,7 +118,6 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
       e.printStackTrace();
     }
   }
-
 
   private boolean isBeaconAlreadyFound(Beacon beacon, ArrayList<Beacon> foundBeacon) {
     boolean isFound = false;

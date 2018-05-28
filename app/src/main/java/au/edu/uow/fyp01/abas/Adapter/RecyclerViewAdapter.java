@@ -1,15 +1,16 @@
 package au.edu.uow.fyp01.abas.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import java.util.ArrayList;
 import org.altbeacon.beacon.Beacon;
 
@@ -30,8 +31,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
     Beacon beacon = mData.get(position);
 
     holder.proximity_uuid.setText(beacon.getId1().toString());
-    holder.major.setText(beacon.getId2().toString());
-    holder.minor.setText(beacon.getId3().toString());
+    holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
+    holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
   }
 
   /**
@@ -41,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
   public BeaconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.activity_search_beacon_item, parent, false);
-    return new BeaconViewHolder(view);
+    return new BeaconViewHolder(view, mData);
   }
 
   /**
@@ -56,7 +57,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
     if (mData != null) {
       mData.add(beacon);
       notifyDataSetChanged();
-      Log.d(TAG, "Beacon added: " + beacon.getId1());
+      //Log.d(TAG, "Beacon added: " + beacon.getId1());
+    }
+  }
+
+  public void getBeacon(int position) {
+    if (mData != null) {
+      mData.get(position);
+      //notifyDataSetChanged();
+      //Log.d(TAG, "Beacon added: " + beacon.getId1());
     }
   }
 
@@ -85,9 +94,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
     @BindView(R.id.itemTV)
     TextView mTv;
 
-    BeaconViewHolder(View itemView) {
+    ArrayList<Beacon> beacons;
+
+    BeaconViewHolder(View itemView, ArrayList<Beacon> data) {
       super(itemView);
+      this.beacons = data;
       ButterKnife.bind(this, itemView);
+    }
+
+    @OnClick
+    void onClick(View view) {
+      int position = getAdapterPosition();
+      String uuid = beacons.get(position).getId1().toString();
+      Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
     }
   }
 }

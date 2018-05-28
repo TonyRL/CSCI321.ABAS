@@ -15,7 +15,7 @@
     android:layout_marginStart="16dp"
     android:layout_alignBottom="@+id/searchBtnLayout"
     android:layout_alignTop="@+id/searchBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <LinearLayout
@@ -53,7 +53,7 @@
     android:layout_marginEnd="16dp"
     android:layout_alignBottom="@+id/fileBtnLayout"
     android:layout_alignTop="@+id/fileBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <LinearLayout
@@ -89,7 +89,7 @@
     android:layout_marginStart="16dp"
     android:layout_alignBottom="@+id/recordBtnLayout"
     android:layout_alignTop="@+id/recordBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/searchBtnLayout"/>
   <LinearLayout
@@ -124,7 +124,7 @@
     android:layout_height="160dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/fileBtn"/>
   <LinearLayout
@@ -158,7 +158,7 @@
     android:layout_height="160dp"
     android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"/>
   <LinearLayout
