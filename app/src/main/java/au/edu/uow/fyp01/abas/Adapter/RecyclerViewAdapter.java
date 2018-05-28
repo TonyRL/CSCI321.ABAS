@@ -61,14 +61,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
     }
   }
 
-  public void getBeacon(int position) {
-    if (mData != null) {
-      mData.get(position);
-      //notifyDataSetChanged();
-      //Log.d(TAG, "Beacon added: " + beacon.getId1());
-    }
-  }
-
   public void updateBeacon(ArrayList<Beacon> data) {
     if (mData != null) {
       this.mData = data;
@@ -104,6 +96,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
 
     @OnClick
     void onClick(View view) {
+      // Bad approach:
+      // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
       int position = getAdapterPosition();
       String uuid = beacons.get(position).getId1().toString();
       Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
