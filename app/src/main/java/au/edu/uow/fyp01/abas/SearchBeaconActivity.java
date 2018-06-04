@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter;
-import au.edu.uow.fyp01.abas.Utils.RecyclerViewDividerItemDecoration;
+import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter;
+import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.altbeacon.beacon.Beacon;
@@ -22,21 +21,22 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   protected static final String TAG = "RangingActivity";
 
+  private ArrayList<Beacon> mFoundBeacons = new ArrayList<>();
   private RecyclerView recyclerView;
-  private RecyclerView.Adapter adapter;
+  private RecyclerViewAdapter adapter;
   private RecyclerView.LayoutManager layoutManager;
 
   private BeaconManager beaconManager;
 
-
-  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_search_beacon);
+
     initData();
     initView();
 
     beaconManager = BeaconManager.getInstanceForApplication(this);
+    beaconManager.setForegroundScanPeriod(3000);
     // Detect iBeacon only. No EddyStone, no AltBeacon
     beaconManager.getBeaconParsers().clear();
     beaconManager.getBeaconParsers()
@@ -46,7 +46,8 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   private void initData() {
     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-    adapter = new RecyclerViewAdapter(getData());
+    //adapter = new RecyclerViewAdapter(getData());
+    adapter = new RecyclerViewAdapter();
   }
 
   private void initView() {
@@ -58,15 +59,14 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
         new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
   }
 
-  private ArrayList<String> getData() {
-    ArrayList<String> data = new ArrayList<>();
-    String temp = " item";
-    for (int i = 0; i < 20; i++) {
-      data.add(i + temp);
-    }
-    return data;
-  }
-
+//  private ArrayList<Beacon> getData() {
+//    ArrayList<Beacon> data = new ArrayList<>();
+////    String temp = "Beacon ";
+////    for (int i = 0; i < 20; i++) {
+////      data.add(temp + i);
+////    }
+//    return data;
+//  }
 
   @Override
   protected void onDestroy() {
@@ -85,11 +85,28 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
       @Override
       public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
         if (beacons.size() > 0) {
-          Beacon firstBeacon = beacons.iterator().next();
-          Log.i(TAG,
-              "The first beacon UUID:" + firstBeacon.getId1() + " Major:" + firstBeacon.getId2()
-                  + " Minor: " + firstBeacon.getId3() + " I see is about " + firstBeacon
-                  .getDistance() + " meters away.");
+
+          // Only the original thread that created a view hierarchy can touch its views.
+          runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+              adapter.cleanBeacon();
+            }
+          });
+          mFoundBeacons.clear();
+
+          for (final Beacon beacon : beacons) {
+            if (!isBeaconAlreadyFound(beacon, mFoundBeacons)) {
+              mFoundBeacons.add(beacon);
+              runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  adapter.addBeacon(beacon);
+                }
+              });
+              //Log.d(TAG, "Trying to add " + beacon.getId1());
+            }
+          }
         }
       }
     });
@@ -98,7 +115,18 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
       beaconManager
           .startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
     } catch (RemoteException e) {
+      e.printStackTrace();
     }
+  }
 
+  private boolean isBeaconAlreadyFound(Beacon beacon, ArrayList<Beacon> foundBeacon) {
+    boolean isFound = false;
+    for (int i = 0; i < foundBeacon.size(); i++) {
+      if (beacon.getId1().equals(foundBeacon.get(i).getId1())) {
+        isFound = true;
+        break;
+      }
+    }
+    return isFound;
   }
 }

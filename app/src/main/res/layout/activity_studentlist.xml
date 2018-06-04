@@ -21,14 +21,14 @@
       android:textSize="18sp"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/studentListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="450dp" />
+      android:id="@+id/studentListRecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="450dp"/>
 
     <ProgressBar
-        android:id="@+id/studentListProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+      android:id="@+id/studentListProgressBar"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
   </LinearLayout>
 </FrameLayout>

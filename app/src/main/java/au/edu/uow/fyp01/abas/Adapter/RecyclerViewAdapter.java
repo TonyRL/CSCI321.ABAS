@@ -1,51 +1,106 @@
-package au.edu.uow.fyp01.abas.Adapter;
+package au.edu.uow.fyp01.abas.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import java.util.ArrayList;
+import org.altbeacon.beacon.Beacon;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
 
-  private ArrayList<String> mData;
+  private static final String TAG = "RecyclerViewAdapter";
+  private ArrayList<Beacon> mData = new ArrayList<>();
 
-  public RecyclerViewAdapter(ArrayList<String> data) {
-    this.mData = data;
-  }
+//  public RecyclerViewAdapter(ArrayList<Beacon> data) {
+//    this.mData = data;
+//  }
 
-  public void updateData(ArrayList<String> data) {
-    this.mData = data;
-    notifyDataSetChanged();
-  }
-
+  /**
+   * configures the layouts for the list item
+   */
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public void onBindViewHolder(BeaconViewHolder holder, int position) {
+    Beacon beacon = mData.get(position);
+
+    holder.proximity_uuid.setText(beacon.getId1().toString());
+    holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
+    holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
+  }
+
+  /**
+   * inflate the layout for the list item
+   */
+  @Override
+  public BeaconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.activity_search_beacon_item, parent, false);
-    ViewHolder viewHolder = new ViewHolder(view);
-    return viewHolder;
+    return new BeaconViewHolder(view, mData);
   }
 
-  @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
-    holder.mTv.setText(mData.get(position));
-  }
-
+  /**
+   * returns the size of the list
+   */
   @Override
   public int getItemCount() {
     return mData == null ? 0 : mData.size();
   }
 
-  public static class ViewHolder extends RecyclerView.ViewHolder {
+  public void addBeacon(Beacon beacon) {
+    if (mData != null) {
+      mData.add(beacon);
+      notifyDataSetChanged();
+      //Log.d(TAG, "Beacon added: " + beacon.getId1());
+    }
+  }
 
+  public void updateBeacon(ArrayList<Beacon> data) {
+    if (mData != null) {
+      this.mData = data;
+      notifyDataSetChanged();
+    }
+  }
+
+  public void cleanBeacon() {
+    if (mData != null) {
+      mData.clear();
+      notifyDataSetChanged();
+    }
+  }
+
+  public static class BeaconViewHolder extends RecyclerView.ViewHolder {
+
+    @BindView(R.id.proximity_uuid)
+    TextView proximity_uuid;
+    @BindView(R.id.major)
+    TextView major;
+    @BindView(R.id.minor)
+    TextView minor;
+    @BindView(R.id.itemTV)
     TextView mTv;
 
-    public ViewHolder(View itemView) {
+    ArrayList<Beacon> beacons;
+
+    BeaconViewHolder(View itemView, ArrayList<Beacon> data) {
       super(itemView);
-      mTv = itemView.findViewById(R.id.itemTV);
+      this.beacons = data;
+      ButterKnife.bind(this, itemView);
+    }
+
+    @OnClick
+    void onClick(View view) {
+      // Bad approach:
+      // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
+      int position = getAdapterPosition();
+      String uuid = beacons.get(position).getId1().toString();
+      Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
     }
   }
 }

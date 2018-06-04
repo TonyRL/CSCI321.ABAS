@@ -1,12 +1,18 @@
 package au.edu.uow.fyp01.abas;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,16 +24,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.DUMMYSEARCHBEACON;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import org.altbeacon.beacon.BeaconManager;
 
 
 public class MainActivity extends AppCompatActivity {
 
+  protected static final String TAG = "MainActivity";
+  private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
   private DrawerLayout drawer;
   private Toolbar toolbar;
   private NavigationView navigationView;
@@ -38,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
       // Handle navigation view item clicks here.
       int id = item.getItemId();
-
 
       switch (id) {
         case R.id.nav_home:
@@ -107,8 +114,9 @@ public class MainActivity extends AppCompatActivity {
     searchBeaconFab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show();
+        //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Intent searchBeaconActivityIntent = new Intent(MainActivity.this, SearchBeaconActivity.class);
+        startActivity(searchBeaconActivityIntent);
       }
     });
 
@@ -139,6 +147,70 @@ public class MainActivity extends AppCompatActivity {
             }*/
           }
         });
+
+    verifyBluetooth();
+    verifyLocation();
+  }
+
+  private void verifyLocation() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      // Android M Permission check
+      if (this.checkSelfPermission(
+          android.Manifest.permission.ACCESS_COARSE_LOCATION)
+          != PackageManager.PERMISSION_GRANTED) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("This app needs location access");
+        builder.setMessage(
+            "Please grant location access so this app can detect beacons in the background.");
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+          @TargetApi(23)
+          @Override
+          public void onDismiss(DialogInterface dialog) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                PERMISSION_REQUEST_COARSE_LOCATION);
+          }
+
+        });
+        builder.show();
+      }
+    }
+  }
+
+  /**
+   * Check the device: whether bluetooth is on and support BLE technology
+   */
+  private void verifyBluetooth() {
+    try {
+      if (!BeaconManager.getInstanceForApplication(this).checkAvailability()) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Bluetooth is not enabled");
+        builder.setMessage("The application requires Location Permission to start Bluetooth.");
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+          @Override
+          public void onDismiss(DialogInterface dialog) {
+            BluetoothAdapter.getDefaultAdapter().enable();
+          }
+        });
+        builder.show();
+      }
+    } catch (RuntimeException e) {
+      final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+      builder.setTitle("Bluetooth LE not available");
+      builder.setMessage(
+          "Sorry, this device does not support Bluetooth LE.\nYou cannot search any beacons.");
+      builder.setPositiveButton(android.R.string.ok, null);
+      builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+//          finish();
+//          System.exit(0);
+        }
+      });
+      builder.show();
+    }
   }
 
   @Override
