@@ -11,11 +11,11 @@
     android:id="@+id/searchBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
     android:layout_alignBottom="@+id/searchBtnLayout"
     android:layout_alignTop="@+id/searchBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <LinearLayout
@@ -23,7 +23,7 @@
     android:id="@+id/searchBtnLayout"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
     android:orientation="vertical"
     app:layout_constraintStart_toStartOf="parent"
@@ -49,18 +49,18 @@
     android:id="@+id/fileBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:layout_alignBottom="@+id/fileBtnLayout"
     android:layout_alignTop="@+id/fileBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <LinearLayout
     android:id="@+id/fileBtnLayout"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:orientation="vertical"
     app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
     android:layout_marginStart="16dp"
     android:layout_alignBottom="@+id/recordBtnLayout"
     android:layout_alignTop="@+id/recordBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/searchBtnLayout"/>
   <LinearLayout
@@ -124,7 +124,7 @@
     android:layout_height="160dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/fileBtn"/>
   <LinearLayout
@@ -156,20 +156,21 @@
     android:id="@+id/settingBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"/>
   <LinearLayout
     android:id="@+id/settingBtnLayout"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
     android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"
-    tools:ignore="UseCompoundDrawables"
-    tools:layout_editor_absoluteX="16dp">
+    tools:ignore="UseCompoundDrawables">
     <ImageView
       android:id="@+id/settingBtnImage"
       android:layout_width="match_parent"

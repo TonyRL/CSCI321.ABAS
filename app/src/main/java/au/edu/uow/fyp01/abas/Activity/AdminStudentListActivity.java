@@ -24,221 +24,217 @@ import au.edu.uow.fyp01.abas.R;
 
 public class AdminStudentListActivity extends Activity {
 
-    private RecyclerView adminStudentListRecyclerView;
-    private DatabaseReference dbref;
-    private FirebaseRecyclerOptions<StudentModel> options;
-    private FirebaseRecyclerAdapter<StudentModel, StudentModelViewHolder> firebaseRecyclerAdapter;
-    private FirebaseDatabase db;
+  private RecyclerView adminStudentListRecyclerView;
+  private DatabaseReference dbref;
+  private FirebaseRecyclerOptions<StudentModel> options;
+  private FirebaseRecyclerAdapter<StudentModel, StudentModelViewHolder> firebaseRecyclerAdapter;
+  private FirebaseDatabase db;
 
-    private String classID;
-    private String schID;
-    private String classname;
+  private String classID;
+  private String schID;
+  private String classname;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adminstudentlist);
-        Bundle bundle = getIntent().getExtras();
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_adminstudentlist);
+    Bundle bundle = getIntent().getExtras();
 
-        //Grabbing args (classID and schID from ClassListActivity)
-        classname = bundle.getString("classname");
-        classID = bundle.getString("classID");
-        schID = bundle.getString("schID");
+    //Grabbing args (classID and schID from ClassListActivity)
+    classname = bundle.getString("classname");
+    classID = bundle.getString("classID");
+    schID = bundle.getString("schID");
 
-        //Instantiate the database
-        db = FirebaseDatabase.getInstance();
+    //Instantiate the database
+    db = FirebaseDatabase.getInstance();
 
-        //Progress bar
-        ProgressBar adminStudentListProgressBar = findViewById(R.id.adminStudentListProgressBar);
-        adminStudentListProgressBar.setIndeterminate(true);
+    //Progress bar
+    ProgressBar adminStudentListProgressBar = findViewById(R.id.adminStudentListProgressBar);
+    adminStudentListProgressBar.setIndeterminate(true);
 
-        //RecyclerView
-        adminStudentListRecyclerView = findViewById(R.id.adminStudentListRecyclerView);
-        adminStudentListRecyclerView.setHasFixedSize(true);
-        adminStudentListRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+    //RecyclerView
+    adminStudentListRecyclerView = findViewById(R.id.adminStudentListRecyclerView);
+    adminStudentListRecyclerView.setHasFixedSize(true);
+    adminStudentListRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        dbref = db.getReference().child("Student").child(schID).child(classID);
+    dbref = db.getReference().child("Student").child(schID).child(classID);
 
-        //set options for adapter
-        //dbref is set to order the list by CLASS NUMBER.
-        options = new FirebaseRecyclerOptions.Builder<StudentModel>().
-                setQuery(dbref.orderByChild("classnumber"), StudentModel.class).build();
+    //set options for adapter
+    //dbref is set to order the list by CLASS NUMBER.
+    options = new FirebaseRecyclerOptions.Builder<StudentModel>().
+        setQuery(dbref.orderByChild("classnumber"), StudentModel.class).build();
 
-        firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<StudentModel, StudentModelViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull StudentModelViewHolder holder, int position,
-                                                    @NonNull StudentModel model) {
-                        //bind object
-                        holder.setsID(model.getSid());
-                        holder.setClassnumber(model.getClassnumber());
-                        holder.setFirstname(model.getFirstname());
-                        holder.setLastname(model.getLastname());
-                        holder.setButton();
-                    }
+    firebaseRecyclerAdapter =
+        new FirebaseRecyclerAdapter<StudentModel, StudentModelViewHolder>(options) {
+          @Override
+          protected void onBindViewHolder(@NonNull StudentModelViewHolder holder, int position,
+              @NonNull StudentModel model) {
+            //bind object
+            holder.setsID(model.getSid());
+            holder.setClassnumber(model.getClassnumber());
+            holder.setFirstname(model.getFirstname());
+            holder.setLastname(model.getLastname());
+            holder.setButton();
+          }
 
-                    @NonNull
-                    @Override
-                    public StudentModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                                     int viewType) {
-                        View view1 = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
-                        return new StudentModelViewHolder(view1);
-                    }
-                };
+          @NonNull
+          @Override
+          public StudentModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+              int viewType) {
+            View view1 = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+            return new StudentModelViewHolder(view1);
+          }
+        };
 
-        adminStudentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
-        adminStudentListProgressBar.setVisibility(View.GONE);
+    adminStudentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    adminStudentListProgressBar.setVisibility(View.GONE);
 
-        //<editor-fold desc="Add Button for new students in a class">
-        Button adminStudentListAddBtn = findViewById(R.id.adminStudentListAddBtn);
-        adminStudentListAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //<editor-fold desc="Transaction to move to 'AdminAddStudentActivity'">
+    //<editor-fold desc="Add Button for new students in a class">
+    Button adminStudentListAddBtn = findViewById(R.id.adminStudentListAddBtn);
+    adminStudentListAddBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //<editor-fold desc="Transaction to move to 'AdminAddStudentActivity'">
 
+        Intent i = new Intent(getApplicationContext(), AdminAddStudentActivity.class);
 
-                Intent i = new Intent(getApplicationContext(), AdminAddStudentActivity.class);
+        //Passing 'sID','classID','schID' to AdminAddStudentActivity
+        Bundle args = new Bundle();
+        args.putString("classID", classID);
+        args.putString("schID", schID);
+        args.putString("classname", classname);
 
-                //Passing 'sID','classID','schID' to AdminAddStudentActivity
-                Bundle args = new Bundle();
-                args.putString("classID", classID);
-                args.putString("schID", schID);
-                args.putString("classname", classname);
+        i.putExtras(args);
 
-                i.putExtras(args);
+        startActivity(i);
 
-                startActivity(i);
-
-
-                //</editor-fold>
-            }
-        });
         //</editor-fold>
+      }
+    });
+    //</editor-fold>
 
-        //<editor-fold desc="Delete class button">
-        Button adminStudentListDeleteClassBtn = findViewById(R.id.adminStudentListDeleteClassBtn);
-        adminStudentListDeleteClassBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Ask for user confirmation
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminStudentListActivity.this);
-                builder1.setMessage("Are you sure you want to delete this class?");
-                builder1.setCancelable(true);
+    //<editor-fold desc="Delete class button">
+    Button adminStudentListDeleteClassBtn = findViewById(R.id.adminStudentListDeleteClassBtn);
+    adminStudentListDeleteClassBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //Ask for user confirmation
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminStudentListActivity.this);
+        builder1.setMessage("Are you sure you want to delete this class?");
+        builder1.setCancelable(true);
 
-                builder1.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                //Delete Student->SchID->ClassID
-                                dbref.removeValue();
-                                dbref = db.getReference().child("School").child(schID).child(classID);
-                                //Delete School->SchID->ClassID
-                                dbref.removeValue();
+        builder1.setPositiveButton(
+            "Yes",
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                //Delete Student->SchID->ClassID
+                dbref.removeValue();
+                dbref = db.getReference().child("School").child(schID).child(classID);
+                //Delete School->SchID->ClassID
+                dbref.removeValue();
 
-                                //close activity
-                                finish();
-                            }
-                        });
-
-                builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
-                //end of confirmation
-            }
-        });
-        //</editor-fold>
-
-    }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        firebaseRecyclerAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        firebaseRecyclerAdapter.stopListening();
-    }
-
-    public class StudentModelViewHolder extends RecyclerView.ViewHolder {
-
-        View mView;
-        String sID;
-        String classnumber;
-        String firstname;
-        String lastname;
-
-        public StudentModelViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setsID(String sID) {
-            this.sID = sID;
-        }
-
-        public void setClassnumber(String classnumber) {
-            this.classnumber = classnumber;
-        }
-
-        public void setFirstname(String firstname) {
-            this.firstname = firstname;
-        }
-
-        public void setLastname(String lastname) {
-            this.lastname = lastname;
-        }
-
-        public void setButton() {
-            //points to recyclermodellayout_singlebutton
-            //The button is for each student (e.g. 1A, 1B, 1C)
-            final Button studentButtonView = mView.findViewById(R.id.modelSingleBtn);
-
-            //set up name of the button
-            //Order - Class number : Last name, First name
-            //Example button - 1 : Lastname, Firstname
-            String temp = classnumber + " : " + lastname + ", " + firstname;
-            studentButtonView.setText(temp);
-
-            studentButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    //<editor-fold desc="Transaction to move to 'AdminStudentDetailsActivity'">
-
-
-                    Intent i = new Intent(getApplicationContext(),AdminStudentDetailsActivity.class);
-
-                    //Passing 'sID','classID','schID' to AdminStudentDetailsActivity
-                    Bundle args = new Bundle();
-
-                    args.putString("classID", classID);
-                    args.putString("sID", sID);
-                    args.putString("classID", classID);
-                    args.putString("schID", schID);
-                    args.putString("classname", classname);
-
-                    i.putExtras(args);
-
-                    startActivity(i);
-
-
-                    //</editor-fold>
-                }
+                //close activity
+                finish();
+              }
             });
-        }
+
+        builder1.setNegativeButton(
+            "No",
+            new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+              }
+            });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        //end of confirmation
+      }
+    });
+    //</editor-fold>
+
+  }
 
 
+  @Override
+  public void onStart() {
+    super.onStart();
+    firebaseRecyclerAdapter.startListening();
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    firebaseRecyclerAdapter.stopListening();
+  }
+
+  public class StudentModelViewHolder extends RecyclerView.ViewHolder {
+
+    View mView;
+    String sID;
+    String classnumber;
+    String firstname;
+    String lastname;
+
+    public StudentModelViewHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
     }
+
+    public void setsID(String sID) {
+      this.sID = sID;
+    }
+
+    public void setClassnumber(String classnumber) {
+      this.classnumber = classnumber;
+    }
+
+    public void setFirstname(String firstname) {
+      this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+      this.lastname = lastname;
+    }
+
+    public void setButton() {
+      //points to recyclermodellayout_singlebutton
+      //The button is for each student (e.g. 1A, 1B, 1C)
+      final Button studentButtonView = mView.findViewById(R.id.modelSingleBtn);
+
+      //set up name of the button
+      //Order - Class number : Last name, First name
+      //Example button - 1 : Lastname, Firstname
+      String temp = classnumber + " : " + lastname + ", " + firstname;
+      studentButtonView.setText(temp);
+
+      studentButtonView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+          //<editor-fold desc="Transaction to move to 'AdminStudentDetailsActivity'">
+
+          Intent i = new Intent(getApplicationContext(), AdminStudentDetailsActivity.class);
+
+          //Passing 'sID','classID','schID' to AdminStudentDetailsActivity
+          Bundle args = new Bundle();
+
+          args.putString("classID", classID);
+          args.putString("sID", sID);
+          args.putString("classID", classID);
+          args.putString("schID", schID);
+          args.putString("classname", classname);
+
+          i.putExtras(args);
+
+          startActivity(i);
+
+          //</editor-fold>
+        }
+      });
+    }
+
+
+  }
 }
