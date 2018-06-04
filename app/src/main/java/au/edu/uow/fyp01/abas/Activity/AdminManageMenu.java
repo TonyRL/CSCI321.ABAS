@@ -15,13 +15,22 @@ public class AdminManageMenu extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_adminmanagemenu);
 
-    Button adminManageMenuClasses = findViewById(R.id.adminManageMenuClasses);
-    adminManageMenuClasses.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent i = new Intent(getApplicationContext(), AdminClassListActivity.class);
-        startActivity(i);
-      }
-    });
-  }
+        Button adminManageMenuClasses = findViewById(R.id.adminManageMenuClasses);
+        adminManageMenuClasses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),AdminClassListActivity.class);
+                startActivity(i);
+            }
+        });
+
+        Button adminManageMenuSubjects = findViewById(R.id.adminManageMenuSubjects);
+        adminManageMenuSubjects.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent (getApplicationContext(),AdminSubjectsListActivity.class);
+                startActivity(i);
+            }
+        });
+    }
 }
