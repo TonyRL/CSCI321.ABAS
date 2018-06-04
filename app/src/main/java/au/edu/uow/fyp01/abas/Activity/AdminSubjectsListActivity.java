@@ -219,7 +219,7 @@ public class AdminSubjectsListActivity extends Activity {
             final Button subjectNameBtn = mView.findViewById(R.id.modelSingleBtn);
             subjectNameBtn.setText(subjectname);
 
-            //<editor-fold desc="Remove subject from student">
+            //<editor-fold desc="Remove subject from school">
             subjectNameBtn.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -285,6 +285,93 @@ public class AdminSubjectsListActivity extends Activity {
 
                                         }
                                     });//end query
+
+                                    //QUERY TO REMOVE SUBJECT RECORDS FROM STUDENT
+                                    FirebaseDatabase db3 = FirebaseDatabase.getInstance();
+                                    final DatabaseReference dbref3 = db3.getReference().child("Record");
+                                    dbref3.addChildEventListener(new ChildEventListener() {
+                                        @Override
+                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                            if (dataSnapshot.exists()){
+                                                //Record->StudentID
+                                                for (DataSnapshot studentIDnode : dataSnapshot.getChildren()){
+                                                    if (studentIDnode.exists()){
+                                                        //Record->StudentID->SubjectID
+                                                        for (DataSnapshot subjectIDnode : studentIDnode.getChildren()){
+
+                                                            if (subjectIDnode.getKey().toString().equals(subjectID)){
+                                                                subjectIDnode.getRef().removeValue();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });//end query
+
+                                    //QUERY TO REMOVE SUBJECTS FROM COMMENTS
+                                    //QUERY TO REMOVE SUBJECT RECORDS FROM STUDENT
+                                    FirebaseDatabase db4 = FirebaseDatabase.getInstance();
+                                    final DatabaseReference dbref4 = db4.getReference().child("Comment");
+                                    dbref3.addChildEventListener(new ChildEventListener() {
+                                        @Override
+                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                            if (dataSnapshot.exists()){
+                                                //Record->StudentID
+                                                for (DataSnapshot studentIDnode : dataSnapshot.getChildren()){
+                                                    if (studentIDnode.exists()){
+                                                        //Record->StudentID->SubjectID
+                                                        for (DataSnapshot subjectIDnode : studentIDnode.getChildren()){
+                                                            if (subjectIDnode.getKey().toString().equals(subjectID)){
+                                                                subjectIDnode.getRef().removeValue();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });//end query
+
                                 }
                             });
 

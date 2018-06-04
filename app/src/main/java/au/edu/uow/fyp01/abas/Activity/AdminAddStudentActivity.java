@@ -126,6 +126,7 @@ public class AdminAddStudentActivity extends Activity {
     });
     //end add student
 
+    /*
     //Add existing student
     final EditText adminExistingSID = findViewById(R.id.adminExistingSID);
     final EditText adminExistingClassNumber = findViewById(R.id.adminExistingClassNumber);
@@ -217,6 +218,7 @@ public class AdminAddStudentActivity extends Activity {
 
       }
     }); // end on click
+    */
 
 
   }

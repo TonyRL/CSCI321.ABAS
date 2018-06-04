@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -58,6 +59,13 @@ public class RecordAddNewGradeActivity extends Activity {
 
     final TextView recordNewDateTextView = findViewById(R.id.recordNewDateTextView);
     //Set up date picker dialog
+
+    //initialize date (default: TODAY/NOW)
+    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    Date todaysdate = new Date();
+    setDate(dateFormat.format(todaysdate));
+    setTimestamp(todaysdate.getTime());
+
     final DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
       @Override
       public void onDateSet(DatePicker view, int year1, int month1, int dayOfMonth1) {
