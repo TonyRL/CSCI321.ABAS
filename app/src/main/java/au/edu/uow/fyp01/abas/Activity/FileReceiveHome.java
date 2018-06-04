@@ -2,22 +2,36 @@ package au.edu.uow.fyp01.abas.Activity;
 
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 import au.edu.uow.fyp01.abas.R;
 
@@ -53,12 +67,70 @@ public class FileReceiveHome extends AppCompatActivity {
         //to load the list
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FileReceiveHomeRecyclerClass, FileReceiveHome.FileReceiveHomeHolder>(firebaseOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull FileReceiveHome.FileReceiveHomeHolder holder, int position, @NonNull FileReceiveHomeRecyclerClass model) {
+            protected void onBindViewHolder(@NonNull final FileReceiveHome.FileReceiveHomeHolder holder, int position, @NonNull FileReceiveHomeRecyclerClass model) {
 
-
+                //Beware
+                //Highly faulty area
+                //Remeber to keep the string variable names accordingly
                 holder.setFileName(model.getFileName());
                 holder.setDate_Expire(model.getDate_Expire());
                 holder.setTime_Expire(model.getTime_Expire());
+                holder.setID(model.getID());
+
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //To download
+                        final String IDReference = holder.getID().trim();
+
+                        Toast.makeText(FileReceiveHome.this,IDReference,Toast.LENGTH_SHORT).show();
+
+
+
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().
+                        child("Received_Files").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                                child(IDReference);
+
+                        dbRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                String filename = dataSnapshot.child("Filename").getValue().toString().trim();
+                                String fileType = dataSnapshot.child("File_Type").getValue().toString().trim();
+                                String link = dataSnapshot.child("Link").getValue().toString().trim();
+
+                                final StorageReference downloadRef = FirebaseStorage.getInstance().getReference()
+                                        .child("Shared_Files/").child(IDReference);
+                                String DOWNLOAD_DIR = Environment.getExternalStorageDirectory()+"/Downloads/";
+
+
+                                File fileDownload = null;
+                                fileDownload = new File(DOWNLOAD_DIR+"/"+filename+"."+fileType);
+                                downloadRef.getFile(fileDownload).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+                                        Toast.makeText(FileReceiveHome.this,"Downloading File",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+
+                    }
+                });
+
+
 
             }
 
@@ -83,6 +155,7 @@ public class FileReceiveHome extends AppCompatActivity {
         TextView fileNameDisplay;
         TextView dateExpireDisplay;
         TextView timeExpireDisplay;
+        String ID = null;
 
         public FileReceiveHomeHolder(View itemView) {
             super(itemView);
@@ -127,6 +200,14 @@ public class FileReceiveHome extends AppCompatActivity {
             //text
             //userFromDisplay.setText(sender);
 
+        }
+
+        public void setID(String ID){
+            this.ID = ID;
+        }
+
+        public String getID(){
+            return ID;
         }
 
 

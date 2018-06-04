@@ -45,8 +45,8 @@ public class HomeFragment extends Fragment {
           navigationView.getMenu().getItem(3).setChecked(true);
           break;
         case R.id.settingBtn:
-          Intent settingActivityIntent = new Intent(getActivity(), SettingActivity.class);
-          startActivity(settingActivityIntent);
+          Intent homeReceiveActivityIntent = new Intent(getActivity(), FileReceiveHome.class);
+          startActivity(homeReceiveActivityIntent);
           return;
         default:
           break;

@@ -11,7 +11,7 @@ public class FileReceiveHomeRecyclerClass {
     private String Time_Expire;
     private String Filename;
 //    private String File_Type;
-//    private String ID;
+private String ID;
 //    private String Sender;
 //    private String Link;
 //    private String Number_Recevied;
@@ -25,7 +25,7 @@ public class FileReceiveHomeRecyclerClass {
         this.Time_Expire = Time_Expire;
         this.Filename = File_Name;
 //        File_Type = file_Type;
-//        this.ID = ID;
+         this.ID = ID;
 //        Sender = sender;
 //        Link = link;
 //        Number_Recevied = number_Recevied;
@@ -63,13 +63,13 @@ public class FileReceiveHomeRecyclerClass {
 //        File_Type = file_Type;
 //    }
 //
-//    public String getID() {
-//        return ID;
-//    }
-//
-//    public void setID(String ID) {
-//        this.ID = ID;
-//    }
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+  }
 //
 //    public String getSender() {
 //        return Sender;
