@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="au.edu.uow.fyp01.abas">
 
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +15,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,16 +27,28 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SettingActivity" />
+        <activity android:name=".SearchBeaconActivity" />
         <activity android:name=".Activity.ClassListActivity" />
         <activity android:name=".Activity.StudentListActivity" />
         <activity android:name=".Activity.RecordActivity" />
         <activity android:name=".Activity.RecordOverviewActivity" />
         <activity android:name=".Activity.CommentListActivity" />
+
         <activity android:name=".Activity.FileSharingHome" />
         <activity android:name=".Activity.FileSharingAdd" />
         <activity android:name=".Activity.FileReceiveHome"></activity>
 
-
+        <activity android:name=".Activity.AdminClassListActivity" />
+        <activity android:name=".Activity.AdminStudentListActivity" />
+        <activity android:name=".Activity.AdminAddStudentActivity" />
+        <activity android:name=".Activity.AdminStudentDetailsActivity" />
+        <activity android:name=".Activity.AdminStudentSubjectListActivity" />
+        <activity android:name=".Activity.AdminManageMenu" />
+        <activity android:name=".Activity.RecordGradesHistoryActivity" />
+        <activity android:name=".Activity.RecordAddNewGradeActivity" />
+        <activity android:name=".Activity.RecordEditGradeActivity" />
+        <activity android:name=".Activity.DUMMYSEARCHBEACON" />
+        <activity android:name=".Activity.AdminSubjectsListActivity"></activity>
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

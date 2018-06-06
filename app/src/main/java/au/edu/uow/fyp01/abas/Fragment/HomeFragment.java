@@ -15,6 +15,7 @@ import android.widget.Button;
 import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.SettingActivity;
 
 public class HomeFragment extends Fragment {
@@ -33,16 +34,14 @@ public class HomeFragment extends Fragment {
       // Create a new fragment and specify the fragment to show based on nav item clicked
       switch (v.getId()) {
         case R.id.searchBtn:
-          swapFragment(R.id.nav_search_beacon);
-          navigationView.getMenu().getItem(1).setChecked(true);
+          Intent searchBeaconActivityIntent = new Intent(getActivity(), SearchBeaconActivity.class);
+          startActivity(searchBeaconActivityIntent);
           break;
         case R.id.fileBtn:
-          Intent fileActitvityIntent = new Intent(getActivity(), FileSharingHome.class);
-          startActivity(fileActitvityIntent);
           break;
         case R.id.recordBtn:
-          swapFragment(R.id.nav_record);
-          navigationView.getMenu().getItem(3).setChecked(true);
+          //swapFragment(R.id.nav_record);
+          //navigationView.getMenu().getItem(3).setChecked(true);
           break;
         case R.id.settingBtn:
           Intent homeReceiveActivityIntent = new Intent(getActivity(), FileReceiveHome.class);

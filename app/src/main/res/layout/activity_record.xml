@@ -105,7 +105,13 @@
     <android.support.v7.widget.RecyclerView
       android:id="@+id/recordRecyclerView"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_height="250dp"/>
+
+    <ProgressBar
+      android:id="@+id/recordProgressBar"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
 
 
   </LinearLayout>

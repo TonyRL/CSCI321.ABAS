@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/recordOverviewFrame"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
@@ -13,15 +14,33 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <TextView
+      <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/ReallyDarkBlue"
-        android:text="Grades Overview"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/White"
-        android:textSize="18sp"/>
+        android:orientation="horizontal">
+
+        <TextView
+          android:layout_width="300dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0"
+          android:background="@color/ReallyDarkBlue"
+          android:text="Grades Overview"
+          android:textAlignment="center"
+          android:textAppearance="@style/TextAppearance.AppCompat"
+          android:textColor="@color/White"
+          android:textSize="18sp"/>
+
+        <Button
+          android:id="@+id/recordOverviewGradesHistoryBtn"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_weight="0"
+          android:background="@drawable/ic_format_list_bulleted_black_24dp"
+          android:backgroundTint="@color/White"
+          android:drawableTint="@color/White"/>
+
+      </LinearLayout>
 
       <TextView
         android:id="@+id/recordOverviewSubject"
@@ -133,15 +152,15 @@
 
         <LinearLayout
           android:layout_width="match_parent"
-          android:layout_height="71dp"
+          android:layout_height="37dp"
           android:orientation="horizontal">
 
           <Button
-              android:id="@+id/recordOverviewComments"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:text="Remarks/Comments" />
+            android:id="@+id/recordOverviewComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Remarks/Comments"/>
         </LinearLayout>
 
         <LinearLayout
@@ -150,11 +169,11 @@
           android:layout_weight="1"
           android:orientation="vertical">
 
-          <TextView
+          <ProgressBar
+            android:id="@+id/recordOverviewProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tap the latest to see all remarks/comments"/>
-
+            android:layout_height="wrap_content"/>
         </LinearLayout>
 
       </LinearLayout>

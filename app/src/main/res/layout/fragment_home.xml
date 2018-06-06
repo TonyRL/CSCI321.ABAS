@@ -11,18 +11,19 @@
     android:id="@+id/searchBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
     android:layout_alignBottom="@+id/searchBtnLayout"
     android:layout_alignTop="@+id/searchBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <LinearLayout
+
     android:id="@+id/searchBtnLayout"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="16dp"
     android:orientation="vertical"
     app:layout_constraintStart_toStartOf="parent"
@@ -48,18 +49,18 @@
     android:id="@+id/fileBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:layout_alignBottom="@+id/fileBtnLayout"
     android:layout_alignTop="@+id/fileBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <LinearLayout
     android:id="@+id/fileBtnLayout"
     android:layout_width="160dp"
     android:layout_height="160dp"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:orientation="vertical"
     app:layout_constraintEnd_toEndOf="parent"
@@ -69,17 +70,17 @@
       android:id="@+id/fileBtnImage"
       android:layout_width="match_parent"
       android:layout_height="140dp"
-      android:contentDescription="@string/the_file_image_button"
       android:gravity="center"
       android:src="@drawable/ic_file"/>
 
     <TextView
-        android:id="@+id/fileBtnText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="send file"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button" />
+      android:id="@+id/fileBtnText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="@string/sendfile"
+      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
+
   </LinearLayout>
 
   <Button
@@ -90,7 +91,7 @@
     android:layout_marginStart="16dp"
     android:layout_alignBottom="@+id/recordBtnLayout"
     android:layout_alignTop="@+id/recordBtnLayout"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/searchBtnLayout"/>
   <LinearLayout
@@ -122,16 +123,16 @@
 
 
   <Button
-    android:id="@+id/settingBtn"
+    android:id="@+id/receievegileBtn"
     android:layout_width="160dp"
     android:layout_height="160dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/fileBtn"/>
   <LinearLayout
-    android:id="@+id/settingBtnLayout"
+    android:id="@+id/receievegileBtnLayout"
     android:layout_width="160dp"
     android:layout_height="160dp"
     android:layout_marginTop="8dp"
@@ -139,6 +140,40 @@
     android:orientation="vertical"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/fileBtnLayout"
+    tools:ignore="UseCompoundDrawables">
+    <ImageView
+      android:id="@+id/receievegileBtnImage"
+      android:layout_width="match_parent"
+      android:layout_height="140dp"
+      android:gravity="center"
+      android:src="@drawable/ic_file"/>
+    <TextView
+      android:id="@+id/receievegileBtnText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="@string/receivefile"
+      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
+  </LinearLayout>
+
+  <Button
+    android:id="@+id/settingBtn"
+    android:layout_width="160dp"
+    android:layout_height="160dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:background="?android:attr/selectableItemBackground"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"/>
+  <LinearLayout
+    android:id="@+id/settingBtnLayout"
+    android:layout_width="160dp"
+    android:layout_height="160dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"
     tools:ignore="UseCompoundDrawables">
     <ImageView
       android:id="@+id/settingBtnImage"
@@ -154,5 +189,6 @@
       android:text="@string/setting"
       android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
   </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

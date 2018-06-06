@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/PurplishBlue"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/adminStudentSubjectNameTextView"
+          android:layout_width="143dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:background="@color/PurplishBlue"
+          android:text="Subjects"
+          android:textAlignment="center"
+          android:textAppearance="@style/TextAppearance.AppCompat"
+          android:textColor="@color/White"
+          android:textSize="18sp"/>
+
+        <Button
+          android:id="@+id/adminStudentSubjectAddBtn"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_weight="0"
+          android:background="@android:drawable/ic_input_add"
+          android:backgroundTint="@color/White"/>
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/adminStudentSubjectRecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="350dp"
+      android:layout_weight="0">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+      android:id="@+id/textView6"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Tap and hold a subject to remove"/>
+
+    <ProgressBar
+      android:id="@+id/adminStudentSubjectProgressBar"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
+
+  </LinearLayout>
+
+</FrameLayout>
