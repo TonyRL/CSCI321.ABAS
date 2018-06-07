@@ -33,6 +33,11 @@
         <activity android:name=".Activity.RecordActivity" />
         <activity android:name=".Activity.RecordOverviewActivity" />
         <activity android:name=".Activity.CommentListActivity" />
+
+        <activity android:name=".Activity.FileSharingHome" />
+        <activity android:name=".Activity.FileSharingAdd" />
+        <activity android:name=".Activity.FileReceiveHome"></activity>
+
         <activity android:name=".Activity.AdminClassListActivity" />
         <activity android:name=".Activity.AdminStudentListActivity" />
         <activity android:name=".Activity.AdminAddStudentActivity" />
@@ -45,5 +50,9 @@
         <activity android:name=".Activity.DUMMYSEARCHBEACON" />
         <activity android:name=".Activity.AdminSubjectsListActivity"></activity>
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
