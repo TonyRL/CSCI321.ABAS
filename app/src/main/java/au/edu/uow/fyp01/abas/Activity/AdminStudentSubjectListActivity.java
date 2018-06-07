@@ -100,7 +100,7 @@ public class AdminStudentSubjectListActivity extends Activity {
             .setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         //set options for adapter
         options = new FirebaseRecyclerOptions.Builder<SubjectModel>().
-            setQuery(dbref, SubjectModel.class).build();
+            setQuery(dbref.orderByChild("subjectname"), SubjectModel.class).build();
 
         firebaseRecyclerAdapter =
             new FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder>(options) {
@@ -260,7 +260,7 @@ public class AdminStudentSubjectListActivity extends Activity {
   private void ListOfSubjectsQueryClass(final FirebaseCallBack firebaseCallBack) {
     FirebaseDatabase db2 = FirebaseDatabase.getInstance();
     DatabaseReference dbref2 = db2.getReference().child("ListOfSubjects").child(schID);
-    dbref2.addChildEventListener(new ChildEventListener() {
+    dbref2.orderByChild("subjectname").addChildEventListener(new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot.exists()) {
