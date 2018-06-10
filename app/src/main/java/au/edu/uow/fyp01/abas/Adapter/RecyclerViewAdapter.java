@@ -129,9 +129,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
 
             //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
             Bundle args = new Bundle();
-            args.putString("classID", "ClassID1");
-            args.putString("schID", "SchID1");
-            args.putString("sID", "StudentAid");
+            args.putString("classID", beaconModel.getClassID());
+            args.putString("schID", beaconModel.getSchID());
+            args.putString("sID", beaconModel.getSid());
             i.putExtras(args);
 
             startActivity(i);
