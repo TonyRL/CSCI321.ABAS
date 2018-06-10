@@ -24,26 +24,35 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".SearchBeaconActivity" />
-        <activity android:name=".Activity.ClassListActivity" />
-        <activity android:name=".Activity.StudentListActivity" />
-        <activity android:name=".Activity.RecordActivity" />
-        <activity android:name=".Activity.RecordOverviewActivity" />
-        <activity android:name=".Activity.CommentListActivity" />
-        <activity android:name=".Activity.AdminClassListActivity" />
-        <activity android:name=".Activity.AdminStudentListActivity" />
-        <activity android:name=".Activity.AdminAddStudentActivity" />
-        <activity android:name=".Activity.AdminStudentDetailsActivity" />
-        <activity android:name=".Activity.AdminStudentSubjectListActivity" />
-        <activity android:name=".Activity.AdminManageMenu" />
-        <activity android:name=".Activity.RecordGradesHistoryActivity" />
-        <activity android:name=".Activity.RecordAddNewGradeActivity" />
-        <activity android:name=".Activity.RecordEditGradeActivity" />
-        <activity android:name=".Activity.DUMMYSEARCHBEACON" />
-        <activity android:name=".Activity.AdminSubjectsListActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" android:label="Main Activity"/>
+        <activity android:name=".SignUpActivity" android:label="SignUpActivityy"/>
+        <activity android:name=".SettingActivity" android:label="SettingActivity"/>
+        <activity android:name=".SearchBeaconActivity" android:label="SearchBeaconActivity"/>
+        <activity android:name=".Activity.ClassListActivity" android:label="Activity.ClassListActivity"/>
+        <activity android:name=".Activity.StudentListActivity" android:label="Activity.StudentListActivity"/>
+        <activity android:name=".Activity.RecordActivity" android:label="Activity.RecordActivity"/>
+        <activity android:name=".Activity.RecordOverviewActivity" android:label="Activity.RecordOverviewActivity" />
+        <activity android:name=".Activity.CommentListActivity" android:label="Activity.CommentListActivity"/>
+
+        <activity android:name=".Activity.FileSharingHome" android:label="Activity.FileSharingHome"/>
+        <activity android:name=".Activity.FileSharingAdd" android:label="Activity.FileSharingAdd"/>
+        <activity android:name=".Activity.FileReceiveHome" android:label="Activity.FileReceiveHome"></activity>
+
+        <activity android:name=".Activity.AdminClassListActivity" android:label="Activity.AdminClassListActivity"/>
+        <activity android:name=".Activity.AdminStudentListActivity" android:label="Activity.AdminStudentListActivity"/>
+        <activity android:name=".Activity.AdminAddStudentActivity" android:label="Activity.AdminAddStudentActivity"/>
+        <activity android:name=".Activity.AdminStudentDetailsActivity" android:label="Activity.AdminStudentDetailsActivity"/>
+        <activity android:name=".Activity.AdminStudentSubjectListActivity" android:label="Activity.AdminStudentSubjectListActivity"/>
+        <activity android:name=".Activity.AdminManageMenu" android:label="Activity.AdminManageMenu"/>
+        <activity android:name=".Activity.RecordGradesHistoryActivity" android:label="Activity.RecordGradesHistoryActivity"/>
+        <activity android:name=".Activity.RecordAddNewGradeActivity" android:label="Activity.RecordAddNewGradeActivity"/>
+        <activity android:name=".Activity.RecordEditGradeActivity" android:label="Activity.RecordEditGradeActivity"/>
+        <activity android:name=".Activity.DUMMYSEARCHBEACON" android:label="Activity.DUMMYSEARCHBEACON"/>
+        <activity android:name=".Activity.AdminSubjectsListActivity" android:label="Activity.AdminSubjectsListActivity"></activity>
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

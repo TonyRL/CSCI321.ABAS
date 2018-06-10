@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
+import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.SettingActivity;
@@ -23,6 +26,7 @@ public class HomeFragment extends Fragment {
   private Button fileBtn;
   private Button recordBtn;
   private Button settingBtn;
+  private Button receievegileBtn;
 
   private View.OnClickListener onClickListener = new OnClickListener() {
     @Override
@@ -35,16 +39,19 @@ public class HomeFragment extends Fragment {
           startActivity(searchBeaconActivityIntent);
           break;
         case R.id.fileBtn:
-          //swapFragment(R.id.nav_file);
-          //navigationView.getMenu().getItem(2).setChecked(true);
+          Intent fileSendFile = new Intent(getActivity(),FileSharingHome.class);
+          startActivity(fileSendFile);
           break;
+        case R.id.receievegileBtn:
+          Intent fileReceiveFile = new Intent(getActivity(),FileReceiveHome.class);
+          startActivity(fileReceiveFile);
         case R.id.recordBtn:
           //swapFragment(R.id.nav_record);
           //navigationView.getMenu().getItem(3).setChecked(true);
           break;
         case R.id.settingBtn:
-          Intent settingActivityIntent = new Intent(getActivity(), SettingActivity.class);
-          startActivity(settingActivityIntent);
+          Intent homeReceiveActivityIntent = new Intent(getActivity(), FileReceiveHome.class);
+          startActivity(homeReceiveActivityIntent);
           return;
         default:
           break;
@@ -66,6 +73,8 @@ public class HomeFragment extends Fragment {
 
     searchBtn = view.findViewById(R.id.searchBtn);
     fileBtn = view.findViewById(R.id.fileBtn);
+    receievegileBtn=view.findViewById(R.id.receievegileBtn);
+
     recordBtn = view.findViewById(R.id.recordBtn);
     settingBtn = view.findViewById(R.id.settingBtn);
 
@@ -73,6 +82,7 @@ public class HomeFragment extends Fragment {
     fileBtn.setOnClickListener(onClickListener);
     recordBtn.setOnClickListener(onClickListener);
     settingBtn.setOnClickListener(onClickListener);
+    receievegileBtn.setOnClickListener(onClickListener);
 
     return view;
   }
