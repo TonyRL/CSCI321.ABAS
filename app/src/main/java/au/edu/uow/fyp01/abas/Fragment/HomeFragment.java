@@ -26,6 +26,7 @@ public class HomeFragment extends Fragment {
   private Button fileBtn;
   private Button recordBtn;
   private Button settingBtn;
+  private Button receievegileBtn;
 
   private View.OnClickListener onClickListener = new OnClickListener() {
     @Override
@@ -38,7 +39,12 @@ public class HomeFragment extends Fragment {
           startActivity(searchBeaconActivityIntent);
           break;
         case R.id.fileBtn:
+          Intent fileSendFile = new Intent(getActivity(),FileSharingHome.class);
+          startActivity(fileSendFile);
           break;
+        case R.id.receievegileBtn:
+          Intent fileReceiveFile = new Intent(getActivity(),FileReceiveHome.class);
+          startActivity(fileReceiveFile);
         case R.id.recordBtn:
           //swapFragment(R.id.nav_record);
           //navigationView.getMenu().getItem(3).setChecked(true);
@@ -67,6 +73,8 @@ public class HomeFragment extends Fragment {
 
     searchBtn = view.findViewById(R.id.searchBtn);
     fileBtn = view.findViewById(R.id.fileBtn);
+    receievegileBtn=view.findViewById(R.id.receievegileBtn);
+
     recordBtn = view.findViewById(R.id.recordBtn);
     settingBtn = view.findViewById(R.id.settingBtn);
 
@@ -74,6 +82,7 @@ public class HomeFragment extends Fragment {
     fileBtn.setOnClickListener(onClickListener);
     recordBtn.setOnClickListener(onClickListener);
     settingBtn.setOnClickListener(onClickListener);
+    receievegileBtn.setOnClickListener(onClickListener);
 
     return view;
   }
