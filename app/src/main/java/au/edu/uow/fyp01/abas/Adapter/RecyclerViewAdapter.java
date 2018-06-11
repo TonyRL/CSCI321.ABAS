@@ -1,25 +1,12 @@
 package au.edu.uow.fyp01.abas.adapter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import au.edu.uow.fyp01.abas.Activity.RecordActivity;
-import au.edu.uow.fyp01.abas.Model.BeaconModel;
 import au.edu.uow.fyp01.abas.R;
-import au.edu.uow.fyp01.abas.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,55 +100,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
       // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
       int position = getAdapterPosition();
       String uuid = beacons.get(position).getId1().toString();
-
-      FirebaseDatabase db = FirebaseDatabase.getInstance();
-      DatabaseReference dbref = db.getReference().child("Beacon").child(uuid);
-      dbref.addChildEventListener(new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-          if (dataSnapshot.exists()){
-              BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
-
-              //TODO MOVE FROM HERE
-              /*
-            //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
-            Intent i = new Intent( <<<CONTEXT HERE>>>, RecordActivity.class);
-
-            //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
-            Bundle args = new Bundle();
-            args.putString("classID", "ClassID1");
-            args.putString("schID", "SchID1");
-            args.putString("sID", "StudentAid");
-            i.putExtras(args);
-
-            startActivity(i);
-            //</editor-fold>
-            */
-          }
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-      })
-
-      //Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
+      Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
     }
   }
 }
