@@ -2,6 +2,7 @@ package au.edu.uow.fyp01.abas.Activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -161,6 +162,26 @@ public class AdminSubjectsListActivity extends Activity {
                     }
                 });
                 //</editor-fold>
+
+                Button adminManageClassSubjectsBtn = findViewById(R.id.adminManageClassSubjectBtn);
+                adminManageClassSubjectsBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //<editor-fold desc="move to AdminManageClassSubjectsActivity.class>
+
+                        Intent i = new Intent(getApplicationContext(),AdminManageClassSubjectsActivity.class);
+
+                        Bundle args = new Bundle();
+
+                        args.putString("schID",schID);
+
+                        i.putExtras(args);
+
+                        startActivity(i);
+                        //</editor-fold>
+                    }
+                });
 
             }//end callback
         }); //end query class

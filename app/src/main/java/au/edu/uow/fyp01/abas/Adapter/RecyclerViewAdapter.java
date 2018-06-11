@@ -1,4 +1,4 @@
-package au.edu.uow.fyp01.abas.adapter;
+package au.edu.uow.fyp01.abas.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,7 @@ import au.edu.uow.fyp01.abas.Activity.RecordActivity;
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.SearchBeaconActivity;
-import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
+import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter.BeaconViewHolder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -159,7 +159,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
         public void onCancelled(DatabaseError databaseError) {
 
         }
-      })
+      });
 
       //Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
     }
