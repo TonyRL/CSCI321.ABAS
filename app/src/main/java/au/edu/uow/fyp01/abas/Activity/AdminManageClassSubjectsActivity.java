@@ -17,7 +17,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -87,6 +89,7 @@ public class AdminManageClassSubjectsActivity extends Activity {
                             set.addAll(classesList);
                             classesList.clear();
                             classesList.addAll(set);
+                            Collections.sort(classesList,  Collator.getInstance());
 
                         }
                         //Log.d(TAG, String.valueOf(classesList));
@@ -146,6 +149,7 @@ public class AdminManageClassSubjectsActivity extends Activity {
 
                                                                 dataSnapshot.getRef().child(subjectID).updateChildren(addToDatabase);
 
+
                                                             }
                                                         }
 
@@ -171,6 +175,11 @@ public class AdminManageClassSubjectsActivity extends Activity {
                                                         }
                                                         //</editor-fold>
                                                     }); // end new db ref
+
+                                                    Toast.makeText(AdminManageClassSubjectsActivity.this,
+                                                            "Added " + subjectSpinner.getSelectedItem().toString() +
+                                                            " to class " + schoolModel.getClassname(), Toast.LENGTH_SHORT)
+                                                            .show();
 
                                                 } catch (Exception e) {
                                                     Toast.makeText(AdminManageClassSubjectsActivity.this,
