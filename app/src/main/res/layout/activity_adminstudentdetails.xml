@@ -49,130 +49,148 @@
     </LinearLayout>
 
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="275dp"
-      android:layout_weight="0"
-      android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_weight="0">
 
       <LinearLayout
-        android:layout_width="140dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:orientation="vertical"></LinearLayout>
-
-        <TextView
-          android:id="@+id/textView12"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="First Name:"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="30dp"
-          android:orientation="vertical"></LinearLayout>
-
-        <TextView
-          android:id="@+id/textView11"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="Last Name:"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
+          android:layout_width="140dp"
+          android:layout_height="match_parent"
           android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="First Name:"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Last Name:"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="vertical">
 
         </LinearLayout>
 
         <TextView
-          android:id="@+id/textView13"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="Class Number:"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Class Number:"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="30dp"
-          android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="vertical">
 
         </LinearLayout>
 
         <TextView
-          android:id="@+id/textView14"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="Student ID:"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:id="@+id/textView14"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Student ID:"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Beacon ID:"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
       </LinearLayout>
 
       <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
         <EditText
-          android:id="@+id/adminStudentDetailsFirstName"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:inputType="textPersonName"
-          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+            android:id="@+id/adminStudentDetailsFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Small.Inverse" />
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical"></LinearLayout>
 
         <EditText
-          android:id="@+id/adminStudentDetailsLastName"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:inputType="textPersonName"
-          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+            android:id="@+id/adminStudentDetailsLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Small.Inverse" />
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical"></LinearLayout>
 
         <EditText
-          android:id="@+id/adminStudentDetailsClassNumber"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:inputType="textPersonName"
-          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+            android:id="@+id/adminStudentDetailsClassNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Small.Inverse" />
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="15dp"
-          android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical"></LinearLayout>
 
         <EditText
-          android:id="@+id/adminStudentDetailsID"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:inputType="textPersonName"
-          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+            android:id="@+id/adminStudentDetailsID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Small.Inverse" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set/Change Beacon" />
 
       </LinearLayout>
     </LinearLayout>
