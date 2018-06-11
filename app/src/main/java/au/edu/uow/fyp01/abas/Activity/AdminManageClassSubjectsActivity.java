@@ -19,8 +19,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import au.edu.uow.fyp01.abas.Model.ListOfSubjectsModel;
 import au.edu.uow.fyp01.abas.Model.SchoolModel;
@@ -81,6 +83,10 @@ public class AdminManageClassSubjectsActivity extends Activity {
                             classesList.add(schoolModel.getClassname());
                             classesMap.put(schoolModel.getClassname(), schoolModel);
 
+                            Set<String> set = new HashSet<>();
+                            set.addAll(classesList);
+                            classesList.clear();
+                            classesList.addAll(set);
 
                         }
                         //Log.d(TAG, String.valueOf(classesList));
