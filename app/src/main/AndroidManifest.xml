@@ -95,7 +95,8 @@
         <activity
             android:name=".Activity.AdminSubjectsListActivity"
             android:label="Activity.AdminSubjectsListActivity" />
-        <activity android:name=".Activity.AdminManageClassSubjectsActivity"></activity>
+        <activity android:name=".Activity.AdminManageClassSubjectsActivity" />
+        <activity android:name=".Activity.AdminClassOptionsActivity"></activity>
     </application>
 
 </manifest>

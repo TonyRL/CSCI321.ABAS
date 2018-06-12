@@ -154,6 +154,29 @@ public class AdminStudentListActivity extends Activity {
     });
     //</editor-fold>
 
+    //<editor-fold desc="Class Options Button">
+    Button adminClassOptionsBtn = findViewById(R.id.adminClassOptionsBtn);
+    adminClassOptionsBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //<editor-fold desc="Transaction to move to 'AdminClassOptionsActivity'">
+
+        Intent i = new Intent(getApplicationContext(), AdminClassOptionsActivity.class);
+
+        //Passing to AdminClassOptionsActivity
+        Bundle args = new Bundle();
+        args.putString("classID", classID);
+        args.putString("schID", schID);
+
+        i.putExtras(args);
+
+        startActivity(i);
+
+        //</editor-fold>
+      }
+    });
+    //</editor-fold>
+
   }
 
 
