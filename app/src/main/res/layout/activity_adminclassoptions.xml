@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="au.edu.uow.fyp01.abas.Activity.AdminClassOptionsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/classListTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/PurplishBlue"
+            android:text="Class Options"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/adminMoveAllStudentsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Move all students to another class" />
+
+        <Button
+            android:id="@+id/adminRemoveAllStudentsBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remove all students" />
+
+        <Button
+            android:id="@+id/adminRenameClassBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rename class" />
+    </LinearLayout>
+</FrameLayout>
