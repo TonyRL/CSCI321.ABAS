@@ -1,30 +1,27 @@
 package au.edu.uow.fyp01.abas.Adapter;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter.BeaconViewHolder;
-import au.edu.uow.fyp01.abas.Model.BeaconModel;
+import android.widget.Toast;
+import au.edu.uow.fyp01.abas.Adapter.DialogRecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import org.altbeacon.beacon.Beacon;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
+public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
 
-  private static final String TAG = "RecyclerViewAdapter";
+  private static final String TAG = "DialogRecyclerViewAdapter";
   private ArrayList<Beacon> mData = new ArrayList<>();
 
-//  public RecyclerViewAdapter(ArrayList<Beacon> data) {
+//  public DialogRecyclerViewAdapter(ArrayList<Beacon> data) {
 //    this.mData = data;
 //  }
 
@@ -32,7 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
    * configures the layouts for the list item
    */
   @Override
-  public void onBindViewHolder(BeaconViewHolder holder, int position) {
+  public void onBindViewHolder(DialogRecyclerViewAdapter.BeaconViewHolder holder, int position) {
     Beacon beacon = mData.get(position);
 
     holder.proximity_uuid.setText(beacon.getId1().toString());
@@ -44,11 +41,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
    * inflate the layout for the list item
    */
   @Override
-  public BeaconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public DialogRecyclerViewAdapter.BeaconViewHolder onCreateViewHolder(ViewGroup parent,
+      int viewType) {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.activity_search_beacon_item, parent, false);
-    return new BeaconViewHolder(view, mData);
+    return new DialogRecyclerViewAdapter.BeaconViewHolder(view, mData);
   }
+
 
   /**
    * returns the size of the list
@@ -106,54 +105,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
       int position = getAdapterPosition();
       String uuid = beacons.get(position).getId1().toString();
 
-      FirebaseDatabase db = FirebaseDatabase.getInstance();
-      DatabaseReference dbref = db.getReference().child("Beacon").child(uuid);
-      dbref.addChildEventListener(new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-          if (dataSnapshot.exists()) {
-            BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
-
-            //TODO MOVE FROM HERE
-              /*
-            //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
-            Intent i = new Intent( <<<CONTEXT HERE>>>, RecordActivity.class);
-
-            //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
-            Bundle args = new Bundle();
-            args.putString("classID", beaconModel.getClassID());
-            args.putString("schID", beaconModel.getSchID());
-            args.putString("sID", beaconModel.getSid());
-            i.putExtras(args);
-
-            startActivity(i);
-            //</editor-fold>
-            */
-          }
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-      });
-
       //Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
+      Intent i = new Intent();
+      i.putExtra("UUID", uuid);
+
+      ((Activity) view.getContext()).setResult(Activity.RESULT_OK, i);
+      ((Activity) view.getContext()).finish();
     }
   }
 }
