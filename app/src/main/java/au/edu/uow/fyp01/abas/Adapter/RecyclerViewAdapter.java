@@ -115,10 +115,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
             BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
 
             //TODO MOVE FROM HERE
-              /*
             //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
-            Intent i = new Intent( <<<CONTEXT HERE>>>, RecordActivity.class);
-
+            Intent i = new Intent(view.getContext(), RecordOverviewActivity.class);
+            
             //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
             Bundle args = new Bundle();
             args.putString("classID", beaconModel.getClassID());
@@ -128,7 +127,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
 
             startActivity(i);
             //</editor-fold>
-            */
           }
         }
 
