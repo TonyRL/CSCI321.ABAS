@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter;
+import android.util.DisplayMetrics;
+import au.edu.uow.fyp01.abas.Adapter.DialogRecyclerViewAdapter;
 import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,23 +18,29 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 
-public class SearchBeaconActivity extends AppCompatActivity implements BeaconConsumer {
+public class PopupSearchBeaconActivity extends AppCompatActivity implements BeaconConsumer {
 
-  protected static final String TAG = "SearchBeaconActivity";
+  protected static final String TAG = "PopupSearchBeaconActivity";
 
   private ArrayList<Beacon> mFoundBeacons = new ArrayList<>();
   private RecyclerView recyclerView;
-  private RecyclerViewAdapter adapter;
+  private DialogRecyclerViewAdapter adapter;
   private RecyclerView.LayoutManager layoutManager;
 
   private BeaconManager beaconManager;
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_search_beacon);
+    setContentView(R.layout.dialog_search_beacon);
 
     initData();
     initView();
+
+    DisplayMetrics dm = new DisplayMetrics();
+    getWindowManager().getDefaultDisplay().getMetrics(dm);
+    int width = dm.widthPixels;
+    int height = dm.heightPixels;
+    getWindow().setLayout((int) (width * 0.7), (int) (height * 0.7));
 
     beaconManager = BeaconManager.getInstanceForApplication(this);
     beaconManager.setForegroundScanPeriod(3000);
@@ -46,27 +53,17 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   private void initData() {
     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-    //adapter = new RecyclerViewAdapter(getData());
-    adapter = new RecyclerViewAdapter();
+    adapter = new DialogRecyclerViewAdapter();
   }
 
   private void initView() {
-    recyclerView = findViewById(R.id.recyclerView);
+    recyclerView = findViewById(R.id.dialogRecyclerView);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
     recyclerView.setItemAnimator(new DefaultItemAnimator());
     recyclerView.addItemDecoration(
         new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
   }
-
-//  private ArrayList<Beacon> getData() {
-//    ArrayList<Beacon> data = new ArrayList<>();
-////    String temp = "Beacon ";
-////    for (int i = 0; i < 20; i++) {
-////      data.add(temp + i);
-////    }
-//    return data;
-//  }
 
   @Override
   protected void onDestroy() {

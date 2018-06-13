@@ -6,22 +6,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
-
+import au.edu.uow.fyp01.abas.Model.StudentModel;
+import au.edu.uow.fyp01.abas.PopupSearchBeaconActivity;
+import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import au.edu.uow.fyp01.abas.Model.StudentModel;
-import au.edu.uow.fyp01.abas.R;
 
 public class AdminStudentDetailsActivity extends Activity {
 
@@ -36,6 +36,7 @@ public class AdminStudentDetailsActivity extends Activity {
 
   private StudentModel studentModel;
 
+  private EditText adminStudentDetailsBeaconID;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,9 @@ public class AdminStudentDetailsActivity extends Activity {
     setContentView(R.layout.activity_adminstudentdetails);
 
     Bundle bundle = getIntent().getExtras();
+
+    //Referencing current layout for popup window
+//    frameLayout = findViewById(R.id.adminStudentDetails);
 
     //Grabbing args (classID and schID from AdminStudentListActivity)
     classname = bundle.getString("classname");
@@ -53,6 +57,9 @@ public class AdminStudentDetailsActivity extends Activity {
     //instantiate db
     db = FirebaseDatabase.getInstance();
     dbref = db.getReference().child("Student").child(schID).child(classID).child(sID);
+
+    //Beacon ID
+     adminStudentDetailsBeaconID = findViewById(R.id.adminStudentDetailsBeaconID);
 
     StudentQueryClass(new FirebaseCallBack() {
       @Override
@@ -171,9 +178,30 @@ public class AdminStudentDetailsActivity extends Activity {
         });
         //</editor-fold>
 
+        //<editor-fold desc="Search beacon button>
+        ImageButton adminStudentDetailSearchBeaconBtn = findViewById(
+            R.id.adminStudentDetailsSearchBeaconBtn);
+        adminStudentDetailSearchBeaconBtn.setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            // Better to use PopupWindow
+            //startActivity(new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class));
+            startActivityForResult(
+                new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class),
+                1234);
+          }
+        });
+        //</editor-fold>
       } //on callback end
     });//query class end
+  }
 
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == 1234 && resultCode == RESULT_OK) {
+      adminStudentDetailsBeaconID.setText(data.getStringExtra("UUID"));
+    }
   }
 
   private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
