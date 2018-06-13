@@ -1,10 +1,14 @@
 package au.edu.uow.fyp01.abas.Adapter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import au.edu.uow.fyp01.abas.Activity.RecordOverviewActivity;
 import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
 import au.edu.uow.fyp01.abas.R;
@@ -100,7 +104,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
     }
 
     @OnClick
-    void onClick(View view) {
+    void onClick(final View view) {
       // Bad approach:
       // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
       int position = getAdapterPosition();
@@ -115,10 +119,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
             BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
 
             //TODO MOVE FROM HERE
-              /*
             //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
-            Intent i = new Intent( <<<CONTEXT HERE>>>, RecordActivity.class);
-
+            Intent i = new Intent(view.getContext(), RecordOverviewActivity.class);
+            
             //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
             Bundle args = new Bundle();
             args.putString("classID", beaconModel.getClassID());
@@ -126,9 +129,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
             args.putString("sID", beaconModel.getSid());
             i.putExtras(args);
 
-            startActivity(i);
+            view.getContext().startActivity(i);
             //</editor-fold>
-            */
           }
         }
 
