@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import au.edu.uow.fyp01.abas.Activity.AdminStudentDetailsActivity;
+import au.edu.uow.fyp01.abas.Activity.RecordActivity;
 import au.edu.uow.fyp01.abas.Activity.RecordOverviewActivity;
 import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
@@ -20,8 +25,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import org.altbeacon.beacon.Beacon;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
 
@@ -105,23 +114,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
 
     @OnClick
     void onClick(final View view) {
+      //TODO grab user's SchID
       // Bad approach:
       // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
       int position = getAdapterPosition();
       String uuid = beacons.get(position).getId1().toString();
 
+      Log.d(TAG, "clicked " + uuid);
+
       FirebaseDatabase db = FirebaseDatabase.getInstance();
-      DatabaseReference dbref = db.getReference().child("Beacon").child(uuid);
-      dbref.addChildEventListener(new ChildEventListener() {
+      final DatabaseReference dbref = db.getReference().child("Beacon").child("SchID1").child(uuid);
+      dbref.addValueEventListener(new ValueEventListener() {
         @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        public void onDataChange(DataSnapshot dataSnapshot) {
           if (dataSnapshot.exists()) {
+
+
             BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
 
-            //TODO MOVE FROM HERE
-            //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
-            Intent i = new Intent(view.getContext(), RecordOverviewActivity.class);
-            
+            //<editor-fold desc="Transaction to move to 'RecordFragment'">
+            Intent i = new Intent(itemView.getContext(), RecordActivity.class);
+            Log.d(TAG, "attempting to move");
+
             //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
             Bundle args = new Bundle();
             args.putString("classID", beaconModel.getClassID());
@@ -131,22 +145,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
 
             view.getContext().startActivity(i);
             //</editor-fold>
+
           }
-        }
 
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+          else {
+            Toast.makeText(view.getContext(), "Beacon is not student ID",
+                    Toast.LENGTH_SHORT)
+                    .show();
+          }
         }
 
         @Override
