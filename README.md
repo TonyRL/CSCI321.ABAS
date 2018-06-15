@@ -1,4 +1,10 @@
 # CSCI321.ABAS
+Account | Password | Role
+------- | -------- | -------
+testacc1@test.com | test123 | -
+test123@test.com | test123 | -
+
+
 Build status  
 
 Branch | Jenkins | TravisCI   
