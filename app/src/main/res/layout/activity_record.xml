@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/recordFrame"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
-
-
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:padding="12dp">
 
     <TextView
       android:layout_width="match_parent"
@@ -29,77 +26,66 @@
     <LinearLayout
       android:id="@+id/generalInformationLayout"
       android:layout_width="match_parent"
-      android:layout_height="120dp"
-      android:orientation="horizontal">
-
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
       <LinearLayout
-        android:layout_width="97dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="First name:"
+          android:text="First name:  "
           android:textAppearance="@style/TextAppearance.AppCompat"/>
-
         <TextView
-          android:layout_width="match_parent"
+          android:id="@+id/recordFirstNameTextView"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Last name:"
           android:textAppearance="@style/TextAppearance.AppCompat"/>
-
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:orientation="vertical">
-
-        </LinearLayout>
-
-        <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="Student ID:"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-
       </LinearLayout>
 
       <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <TextView
-          android:id="@+id/recordFirstNameTextView"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
+          android:text="Last name:  "
           android:textAppearance="@style/TextAppearance.AppCompat"/>
-
         <TextView
           android:id="@+id/recordLastNameTextView"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:textAppearance="@style/TextAppearance.AppCompat"/>
+      </LinearLayout>
 
-        <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:orientation="vertical">
-
-        </LinearLayout>
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="12dp">
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Student ID:  "
+          android:textAppearance="@style/TextAppearance.AppCompat"/>
 
         <TextView
           android:id="@+id/recordSIDTextView"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
-
       </LinearLayout>
+
     </LinearLayout>
 
     <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Academic Records:"
+      android:textStyle="bold"
+      android:layout_marginBottom="6dp"
       android:textAppearance="@style/TextAppearance.AppCompat"/>
 
     <android.support.v7.widget.RecyclerView
@@ -114,5 +100,4 @@
       android:layout_height="wrap_content"/>
 
 
-  </LinearLayout>
-</FrameLayout>
+</LinearLayout>
