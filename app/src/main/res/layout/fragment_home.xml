@@ -1,194 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/fragment_home"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:padding="0dp"
+  android:background="#fcfcfc"
+  android:gravity="center"
+  android:orientation="vertical"
+  app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-  <Button
-    android:id="@+id/searchBtn"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp"
-    android:layout_alignBottom="@+id/searchBtnLayout"
-    android:layout_alignTop="@+id/searchBtnLayout"
-    android:background="?android:attr/selectableItemBackground"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
-  <LinearLayout
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    android:id="@+id/searchBtnLayout"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp"
-    android:orientation="vertical"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:ignore="UseCompoundDrawables">
-    <ImageView
-      android:id="@+id/searchBtnImage"
-      android:layout_width="match_parent"
-      android:layout_height="140dp"
-      android:contentDescription="@string/the_search_beacon_image_button"
-      android:gravity="center"
-      android:src="@drawable/ic_search_beacon"/>
-    <TextView
-      android:id="@+id/searchBtnText"
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/search_beacon"
-      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
-  </LinearLayout>
+      android:orientation="vertical">
 
-  <Button
-    android:id="@+id/fileBtn"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:layout_alignBottom="@+id/fileBtnLayout"
-    android:layout_alignTop="@+id/fileBtnLayout"
-    android:background="?android:attr/selectableItemBackground"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
-  <LinearLayout
-    android:id="@+id/fileBtnLayout"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:orientation="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:ignore="UseCompoundDrawables">
-    <ImageView
-      android:id="@+id/fileBtnImage"
-      android:layout_width="match_parent"
-      android:layout_height="140dp"
-      android:gravity="center"
-      android:src="@drawable/ic_file"/>
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <TextView
-      android:id="@+id/fileBtnText"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/sendfile"
-      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
+        <android.support.v7.widget.CardView
+          android:id="@+id/searchBtn"
+          android:layout_width="160dp"
+          android:layout_height="190dp"
+          android:layout_margin="10dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?android:attr/selectableItemBackground">
 
-  </LinearLayout>
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-  <Button
-    android:id="@+id/recordBtn"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp"
-    android:layout_alignBottom="@+id/recordBtnLayout"
-    android:layout_alignTop="@+id/recordBtnLayout"
-    android:background="?android:attr/selectableItemBackground"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/searchBtnLayout"/>
-  <LinearLayout
-    android:id="@+id/recordBtnLayout"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp"
-    android:orientation="vertical"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/searchBtnLayout"
-    tools:ignore="UseCompoundDrawables">
-    <ImageView
-      android:id="@+id/recordBtnImage"
-      android:layout_width="match_parent"
-      android:layout_height="140dp"
-      android:contentDescription="@string/the_record_image_button"
-      android:gravity="center"
-      android:src="@drawable/ic_record"/>
-    <TextView
-      android:id="@+id/recordBtnText"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/record"
-      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
-  </LinearLayout>
+            <ImageView
+              android:layout_width="64dp"
+              android:layout_height="64dp"
+              android:padding="10dp"
+              android:background="@drawable/circle_background_purple"
+              android:src="@drawable/ic_search_beacon"/>
 
+            <TextView
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:text="Beacon"/>
 
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_margin="10dp"
+              android:background="@color/LightGrey"/>
 
-  <Button
-    android:id="@+id/receievegileBtn"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:background="?android:attr/selectableItemBackground"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/fileBtn"/>
-  <LinearLayout
-    android:id="@+id/receievegileBtnLayout"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp"
-    android:orientation="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/fileBtnLayout"
-    tools:ignore="UseCompoundDrawables">
-    <ImageView
-      android:id="@+id/receievegileBtnImage"
-      android:layout_width="match_parent"
-      android:layout_height="140dp"
-      android:gravity="center"
-      android:src="@drawable/ic_file"/>
-    <TextView
-      android:id="@+id/receievegileBtnText"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/receivefile"
-      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
-  </LinearLayout>
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:gravity="center"
+              android:text="@string/search_beacon"
+              android:textColor="@android:color/darker_gray"/>
 
-  <Button
-    android:id="@+id/settingBtn"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp"
-    android:background="?android:attr/selectableItemBackground"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"/>
-  <LinearLayout
-    android:id="@+id/settingBtnLayout"
-    android:layout_width="160dp"
-    android:layout_height="160dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp"
-    android:orientation="vertical"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/recordBtnLayout"
-    tools:ignore="UseCompoundDrawables">
-    <ImageView
-      android:id="@+id/settingBtnImage"
-      android:layout_width="match_parent"
-      android:layout_height="140dp"
-      android:gravity="center"
-      android:src="@drawable/ic_setting"/>
-    <TextView
-      android:id="@+id/settingBtnText"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="@string/setting"
-      android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"/>
-  </LinearLayout>
+          </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+          android:id="@+id/uploadFileBtn"
+          android:layout_width="160dp"
+          android:layout_height="190dp"
+          android:layout_margin="10dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?android:attr/selectableItemBackground">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+              android:layout_width="64dp"
+              android:layout_height="64dp"
+              android:padding="10dp"
+              android:background="@drawable/circle_background_pink"
+              android:src="@drawable/ic_file_upload"/>
+
+            <TextView
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:text="Upload File"/>
+
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_margin="10dp"
+              android:background="@color/LightGrey"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:gravity="center"
+              android:text="Upload Now"
+              android:textColor="@android:color/darker_gray"/>
+
+          </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
-</android.support.constraint.ConstraintLayout>
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+          android:id="@+id/recordBtn"
+          android:layout_width="160dp"
+          android:layout_height="190dp"
+          android:layout_margin="10dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?android:attr/selectableItemBackground">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+              android:layout_width="64dp"
+              android:layout_height="64dp"
+              android:padding="10dp"
+              android:background="@drawable/circle_background_teal"
+              android:src="@drawable/ic_record"/>
+
+            <TextView
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:text="Records"/>
+
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_margin="10dp"
+              android:background="@color/LightGrey"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:gravity="center"
+              android:text="View Records"
+              android:textColor="@android:color/darker_gray"/>
+
+          </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+          android:id="@+id/downloadFileBtn"
+          android:layout_width="160dp"
+          android:layout_height="190dp"
+          android:layout_margin="10dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?android:attr/selectableItemBackground">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+              android:layout_width="64dp"
+              android:layout_height="64dp"
+              android:padding="10dp"
+              android:background="@drawable/circle_background_amber"
+              android:src="@drawable/ic_file_download"/>
+
+            <TextView
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:text="Download Files"/>
+
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_margin="10dp"
+              android:background="@color/LightGrey"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:gravity="center"
+              android:text="Download Now"
+              android:textColor="@android:color/darker_gray"/>
+
+          </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+          android:id="@+id/settingBtn"
+          android:layout_width="340dp"
+          android:layout_height="150dp"
+          android:layout_margin="10dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:foreground="?android:attr/selectableItemBackground">
+
+          <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+              android:layout_width="64dp"
+              android:layout_height="64dp"
+              android:padding="10dp"
+              android:background="@drawable/circle_background_purple"
+              android:src="@drawable/ic_setting"/>
+
+            <TextView
+              android:textStyle="bold"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dp"
+              android:text="Settings"/>
+
+            <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_margin="10dp"
+              android:background="@color/LightGrey"/>
+
+            <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:gravity="center"
+              android:text="View Settings"
+              android:textColor="@android:color/darker_gray"/>
+
+          </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </ScrollView>
+
+
+</LinearLayout>

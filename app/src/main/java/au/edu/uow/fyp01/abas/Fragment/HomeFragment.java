@@ -6,28 +6,27 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.SearchBeaconActivity;
-import au.edu.uow.fyp01.abas.SettingActivity;
 
 public class HomeFragment extends Fragment {
 
   private NavigationView navigationView;
 
-  private Button searchBtn;
-  private Button fileBtn;
-  private Button recordBtn;
-  private Button settingBtn;
-  private Button receievegileBtn;
+  private CardView searchBtn;
+  private CardView uploadFileBtn;
+  private CardView recordBtn;
+  private CardView settingBtn;
+  private CardView downloadFileBtn;
 
   private View.OnClickListener onClickListener = new OnClickListener() {
     @Override
@@ -39,11 +38,11 @@ public class HomeFragment extends Fragment {
           Intent searchBeaconActivityIntent = new Intent(getActivity(), SearchBeaconActivity.class);
           startActivity(searchBeaconActivityIntent);
           break;
-        case R.id.fileBtn:
+        case R.id.uploadFileBtn:
           Intent fileSendFile = new Intent(getActivity(),FileSharingHome.class);
           startActivity(fileSendFile);
           break;
-        case R.id.receievegileBtn:
+        case R.id.downloadFileBtn:
           Intent fileReceiveFile = new Intent(getActivity(),FileReceiveHome.class);
           startActivity(fileReceiveFile);
           break;
@@ -74,17 +73,17 @@ public class HomeFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
     searchBtn = view.findViewById(R.id.searchBtn);
-    fileBtn = view.findViewById(R.id.fileBtn);
-    receievegileBtn=view.findViewById(R.id.receievegileBtn);
+    uploadFileBtn = view.findViewById(R.id.uploadFileBtn);
+    downloadFileBtn =view.findViewById(R.id.downloadFileBtn);
 
     recordBtn = view.findViewById(R.id.recordBtn);
     settingBtn = view.findViewById(R.id.settingBtn);
 
     searchBtn.setOnClickListener(onClickListener);
-    fileBtn.setOnClickListener(onClickListener);
+    uploadFileBtn.setOnClickListener(onClickListener);
     recordBtn.setOnClickListener(onClickListener);
     settingBtn.setOnClickListener(onClickListener);
-    receievegileBtn.setOnClickListener(onClickListener);
+    downloadFileBtn.setOnClickListener(onClickListener);
 
     return view;
   }
