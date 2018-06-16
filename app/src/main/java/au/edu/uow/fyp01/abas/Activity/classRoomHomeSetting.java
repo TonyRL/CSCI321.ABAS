@@ -57,7 +57,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class classRoomHomeSetting extends Activity implements EasyPermissions.PermissionCallbacks {
 
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
     private TextView accountTextView;
     private TextView statusTextView;
     private RecyclerView recyclerView;
@@ -69,7 +68,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Classroom API";
+    private static final String BUTTON_TEXT = "Connect to Classroom";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {ClassroomScopes.CLASSROOM_COURSES_READONLY};
 
@@ -88,15 +87,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         accountTextView = findViewById(R.id.class_room_home_gmail_textview);
         statusTextView = findViewById(R.id.class_room_home_status_textview);
         mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
-            }
-        });
+
 
         DatabaseReference setTextRefAccount = FirebaseDatabase.getInstance().getReference().child("Classroom_Link_Account")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Account_Details");
@@ -108,9 +99,26 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
                 if (!dataSnapshot.getValue().toString().isEmpty()){
                     accountTextView.setText(dataSnapshot.getValue().toString());
-                      accountTextView.setTextColor(Color.GREEN);
+                    accountTextView.setTextColor(Color.GREEN);
+                    mCallApiButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(classRoomHomeSetting.this,"Already Connected",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    mCallApiButton.setTextColor(Color.GREEN);
+
                 } else {
                     accountTextView.setTextColor(Color.RED);
+                    mCallApiButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mCallApiButton.setEnabled(false);
+                            getResultsFromApi();
+                            mCallApiButton.setEnabled(true);
+                        }
+                    });
+                    mCallApiButton.setTextColor(Color.RED);
                 }
 
             }
@@ -143,9 +151,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         });
 
 
-        mOutputText = findViewById(R.id.class_room_home_setting_textview);
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT + "\' button to test the API.");
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Classroom API ...");
@@ -153,7 +158,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
-                getApplicationContext(), Arrays.asList(SCOPES))
+                classRoomHomeSetting.this, Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
     }
 
@@ -170,7 +175,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (!isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
+            Toast.makeText(classRoomHomeSetting.this,"No network connection available.", Toast.LENGTH_LONG).show();
         } else {
             new MakeRequestTask(mCredential).execute();
             //Store name
@@ -231,9 +236,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         switch (requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
+                    Toast.makeText(classRoomHomeSetting.this,
                             "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
+                                    "Google Play Services on your device and relaunch this app.",Toast.LENGTH_LONG).show();
                 } else {
                     getResultsFromApi();
                 }
@@ -435,7 +440,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
         @Override
         protected void onPreExecute() {
-            mOutputText.setText("");
             mProgress.show();
         }
 
@@ -443,13 +447,12 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+                Toast.makeText(classRoomHomeSetting.this,"No results returned.",Toast.LENGTH_LONG).show();
             } else {
                 //KEYYYYY -> success
                 List<String> output2;
                 output2 = getListID();
                 if (output2 != null && output2.size() > 0) {
-                    mOutputText.setText(TextUtils.join("\n", output));
 
                     DatabaseReference dbRef_to_push = FirebaseDatabase.getInstance()
                             .getReference().child("Classroom_Link_Account").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -515,11 +518,11 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             classRoomHomeSetting.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
+                    Toast.makeText(classRoomHomeSetting.this,"The following error occurred:\n"
+                            + mLastError.getMessage(),Toast.LENGTH_LONG).show();
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+               Toast.makeText(classRoomHomeSetting.this,"Request cancelled.", Toast.LENGTH_LONG).show();
             }
         }
     }
