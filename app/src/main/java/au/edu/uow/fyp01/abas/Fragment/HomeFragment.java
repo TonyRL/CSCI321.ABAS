@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
+import au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.SettingActivity;
@@ -45,14 +46,15 @@ public class HomeFragment extends Fragment {
         case R.id.receievegileBtn:
           Intent fileReceiveFile = new Intent(getActivity(),FileReceiveHome.class);
           startActivity(fileReceiveFile);
+          break;
         case R.id.recordBtn:
           //swapFragment(R.id.nav_record);
           //navigationView.getMenu().getItem(3).setChecked(true);
           break;
         case R.id.settingBtn:
-          Intent homeReceiveActivityIntent = new Intent(getActivity(), FileReceiveHome.class);
-          startActivity(homeReceiveActivityIntent);
-          return;
+          Intent classroomapi = new Intent(getActivity(),classRoomHomeSetting.class);
+          startActivity(classroomapi);
+          break;
         default:
           break;
       }
