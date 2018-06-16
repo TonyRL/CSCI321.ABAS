@@ -10,4 +10,6 @@
   <color name="DarkerPurplishBlue">#323cc6</color>
   <color name="ReallyDarkBlue">#23307e</color>
   <color name="WhiteishBlue">#798eff</color>
+  <color name="green">#00bfa5</color>
+  <color name="yellow">#ffb300</color>
 </resources>

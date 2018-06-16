@@ -42,7 +42,7 @@
             android:label="SearchBeaconActivity" />
         <activity
             android:name=".Activity.ClassListActivity"
-            android:label="Activity.ClassListActivity" />
+            android:label="Activity.ClassListActivity"/>
         <activity
             android:name=".Activity.StudentListActivity"
             android:label="Activity.StudentListActivity" />
