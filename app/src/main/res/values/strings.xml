@@ -33,5 +33,6 @@
     <string name="the_record_image_button">The record image button</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
+  <string name="classes">Classes</string>
 
 </resources>
