@@ -6,9 +6,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,9 @@ public class RecordEditGradeActivity extends Activity {
   private String grade;
   private String date;
   private Long timestamp;
+  private String gradename;
+  private String type;
+  private String[] gradetypes = {"assignment", "quiz", "test", "exam"};
 
   //date variables
   private int year;
@@ -53,11 +59,16 @@ public class RecordEditGradeActivity extends Activity {
     grade = bundle.getString("grade");
     date = bundle.getString("date");
     timestamp = bundle.getLong("timestamp");
+    gradename = bundle.getString("gradename");
+    type = bundle.getString("type");
 
     db = FirebaseDatabase.getInstance();
     //Record -> StudentID -> SubjectID -> RecordID
     dbref = db.getReference().child("Record").child(sID)
         .child(subjectID).child(recordID);
+
+    final EditText recordNameEditView = findViewById(R.id.recordNameEditView);
+    recordNameEditView.setText(gradename);
 
     final EditText recordGradeEditView = findViewById(R.id.recordGradeEditView);
     recordGradeEditView.setText(grade);
@@ -107,6 +118,51 @@ public class RecordEditGradeActivity extends Activity {
     TextView recordIDTextView = findViewById(R.id.recordIDTextView);
     recordIDTextView.setText(recordID);
 
+    final TextView recordTypeTextView = findViewById(R.id.recordTypeTextView);
+    recordTypeTextView.setText(type);
+
+    recordTypeTextView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                RecordEditGradeActivity.this);
+        builder.setTitle("Change type to: ");
+
+        //Set up the layout
+        LinearLayout layout = new LinearLayout(RecordEditGradeActivity.this);
+
+        //set up the spinner as a drop down box
+        final Spinner dropdown = new Spinner(RecordEditGradeActivity.this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                RecordEditGradeActivity.this,
+                android.R.layout.simple_spinner_dropdown_item, gradetypes);
+        dropdown.setAdapter(adapter);
+        //add dropdown to the dialog
+        layout.addView(dropdown);
+
+        builder.setView(layout);
+
+        //dialog's OK button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            type = dropdown.getSelectedItem().toString();
+            recordTypeTextView.setText(dropdown.getSelectedItem().toString());
+          }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+          }
+        });
+
+        builder.show();
+      }
+    });
+
+
     Button recordEditGradeSaveBtn = findViewById(R.id.recordEditGradeSaveBtn);
     recordEditGradeSaveBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -117,6 +173,8 @@ public class RecordEditGradeActivity extends Activity {
         addToDatabase.put("grade", recordGradeEditView.getText().toString());
         addToDatabase.put("recordID", recordID);
         addToDatabase.put("timestamp", timestamp);
+        addToDatabase.put("gradename", recordNameEditView.getText().toString());
+        addToDatabase.put("type",recordTypeTextView.getText().toString());
 
         dbref.updateChildren(addToDatabase);
 

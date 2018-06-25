@@ -224,10 +224,10 @@
       android:text="Manage Student's Subjects"/>
 
     <Button
-      android:id="@+id/adminChangeClassBtn"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Change student's class"/>
+        android:id="@+id/adminChangeStudentClassBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change student's class" />
 
   </LinearLayout>
 </FrameLayout>
