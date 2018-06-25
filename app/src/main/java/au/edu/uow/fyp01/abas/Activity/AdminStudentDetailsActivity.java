@@ -8,16 +8,21 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
+import au.edu.uow.fyp01.abas.Model.SchoolModel;
 import au.edu.uow.fyp01.abas.Model.StudentModel;
 import au.edu.uow.fyp01.abas.PopupSearchBeaconActivity;
 import au.edu.uow.fyp01.abas.R;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -45,6 +52,9 @@ public class AdminStudentDetailsActivity extends Activity {
     private StudentModel studentModel;
 
     private EditText adminStudentDetailsBeaconID;
+
+    private List<String> classesList;
+    private Map<String, SchoolModel> classesMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +117,10 @@ public class AdminStudentDetailsActivity extends Activity {
         //Beacon ID
         adminStudentDetailsBeaconID = findViewById(R.id.adminStudentDetailsBeaconID);
 
+        //Arrays for spinner
+        classesList = new ArrayList<>();
+        classesMap = new HashMap<>();
+
         StudentQueryClass(new FirebaseCallBack() {
             @Override
             public void onCallBack(StudentModel studentModel1) {
@@ -122,21 +136,39 @@ public class AdminStudentDetailsActivity extends Activity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            Log.d(TAG, "dataSnapShot ID: " + dataSnapshot.getKey().toString());
                             for (DataSnapshot node : dataSnapshot.getChildren()) {
 
-                                Log.d(TAG, "node ID: " + node.getKey().toString());
                                 //get the node in BeaconModel
                                 BeaconModel beaconModel = node.getValue(BeaconModel.class);
                                 beaconID = beaconModel.getBeaconID();
-                                Log.d(TAG, "beaconID = " + beaconID);
 
                             }
                         } else {
                             beaconID = "NOTSET";
                         }
 
-                        adminStudentDetailsBeaconID.setText(beaconID);
+                        if (beaconID.equals("NOTSET")) {
+                            adminStudentDetailsBeaconID.setText("Beacon not set!");
+                        } else {
+                            adminStudentDetailsBeaconID.setText(beaconID);
+                        }
+
+                        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+                        DatabaseReference dbref2 = db2.getReference().child("School").child(schID);
+                        dbref2.orderByChild("classname").addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                            if (dataSnapshot.exists()){
+
+                                SchoolModel schoolModel =
+                                        dataSnapshot.getValue(SchoolModel.class);
+
+                                classesList.add(schoolModel.getClassname());
+                                classesMap.put(schoolModel.getClassname(), schoolModel);
+
+
+                            }
 
 
                         //First name
@@ -262,7 +294,7 @@ public class AdminStudentDetailsActivity extends Activity {
                         });
                         //</editor-fold>
 
-                        //<editor-fold desc="Search beacon button>
+                        //<editor-fold desc="Search beacon button">
                         ImageButton adminStudentDetailSearchBeaconBtn = findViewById(
                                 R.id.adminStudentDetailsSearchBeaconBtn);
                         adminStudentDetailSearchBeaconBtn.setOnClickListener(new OnClickListener() {
@@ -275,15 +307,99 @@ public class AdminStudentDetailsActivity extends Activity {
                                         1234);
                             }
                         });
-
-
                         //</editor-fold>
-                    }
+
+                        //<editor-fold desc="Change student's class">
+                        Button adminChangeStudentClassBtn = findViewById(R.id.adminChangeStudentClassBtn);
+                        adminChangeStudentClassBtn.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(
+                                        AdminStudentDetailsActivity.this);
+                                builder.setTitle("Move student to class: ");
+
+                                //Set up the layout
+                                LinearLayout layout = new LinearLayout(AdminStudentDetailsActivity.this);
+
+                                //set up the spinner as a drop down box
+                                final Spinner dropdown = new Spinner(AdminStudentDetailsActivity.this);
+                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                        AdminStudentDetailsActivity.this,
+                                        android.R.layout.simple_spinner_dropdown_item,classesList);
+                                dropdown.setAdapter(adapter);
+                                //add dropdown to the dialog
+                                layout.addView(dropdown);
+
+                                builder.setView(layout);
+
+                                //dialog's OK button
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //get the SchoolModel from map first
+                                        SchoolModel schoolModel = classesMap.get(
+                                                dropdown.getSelectedItem().toString());
+                                        //get the class ID
+                                        String classIDTo = schoolModel.getClassID();
+
+
+                                        //set the new class ID ref
+                                        DatabaseReference dbrefTo = db.getReference().child("Student").child(schID).child(classIDTo).child(sID);
+
+                                        //perform the move
+                                        moveClass(dbref,dbrefTo);
+
+                                        //Toast for success
+                                        Toast.makeText(AdminStudentDetailsActivity.this,
+                                                "Moved student to new class", Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                });
+
+                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                                builder.show();
+                            }
+                        });
+                        //</editor-fold>
+
+                        //END HERE
+
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        }); // Query for classes list end
+                    }  //Query for classes list end
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
+
+
                 }); //endquery
             } //on callback end
         });//query class end
@@ -329,6 +445,40 @@ public class AdminStudentDetailsActivity extends Activity {
     private interface FirebaseCallBack {
 
         void onCallBack(StudentModel studentModel);
+    }
+
+    //This one is to move on node to another
+    public void moveClass(final DatabaseReference fromPath, final DatabaseReference toPath)
+    {
+        fromPath.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener()
+                {
+                    @Override
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase)
+                    {
+                        if (firebaseError != null)
+                        {
+                            System.out.println("Copy failed");
+                        }
+                        else
+                        {
+                            fromPath.removeValue();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Copy failed");
+            }
+
+
+        });
     }
 
 }

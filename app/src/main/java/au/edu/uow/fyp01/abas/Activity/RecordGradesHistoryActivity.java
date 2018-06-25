@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -69,6 +70,8 @@ public class RecordGradesHistoryActivity extends Activity {
             holder.setDate(model.getDate());
             holder.setTimestamp(model.getTimestamp());
             holder.setGrade(model.getGrade());
+            holder.setGradename(model.getGradename());
+            holder.setType(model.getType());
             holder.setButton();
           }
 
@@ -76,7 +79,7 @@ public class RecordGradesHistoryActivity extends Activity {
           @Override
           public RecordModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view1 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                .inflate(R.layout.recyclermodellayout_grade, parent, false);
             return new RecordModelViewHolder(view1);
           }
         };
@@ -127,6 +130,8 @@ public class RecordGradesHistoryActivity extends Activity {
     String date;
     String grade;
     Long timestamp;
+    String gradename;
+    String type;
 
     public RecordModelViewHolder(View itemView) {
       super(itemView);
@@ -139,25 +144,36 @@ public class RecordGradesHistoryActivity extends Activity {
 
     public void setDate(String date) {
       this.date = date;
+      TextView gradeModelDateTextView = mView.findViewById(R.id.gradeModelDateTextView);
+      gradeModelDateTextView.setText(date);
     }
 
     public void setGrade(String grade) {
       this.grade = grade;
+      TextView gradeModelGradeTextView = mView.findViewById(R.id.gradeModelGradeTextView);
+      gradeModelGradeTextView.setText(grade);
     }
 
     public void setTimestamp(Long timestamp) {
       this.timestamp = timestamp;
     }
 
+    public void setGradename(String gradename) {
+      this.gradename = gradename;
+      TextView gradeModelNameTextView = mView.findViewById(R.id.gradeModelNameTextView);
+      gradeModelNameTextView.setText(gradename);
+    }
+
+    public void setType(String type) {
+      this.type = type;
+      TextView gradeModelTypeTextView = mView.findViewById(R.id.gradeModelRecordTypeTextView);
+      gradeModelTypeTextView.setText(type);
+    }
+
     public void setButton() {
-      //points to recyclermodellayout_singlebutton
+      //points to recyclermodellayout_grades
       //The button is for each record
-      final Button recordButtonView = mView.findViewById(R.id.modelSingleBtn);
-
-      //set up name of the button
-      String temp = date + " : " + grade;
-      recordButtonView.setText(temp);
-
+      final Button recordButtonView = mView.findViewById(R.id.editGradeBtn);
       recordButtonView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -173,6 +189,8 @@ public class RecordGradesHistoryActivity extends Activity {
           args.putString("grade", grade);
           args.putString("date", date);
           args.putLong("timestamp", timestamp);
+          args.putString("gradename", gradename);
+          args.putString("type", type);
 
           i.putExtras(args);
 

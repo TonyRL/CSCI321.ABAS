@@ -6,9 +6,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,8 @@ public class RecordAddNewGradeActivity extends Activity {
   private int monthOfYear;
   private int dayOfMonth;
 
+  private String[] gradetypes = {"assignment", "quiz", "test", "exam"};
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -55,9 +59,18 @@ public class RecordAddNewGradeActivity extends Activity {
     dbref = db.getReference().child("Record").child(sID)
         .child(subjectID);
 
+    final EditText recordNewNameEditView = findViewById(R.id.recordNewNameEditView);
+
     final EditText recordNewGradeEditView = findViewById(R.id.recordNewGradeEditView);
 
     final TextView recordNewDateTextView = findViewById(R.id.recordNewDateTextView);
+
+    final Spinner recordNewTypeSpinner = findViewById(R.id.recordNewTypeSpinner);
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+            RecordAddNewGradeActivity.this,
+            android.R.layout.simple_spinner_dropdown_item, gradetypes);
+    recordNewTypeSpinner.setAdapter(adapter);
+
     //Set up date picker dialog
 
     //initialize date (default: TODAY/NOW)
@@ -126,6 +139,8 @@ public class RecordAddNewGradeActivity extends Activity {
                 addToDatabase.put("grade", recordNewGradeEditView.getText().toString());
                 addToDatabase.put("recordID", recordID);
                 addToDatabase.put("timestamp", timestamp);
+                addToDatabase.put("gradename", recordNewNameEditView.getText().toString());
+                addToDatabase.put("type", recordNewTypeSpinner.getSelectedItem().toString());
 
                 dbref.child(recordID).updateChildren(addToDatabase);
 
