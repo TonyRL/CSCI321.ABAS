@@ -546,6 +546,15 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                 mapToPush.put("Status", "Teacher");
                                 mapToPush.put("Classroom_ID", temp.getProfile().getId());
 
+                                DatabaseReference DBREFPUSHCLASSID = FirebaseDatabase.getInstance()
+                                        .getReference().child("Classroom_Link_Account").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Account_Details").child("Classroom_ID");
+                                Map topushClassMap = new HashMap();
+                                topushClassMap.put("Classroom_ID", temp.getProfile().getId());
+                                DBREFPUSHCLASSID.updateChildren(topushClassMap);
+
+
+
+
                                 dbRef_to_push.child("Class_List").child(id).updateChildren(mapToPush, new DatabaseReference.CompletionListener() {
                                     @Override
                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
