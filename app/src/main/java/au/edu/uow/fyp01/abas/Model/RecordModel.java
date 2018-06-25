@@ -10,6 +10,8 @@ public class RecordModel {
   String date;
   Long timestamp;
   String recordID;
+  String type;
+  String gradename;
 
   public RecordModel() {
   }
@@ -65,5 +67,21 @@ public class RecordModel {
 
   public Long getTimestamp() {
     return timestamp;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setGradename(String gradename) {
+    this.gradename = gradename;
+  }
+
+  public String getGradename() {
+    return gradename;
   }
 }
