@@ -159,216 +159,216 @@ public class AdminStudentDetailsActivity extends Activity {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                            if (dataSnapshot.exists()){
+                                if (dataSnapshot.exists()) {
 
-                                SchoolModel schoolModel =
-                                        dataSnapshot.getValue(SchoolModel.class);
+                                    SchoolModel schoolModel =
+                                            dataSnapshot.getValue(SchoolModel.class);
 
-                                classesList.add(schoolModel.getClassname());
-                                classesMap.put(schoolModel.getClassname(), schoolModel);
-
-
-                            }
+                                    classesList.add(schoolModel.getClassname());
+                                    classesMap.put(schoolModel.getClassname(), schoolModel);
 
 
-                        //First name
-                        final EditText adminStudentDetailsFirstName = findViewById(
-                                R.id.adminStudentDetailsFirstName);
-                        adminStudentDetailsFirstName.setText(studentModel.getFirstname());
+                                }
 
-                        //Last name
-                        final EditText adminStudentDetailsLastName = findViewById(R.id.adminStudentDetailsLastName);
-                        adminStudentDetailsLastName.setText(studentModel.getLastname());
 
-                        //Class number
-                        final EditText adminStudentDetailsClassNumber = findViewById(
-                                R.id.adminStudentDetailsClassNumber);
-                        adminStudentDetailsClassNumber.setText(studentModel.getClassnumber());
+                                //First name
+                                final EditText adminStudentDetailsFirstName = findViewById(
+                                        R.id.adminStudentDetailsFirstName);
+                                adminStudentDetailsFirstName.setText(studentModel.getFirstname());
 
-                        //Student ID
-                        final EditText adminStudentDetailsID = findViewById(R.id.adminStudentDetailsID);
-                        adminStudentDetailsID.setText(studentModel.getSid());
+                                //Last name
+                                final EditText adminStudentDetailsLastName = findViewById(R.id.adminStudentDetailsLastName);
+                                adminStudentDetailsLastName.setText(studentModel.getLastname());
 
-                        //<editor-fold desc="Edit student details button">
-                        Button adminStudentDetailsEditBtn = findViewById(R.id.adminStudentDetailsEditBtn);
-                        adminStudentDetailsEditBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //GET TEXT FROM INPUT FIRST
-                                String firstname = adminStudentDetailsFirstName.getText().toString();
-                                String lastname = adminStudentDetailsLastName.getText().toString();
-                                String classnumber = adminStudentDetailsClassNumber.getText().toString();
-                                String sID = adminStudentDetailsID.getText().toString();
+                                //Class number
+                                final EditText adminStudentDetailsClassNumber = findViewById(
+                                        R.id.adminStudentDetailsClassNumber);
+                                adminStudentDetailsClassNumber.setText(studentModel.getClassnumber());
 
-                                //handle user input into database
-                                Map<String, Object> addToDatabase = new HashMap<>();
+                                //Student ID
+                                final EditText adminStudentDetailsID = findViewById(R.id.adminStudentDetailsID);
+                                adminStudentDetailsID.setText(studentModel.getSid());
 
-                                addToDatabase.put("classnumber", classnumber);
-                                addToDatabase.put("firstname", firstname);
-                                addToDatabase.put("lastname", lastname);
-                                addToDatabase.put("sid", sID);
-                                //update children of Student->SchID->ClassID->StudentID
-                                dbref.updateChildren(addToDatabase);
+                                //<editor-fold desc="Edit student details button">
+                                Button adminStudentDetailsEditBtn = findViewById(R.id.adminStudentDetailsEditBtn);
+                                adminStudentDetailsEditBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        //GET TEXT FROM INPUT FIRST
+                                        String firstname = adminStudentDetailsFirstName.getText().toString();
+                                        String lastname = adminStudentDetailsLastName.getText().toString();
+                                        String classnumber = adminStudentDetailsClassNumber.getText().toString();
+                                        String sID = adminStudentDetailsID.getText().toString();
 
-                                //FIX THE BEACONID
-                                FirebaseDatabase db1 = FirebaseDatabase.getInstance();
-                                DatabaseReference dbref1 = db1.getReference().child("Beacon").child(schID).child(beaconID);
-                                //this is for putting into Beacon node
-                                Map<String, Object> addToBeacon = new HashMap<>();
-                                addToBeacon.put("schID", schID);
-                                addToBeacon.put("beaconID", beaconID);
-                                addToBeacon.put("classID", classID);
-                                addToBeacon.put("sid", sID);
-                                //push to Beacon node
-                                dbref1.updateChildren(addToBeacon);
+                                        //handle user input into database
+                                        Map<String, Object> addToDatabase = new HashMap<>();
 
-                                Toast.makeText(AdminStudentDetailsActivity.this, "Student details saved",
-                                        Toast.LENGTH_SHORT)
-                                        .show();
+                                        addToDatabase.put("classnumber", classnumber);
+                                        addToDatabase.put("firstname", firstname);
+                                        addToDatabase.put("lastname", lastname);
+                                        addToDatabase.put("sid", sID);
+                                        //update children of Student->SchID->ClassID->StudentID
+                                        dbref.updateChildren(addToDatabase);
 
-                            }
-                        });
-                        //</editor-fold>
+                                        //FIX THE BEACONID
+                                        FirebaseDatabase db1 = FirebaseDatabase.getInstance();
+                                        DatabaseReference dbref1 = db1.getReference().child("Beacon").child(schID).child(beaconID);
+                                        //this is for putting into Beacon node
+                                        Map<String, Object> addToBeacon = new HashMap<>();
+                                        addToBeacon.put("schID", schID);
+                                        addToBeacon.put("beaconID", beaconID);
+                                        addToBeacon.put("classID", classID);
+                                        addToBeacon.put("sid", sID);
+                                        //push to Beacon node
+                                        dbref1.updateChildren(addToBeacon);
 
-                        //<editor-fold desc="Remove student from class button">
-                        Button adminStudentDetailsDeleteBtn = findViewById(R.id.adminStudentDetailsDeleteBtn);
-                        adminStudentDetailsDeleteBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //Ask for user confirmation
-                                AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                                        AdminStudentDetailsActivity.this);
-                                builder1.setMessage("Are you sure you want to remove the student from this class?");
-                                builder1.setCancelable(true);
+                                        Toast.makeText(AdminStudentDetailsActivity.this, "Student details saved",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
 
-                                builder1.setPositiveButton(
-                                        "Yes",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                //Delete Student->SchID->ClassID->StudentID
-                                                dbref.removeValue();
+                                    }
+                                });
+                                //</editor-fold>
 
-                                                //close activity
-                                                finish();
+                                //<editor-fold desc="Remove student from class button">
+                                Button adminStudentDetailsDeleteBtn = findViewById(R.id.adminStudentDetailsDeleteBtn);
+                                adminStudentDetailsDeleteBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        //Ask for user confirmation
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(
+                                                AdminStudentDetailsActivity.this);
+                                        builder1.setMessage("Are you sure you want to remove the student from this class?");
+                                        builder1.setCancelable(true);
+
+                                        builder1.setPositiveButton(
+                                                "Yes",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        //Delete Student->SchID->ClassID->StudentID
+                                                        dbref.removeValue();
+
+                                                        //close activity
+                                                        finish();
+                                                    }
+                                                });
+
+                                        builder1.setNegativeButton(
+                                                "No",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
+                                        //end of confirmation
+                                    }
+                                });
+                                //</editor-fold>
+
+                                //<editor-fold desc="Student's subjects button>
+                                Button adminStudentDetailsSubjectsBtn = findViewById(R.id.adminStudentDetailsSubjectsBtn);
+                                adminStudentDetailsSubjectsBtn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        //<editor-fold desc="Transaction to move to 'AdminStudentSubjectListActivity'">
+
+                                        Intent i = new Intent(getApplicationContext(), AdminStudentSubjectListActivity.class);
+
+                                        //Passing 'sID','classID','schID' to AdminStudentSubjectListActivity
+                                        Bundle args = new Bundle();
+                                        args.putString("sID", sID);
+                                        args.putString("schID", schID);
+                                        args.putString("firstname", studentModel.getFirstname());
+                                        args.putString("lastname", studentModel.getLastname());
+                                        args.putString("classID", classID);
+
+                                        i.putExtras(args);
+
+                                        startActivity(i);
+
+                                        //</editor-fold>
+                                    }
+                                });
+                                //</editor-fold>
+
+                                //<editor-fold desc="Search beacon button">
+                                ImageButton adminStudentDetailSearchBeaconBtn = findViewById(
+                                        R.id.adminStudentDetailsSearchBeaconBtn);
+                                adminStudentDetailSearchBeaconBtn.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // Better to use PopupWindow
+                                        //startActivity(new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class));
+                                        startActivityForResult(
+                                                new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class),
+                                                1234);
+                                    }
+                                });
+                                //</editor-fold>
+
+                                //<editor-fold desc="Change student's class">
+                                Button adminChangeStudentClassBtn = findViewById(R.id.adminChangeStudentClassBtn);
+                                adminChangeStudentClassBtn.setOnClickListener(new OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(
+                                                AdminStudentDetailsActivity.this);
+                                        builder.setTitle("Move student to class: ");
+
+                                        //Set up the layout
+                                        LinearLayout layout = new LinearLayout(AdminStudentDetailsActivity.this);
+
+                                        //set up the spinner as a drop down box
+                                        final Spinner dropdown = new Spinner(AdminStudentDetailsActivity.this);
+                                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                                AdminStudentDetailsActivity.this,
+                                                android.R.layout.simple_spinner_dropdown_item, classesList);
+                                        dropdown.setAdapter(adapter);
+                                        //add dropdown to the dialog
+                                        layout.addView(dropdown);
+
+                                        builder.setView(layout);
+
+                                        //dialog's OK button
+                                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                //get the SchoolModel from map first
+                                                SchoolModel schoolModel = classesMap.get(
+                                                        dropdown.getSelectedItem().toString());
+                                                //get the class ID
+                                                String classIDTo = schoolModel.getClassID();
+
+
+                                                //set the new class ID ref
+                                                DatabaseReference dbrefTo = db.getReference().child("Student").child(schID).child(classIDTo).child(sID);
+
+                                                //perform the move
+                                                moveClass(dbref, dbrefTo);
+
+                                                //Toast for success
+                                                Toast.makeText(AdminStudentDetailsActivity.this,
+                                                        "Moved student to new class", Toast.LENGTH_SHORT)
+                                                        .show();
                                             }
                                         });
 
-                                builder1.setNegativeButton(
-                                        "No",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int id) {
+                                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
                                                 dialog.cancel();
                                             }
                                         });
 
-                                AlertDialog alert11 = builder1.create();
-                                alert11.show();
-                                //end of confirmation
-                            }
-                        });
-                        //</editor-fold>
-
-                        //<editor-fold desc="Student's subjects button>
-                        Button adminStudentDetailsSubjectsBtn = findViewById(R.id.adminStudentDetailsSubjectsBtn);
-                        adminStudentDetailsSubjectsBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //<editor-fold desc="Transaction to move to 'AdminStudentSubjectListActivity'">
-
-                                Intent i = new Intent(getApplicationContext(), AdminStudentSubjectListActivity.class);
-
-                                //Passing 'sID','classID','schID' to AdminStudentSubjectListActivity
-                                Bundle args = new Bundle();
-                                args.putString("sID", sID);
-                                args.putString("schID", schID);
-                                args.putString("firstname", studentModel.getFirstname());
-                                args.putString("lastname", studentModel.getLastname());
-                                args.putString("classID", classID);
-
-                                i.putExtras(args);
-
-                                startActivity(i);
-
+                                        builder.show();
+                                    }
+                                });
                                 //</editor-fold>
-                            }
-                        });
-                        //</editor-fold>
 
-                        //<editor-fold desc="Search beacon button">
-                        ImageButton adminStudentDetailSearchBeaconBtn = findViewById(
-                                R.id.adminStudentDetailsSearchBeaconBtn);
-                        adminStudentDetailSearchBeaconBtn.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                // Better to use PopupWindow
-                                //startActivity(new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class));
-                                startActivityForResult(
-                                        new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class),
-                                        1234);
-                            }
-                        });
-                        //</editor-fold>
-
-                        //<editor-fold desc="Change student's class">
-                        Button adminChangeStudentClassBtn = findViewById(R.id.adminChangeStudentClassBtn);
-                        adminChangeStudentClassBtn.setOnClickListener(new OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(
-                                        AdminStudentDetailsActivity.this);
-                                builder.setTitle("Move student to class: ");
-
-                                //Set up the layout
-                                LinearLayout layout = new LinearLayout(AdminStudentDetailsActivity.this);
-
-                                //set up the spinner as a drop down box
-                                final Spinner dropdown = new Spinner(AdminStudentDetailsActivity.this);
-                                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                                        AdminStudentDetailsActivity.this,
-                                        android.R.layout.simple_spinner_dropdown_item,classesList);
-                                dropdown.setAdapter(adapter);
-                                //add dropdown to the dialog
-                                layout.addView(dropdown);
-
-                                builder.setView(layout);
-
-                                //dialog's OK button
-                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //get the SchoolModel from map first
-                                        SchoolModel schoolModel = classesMap.get(
-                                                dropdown.getSelectedItem().toString());
-                                        //get the class ID
-                                        String classIDTo = schoolModel.getClassID();
-
-
-                                        //set the new class ID ref
-                                        DatabaseReference dbrefTo = db.getReference().child("Student").child(schID).child(classIDTo).child(sID);
-
-                                        //perform the move
-                                        moveClass(dbref,dbrefTo);
-
-                                        //Toast for success
-                                        Toast.makeText(AdminStudentDetailsActivity.this,
-                                                "Moved student to new class", Toast.LENGTH_SHORT)
-                                                .show();
-                                    }
-                                });
-
-                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                                builder.show();
-                            }
-                        });
-                        //</editor-fold>
-
-                        //END HERE
+                                //END HERE
 
                             }
 
@@ -448,24 +448,16 @@ public class AdminStudentDetailsActivity extends Activity {
     }
 
     //This one is to move on node to another
-    public void moveClass(final DatabaseReference fromPath, final DatabaseReference toPath)
-    {
-        fromPath.addListenerForSingleValueEvent(new ValueEventListener()
-        {
+    public void moveClass(final DatabaseReference fromPath, final DatabaseReference toPath) {
+        fromPath.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener()
-                {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
                     @Override
-                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase)
-                    {
-                        if (firebaseError != null)
-                        {
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                        if (firebaseError != null) {
                             System.out.println("Copy failed");
-                        }
-                        else
-                        {
+                        } else {
                             fromPath.removeValue();
                         }
                     }
