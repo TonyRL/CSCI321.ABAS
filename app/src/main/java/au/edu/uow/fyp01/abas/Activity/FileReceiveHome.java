@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,7 +45,8 @@ public class FileReceiveHome extends AppCompatActivity {
     fileRecyclerView.setHasFixedSize(true);
     fileRecyclerView.setLayoutManager(new LinearLayoutManager(FileReceiveHome.this));
 
-    fileRecyclerView.addItemDecoration(new FileReceiveHome.SpacesItemDecoration(5));
+//    fileRecyclerView.addItemDecoration(new FileReceiveHome.SpacesItemDecoration(5));
+    fileRecyclerView.addItemDecoration(new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
         .child("Received_Files").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
