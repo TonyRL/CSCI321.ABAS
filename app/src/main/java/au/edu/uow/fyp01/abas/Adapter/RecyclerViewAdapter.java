@@ -150,6 +150,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
                       String beaconInfo = studentModel.getSid() + ": " + studentModel.getFirstname()
                           + " " + studentModel.getLastname();
                       mTv.setText(beaconInfo);
+                    } else {
+                      mTv.setText("Beacon not registered");
                     }
                   }
 
