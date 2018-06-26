@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
+import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting;
@@ -39,19 +39,19 @@ public class HomeFragment extends Fragment {
           startActivity(searchBeaconActivityIntent);
           break;
         case R.id.uploadFileBtn:
-          Intent fileSendFile = new Intent(getActivity(),FileSharingHome.class);
+          Intent fileSendFile = new Intent(getActivity(), FileSharingHome.class);
           startActivity(fileSendFile);
           break;
         case R.id.downloadFileBtn:
-          Intent fileReceiveFile = new Intent(getActivity(),FileReceiveHome.class);
+          Intent fileReceiveFile = new Intent(getActivity(), FileReceiveHome.class);
           startActivity(fileReceiveFile);
           break;
         case R.id.recordBtn:
-          //swapFragment(R.id.nav_record);
-          //navigationView.getMenu().getItem(3).setChecked(true);
+          Intent recordActivityIntent = new Intent(getActivity(), ClassListActivity.class);
+          startActivity(recordActivityIntent);
           break;
         case R.id.settingBtn:
-          Intent classroomapi = new Intent(getActivity(),classRoomHomeSetting.class);
+          Intent classroomapi = new Intent(getActivity(), classRoomHomeSetting.class);
           startActivity(classroomapi);
           break;
         default:
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
 
     searchBtn = view.findViewById(R.id.searchBtn);
     uploadFileBtn = view.findViewById(R.id.uploadFileBtn);
-    downloadFileBtn =view.findViewById(R.id.downloadFileBtn);
+    downloadFileBtn = view.findViewById(R.id.downloadFileBtn);
 
     recordBtn = view.findViewById(R.id.recordBtn);
     settingBtn = view.findViewById(R.id.settingBtn);
