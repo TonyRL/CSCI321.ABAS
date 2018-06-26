@@ -16,6 +16,7 @@ import au.edu.uow.fyp01.abas.Activity.RecordActivity;
 import au.edu.uow.fyp01.abas.Activity.RecordOverviewActivity;
 import au.edu.uow.fyp01.abas.Adapter.RecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
+import au.edu.uow.fyp01.abas.Model.StudentModel;
 import au.edu.uow.fyp01.abas.Model.UserModel;
 import au.edu.uow.fyp01.abas.R;
 import butterknife.BindView;
@@ -55,6 +56,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
         holder.proximity_uuid.setText(beacon.getId1().toString());
         holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
         holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
+        holder.setmTv();
     }
 
     /**
@@ -114,6 +116,75 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> 
             super(itemView);
             this.beacons = data;
             ButterKnife.bind(this, itemView);
+        }
+
+        void setmTv(){
+            FirebaseAuth auth = null;
+            String uID = auth.getInstance().getCurrentUser().getUid();
+
+            //set up db
+            final FirebaseDatabase db = FirebaseDatabase.getInstance();
+
+            //this one points to User nodes
+            DatabaseReference dbref1 = db.getReference().child("User").child(uID);
+            dbref1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    UserModel userModel = dataSnapshot.getValue(UserModel.class);
+                    String schID = userModel.getSchID();
+                    // Bad approach:
+                    // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
+                    int position = getAdapterPosition();
+                    String uuid = beacons.get(position).getId1().toString();
+
+                    DatabaseReference dbref = db.getReference().child("Beacon").child(schID).child(uuid);
+                    dbref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+
+
+                                BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
+
+                               DatabaseReference dbref2 = db.getReference().child("Student")
+                                       .child(beaconModel.getSchID())
+                                       .child(beaconModel.getClassID())
+                                       .child(beaconModel.getSid());
+
+                               dbref2.addValueEventListener(new ValueEventListener() {
+                                   @Override
+                                   public void onDataChange(DataSnapshot dataSnapshot) {
+                                       if (dataSnapshot.exists()) {
+                                           StudentModel studentModel = dataSnapshot.getValue(StudentModel.class);
+                                           //this shows the student ID and name owner of the beacon
+                                           String beaconInfo = studentModel.getSid() + ": " + studentModel.getFirstname()
+                                                   + " " + studentModel.getLastname();
+                                           mTv.setText(beaconInfo);
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onCancelled(DatabaseError databaseError) {
+
+                                   }
+                               });//end inner inner query
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    }); //end inner query
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });//end query
         }
 
         @OnClick

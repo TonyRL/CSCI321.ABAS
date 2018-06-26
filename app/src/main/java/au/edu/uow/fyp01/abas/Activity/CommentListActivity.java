@@ -89,7 +89,7 @@ public class CommentListActivity extends Activity {
 
         //set options for adapter
         options = new FirebaseRecyclerOptions.Builder<CommentModel>().
-            setQuery(dbref, CommentModel.class).build();
+            setQuery(dbref.orderByChild("timestamp"), CommentModel.class).build();
 
         firebaseRecyclerAdapter =
             new FirebaseRecyclerAdapter<CommentModel, CommentModelViewHolder>(options) {

@@ -58,17 +58,34 @@
         android:orientation="vertical">
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
 
         <TextView
-          android:id="@+id/textView12"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="Grade"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:id="@+id/textView18"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Grade Name: "
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Grade: "
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -76,12 +93,12 @@
           android:orientation="vertical"></LinearLayout>
 
         <TextView
-          android:id="@+id/textView11"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="Date"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Date: "
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
           android:layout_width="match_parent"
@@ -91,12 +108,26 @@
         </LinearLayout>
 
         <TextView
-          android:id="@+id/textView13"
-          android:layout_width="match_parent"
-          android:layout_height="25dp"
-          android:text="Record ID"
-          android:textAlignment="textEnd"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Record ID: "
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Grade Type: "
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
       </LinearLayout>
 
@@ -106,9 +137,24 @@
         android:orientation="vertical">
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="20dp"
-          android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <EditText
+            android:id="@+id/recordNameEditView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@android:style/TextAppearance.Small.Inverse" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
 
         <EditText
           android:id="@+id/recordGradeEditView"
@@ -119,9 +165,9 @@
           android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
 
         <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="10dp"
-          android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical">
 
         </LinearLayout>
 
@@ -141,6 +187,17 @@
           android:layout_width="match_parent"
           android:layout_height="25dp"
           android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
+
+        <TextView
+            android:id="@+id/recordTypeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
 
       </LinearLayout>
     </LinearLayout>
