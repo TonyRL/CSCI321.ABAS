@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
           startActivity(fileActivityIntent);
           break;
         case R.id.nav_record:
-          //swapFragment(R.id.nav_record);
           Intent recordActivityIntent = new Intent(MainActivity.this, ClassListActivity.class);
           startActivity(recordActivityIntent);
           break;
