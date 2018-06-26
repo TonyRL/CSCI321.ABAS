@@ -7,11 +7,12 @@
 
   <TextView
     android:id="@+id/textView2"
+    android:textStyle="bold"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Files Recevied:"
-    android:textColor="@color/common_google_signin_btn_text_dark_focused"
-    android:textSize="24sp"
+    android:background="@drawable/header_yellow"
+    android:gravity="center"
+    android:text="Download File"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="1dp"/>
 

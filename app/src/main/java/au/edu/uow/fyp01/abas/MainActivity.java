@@ -26,11 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
-
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
-
-import au.edu.uow.fyp01.abas.Activity.DUMMYSEARCHBEACON;
-
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import org.altbeacon.beacon.BeaconManager;
@@ -56,11 +52,9 @@ public class MainActivity extends AppCompatActivity {
           swapFragment(R.id.nav_home);
           break;
         case R.id.nav_search_beacon:
-          //swapFragment(R.id.nav_search_beacon);
-
-          //TODO SWITCH DUMMY WITH ACTUAL SEARCHBEACON
-          Intent searchBeaconPageIntent = new Intent(MainActivity.this, DUMMYSEARCHBEACON.class);
-          startActivity(searchBeaconPageIntent);
+          Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
+              SearchBeaconActivity.class);
+          startActivity(searchBeaconActivityIntent);
           break;
         case R.id.nav_file:
           Intent fileActivityIntent = new Intent(MainActivity.this, FileSharingHome.class);
@@ -119,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick(View view) {
         //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        Intent searchBeaconActivityIntent = new Intent(MainActivity.this, SearchBeaconActivity.class);
+        Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
+            SearchBeaconActivity.class);
         startActivity(searchBeaconActivityIntent);
       }
     });
