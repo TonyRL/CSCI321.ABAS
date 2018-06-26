@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
         android:allowBackup="true"
@@ -63,7 +64,7 @@
             android:label="Activity.FileSharingAdd" />
         <activity
             android:name=".Activity.FileReceiveHome"
-            android:label="Activity.FileReceiveHome" />
+            android:label="Download File" />
         <activity
             android:name=".Activity.AdminClassListActivity"
             android:label="Activity.AdminClassListActivity" />
@@ -91,10 +92,7 @@
         <activity
             android:name=".Activity.RecordEditGradeActivity"
             android:label="Activity.RecordEditGradeActivity" />
-        <activity
-            android:name=".Activity.DUMMYSEARCHBEACON"
-            android:label="Activity.DUMMYSEARCHBEACON" />
-        <activity
+      <activity
             android:name=".Activity.AdminSubjectsListActivity"
             android:label="Activity.AdminSubjectsListActivity" />
         <activity android:name=".Activity.AdminManageClassSubjectsActivity" />
