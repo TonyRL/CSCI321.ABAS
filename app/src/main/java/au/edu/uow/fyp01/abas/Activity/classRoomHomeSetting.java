@@ -14,12 +14,15 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -60,6 +63,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
     private TextView statusTextView;
     private Button mCallApiButton;
     private Button reconnectButton;
+    private RecyclerView recyclerView;
+    private FirebaseRecyclerOptions firebaseRecyclerOptions;
+    private FirebaseRecyclerAdapter<classRoomHomeSettingRecyclerClass,classRoomHomeSettingHolder> firebaseRecyclerAdapter;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -85,7 +91,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         setContentView(R.layout.activity_class_room_home_setting);
         mCallApiButton = findViewById(R.id.class_room_home_api_button);
         reconnectButton = findViewById(R.id.class_room_home_api_button_1);
-        //recyclerView = findViewById(R.id.classRoomHomeSetting_Recycler_view);
         accountTextView = findViewById(R.id.class_room_home_gmail_textview);
         accountTextView.setText("N/A (Account)");
         accountTextView.setTextColor(Color.BLACK);
@@ -93,6 +98,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         statusTextView.setText("N/A (Status)");
         statusTextView.setTextColor(Color.BLACK);
         mCallApiButton.setText(BUTTON_TEXT);
+        recyclerView = findViewById(R.id.acitivity_class_room_home_setting_recyclerview);
 
 
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +134,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
 
         //check
-        setTextRefAccount.child("Classroom_Link_Account").addValueEventListener(new ValueEventListener() {
+        setTextRefAccount.child("Classroom_Linked_Account_Teachers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -166,6 +172,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Classroom API ...");
+
 
 
     }
@@ -641,6 +648,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                     courseworkdetailsmap.put("Due_Date",coursework.getDueDate().getDay() + "-"+ coursework.getDueDate().getMonth()+ "-"+coursework.getDueDate().getYear());
                                     courseworkdetailsmap.put("Due_Time",coursework.getDueTime().getHours() + ":" + coursework.getDueTime().getMinutes());
                                     courseworkdetailsmap.put("Max_Points",coursework.getMaxPoints());
+                                    courseworkdetailsmap.put("Assignment_Name",coursework.getTitle());
                                     courseDBRef.child("Course_Work_Details").updateChildren(courseworkdetailsmap, new DatabaseReference.CompletionListener() {
                                         @Override
                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -655,6 +663,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
                                         submissionDetails.put("Grade_Final",submission.getAssignedGrade());
                                         submissionDetails.put("Assignment_Type", "Assignment");
+                                        submissionDetails.put("Assignment_Name", coursework.getTitle());
                                         submissionDetails.put("Is_Late",submission.getLate());
                                         submissionDetails.put("Student_ID",submission.getUserId());
                                         submissionDetails.put("Time",submission.getUpdateTime());
@@ -700,5 +709,20 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                 Toast.makeText(classRoomHomeSetting.this, "Request cancelled.", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public static class classRoomHomeSettingHolder extends RecyclerView.ViewHolder{
+        View mView;
+        TextView coursenameTextView;
+        public classRoomHomeSettingHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setCourse_ID(String Course_ID){
+            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+            coursenameTextView.setText(Course_ID);
+        }
+
     }
 }
