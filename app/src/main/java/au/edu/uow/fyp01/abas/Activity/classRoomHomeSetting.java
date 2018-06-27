@@ -14,9 +14,12 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -99,7 +102,8 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         statusTextView.setTextColor(Color.BLACK);
         mCallApiButton.setText(BUTTON_TEXT);
         recyclerView = findViewById(R.id.acitivity_class_room_home_setting_recyclerview);
-
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(classRoomHomeSetting.this));
 
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,8 +177,26 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Classroom API ...");
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_Teachers")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Class_List");
+        firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<classRoomHomeSettingRecyclerClass>().setQuery(ref,classRoomHomeSettingRecyclerClass.class).build();
 
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<classRoomHomeSettingRecyclerClass, classRoomHomeSettingHolder>(firebaseRecyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull classRoomHomeSettingHolder holder, int position, @NonNull classRoomHomeSettingRecyclerClass model) {
+                holder.setCourseName(model.getName_Course());
+            }
 
+            @NonNull
+            @Override
+            public classRoomHomeSetting.classRoomHomeSettingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view1 = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.activity_class_room_home_setting_recyclerview_item, parent, false);
+                return new classRoomHomeSetting.classRoomHomeSettingHolder(view1);
+            }
+        };
+
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 
     /**
@@ -714,15 +736,32 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
     public static class classRoomHomeSettingHolder extends RecyclerView.ViewHolder{
         View mView;
         TextView coursenameTextView;
+
         public classRoomHomeSettingHolder(View itemView) {
             super(itemView);
             mView = itemView;
         }
 
-        public void setCourse_ID(String Course_ID){
+//        public void setCourse_ID(String Course_ID){
+//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+//            coursenameTextView.setText(Course_ID);
+//        }
+        public void setCourseName (String Name_Course){
             coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-            coursenameTextView.setText(Course_ID);
+            coursenameTextView.setText(Name_Course);
         }
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
     }
 }

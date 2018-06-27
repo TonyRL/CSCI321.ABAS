@@ -15,30 +15,30 @@ public class classRoomHomeSettingRecyclerClass {
     public classRoomHomeSettingRecyclerClass(){
 
     }
-
-    public classRoomHomeSettingRecyclerClass(String classroom_ID, String course_ID, String name_Course, String gmail_Account, String status) {
-        Classroom_ID = classroom_ID;
-        Course_ID = course_ID;
+//String classroom_ID, String course_ID,, String gmail_Account, String status
+    public classRoomHomeSettingRecyclerClass( String name_Course) {
+//        Classroom_ID = classroom_ID;
+//        Course_ID = course_ID;
         Name_Course = name_Course;
-        Gmail_Account = gmail_Account;
-        Status = status;
+//        Gmail_Account = gmail_Account;
+//        Status = status;
     }
 
-    public String getClassroom_ID() {
-        return Classroom_ID;
-    }
-
-    public void setClassroom_ID(String classroom_ID) {
-        Classroom_ID = classroom_ID;
-    }
-
-    public String getCourse_ID() {
-        return Course_ID;
-    }
-
-    public void setCourse_ID(String course_ID) {
-        Course_ID = course_ID;
-    }
+//    public String getClassroom_ID() {
+//        return Classroom_ID;
+//    }
+//
+//    public void setClassroom_ID(String classroom_ID) {
+//        Classroom_ID = classroom_ID;
+//    }
+//
+//    public String getCourse_ID() {
+//        return Course_ID;
+//    }
+//
+//    public void setCourse_ID(String course_ID) {
+//        Course_ID = course_ID;
+//    }
 
     public String getName_Course() {
         return Name_Course;
@@ -48,19 +48,19 @@ public class classRoomHomeSettingRecyclerClass {
         Name_Course = name_Course;
     }
 
-    public String getGmail_Account() {
-        return Gmail_Account;
-    }
-
-    public void setGmail_Account(String gmail_Account) {
-        Gmail_Account = gmail_Account;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
-    }
+//    public String getGmail_Account() {
+//        return Gmail_Account;
+//    }
+//
+//    public void setGmail_Account(String gmail_Account) {
+//        Gmail_Account = gmail_Account;
+//    }
+//
+//    public String getStatus() {
+//        return Status;
+//    }
+//
+//    public void setStatus(String status) {
+//        Status = status;
+//    }
 }
