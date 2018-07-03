@@ -4,15 +4,17 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="@dimen/common_item_height"
+  android:background="?attr/selectableItemBackground"
+  android:clickable="true"
+  android:focusable="true"
   android:orientation="vertical">
+
   <TextView
     android:id="@+id/beaconUsername"
-    android:layout_width="55dp"
+    android:layout_width="331dp"
     android:layout_height="35dp"
-    android:clickable="true"
-    android:focusable="true"
     android:gravity="center"
-    android:text="Name"
+    android:text="Beacon not registered"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
   <TextView

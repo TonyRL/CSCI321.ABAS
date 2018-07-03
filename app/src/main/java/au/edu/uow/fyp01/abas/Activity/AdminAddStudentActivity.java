@@ -102,6 +102,17 @@ public class AdminAddStudentActivity extends Activity {
                       .child(sID);
                   dbref.updateChildren(addToDatabase2);
 
+                  //For Beacon
+                  Map<String, Object> addtoBeacon = new HashMap<>();
+
+                  addtoBeacon.put("classID", classID);
+                  addtoBeacon.put("schID", schID);
+                  addtoBeacon.put("sid", sID);
+                  addtoBeacon.put("beaconID", "NOTSET");
+                  //this points to Beacon->SchoolID->NOTSET(overriding this doesnt matter)
+                  dbref = db.getReference().child("Beacon").child(schID).child("NOTSET");
+                  dbref.updateChildren(addtoBeacon);
+
                   Toast.makeText(AdminAddStudentActivity.this,
                       "Added new student to class " + classname, Toast.LENGTH_SHORT)
                       .show();

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting">
+
+  <Button
+      android:id="@+id/class_room_home_api_button_1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentStart="true"
+      android:layout_marginBottom="180dp"
+      android:layout_x="1dp"
+      android:layout_y="186dp"
+      android:text="Change Account to Classroom"
+      tools:layout_editor_absoluteX="138dp"
+      tools:layout_editor_absoluteY="39dp" />
+
+  <Button
+      android:id="@+id/class_room_home_api_button"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentStart="true"
+      android:layout_marginBottom="180dp"
+      android:layout_x="0dp"
+      android:layout_y="129dp"
+      android:text="Call API"
+      tools:layout_editor_absoluteX="138dp"
+      tools:layout_editor_absoluteY="39dp" />
+
+    <TextView
+        android:id="@+id/class_room_home_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:layout_x="29dp"
+        android:layout_y="47dp"
+        android:text="Google Account:"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textSize="16sp" />
+
+  <TextView
+    android:id="@+id/class_room_home_gmail_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="185dp"
+    android:layout_y="47dp"
+    android:text="N/A(Account)"
+    android:textColor="?attr/colorError"
+    android:textSize="16sp"
+    tools:layout_editor_absoluteX="144dp"
+    tools:layout_editor_absoluteY="34dp"/>
+
+  <TextView
+    android:id="@+id/class_room_home_status_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="188dp"
+    android:layout_y="84dp"
+    android:text="N/A (Status)"
+    android:textColor="?attr/colorError"
+    android:textSize="16sp"
+    tools:layout_editor_absoluteX="171dp"
+    tools:layout_editor_absoluteY="87dp"/>
+
+  <TextView
+    android:id="@+id/textView26"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="105dp"
+    android:layout_y="7dp"
+    android:text="Classroom Account Settings"
+    tools:layout_editor_absoluteX="148dp"
+    tools:layout_editor_absoluteY="5dp"/>
+
+</AbsoluteLayout>

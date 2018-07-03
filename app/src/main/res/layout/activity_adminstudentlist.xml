@@ -54,10 +54,10 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/adminStudentListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_weight="0">
+      android:id="@+id/adminStudentListRecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="350dp"
+      android:layout_weight="0">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -68,10 +68,10 @@
       android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/adminClassOptionsBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Class Options" />
+      android:id="@+id/adminClassOptionsBtn"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Class Options"/>
   </LinearLayout>
 
 </FrameLayout>
