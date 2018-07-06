@@ -98,7 +98,6 @@ public class RecordOverviewActivity extends Activity {
 
         //Set up the graph
         GraphView recordOverviewGraph = findViewById(R.id.recordOverviewGraph);
-        recordOverviewGraph.getViewport().setScrollable(true);
 
         //<editor-fold desc="Graph plotting">
         //Assuming the list of grades was retrieved,
@@ -127,6 +126,17 @@ public class RecordOverviewActivity extends Activity {
           recordOverviewGraph.getGridLabelRenderer().setLabelFormatter(
               new DateAsXAxisLabelFormatter(getApplicationContext(),
                   new SimpleDateFormat("dd/MM")));
+
+          //max is 100 marks
+          recordOverviewGraph.getViewport().setMaxY(100.0);
+          recordOverviewGraph.getViewport().setYAxisBoundsManual(true);
+
+          //get the smallest date and convert to double
+          double d = (double)recordList.get(0).getTimestamp();
+          recordOverviewGraph.getViewport().setMinX(d);
+          recordOverviewGraph.getViewport().setMaxX(d+604800000.0);
+          recordOverviewGraph.getViewport().setXAxisBoundsManual(true);
+          recordOverviewGraph.getViewport().setScalable(true);
         }
 
 
