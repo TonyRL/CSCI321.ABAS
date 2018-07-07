@@ -63,7 +63,7 @@
             android:name=".Activity.FileSharingAdd"
             android:label="Activity.FileSharingAdd" />
         <activity
-            android:name=".Activity.FileReceiveHome"
+            android:name=".Activity.FileDownloadHome"
             android:label="Download File" />
         <activity
             android:name=".Activity.AdminClassListActivity"

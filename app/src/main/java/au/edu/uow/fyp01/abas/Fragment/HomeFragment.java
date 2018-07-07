@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
-import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
+import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting;
 import au.edu.uow.fyp01.abas.R;
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
           startActivity(fileSendFile);
           break;
         case R.id.downloadFileBtn:
-          Intent fileReceiveFile = new Intent(getActivity(), FileReceiveHome.class);
+          Intent fileReceiveFile = new Intent(getActivity(), FileDownloadHome.class);
           startActivity(fileReceiveFile);
           break;
         case R.id.recordBtn:
