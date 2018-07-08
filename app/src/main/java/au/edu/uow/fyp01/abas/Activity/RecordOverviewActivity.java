@@ -98,6 +98,7 @@ public class RecordOverviewActivity extends Activity {
 
         //Set up the graph
         GraphView recordOverviewGraph = findViewById(R.id.recordOverviewGraph);
+        recordOverviewGraph.getViewport().setScrollable(true);
 
         //<editor-fold desc="Graph plotting">
         //Assuming the list of grades was retrieved,
@@ -127,6 +128,8 @@ public class RecordOverviewActivity extends Activity {
               new DateAsXAxisLabelFormatter(getApplicationContext(),
                   new SimpleDateFormat("dd/MM")));
         }
+
+
 
         recordOverviewProgressBar.setVisibility(View.GONE);
         //</editor-fold>

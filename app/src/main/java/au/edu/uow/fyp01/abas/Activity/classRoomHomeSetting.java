@@ -14,12 +14,18 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -30,13 +36,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
+import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
-import com.google.api.services.classroom.model.Course;
-import com.google.api.services.classroom.model.ListCoursesResponse;
-import com.google.api.services.classroom.model.ListStudentsResponse;
-import com.google.api.services.classroom.model.ListTeachersResponse;
-import com.google.api.services.classroom.model.Student;
-import com.google.api.services.classroom.model.Teacher;
+import com.google.api.services.classroom.model.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +66,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
     private TextView statusTextView;
     private Button mCallApiButton;
     private Button reconnectButton;
+    private RecyclerView recyclerView;
+    private FirebaseRecyclerOptions firebaseRecyclerOptions;
+    private FirebaseRecyclerAdapter<classRoomHomeSettingRecyclerClass,classRoomHomeSettingHolder> firebaseRecyclerAdapter;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -89,7 +94,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         setContentView(R.layout.activity_class_room_home_setting);
         mCallApiButton = findViewById(R.id.class_room_home_api_button);
         reconnectButton = findViewById(R.id.class_room_home_api_button_1);
-        //recyclerView = findViewById(R.id.classRoomHomeSetting_Recycler_view);
         accountTextView = findViewById(R.id.class_room_home_gmail_textview);
         accountTextView.setText("N/A (Account)");
         accountTextView.setTextColor(Color.BLACK);
@@ -97,7 +101,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         statusTextView.setText("N/A (Status)");
         statusTextView.setTextColor(Color.BLACK);
         mCallApiButton.setText(BUTTON_TEXT);
-
+        recyclerView = findViewById(R.id.acitivity_class_room_home_setting_recyclerview);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(classRoomHomeSetting.this));
 
         mCallApiButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +138,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
 
         //check
-        setTextRefAccount.child("Classroom_Link_Account").addValueEventListener(new ValueEventListener() {
+        setTextRefAccount.child("Classroom_Linked_Account_Teachers").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -171,7 +177,26 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Classroom API ...");
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_Teachers")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Class_List");
+        firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<classRoomHomeSettingRecyclerClass>().setQuery(ref,classRoomHomeSettingRecyclerClass.class).build();
 
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<classRoomHomeSettingRecyclerClass, classRoomHomeSettingHolder>(firebaseRecyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull classRoomHomeSettingHolder holder, int position, @NonNull classRoomHomeSettingRecyclerClass model) {
+                holder.setCourseName(model.getName_Course());
+            }
+
+            @NonNull
+            @Override
+            public classRoomHomeSetting.classRoomHomeSettingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view1 = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.activity_class_room_home_setting_recyclerview_item, parent, false);
+                return new classRoomHomeSetting.classRoomHomeSettingHolder(view1);
+            }
+        };
+
+        recyclerView.setAdapter(firebaseRecyclerAdapter);
     }
 
     /**
@@ -379,6 +404,8 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         private List<String> listOfIDs = new ArrayList<>();
         private List<List<Student>> listOfSTDIDs = new ArrayList<>();
         private List<List<Teacher>> listOfTeacherIDs = new ArrayList<>();
+        private List<List<CourseWork>> listOfCourseWork = new ArrayList<>();
+        private List<List<List<StudentSubmission>>> listOfStudentSubmission = new ArrayList<>();
 
         MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
@@ -415,18 +442,21 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
         private List<String> getDataFromApi() throws IOException {
             ListCoursesResponse response = mService.courses().list().execute();
 
-
-
             List<Course> courses = response.getCourses();
-            List<String> names = new ArrayList<String>();
-            List<String> courseID = new ArrayList<String>();
-            List <List<Student>> stdlist = new ArrayList<List<Student>>();
-            List <List<Teacher>> teacherList = new ArrayList<List<Teacher>>();
+            List<String> names = new ArrayList<>();
+            List<String> courseID = new ArrayList<>();
+            List<String> sectionList = new ArrayList<>();
+            List<String> subjectList = new ArrayList<>();
+            List <List<Student>> stdlist = new ArrayList<>();
+            List <List<Teacher>> teacherList = new ArrayList<>();
+            List<List<CourseWork>> courseWorkList = new ArrayList<>();
+            List<List<List<StudentSubmission>>> studentSubmissionList = new ArrayList<>();
 
             if (courses != null) {
                 for (Course course : courses) {
                     names.add(course.getName());
                     courseID.add(course.getId());
+                    sectionList.add(course.getSection());
 
                     ListStudentsResponse studentsResponse = mService.courses().students().list(course.getId()).execute();
                     List<Student> studentList = studentsResponse.getStudents();
@@ -435,38 +465,75 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                     ListTeachersResponse teachersResponse = mService.courses().teachers().list(course.getId()).execute();
                     List<Teacher> teacherList1 = teachersResponse.getTeachers();
                     teacherList.add(teacherList1);
+
+                    ListCourseWorkResponse courseWorkResponse= mService.courses().courseWork().list(course.getId()).execute();
+                    List<CourseWork> courseWorkList1 = courseWorkResponse.getCourseWork();
+                    Iterator cwlitr = courseWorkList1.iterator();
+                    List<List<StudentSubmission>> stdsublist = new ArrayList<>();
+                    while(cwlitr.hasNext()){
+                        CourseWork courseWork = (CourseWork) cwlitr.next();
+                        ListStudentSubmissionsResponse studentSubmissionsResponse = mService.courses().courseWork().studentSubmissions().list(courseWork.getCourseId(),courseWork.getId()).execute();
+                        List<StudentSubmission> liststdList = studentSubmissionsResponse.getStudentSubmissions();
+                        stdsublist.add(liststdList);
+                    }
+                    studentSubmissionList.add(stdsublist);
+                    courseWorkList.add(courseWorkList1);
                 }
             }
             setList(courseID);
             setList2(stdlist);
             setList3(teacherList);
+            setList4(courseWorkList);
+            setList5(studentSubmissionList);
             return names;
         }
 
 
         public void setList(List<String> list) {
+
             listOfIDs = list;
         }
 
         public List<String> getListID() {
+
             return listOfIDs;
         }
 
         public void setList2(List<List<Student>> list) {
+
             listOfSTDIDs = list;
         }
 
         public List<List<Student>> getListSTDID() {
+
             return listOfSTDIDs;
         }
 
         public void setList3(List<List<Teacher>> list) {
+
             listOfTeacherIDs = list;
         }
 
         public List<List<Teacher>> getListTeacherID() {
             return listOfTeacherIDs;
         }
+
+        public void setList4(List<List<CourseWork>> list){
+            listOfCourseWork = list;
+        }
+
+        public List<List<CourseWork>> getListOfCourseWork(){
+            return listOfCourseWork;
+        }
+
+        public void setList5(List<List<List<StudentSubmission>>> list){
+            listOfStudentSubmission = list;
+        }
+
+        public List<List<List<StudentSubmission>>> getListOfStudentSubmission(){
+            return listOfStudentSubmission;
+        }
+
 
 
         @Override
@@ -483,13 +550,11 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                 //KEYYYYY -> success
                 List<String> output2;
                 output2 = getListID();
-                List <List<Teacher>> outputTeacher;
-                outputTeacher = getListTeacherID();
 
                 if (output2 != null && output2.size() > 0) {
 
                     DatabaseReference dbRef_to_push = FirebaseDatabase.getInstance()
-                            .getReference().child("Classroom_Link_Account").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            .getReference().child("Classroom_Linked_Account_Teachers").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                     Map mapDetails = new HashMap();
 
@@ -524,7 +589,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
                     int counter = 0;
 
-                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("Google_Classroom_List");
+                    DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().child("Google_Classroom_Member_List");
 
                     dbRef_to_push.child("Class_List").removeValue();
 
@@ -532,10 +597,8 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                         String name;
                         name = output.get(counter);
 
-
                         List<Teacher> list1 = listOfTeacherIDs.get(counter);
                         Iterator teacheritr = list1.iterator();
-                        Teacher teacher = new Teacher();
                         while(teacheritr.hasNext()){
                             Teacher temp = (Teacher) teacheritr.next();
                             if(temp.getProfile().getEmailAddress().equals(mCredential.getSelectedAccountName())){
@@ -547,7 +610,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                 mapToPush.put("Classroom_ID", temp.getProfile().getId());
 
                                 DatabaseReference DBREFPUSHCLASSID = FirebaseDatabase.getInstance()
-                                        .getReference().child("Classroom_Link_Account").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Account_Details").child("Classroom_ID");
+                                        .getReference().child("Classroom_Linked_Account_Teachers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Account_Details");
                                 Map topushClassMap = new HashMap();
                                 topushClassMap.put("Classroom_ID", temp.getProfile().getId());
                                 DBREFPUSHCLASSID.updateChildren(topushClassMap);
@@ -564,8 +627,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                         Toast.makeText(classRoomHomeSetting.this, "Sent!", Toast.LENGTH_LONG).show();
                                     }
                                 });
-
-
 
                                 List <Student> list = listOfSTDIDs.get(counter);
 
@@ -591,12 +652,59 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                     });
                                 }
 
+                                List<CourseWork> courseworkList = listOfCourseWork.get(counter);
+                                List<List<StudentSubmission>> submissionStudentList = listOfStudentSubmission.get(counter);
+                                Iterator courseworkitr = courseworkList.iterator();
+                                int courseworkcounter = 0;
+                                while(courseworkitr.hasNext()){
+                                    CourseWork coursework = (CourseWork) courseworkitr.next();
+                                    List<StudentSubmission> inCourseList = submissionStudentList.get(courseworkcounter);
+                                    Iterator submissionitr = inCourseList.iterator();
 
+                                    DatabaseReference courseDBRef = FirebaseDatabase.getInstance().getReference()
+                                            .child("Google_Classroom_Coursework_Submission").
+                                                    child(coursework.getCourseId()).child(coursework.getId());
+
+                                    Map courseworkdetailsmap = new HashMap();
+                                    courseworkdetailsmap.put("Teacher_ID",coursework.getCreatorUserId());
+                                    courseworkdetailsmap.put("Due_Date",coursework.getDueDate().getDay() + "-"+ coursework.getDueDate().getMonth()+ "-"+coursework.getDueDate().getYear());
+                                    courseworkdetailsmap.put("Due_Time",coursework.getDueTime().getHours() + ":" + coursework.getDueTime().getMinutes());
+                                    courseworkdetailsmap.put("Max_Points",coursework.getMaxPoints());
+                                    courseworkdetailsmap.put("Assignment_Name",coursework.getTitle());
+                                    courseDBRef.child("Course_Work_Details").updateChildren(courseworkdetailsmap, new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                if(databaseError!=null){
+                                                    Log.d("Chat_log", databaseError.getMessage().toString());
+                                                }
+                                        }
+                                    });
+                                    while(submissionitr.hasNext()){
+                                        StudentSubmission submission = (StudentSubmission) submissionitr.next();
+                                        Map submissionDetails = new HashMap();
+
+                                        submissionDetails.put("Grade_Final",submission.getAssignedGrade());
+                                        submissionDetails.put("Assignment_Type", "Assignment");
+                                        submissionDetails.put("Assignment_Name", coursework.getTitle());
+                                        submissionDetails.put("Is_Late",submission.getLate());
+                                        submissionDetails.put("Student_ID",submission.getUserId());
+                                        submissionDetails.put("Time",submission.getUpdateTime());
+
+                                        courseDBRef.child("Submission_Details").child(submission.getUserId())
+                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
+                                                    @Override
+                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                        if(databaseError!=null){
+                                                            Log.d("Chat_log", databaseError.getMessage().toString());
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                    courseworkcounter++;
+                                }
                                 counter++;
                             }
                         }
-
-
                     }
                 }
                 mProgress.hide();
@@ -623,5 +731,37 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                 Toast.makeText(classRoomHomeSetting.this, "Request cancelled.", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public static class classRoomHomeSettingHolder extends RecyclerView.ViewHolder{
+        View mView;
+        TextView coursenameTextView;
+
+        public classRoomHomeSettingHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+//        public void setCourse_ID(String Course_ID){
+//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+//            coursenameTextView.setText(Course_ID);
+//        }
+        public void setCourseName (String Name_Course){
+            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+            coursenameTextView.setText(Name_Course);
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
     }
 }

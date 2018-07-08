@@ -78,4 +78,23 @@
     tools:layout_editor_absoluteX="148dp"
     tools:layout_editor_absoluteY="5dp"/>
 
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/acitivity_class_room_home_setting_recyclerview"
+      android:layout_width="match_parent"
+      android:layout_height="219dp"
+      android:layout_x="0dp"
+      android:layout_y="291dp"
+      tools:layout_editor_absoluteX="8dp"
+      tools:layout_editor_absoluteY="242dp" />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_x="8dp"
+      android:layout_y="256dp"
+      android:text="Classroom:"
+      android:textColor="@android:color/black"
+      tools:layout_editor_absoluteX="5dp"
+      tools:layout_editor_absoluteY="257dp" />
+
 </AbsoluteLayout>
