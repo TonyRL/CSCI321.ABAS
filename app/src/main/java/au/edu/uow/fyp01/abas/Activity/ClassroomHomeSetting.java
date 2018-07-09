@@ -66,26 +66,28 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class ClassroomHomeSetting extends Activity implements EasyPermissions.PermissionCallbacks {
 
-    GoogleAccountCredential mCredential;
-    private TextView accountTextView;
-    private TextView statusTextView;
-    private Button mCallApiButton;
-    private Button reconnectButton;
-    private RecyclerView recyclerView;
-    private FirebaseRecyclerOptions firebaseRecyclerOptions;
-    private FirebaseRecyclerAdapter<classRoomHomeSettingRecyclerClass, classRoomHomeSettingHolder> firebaseRecyclerAdapter;
-    ProgressDialog mProgress;
+  GoogleAccountCredential mCredential;
+  private TextView accountTextView;
+  private TextView statusTextView;
+  private Button mCallApiButton;
+  private Button reconnectButton;
+  private RecyclerView recyclerView;
+  private FirebaseRecyclerOptions firebaseRecyclerOptions;
+  private FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder> firebaseRecyclerAdapter;
+  ProgressDialog mProgress;
 
   static final int REQUEST_ACCOUNT_PICKER = 1000;
   static final int REQUEST_AUTHORIZATION = 1001;
   static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
   static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Connect to Classroom";
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = {ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS, ClassroomScopes.CLASSROOM_COURSEWORK_ME,
-            ClassroomScopes.CLASSROOM_ANNOUNCEMENTS, ClassroomScopes.CLASSROOM_ROSTERS, ClassroomScopes.CLASSROOM_COURSES, ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS,
-            ClassroomScopes.CLASSROOM_PROFILE_EMAILS, ClassroomScopes.CLASSROOM_PROFILE_PHOTOS};
+  private static final String BUTTON_TEXT = "Connect to Classroom";
+  private static final String PREF_ACCOUNT_NAME = "accountName";
+  private static final String[] SCOPES = {
+      ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS, ClassroomScopes.CLASSROOM_COURSEWORK_ME,
+      ClassroomScopes.CLASSROOM_ANNOUNCEMENTS, ClassroomScopes.CLASSROOM_ROSTERS,
+      ClassroomScopes.CLASSROOM_COURSES, ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS,
+      ClassroomScopes.CLASSROOM_PROFILE_EMAILS, ClassroomScopes.CLASSROOM_PROFILE_PHOTOS};
 
   /**
    * Create the main activity.
@@ -128,8 +130,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
       public void onClick(View v) {
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
-            ClassroomHomeSetting.this, Arrays.asList(SCOPES))
-            .setBackOff(new ExponentialBackOff());
+            ClassroomHomeSetting.this, Arrays.asList(SCOPES)).setBackOff(new ExponentialBackOff());
         reconnectButton.setEnabled(false);
         getResultsFromApi();
         reconnectButton.setTextColor(Color.RED);
@@ -140,7 +141,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
     DatabaseReference setTextRefAccount = FirebaseDatabase.getInstance().getReference();
 
     //check
-    setTextRefAccount.child("Classroom_Linked_Account_Teachers")
+    setTextRefAccount.child("Classroom_Linked_Account_General")
         .addValueEventListener(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
@@ -149,7 +150,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                   .exists()) {
                 String userName = dataSnapshot
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("Account_Details").child("Gmail_Address").getValue().toString();
+                    .child("Account_Details").child("Gmail_Account").getValue().toString();
                 String status = dataSnapshot
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child("Account_Details").child("Status").getValue().toString();
@@ -161,39 +162,19 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                   @Override
                   public void onClick(View view) {
 
-        DatabaseReference setTextRefAccount = FirebaseDatabase.getInstance().getReference();
-
-
-        //check
-        setTextRefAccount.child("Classroom_Linked_Account_General").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    if (dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).exists()) {
-                        String userName = dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Account_Details").child("Gmail_Account").getValue().toString();
-                        String status = dataSnapshot.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Account_Details").child("Status").getValue().toString();
-                        accountTextView.setText(userName);
-                        accountTextView.setTextColor(Color.GREEN);
-                        statusTextView.setText(status);
-                        statusTextView.setTextColor(Color.GREEN);
-                        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        });
-                        mCallApiButton.setTextColor(Color.GREEN);
-                    } else {
-                        Toast.makeText(classRoomHomeSetting.this, "Account->nope".toString(), Toast.LENGTH_SHORT).show();
+                  }
+                });
+                mCallApiButton.setTextColor(Color.GREEN);
+              } else {
+                Toast.makeText(ClassroomHomeSetting.this, "Account->nope".toString(),
+                    Toast.LENGTH_SHORT).show();
 //
-
               }
             } else {
-              Toast.makeText(ClassroomHomeSetting.this, "Empty", Toast.LENGTH_SHORT)
+              Toast.makeText(ClassroomHomeSetting.this, "Empty".toString(), Toast.LENGTH_SHORT)
                   .show();
             }
           }
-
 
           @Override
           public void onCancelled(DatabaseError databaseError) {
@@ -205,25 +186,28 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
     mProgress.setMessage("Calling Classroom API ...");
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-        .child("Classroom_Linked_Account_Teachers")
+        .child("Classroom_Linked_Account_General")
         .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Class_List");
     firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<ClassroomHomeSettingRecyclerClass>()
         .setQuery(ref, ClassroomHomeSettingRecyclerClass.class).build();
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_General")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Class_List");
-        firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<classRoomHomeSettingRecyclerClass>().setQuery(ref, classRoomHomeSettingRecyclerClass.class).build();
+    firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder>(
+        firebaseRecyclerOptions) {
+      @Override
+      protected void onBindViewHolder(@NonNull ClassroomHomeSettingHolder holder, int position,
+          @NonNull ClassroomHomeSettingRecyclerClass model) {
+        holder.setCourseName(model.getName_Course());
+      }
 
-          @NonNull
-          @Override
-          public ClassroomHomeSetting.classRoomHomeSettingHolder onCreateViewHolder(
-              @NonNull ViewGroup parent, int viewType) {
-            View view1 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_class_room_home_setting_recyclerview_item, parent,
-                    false);
-            return new ClassroomHomeSetting.classRoomHomeSettingHolder(view1);
-          }
-        };
+      @NonNull
+      @Override
+      public ClassroomHomeSettingHolder onCreateViewHolder(@NonNull ViewGroup parent,
+          int viewType) {
+        View view1 = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.activity_class_room_home_setting_recyclerview_item, parent, false);
+        return new ClassroomHomeSettingHolder(view1);
+      }
+    };
 
     recyclerView.setAdapter(firebaseRecyclerAdapter);
   }
@@ -264,10 +248,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
     } else {
       // Request the GET_ACCOUNTS permission via a user dialog
       EasyPermissions.requestPermissions(
-          this,
-          "This app needs to access your Google account (via Contacts).",
-          REQUEST_PERMISSION_GET_ACCOUNTS,
-          Manifest.permission.GET_ACCOUNTS);
+          this, "This app needs to access your Google account (via Contacts).",
+          REQUEST_PERMISSION_GET_ACCOUNTS, Manifest.permission.GET_ACCOUNTS);
       startActivityForResult(mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
     }
   }
@@ -367,8 +349,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
    * @return true if the device has a network connection, false otherwise.
    */
   private boolean isDeviceOnline() {
-    ConnectivityManager connMgr = (ConnectivityManager) getSystemService(
-        Context.CONNECTIVITY_SERVICE);
+    ConnectivityManager connMgr =
+        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
     return (networkInfo != null && networkInfo.isConnected());
   }
@@ -380,8 +362,10 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
    * otherwise.
    */
   private boolean isGooglePlayServicesAvailable() {
-    GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-    final int connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(this);
+    GoogleApiAvailability apiAvailability =
+        GoogleApiAvailability.getInstance();
+    final int connectionStatusCode =
+        apiAvailability.isGooglePlayServicesAvailable(this);
     return connectionStatusCode == ConnectionResult.SUCCESS;
   }
 
@@ -390,8 +374,10 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
    * installation via a user dialog, if possible.
    */
   private void acquireGooglePlayServices() {
-    GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-    final int connectionStatusCode = apiAvailability.isGooglePlayServicesAvailable(this);
+    GoogleApiAvailability apiAvailability =
+        GoogleApiAvailability.getInstance();
+    final int connectionStatusCode =
+        apiAvailability.isGooglePlayServicesAvailable(this);
     if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
       showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
     }
@@ -404,7 +390,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
    * @param connectionStatusCode code describing the presence (or lack of) Google Play Services on
    * this device.
    */
-  void showGooglePlayServicesAvailabilityErrorDialog(final int connectionStatusCode) {
+  void showGooglePlayServicesAvailabilityErrorDialog(
+      final int connectionStatusCode) {
     GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
     Dialog dialog = apiAvailability.getErrorDialog(
         ClassroomHomeSetting.this,
@@ -421,6 +408,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
     private com.google.api.services.classroom.Classroom mService = null;
     private Exception mLastError = null;
+    private List<Course> listOfCourse = new ArrayList<>();
     private List<String> listOfIDs = new ArrayList<>();
     private List<List<Student>> listOfSTDIDs = new ArrayList<>();
     private List<List<Teacher>> listOfTeacherIDs = new ArrayList<>();
@@ -431,9 +419,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
       HttpTransport transport = AndroidHttp.newCompatibleTransport();
       JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
       mService = new com.google.api.services.classroom.Classroom.Builder(
-          transport, jsonFactory, credential)
-          .setApplicationName("ABAS")
-          .build();
+          transport, jsonFactory, credential).setApplicationName("ABAS").build();
     }
 
     /**
@@ -457,21 +443,15 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
      *
      * @return List course names, or a simple error message if no courses are found.
      */
-    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.classroom.Classroom mService = null;
-        private Exception mLastError = null;
-        private List<Course> listOfCourse = new ArrayList<>();
-        private List<String> listOfIDs = new ArrayList<>();
-        private List<List<Student>> listOfSTDIDs = new ArrayList<>();
-        private List<List<Teacher>> listOfTeacherIDs = new ArrayList<>();
-        private List<List<CourseWork>> listOfCourseWork = new ArrayList<>();
-        private List<List<List<StudentSubmission>>> listOfStudentSubmission = new ArrayList<>();
+    //Use the if else statements as reference points to avoid error
+    private List<String> getDataFromApi() throws IOException {
+      ListCoursesResponse response = mService.courses().list().execute();
 
       List<Course> courses = response.getCourses();
       List<String> names = new ArrayList<>();
       List<String> courseID = new ArrayList<>();
       List<String> sectionList = new ArrayList<>();
-      List<String> subjectList = new ArrayList<>();
+
       List<List<Student>> stdlist = new ArrayList<>();
       List<List<Teacher>> teacherList = new ArrayList<>();
       List<List<CourseWork>> courseWorkList = new ArrayList<>();
@@ -483,88 +463,59 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
           courseID.add(course.getId());
           sectionList.add(course.getSection());
 
-        /**
-         * Fetch a list of the names of the first 10 courses the user has access to.
-         *
-         * @return List course names, or a simple error message if no courses are
-         * found.
-         * @throws IOException
-         */
-        //Use the if else statements as reference points to avoid error
-        private List<String> getDataFromApi() throws IOException {
-            ListCoursesResponse response = mService.courses().list().execute();
+          ListTeachersResponse teachersResponse = mService.courses().teachers().list(course.getId())
+              .execute();
+          List<Teacher> teacherList1 = teachersResponse.getTeachers();
+          if (teacherList1 != null) {
+            teacherList.add(teacherList1);
+          } else {
+            teacherList.add(null);
+          }
 
-            List<Course> courses = response.getCourses();
-            List<String> names = new ArrayList<>();
-            List<String> courseID = new ArrayList<>();
-            List<String> sectionList = new ArrayList<>();
-
-            List<List<Student>> stdlist = new ArrayList<>();
-            List<List<Teacher>> teacherList = new ArrayList<>();
-            List<List<CourseWork>> courseWorkList = new ArrayList<>();
-            List<List<List<StudentSubmission>>> studentSubmissionList = new ArrayList<>();
-
-            if (courses != null) {
-                for (Course course : courses) {
-                    names.add(course.getName());
-                    courseID.add(course.getId());
-                    sectionList.add(course.getSection());
-
-                    ListTeachersResponse teachersResponse = mService.courses().teachers().list(course.getId()).execute();
-                    List<Teacher> teacherList1 = teachersResponse.getTeachers();
-                    if (teacherList1 != null) {
-                        teacherList.add(teacherList1);
-                    } else {
-                        teacherList.add(null);
-                    }
-
-                    ListStudentsResponse studentsResponse = mService.courses().students().list(course.getId()).execute();
-                    List<Student> studentList = studentsResponse.getStudents();
-                    if (studentList != null) {
-                        stdlist.add(studentList);
-                    } else {
-                        stdlist.add(null);
-                    }
-                    ListCourseWorkResponse courseWorkResponse = mService.courses().courseWork().list(course.getId()).execute();
-                    List<CourseWork> courseWorkList1 = courseWorkResponse.getCourseWork();
-                    if (courseWorkList1 != null) {
-                        Iterator cwlitr = courseWorkList1.iterator();
-                        List<List<StudentSubmission>> stdsublist = new ArrayList<>();
-                        while (cwlitr.hasNext()) {
-                            CourseWork courseWork = (CourseWork) cwlitr.next();
-                            ListStudentSubmissionsResponse studentSubmissionsResponse = mService.courses().courseWork().studentSubmissions().list(courseWork.getCourseId(), courseWork.getId()).execute();
-                            List<StudentSubmission> liststdList = studentSubmissionsResponse.getStudentSubmissions();
-                            if (liststdList != null) {
-                                stdsublist.add(liststdList);
-                                studentSubmissionList.add(stdsublist);
-                                courseWorkList.add(courseWorkList1);
-                            } else {
-                                stdsublist.add(null);
-                                studentSubmissionList.add(stdsublist);
-                                courseWorkList.add(courseWorkList1);
-                            }
-                        }
-                    } else {
-                        courseWorkList.add(null);
-                    }
-                }
+          ListStudentsResponse studentsResponse = mService.courses().students().list(course.getId())
+              .execute();
+          List<Student> studentList = studentsResponse.getStudents();
+          if (studentList != null) {
+            stdlist.add(studentList);
+          } else {
+            stdlist.add(null);
+          }
+          ListCourseWorkResponse courseWorkResponse = mService.courses().courseWork()
+              .list(course.getId()).execute();
+          List<CourseWork> courseWorkList1 = courseWorkResponse.getCourseWork();
+          if (courseWorkList1 != null) {
+            Iterator cwlitr = courseWorkList1.iterator();
+            List<List<StudentSubmission>> stdsublist = new ArrayList<>();
+            while (cwlitr.hasNext()) {
+              CourseWork courseWork = (CourseWork) cwlitr.next();
+              ListStudentSubmissionsResponse studentSubmissionsResponse = mService.courses()
+                  .courseWork().studentSubmissions()
+                  .list(courseWork.getCourseId(), courseWork.getId()).execute();
+              List<StudentSubmission> liststdList = studentSubmissionsResponse
+                  .getStudentSubmissions();
+              if (liststdList != null) {
+                stdsublist.add(liststdList);
+                studentSubmissionList.add(stdsublist);
+                courseWorkList.add(courseWorkList1);
+              } else {
+                stdsublist.add(null);
+                studentSubmissionList.add(stdsublist);
+                courseWorkList.add(courseWorkList1);
+              }
             }
-
-            setList(courseID);
-            setList3(teacherList);
-            setList2(stdlist);
-            setList4(courseWorkList);
-            setList5(studentSubmissionList);
-            setList6(courses);
-
-            return names;
+          } else {
+            courseWorkList.add(null);
+          }
         }
       }
+
       setList(courseID);
-      setList2(stdlist);
       setList3(teacherList);
+      setList2(stdlist);
       setList4(courseWorkList);
       setList5(studentSubmissionList);
+      setList6(courses);
+
       return names;
     }
 
@@ -609,216 +560,191 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
       return listOfStudentSubmission;
     }
 
+    public void setList6(List<Course> list) {
+      listOfCourse = list;
+    }
 
-        public void setList4(List<List<CourseWork>> list) {
-            listOfCourseWork = list;
-        }
+    public List<Course> getListOfCourse() {
+      return listOfCourse;
+    }
 
-        public List<List<CourseWork>> getListOfCourseWork() {
-            return listOfCourseWork;
-        }
+    @Override
+    protected void onPreExecute() {
+      mProgress.show();
+    }
 
-        public void setList5(List<List<List<StudentSubmission>>> list) {
-            listOfStudentSubmission = list;
-        }
+    @Override
+    protected void onPostExecute(List<String> output) {
 
-        public List<List<List<StudentSubmission>>> getListOfStudentSubmission() {
-            return listOfStudentSubmission;
-        }
+      DatabaseReference classroomLinkedAccountDBREF = FirebaseDatabase.getInstance().getReference()
+          .child("Classroom_Linked_Account_General").
+              child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+      DatabaseReference classListDBREF = FirebaseDatabase.getInstance().getReference()
+          .child("Classroom_Class_List").
+              child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+      List<String> listOfCourseNames = output;
 
-        public void setList6(List<Course> list) {
-            listOfCourse = list;
-        }
+      boolean toBreak = false;
 
-        public List<Course> getListOfCourse() {
-            return listOfCourse;
-        }
+      /*In case no classroom*/
+      if (listOfCourse == null) {
 
-          accountTextView.setText(mCredential.getSelectedAccountName());
-          accountTextView.setTextColor(Color.GREEN);
-          statusTextView.setText("Connected");
-          statusTextView.setTextColor(Color.GREEN);
-          mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              Toast.makeText(ClassroomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG)
-                  .show();
-            }
-          });
-          mCallApiButton.setTextColor(Color.GREEN);
+        Map accountDetailsMap = new HashMap();
+        accountDetailsMap.put("Gmail_Account", mCredential.getSelectedAccountName());
+        accountDetailsMap.put("Status", "Connected\nNO CLASSROOMS");
+        accountDetailsMap
+            .put("Account_App_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        @Override
-        protected void onPostExecute(List<String> output) {
-
-            DatabaseReference classroomLinkedAccountDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_General").
-                    child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            DatabaseReference classListDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Class_List").
-                    child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            List<String> listOfCourseNames = output;
-
-            boolean toBreak = false;
-
-            /*In case no classroom*/
-            if (listOfCourse == null) {
-
-                Map accountDetailsMap = new HashMap();
-                accountDetailsMap.put("Gmail_Account", mCredential.getSelectedAccountName());
-                accountDetailsMap.put("Status", "Connected\nNO CLASSROOMS");
-                accountDetailsMap.put("Account_App_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-            List<Teacher> list1 = listOfTeacherIDs.get(counter);
-            Iterator teacheritr = list1.iterator();
-            while (teacheritr.hasNext()) {
-              Teacher temp = (Teacher) teacheritr.next();
-              if (temp.getProfile().getEmailAddress()
-                  .equals(mCredential.getSelectedAccountName())) {
-                Map mapToPush = new HashMap();
-                mapToPush.put("Name_Course", name);
-                mapToPush.put("Course_ID", id);
-                mapToPush.put("Gmail_Account", mCredential.getSelectedAccountName());
-                mapToPush.put("Status", "Teacher");
-                mapToPush.put("Classroom_ID", temp.getProfile().getId());
-
-                classroomLinkedAccountDBREF.child("Account_Details").updateChildren(accountDetailsMap, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        if (databaseError != null) {
-                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                        }
-                    }
-                });
-
-                classroomLinkedAccountDBREF.child("Class_List").removeValue();
-                classListDBREF.removeValue();
-
-                //App stuff
-                //Disable button
-                accountTextView.setText(mCredential.getSelectedAccountName());
-                accountTextView.setTextColor(Color.GREEN);
-                statusTextView.setText("Connected");
-                statusTextView.setTextColor(Color.GREEN);
-                mCallApiButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(classRoomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG).show();
-                    }
-                });
-                mCallApiButton.setTextColor(Color.GREEN);
-                mProgress.hide();
-                Toast.makeText(classRoomHomeSetting.this, "No Google Classrooms!.", Toast.LENGTH_LONG).show();
-            } else {
-
-                /*Simple Account Link with Google*/
-                Map accountDetailsMap = new HashMap();
-                accountDetailsMap.put("Gmail_Account", mCredential.getSelectedAccountName());
-                accountDetailsMap.put("Status", "Connected\nHAVE ClASSROOMS");
-                accountDetailsMap.put("Account_App_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                dbref = dbref.child(id);
-                Iterator itr = list.iterator();
-                while (itr.hasNext()) {
-                  Student std = (Student) itr.next();
-
-                classroomLinkedAccountDBREF.child("Account_Details").updateChildren(accountDetailsMap, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        if (databaseError != null) {
-                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                        }
-                    }
-                });
-                 /*Simple Account Link with Google - END*/
-
-                classroomLinkedAccountDBREF.child("Class_List").removeValue();
-                classListDBREF.removeValue();
-
-                int counterNumberOfCourseCounter = 0;
-                for (Course courseObject : listOfCourse) {
-                    DatabaseReference classroomLinkedAccountTeachersDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_Teachers").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    List<Teacher> teacherListPerCourse = listOfTeacherIDs.get(counterNumberOfCourseCounter);
-
-                    Teacher teacherObject = (Teacher) teacherListPerCourse.get(0);
-
-                    //Toast.makeText(classRoomHomeSetting.this, "Is teacher!.:" + teacherObject.getProfile().getEmailAddress(), Toast.LENGTH_LONG).show();
-
-                    if (teacherObject.getProfile().getEmailAddress() == null) {
-                        Map accountDetailsUpdateMap = new HashMap();
-                        accountDetailsUpdateMap.put("Gmail_Account", mCredential.getSelectedAccountName());
-                        accountDetailsUpdateMap.put("Status", "Connected\nNot Teachers ");
-                        accountDetailsUpdateMap.put("Account_App_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                        classroomLinkedAccountDBREF.child("Account_Details").updateChildren(accountDetailsUpdateMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if (databaseError != null) {
-                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        Teacher teacherObject2 = (Teacher) teacherListPerCourse.get(0);
-
-                        Map classListDetailGeneralMap = new HashMap();
-                        classListDetailGeneralMap.put("Name_Course",courseObject.getName());
-                        classListDetailGeneralMap.put("Classroom_ClassID",courseObject.getId());
-                        classListDetailGeneralMap.put("Classroom_Teacher_UID",teacherObject2.getProfile().getEmailAddress());
-                        classListDetailGeneralMap.put("ABAS_UID",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        classListDetailGeneralMap.put("Section", courseObject.getSection());
-
-                        classroomLinkedAccountDBREF.child("Class_List").child(courseObject.getId()).updateChildren(classListDetailGeneralMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if(databaseError!=null){
-                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                }
-                            }
-                        });
-
-
-
-                        Map classListDetailIndepentdentMap = new HashMap();
-                        classListDetailIndepentdentMap.put("Name_Course",courseObject.getName());
-                        classListDetailIndepentdentMap.put("Classroom_ClassID",courseObject.getId());
-                        classListDetailIndepentdentMap.put("Classroom_Teacher_UID",teacherObject2.getProfile().getEmailAddress());
-                        classListDetailIndepentdentMap.put("ABAS_UID",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        classListDetailIndepentdentMap.put("Section", courseObject.getSection());
-
-                        classListDBREF.child(courseObject.getId()).updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if(databaseError!=null){
-                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                }
-                            }
-                        });
-
-                        //Toast.makeText(classRoomHomeSetting.this, "Is teacher!.:" + teacherObject2.getProfile().getEmailAddress(), Toast.LENGTH_LONG).show();
-                    }
-
-
-
-                    counterNumberOfCourseCounter++;
+        classroomLinkedAccountDBREF.child("Account_Details")
+            .updateChildren(accountDetailsMap, new DatabaseReference.CompletionListener() {
+              @Override
+              public void onComplete(DatabaseError databaseError,
+                  DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                  Log.d("Chat_Log", databaseError.getMessage().toString());
                 }
-                //App stuff
-                //Disable button
-                accountTextView.setText(mCredential.getSelectedAccountName());
-                accountTextView.setTextColor(Color.GREEN);
-                statusTextView.setText("Connected");
-                statusTextView.setTextColor(Color.GREEN);
-                mCallApiButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(classRoomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG).show();
-                    }
-                });
-                mCallApiButton.setTextColor(Color.GREEN);
-                mProgress.hide();
+              }
+            });
 
-            }
+        classroomLinkedAccountDBREF.child("Class_List").removeValue();
+        classListDBREF.removeValue();
+
+        //App stuff
+        //Disable button
+        accountTextView.setText(mCredential.getSelectedAccountName());
+        accountTextView.setTextColor(Color.GREEN);
+        statusTextView.setText("Connected");
+        statusTextView.setTextColor(Color.GREEN);
+        mCallApiButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            Toast.makeText(ClassroomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG)
+                .show();
           }
-        }
+        });
+        mCallApiButton.setTextColor(Color.GREEN);
         mProgress.hide();
+        Toast.makeText(ClassroomHomeSetting.this, "No Google Classrooms!.", Toast.LENGTH_LONG)
+            .show();
+      } else {
+
+        /*Simple Account Link with Google*/
+        Map accountDetailsMap = new HashMap();
+        accountDetailsMap.put("Gmail_Account", mCredential.getSelectedAccountName());
+        accountDetailsMap.put("Status", "Connected\nHAVE ClASSROOMS");
+        accountDetailsMap
+            .put("Account_App_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        classroomLinkedAccountDBREF.child("Account_Details")
+            .updateChildren(accountDetailsMap, new DatabaseReference.CompletionListener() {
+              @Override
+              public void onComplete(DatabaseError databaseError,
+                  DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                  Log.d("Chat_Log", databaseError.getMessage().toString());
+                }
+              }
+            });
+        /*Simple Account Link with Google - END*/
+
+        classroomLinkedAccountDBREF.child("Class_List").removeValue();
+        classListDBREF.removeValue();
+
+        int counterNumberOfCourseCounter = 0;
+        for (Course courseObject : listOfCourse) {
+          DatabaseReference classroomLinkedAccountTeachersDBREF = FirebaseDatabase.getInstance()
+              .getReference().child("Classroom_Linked_Account_Teachers")
+              .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+          List<Teacher> teacherListPerCourse = listOfTeacherIDs.get(counterNumberOfCourseCounter);
+
+          Teacher teacherObject = (Teacher) teacherListPerCourse.get(0);
+
+          //Toast.makeText(ClassroomHomeSetting.this, "Is teacher!.:" + teacherObject.getProfile().getEmailAddress(), Toast.LENGTH_LONG).show();
+
+          if (teacherObject.getProfile().getEmailAddress() == null) {
+            Map accountDetailsUpdateMap = new HashMap();
+            accountDetailsUpdateMap.put("Gmail_Account", mCredential.getSelectedAccountName());
+            accountDetailsUpdateMap.put("Status", "Connected\nNot Teachers ");
+            accountDetailsUpdateMap
+                .put("Account_App_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            classroomLinkedAccountDBREF.child("Account_Details")
+                .updateChildren(accountDetailsUpdateMap,
+                    new DatabaseReference.CompletionListener() {
+                      @Override
+                      public void onComplete(DatabaseError databaseError,
+                          DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                          Log.d("Chat_Log", databaseError.getMessage().toString());
+                        }
+                      }
+                    });
+          } else {
+            Teacher teacherObject2 = (Teacher) teacherListPerCourse.get(0);
+
+            Map classListDetailGeneralMap = new HashMap();
+            classListDetailGeneralMap.put("Name_Course", courseObject.getName());
+            classListDetailGeneralMap.put("Classroom_ClassID", courseObject.getId());
+            classListDetailGeneralMap
+                .put("Classroom_Teacher_UID", teacherObject2.getProfile().getEmailAddress());
+            classListDetailGeneralMap
+                .put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            classListDetailGeneralMap.put("Section", courseObject.getSection());
+
+            classroomLinkedAccountDBREF.child("Class_List").child(courseObject.getId())
+                .updateChildren(classListDetailGeneralMap,
+                    new DatabaseReference.CompletionListener() {
+                      @Override
+                      public void onComplete(DatabaseError databaseError,
+                          DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                          Log.d("Chat_Log", databaseError.getMessage().toString());
+                        }
+                      }
+                    });
+
+            Map classListDetailIndepentdentMap = new HashMap();
+            classListDetailIndepentdentMap.put("Name_Course", courseObject.getName());
+            classListDetailIndepentdentMap.put("Classroom_ClassID", courseObject.getId());
+            classListDetailIndepentdentMap
+                .put("Classroom_Teacher_UID", teacherObject2.getProfile().getEmailAddress());
+            classListDetailIndepentdentMap
+                .put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            classListDetailIndepentdentMap.put("Section", courseObject.getSection());
+
+            classListDBREF.child(courseObject.getId())
+                .updateChildren(classListDetailIndepentdentMap,
+                    new DatabaseReference.CompletionListener() {
+                      @Override
+                      public void onComplete(DatabaseError databaseError,
+                          DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                          Log.d("Chat_Log", databaseError.getMessage().toString());
+                        }
+                      }
+                    });
+
+            //Toast.makeText(ClassroomHomeSetting.this, "Is teacher!.:" + teacherObject2.getProfile().getEmailAddress(), Toast.LENGTH_LONG).show();
+          }
+
+          counterNumberOfCourseCounter++;
+        }
+        //App stuff
+        //Disable button
+        accountTextView.setText(mCredential.getSelectedAccountName());
+        accountTextView.setTextColor(Color.GREEN);
+        statusTextView.setText("Connected");
+        statusTextView.setTextColor(Color.GREEN);
+        mCallApiButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            Toast.makeText(ClassroomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG)
+                .show();
+          }
+        });
+        mCallApiButton.setTextColor(Color.GREEN);
+        mProgress.hide();
+
       }
     }
 
@@ -844,22 +770,24 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
     }
   }
 
-    public static class classRoomHomeSettingHolder extends RecyclerView.ViewHolder {
-        View mView;
-        TextView coursenameTextView;
+  public static class ClassroomHomeSettingHolder extends RecyclerView.ViewHolder {
 
     View mView;
     TextView coursenameTextView;
 
-        //        public void setCourse_ID(String Course_ID){
+    public ClassroomHomeSettingHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
+    }
+
+    //        public void setCourse_ID(String Course_ID){
 //            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
 //            coursenameTextView.setText(Course_ID);
 //        }
-        public void setCourseName(String Name_Course) {
-            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-            coursenameTextView.setText(Name_Course);
-        }
-
+    public void setCourseName(String Name_Course) {
+      coursenameTextView = mView
+          .findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+      coursenameTextView.setText(Name_Course);
     }
 
   }
