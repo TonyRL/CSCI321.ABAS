@@ -49,6 +49,7 @@ public class RecordOverviewActivity extends Activity {
     recordList = new ArrayList<RecordModel>();
     commentList = new ArrayList<CommentModel>();
 
+
     final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
     recordOverviewProgressBar.setIndeterminate(true);
 
@@ -59,13 +60,28 @@ public class RecordOverviewActivity extends Activity {
         recordList = new ArrayList<RecordModel>();
         recordList = recordList1;
 
+        /*
+        ||
+        ||  Initialize the StatisticsEngine here
+        ||
+         */
+        StatisticsEngine statisticsEngine = new StatisticsEngine(recordList);
+
+        /*
+        ||
+        ||  Views for grades (stats) goes under here
+        ||
+         */
         //Subject
         TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
         recordOverviewSubject.setText(subjectname);
 
         //Average Grade
         TextView recordOverviewAverageGrade = findViewById(R.id.recordOverviewAverageGrade);
+        //comment the line under once views are set
         recordOverviewAverageGrade.setText(findAverageGrade());
+        //e.g. (the overall average grade text view).setText(
+        //                  statisticsEngine.findAverageGrade());
 
         //Highest Grade
         TextView recordOverviewHighestGrade = findViewById(R.id.recordOverviewHighestGrade);
@@ -77,6 +93,13 @@ public class RecordOverviewActivity extends Activity {
 
         //Latest Comment
         Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
+
+        /*
+        ||
+        ||  Views for grades (stats) goes above here
+        ||
+         */
+
 
         //Latest Comment on click
         //Goes to Comments overview
@@ -107,6 +130,7 @@ public class RecordOverviewActivity extends Activity {
           //Declare an array of Datapoints first
           DataPoint[] dataPoint = new DataPoint[recordList.size()];
 
+          //this section turns the x axis into dates (retrieved from the recordLists)
           for (int i = 0; i < recordList.size(); i++) {
             String datefromSQL = recordList.get(i).getDate();
             try {
@@ -166,7 +190,11 @@ public class RecordOverviewActivity extends Activity {
 
   }
 
-
+  /*
+  ||
+  || Remove the lines under this once the old views are replaced with dialogs
+  ||
+   */
   //<editor-fold desc="findHighestGrade() -> Finds the highest grade in the list">
   public String findHighestGrade() {
 
@@ -189,6 +217,8 @@ public class RecordOverviewActivity extends Activity {
 
   }
   //</editor-fold>
+
+
 
   //<editor-fold desc="findLowestGrade() -> Finds the lowest grade in the list">
   public String findLowestGrade() {
@@ -237,6 +267,12 @@ public class RecordOverviewActivity extends Activity {
   }
   //</editor-fold>
 
+  /*
+  ||
+  || Remove the lines above this once the old views are replaced with dialogs
+  ||
+  */
+
   //<editor-fold desc="findLatestComment() -> Finds the latest comment only">
   public String findLatestComment() {
 
@@ -255,7 +291,7 @@ public class RecordOverviewActivity extends Activity {
   }
   //</editor-fold>
 
-
+  //Query class for grabbing the Record Models
   private void RecordQueryClass(final RecordCallBack recordCallBack) {
     FirebaseDatabase db2 = FirebaseDatabase.getInstance();
 

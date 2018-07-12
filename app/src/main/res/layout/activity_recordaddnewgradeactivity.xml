@@ -130,12 +130,12 @@
             android:orientation="vertical"></LinearLayout>
 
         <EditText
-          android:id="@+id/recordNewGradeEditView"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:ems="10"
-          android:inputType="textPersonName"
-          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+            android:id="@+id/recordNewGradeEditView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:textAppearance="@android:style/TextAppearance.Small.Inverse" />
 
         <LinearLayout
             android:layout_width="match_parent"
