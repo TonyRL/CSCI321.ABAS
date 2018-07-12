@@ -43,7 +43,7 @@
             android:label="SearchBeaconActivity" />
         <activity
             android:name=".Activity.ClassListActivity"
-            android:label="Activity.ClassListActivity"/>
+            android:label="Activity.ClassListActivity" />
         <activity
             android:name=".Activity.StudentListActivity"
             android:label="Activity.StudentListActivity" />
@@ -92,7 +92,7 @@
         <activity
             android:name=".Activity.RecordEditGradeActivity"
             android:label="Activity.RecordEditGradeActivity" />
-      <activity
+        <activity
             android:name=".Activity.AdminSubjectsListActivity"
             android:label="Activity.AdminSubjectsListActivity" />
         <activity android:name=".Activity.AdminManageClassSubjectsActivity" />
@@ -100,7 +100,8 @@
         <activity
             android:name=".PopupSearchBeaconActivity"
             android:theme="@style/AppTheme.PopupTheme" />
-        <activity android:name=".Activity.classRoomHomeSetting"></activity>
+        <activity android:name=".Activity.classRoomHomeSetting" />
+        <activity android:name=".Activity.AdminAddUserActivity"></activity>
     </application>
 
 </manifest>
