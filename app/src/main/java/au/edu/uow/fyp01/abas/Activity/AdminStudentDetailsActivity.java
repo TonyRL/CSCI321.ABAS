@@ -20,7 +20,6 @@ import android.widget.Toast;
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
 import au.edu.uow.fyp01.abas.Model.SchoolModel;
 import au.edu.uow.fyp01.abas.Model.StudentModel;
-import au.edu.uow.fyp01.abas.PopupSearchBeaconActivity;
 import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

@@ -37,7 +37,7 @@
       android:name=".SignUpActivity"/>
     <activity
       android:label="Search Beacon"
-      android:name=".SearchBeaconActivity"/>
+      android:name=".Activity.SearchBeaconActivity"/>
     <activity
       android:label="Class List"
       android:name=".Activity.ClassListActivity"/>
@@ -95,7 +95,7 @@
     <activity android:name=".Activity.AdminManageClassSubjectsActivity"/>
     <activity android:name=".Activity.AdminClassOptionsActivity"/>
     <activity
-      android:name=".PopupSearchBeaconActivity"
+      android:name=".Activity.PopupSearchBeaconActivity"
       android:theme="@style/AppTheme.PopupTheme"/>
     <activity android:name=".Activity.ClassroomHomeSetting"/>
     <activity android:name=".Activity.AdminAddUserActivity"></activity>

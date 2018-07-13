@@ -16,7 +16,7 @@ import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
 import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.R;
-import au.edu.uow.fyp01.abas.SearchBeaconActivity;
+import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 
 public class HomeFragment extends Fragment {
 
