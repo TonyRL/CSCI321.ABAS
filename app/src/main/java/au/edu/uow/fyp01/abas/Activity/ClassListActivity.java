@@ -106,6 +106,28 @@ public class ClassListActivity extends AppCompatActivity {
     });
   }
 
+  private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
+    dbref2.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        userModel = dataSnapshot.getValue(UserModel.class);
+        firebaseCallBack.onCallBack(userModel);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(UserModel userModel);
+  }
+
   public class SchoolModelViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
@@ -145,27 +167,5 @@ public class ClassListActivity extends AppCompatActivity {
         }
       });
     }
-  }
-
-  private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
-    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-    DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
-    dbref2.addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        userModel = dataSnapshot.getValue(UserModel.class);
-        firebaseCallBack.onCallBack(userModel);
-      }
-
-      @Override
-      public void onCancelled(DatabaseError databaseError) {
-
-      }
-    });
-  }
-
-  private interface FirebaseCallBack {
-
-    void onCallBack(UserModel userModel);
   }
 }

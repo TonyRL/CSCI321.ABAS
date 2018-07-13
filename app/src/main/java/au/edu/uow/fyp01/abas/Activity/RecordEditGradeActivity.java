@@ -1,10 +1,10 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,10 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,9 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import au.edu.uow.fyp01.abas.R;
-
-public class RecordEditGradeActivity extends Activity {
+public class RecordEditGradeActivity extends AppCompatActivity {
 
   private FirebaseDatabase db;
   private DatabaseReference dbref;
@@ -125,7 +122,7 @@ public class RecordEditGradeActivity extends Activity {
       @Override
       public void onClick(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(
-                RecordEditGradeActivity.this);
+            RecordEditGradeActivity.this);
         builder.setTitle("Change type to: ");
 
         //Set up the layout
@@ -134,8 +131,8 @@ public class RecordEditGradeActivity extends Activity {
         //set up the spinner as a drop down box
         final Spinner dropdown = new Spinner(RecordEditGradeActivity.this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                RecordEditGradeActivity.this,
-                android.R.layout.simple_spinner_dropdown_item, gradetypes);
+            RecordEditGradeActivity.this,
+            android.R.layout.simple_spinner_dropdown_item, gradetypes);
         dropdown.setAdapter(adapter);
         //add dropdown to the dialog
         layout.addView(dropdown);
@@ -162,7 +159,6 @@ public class RecordEditGradeActivity extends Activity {
       }
     });
 
-
     Button recordEditGradeSaveBtn = findViewById(R.id.recordEditGradeSaveBtn);
     recordEditGradeSaveBtn.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -174,7 +170,7 @@ public class RecordEditGradeActivity extends Activity {
         addToDatabase.put("recordID", recordID);
         addToDatabase.put("timestamp", timestamp);
         addToDatabase.put("gradename", recordNameEditView.getText().toString());
-        addToDatabase.put("type",recordTypeTextView.getText().toString());
+        addToDatabase.put("type", recordTypeTextView.getText().toString());
 
         dbref.updateChildren(addToDatabase);
 

@@ -1,13 +1,15 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import au.edu.uow.fyp01.abas.Model.CommentModel;
+import au.edu.uow.fyp01.abas.Model.RecordModel;
+import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,16 +20,11 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import au.edu.uow.fyp01.abas.Model.CommentModel;
-import au.edu.uow.fyp01.abas.Model.RecordModel;
-import au.edu.uow.fyp01.abas.R;
-
-public class RecordOverviewActivity extends Activity {
+public class RecordOverviewActivity extends AppCompatActivity {
 
   private String sID;
   private String subjectname;
@@ -49,7 +46,6 @@ public class RecordOverviewActivity extends Activity {
     recordList = new ArrayList<RecordModel>();
     commentList = new ArrayList<CommentModel>();
 
-
     final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
     recordOverviewProgressBar.setIndeterminate(true);
 
@@ -61,17 +57,14 @@ public class RecordOverviewActivity extends Activity {
         recordList = recordList1;
 
         /*
-        ||
-        ||  Initialize the StatisticsEngine here
-        ||
+        Initialize the StatisticsEngine here
          */
         StatisticsEngine statisticsEngine = new StatisticsEngine(recordList);
 
         /*
-        ||
-        ||  Views for grades (stats) goes under here
-        ||
+        Views for grades (stats) goes under here
          */
+
         //Subject
         TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
         recordOverviewSubject.setText(subjectname);
@@ -95,11 +88,8 @@ public class RecordOverviewActivity extends Activity {
         Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
 
         /*
-        ||
-        ||  Views for grades (stats) goes above here
-        ||
+        Views for grades (stats) goes above here
          */
-
 
         //Latest Comment on click
         //Goes to Comments overview
@@ -156,14 +146,12 @@ public class RecordOverviewActivity extends Activity {
           recordOverviewGraph.getViewport().setYAxisBoundsManual(true);
 
           //get the smallest date and convert to double
-          double d = (double)recordList.get(0).getTimestamp();
+          double d = (double) recordList.get(0).getTimestamp();
           recordOverviewGraph.getViewport().setMinX(d);
-          recordOverviewGraph.getViewport().setMaxX(d+604800000.0);
+          recordOverviewGraph.getViewport().setMaxX(d + 604800000.0);
           recordOverviewGraph.getViewport().setXAxisBoundsManual(true);
           recordOverviewGraph.getViewport().setScalable(true);
         }
-
-
 
         recordOverviewProgressBar.setVisibility(View.GONE);
         //</editor-fold>
@@ -171,12 +159,12 @@ public class RecordOverviewActivity extends Activity {
       }
     });//RecordQueryClass end
 
-    //<editor-fold desc="Grades History button">
-    Button recordOverviewGradeHistoryBtn = findViewById(R.id.recordOverviewGradesHistoryBtn);
+    //<editor-fold desc="Grade History button">
+    Button recordOverviewGradeHistoryBtn = findViewById(R.id.recordOverviewGradeHistoryBtn);
     recordOverviewGradeHistoryBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent i = new Intent(getApplicationContext(), RecordGradesHistoryActivity.class);
+        Intent i = new Intent(getApplicationContext(), RecordGradeHistoryActivity.class);
 
         Bundle args = new Bundle();
         args.putString("sID", sID);
@@ -191,9 +179,7 @@ public class RecordOverviewActivity extends Activity {
   }
 
   /*
-  ||
-  || Remove the lines under this once the old views are replaced with dialogs
-  ||
+  Remove the lines under this once the old views are replaced with dialogs
    */
   //<editor-fold desc="findHighestGrade() -> Finds the highest grade in the list">
   public String findHighestGrade() {
@@ -217,7 +203,6 @@ public class RecordOverviewActivity extends Activity {
 
   }
   //</editor-fold>
-
 
 
   //<editor-fold desc="findLowestGrade() -> Finds the lowest grade in the list">
@@ -268,9 +253,7 @@ public class RecordOverviewActivity extends Activity {
   //</editor-fold>
 
   /*
-  ||
-  || Remove the lines above this once the old views are replaced with dialogs
-  ||
+  Remove the lines above this once the old views are replaced with dialogs
   */
 
   //<editor-fold desc="findLatestComment() -> Finds the latest comment only">

@@ -36,31 +36,28 @@
       android:label="SignUpActivityy"
       android:name=".SignUpActivity"/>
     <activity
-      android:label="SettingActivity"
-      android:name=".SettingActivity"/>
-    <activity
       android:label="Search Beacon"
       android:name=".SearchBeaconActivity"/>
     <activity
       android:label="Class List"
       android:name=".Activity.ClassListActivity"/>
     <activity
-      android:label="Activity.StudentListActivity"
+      android:label="Student List"
       android:name=".Activity.StudentListActivity"/>
     <activity
-      android:label="Activity.RecordActivity"
+      android:label="Student Record"
       android:name=".Activity.RecordActivity"/>
     <activity
-      android:label="Activity.RecordOverviewActivity"
+      android:label="Record Overview"
       android:name=".Activity.RecordOverviewActivity"/>
     <activity
-      android:label="Activity.CommentListActivity"
+      android:label="Student Comment"
       android:name=".Activity.CommentListActivity"/>
     <activity
       android:label="Activity.FileSharingHome"
       android:name=".Activity.FileSharingHome"/>
     <activity
-      android:label="Activity.FileSharingAdd"
+      android:label="Share File"
       android:name=".Activity.FileSharingAdd"/>
     <activity
       android:label="Download File"
@@ -84,8 +81,8 @@
       android:label="Admin Helper"
       android:name=".Activity.AdminManageMenu"/>
     <activity
-      android:label="Activity.RecordGradesHistoryActivity"
-      android:name=".Activity.RecordGradesHistoryActivity"/>
+      android:label="Grade History"
+      android:name=".Activity.RecordGradeHistoryActivity"/>
     <activity
       android:label="Activity.RecordAddNewGradeActivity"
       android:name=".Activity.RecordAddNewGradeActivity"/>
@@ -100,8 +97,8 @@
     <activity
       android:name=".PopupSearchBeaconActivity"
       android:theme="@style/AppTheme.PopupTheme"/>
-        <activity android:name=".Activity.ClassroomHomeSetting" />
-        <activity android:name=".Activity.AdminAddUserActivity"></activity>
-    </application>
+    <activity android:name=".Activity.ClassroomHomeSetting"/>
+    <activity android:name=".Activity.AdminAddUserActivity"></activity>
+  </application>
 
 </manifest>
