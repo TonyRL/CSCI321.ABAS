@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -574,8 +575,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
             DatabaseReference classroomLinkedAccountDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_General").
                     child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-            DatabaseReference classListDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Class_List").
+            DatabaseReference classListDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Class_List_Teacher_Reference").
                     child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            final DatabaseReference classDetailsOnlyREF = FirebaseDatabase.getInstance().getReference().child("Classroom_List_General_Details");
             List<String> listOfCourseNames = output;
 
             boolean toBreak = false;
@@ -601,6 +603,35 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                 classroomLinkedAccountDBREF.child("Class_List").removeValue();
                 classListDBREF.removeValue();
 
+                classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
+                            boolean toNotBreak = true;
+                            String UID = uidSnap.getKey().toString();
+                            for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
+                                if (uidSnap2.getKey().equals("ABAS_UID")) {
+                                    if (uidSnap2.getValue().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                        DatabaseReference removeClassroomGeneralDBref = FirebaseDatabase.getInstance().getReference().
+                                                child("Classroom_List_General_Details");
+                                        removeClassroomGeneralDBref.child(UID).removeValue();
+                                    }
+                                }
+                            }
+                        }
+
+                        classDetailsOnlyREF.removeEventListener(this);
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                SystemClock.sleep(400);
+
                 //App stuff
                 //Disable button
                 accountTextView.setText(mCredential.getSelectedAccountName());
@@ -616,7 +647,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                 mCallApiButton.setTextColor(Color.GREEN);
                 mProgress.hide();
                 Toast.makeText(classRoomHomeSetting.this, "No Google Classrooms!.", Toast.LENGTH_LONG).show();
-            } else {
+            }
+
+            else {
 
                 /*Simple Account Link with Google*/
                 Map accountDetailsMap = new HashMap();
@@ -637,6 +670,34 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
                 classroomLinkedAccountDBREF.child("Class_List").removeValue();
                 classListDBREF.removeValue();
+
+                classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
+                            boolean toNotBreak = true;
+                            String UID = uidSnap.getKey().toString();
+                            for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
+                                if (uidSnap2.getKey().equals("ABAS_UID")) {
+                                    if (uidSnap2.getValue().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                        DatabaseReference removeClassroomGeneralDBref = FirebaseDatabase.getInstance().getReference().
+                                                child("Classroom_List_General_Details");
+                                        removeClassroomGeneralDBref.child(UID).removeValue();
+                                        toNotBreak = false;
+                                    }
+                                }
+                            }
+                        }
+                        classDetailsOnlyREF.removeEventListener(this);
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                SystemClock.sleep(400);
 
                 int counterNumberOfCourseCounter = 0;
                 for (Course courseObject : listOfCourse) {
@@ -661,48 +722,53 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                 }
                             }
                         });
-                    }
-                    else {
+                    } else {
                         Teacher teacherObject2 = (Teacher) teacherListPerCourse.get(0);
 
                         Map classListDetailGeneralMap = new HashMap();
-                        classListDetailGeneralMap.put("Name_Course",courseObject.getName());
-                        classListDetailGeneralMap.put("Classroom_ClassID",courseObject.getId());
-                        classListDetailGeneralMap.put("Classroom_Teacher_UID",teacherObject2.getProfile().getEmailAddress());
-                        classListDetailGeneralMap.put("ABAS_UID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        classListDetailGeneralMap.put("Name_Course", courseObject.getName());
+                        classListDetailGeneralMap.put("Classroom_ClassID", courseObject.getId());
+                        classListDetailGeneralMap.put("Classroom_Teacher_UID", teacherObject2.getProfile().getEmailAddress());
+                        classListDetailGeneralMap.put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         classListDetailGeneralMap.put("Section", courseObject.getSection());
 
                         classroomLinkedAccountDBREF.child("Class_List").child(courseObject.getId()).updateChildren(classListDetailGeneralMap, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if(databaseError!=null){
+                                if (databaseError != null) {
                                     Log.d("Chat_Log", databaseError.getMessage().toString());
                                 }
                             }
                         });
 
 
-
                         Map classListDetailIndepentdentMap = new HashMap();
-                        classListDetailIndepentdentMap.put("Name_Course",courseObject.getName());
-                        classListDetailIndepentdentMap.put("Classroom_ClassID",courseObject.getId());
-                        classListDetailIndepentdentMap.put("Classroom_Teacher_UID",teacherObject2.getProfile().getEmailAddress());
-                        classListDetailIndepentdentMap.put("ABAS_UID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        classListDetailIndepentdentMap.put("Name_Course", courseObject.getName());
+                        classListDetailIndepentdentMap.put("Classroom_ClassID", courseObject.getId());
+                        classListDetailIndepentdentMap.put("Classroom_Teacher_UID", teacherObject2.getProfile().getEmailAddress());
+                        classListDetailIndepentdentMap.put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         classListDetailIndepentdentMap.put("Section", courseObject.getSection());
 
                         classListDBREF.child(courseObject.getId()).updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if(databaseError!=null){
+                                if (databaseError != null) {
                                     Log.d("Chat_Log", databaseError.getMessage().toString());
                                 }
                             }
                         });
 
-                        //Toast.makeText(classRoomHomeSetting.this, "Is teacher!.:" + teacherObject2.getProfile().getEmailAddress(), Toast.LENGTH_LONG).show();
+
+                        classDetailsOnlyREF.child(courseObject.getId()).updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                if (databaseError != null) {
+                                    Log.d("Chat_Log", databaseError.getMessage().toString());
+                                }
+                            }
+                        });
+
                     }
-
-
 
                     counterNumberOfCourseCounter++;
                 }
