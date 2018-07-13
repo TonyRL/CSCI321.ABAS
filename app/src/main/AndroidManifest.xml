@@ -81,7 +81,7 @@
       android:label="Activity.AdminStudentSubjectListActivity"
       android:name=".Activity.AdminStudentSubjectListActivity"/>
     <activity
-      android:label="Activity.AdminManageMenu"
+      android:label="Admin Helper"
       android:name=".Activity.AdminManageMenu"/>
     <activity
       android:label="Activity.RecordGradesHistoryActivity"
