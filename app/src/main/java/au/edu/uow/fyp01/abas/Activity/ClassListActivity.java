@@ -1,9 +1,9 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-
+import au.edu.uow.fyp01.abas.Model.SchoolModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,11 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import au.edu.uow.fyp01.abas.Model.SchoolModel;
-import au.edu.uow.fyp01.abas.Model.UserModel;
-import au.edu.uow.fyp01.abas.R;
-
-public class ClassListActivity extends Activity {
+public class ClassListActivity extends AppCompatActivity {
 
   private RecyclerView classListRecyclerView;
   private DatabaseReference dbref;
@@ -106,8 +104,6 @@ public class ClassListActivity extends Activity {
 
       }
     });
-
-
   }
 
   public class SchoolModelViewHolder extends RecyclerView.ViewHolder {
@@ -149,10 +145,7 @@ public class ClassListActivity extends Activity {
         }
       });
     }
-
-
   }
-
 
   private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
     FirebaseDatabase db2 = FirebaseDatabase.getInstance();

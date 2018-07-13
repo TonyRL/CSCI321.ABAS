@@ -4,25 +4,26 @@ package au.edu.uow.fyp01.abas.Activity;
  * Created by Manish on 27/06/2018.
  */
 
-public class classRoomHomeSettingRecyclerClass {
+public class ClassroomHomeSettingRecyclerClass {
 
-    private String Classroom_ID;
-    private String Course_ID;
-    private String Name_Course;
-    private String Gmail_Account;
-    private String Status;
+  private String Classroom_ID;
+  private String Course_ID;
+  private String Name_Course;
+  private String Gmail_Account;
+  private String Status;
 
-    public classRoomHomeSettingRecyclerClass(){
+  public ClassroomHomeSettingRecyclerClass() {
 
-    }
-//String classroom_ID, String course_ID,, String gmail_Account, String status
-    public classRoomHomeSettingRecyclerClass( String name_Course) {
+  }
+
+  //String classroom_ID, String course_ID,, String gmail_Account, String status
+  public ClassroomHomeSettingRecyclerClass(String name_Course) {
 //        Classroom_ID = classroom_ID;
 //        Course_ID = course_ID;
-        Name_Course = name_Course;
+    Name_Course = name_Course;
 //        Gmail_Account = gmail_Account;
 //        Status = status;
-    }
+  }
 
 //    public String getClassroom_ID() {
 //        return Classroom_ID;
@@ -40,13 +41,13 @@ public class classRoomHomeSettingRecyclerClass {
 //        Course_ID = course_ID;
 //    }
 
-    public String getName_Course() {
-        return Name_Course;
-    }
+  public String getName_Course() {
+    return Name_Course;
+  }
 
-    public void setName_Course(String name_Course) {
-        Name_Course = name_Course;
-    }
+  public void setName_Course(String name_Course) {
+    Name_Course = name_Course;
+  }
 
 //    public String getGmail_Account() {
 //        return Gmail_Account;
