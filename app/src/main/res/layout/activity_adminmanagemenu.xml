@@ -23,16 +23,16 @@
       android:layout_height="197dp">
 
       <Button
-        android:id="@+id/adminManageMenuRequests"
-        android:layout_width="190dp"
-        android:layout_height="100dp"
-        android:text="Register Requests"/>
+          android:id="@+id/adminManageMenuRegisterBtn"
+          android:layout_width="190dp"
+          android:layout_height="100dp"
+          android:text="Register New User" />
 
       <Button
-        android:id="@+id/adminManageMenuTeachers"
-        android:layout_width="190dp"
-        android:layout_height="100dp"
-        android:text="Manage Teachers"/>
+          android:id="@+id/adminManageMenuStaffBtn"
+          android:layout_width="190dp"
+          android:layout_height="100dp"
+          android:text="Manage Staff" />
 
       <Button
         android:id="@+id/adminManageMenuClasses"

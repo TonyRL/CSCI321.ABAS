@@ -100,7 +100,8 @@
     <activity
       android:name=".PopupSearchBeaconActivity"
       android:theme="@style/AppTheme.PopupTheme"/>
-    <activity android:name=".Activity.ClassroomHomeSetting"></activity>
-  </application>
+        <activity android:name=".Activity.ClassroomHomeSetting" />
+        <activity android:name=".Activity.AdminAddUserActivity"></activity>
+    </application>
 
 </manifest>
