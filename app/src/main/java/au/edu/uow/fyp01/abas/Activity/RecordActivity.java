@@ -175,6 +175,7 @@ public class RecordActivity extends AppCompatActivity {
           args.putString("subjectname", subjectname);
           args.putString("subjectID", subjectID);
           args.putString("sID", sID);
+          args.putString("schID", schID);
           i.putExtras(args);
 
           startActivity(i);
