@@ -3,18 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="au.edu.uow.fyp01.abas.Activity.FileReceiveHome">
-
-  <TextView
-    android:id="@+id/textView2"
-    android:textStyle="bold"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/header_yellow"
-    android:gravity="center"
-    android:text="Download File"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="1dp"/>
+  tools:context="au.edu.uow.fyp01.abas.Activity.FileDownloadHome">
 
   <android.support.v7.widget.RecyclerView
     android:id="@+id/activity_file_receive_home_recyclerview"

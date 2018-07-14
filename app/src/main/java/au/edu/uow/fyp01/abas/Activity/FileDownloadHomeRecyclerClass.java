@@ -4,54 +4,55 @@ package au.edu.uow.fyp01.abas.Activity;
  * Created by Manish on 23/05/2018.
  */
 
-public class FileReceiveHomeRecyclerClass {
+public class FileDownloadHomeRecyclerClass {
 
 
-    private String Date_Expire;
-    private String Time_Expire;
-    private String Filename;
-//    private String File_Type;
-private String ID;
+  private String Date_Expire;
+  private String Time_Expire;
+  private String Filename;
+  //    private String File_Type;
+  private String ID;
 //    private String Sender;
 //    private String Link;
 //    private String Number_Recevied;
 
-    public FileReceiveHomeRecyclerClass() {
+  public FileDownloadHomeRecyclerClass() {
 
-    }
+  }
 
-    public FileReceiveHomeRecyclerClass(String Date_Expire, String Time_Expire, String File_Name/*, String file_Type, String ID, String receiver, String sender, String link,String number_Recevied*/) {
-        this.Date_Expire = Date_Expire;
-        this.Time_Expire = Time_Expire;
-        this.Filename = File_Name;
+  public FileDownloadHomeRecyclerClass(String Date_Expire, String Time_Expire,
+      String File_Name/*, String file_Type, String ID, String receiver, String sender, String link,String number_Recevied*/) {
+    this.Date_Expire = Date_Expire;
+    this.Time_Expire = Time_Expire;
+    this.Filename = File_Name;
 //        File_Type = file_Type;
-         this.ID = ID;
+    this.ID = ID;
 //        Sender = sender;
 //        Link = link;
 //        Number_Recevied = number_Recevied;
-    }
+  }
 
-    public String getDate_Expire() {
-        return Date_Expire;
-    }
+  public String getDate_Expire() {
+    return Date_Expire;
+  }
 
 //    public void setDate_Expire(String date_Expire) {
 //        Date_Expire = date_Expire;
 //    }
 
-    public String getTime_Expire() {
-        return Time_Expire;
-    }
+  public String getTime_Expire() {
+    return Time_Expire;
+  }
 
 //    //public void setTime_Expire(String time_Expire) {
 //        Time_Expire = time_Expire;
 //    }
 
-    public String getFileName() {
-        return Filename;
-    }
+  public String getFileName() {
+    return Filename;
+  }
 
-//    public void setFileName(String fileName) {
+  //    public void setFileName(String fileName) {
 //        Filename = fileName;
 //    }
 //
@@ -63,12 +64,12 @@ private String ID;
 //        File_Type = file_Type;
 //    }
 //
-    public String getID() {
-        return ID;
-    }
+  public String getID() {
+    return ID;
+  }
 
-    public void setID(String ID) {
-        this.ID = ID;
+  public void setID(String ID) {
+    this.ID = ID;
   }
 //
 //    public String getSender() {

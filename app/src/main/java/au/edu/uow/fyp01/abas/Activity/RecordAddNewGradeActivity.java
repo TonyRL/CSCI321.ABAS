@@ -1,10 +1,10 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,10 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,9 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import au.edu.uow.fyp01.abas.R;
-
-public class RecordAddNewGradeActivity extends Activity {
+public class RecordAddNewGradeActivity extends AppCompatActivity {
 
   private FirebaseDatabase db;
   private DatabaseReference dbref;
@@ -66,9 +63,9 @@ public class RecordAddNewGradeActivity extends Activity {
     final TextView recordNewDateTextView = findViewById(R.id.recordNewDateTextView);
 
     final Spinner recordNewTypeSpinner = findViewById(R.id.recordNewTypeSpinner);
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-            RecordAddNewGradeActivity.this,
-            android.R.layout.simple_spinner_dropdown_item, gradetypes);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        RecordAddNewGradeActivity.this,
+        android.R.layout.simple_spinner_dropdown_item, gradetypes);
     recordNewTypeSpinner.setAdapter(adapter);
 
     //Set up date picker dialog
@@ -79,7 +76,7 @@ public class RecordAddNewGradeActivity extends Activity {
     setDate(dateFormat.format(todaysdate));
     setTimestamp(todaysdate.getTime());
 
-    final DatePickerDialog.OnDateSetListener datepicker = new DatePickerDialog.OnDateSetListener() {
+    final DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener() {
       @Override
       public void onDateSet(DatePicker view, int year1, int month1, int dayOfMonth1) {
         year = year1;
@@ -110,7 +107,7 @@ public class RecordAddNewGradeActivity extends Activity {
       public void onClick(View v) {
         Calendar myCalendar = Calendar.getInstance();
         new DatePickerDialog(RecordAddNewGradeActivity.this,
-            datepicker,
+            datePicker,
             myCalendar.get(Calendar.YEAR),
             myCalendar.get(Calendar.MONTH),
             myCalendar.get(Calendar.DAY_OF_MONTH)).show();

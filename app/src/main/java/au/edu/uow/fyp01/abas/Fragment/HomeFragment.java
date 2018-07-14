@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
-import au.edu.uow.fyp01.abas.Activity.FileReceiveHome;
+import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
+import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
-import au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting;
 import au.edu.uow.fyp01.abas.R;
-import au.edu.uow.fyp01.abas.SearchBeaconActivity;
+import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
           startActivity(fileSendFile);
           break;
         case R.id.downloadFileBtn:
-          Intent fileReceiveFile = new Intent(getActivity(), FileReceiveHome.class);
+          Intent fileReceiveFile = new Intent(getActivity(), FileDownloadHome.class);
           startActivity(fileReceiveFile);
           break;
         case R.id.recordBtn:
@@ -51,8 +51,8 @@ public class HomeFragment extends Fragment {
           startActivity(recordActivityIntent);
           break;
         case R.id.settingBtn:
-          Intent classroomapi = new Intent(getActivity(), classRoomHomeSetting.class);
-          startActivity(classroomapi);
+          Intent classroomSetting = new Intent(getActivity(), ClassroomHomeSetting.class);
+          startActivity(classroomSetting);
           break;
         default:
           break;
@@ -75,15 +75,14 @@ public class HomeFragment extends Fragment {
     searchBtn = view.findViewById(R.id.searchBtn);
     uploadFileBtn = view.findViewById(R.id.uploadFileBtn);
     downloadFileBtn = view.findViewById(R.id.downloadFileBtn);
-
     recordBtn = view.findViewById(R.id.recordBtn);
     settingBtn = view.findViewById(R.id.settingBtn);
 
     searchBtn.setOnClickListener(onClickListener);
     uploadFileBtn.setOnClickListener(onClickListener);
+    downloadFileBtn.setOnClickListener(onClickListener);
     recordBtn.setOnClickListener(onClickListener);
     settingBtn.setOnClickListener(onClickListener);
-    downloadFileBtn.setOnClickListener(onClickListener);
 
     return view;
   }

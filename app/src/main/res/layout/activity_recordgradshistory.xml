@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/PurplishBlue"
-        android:text="Grades History"
+        android:text="Grade History"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/White"
@@ -37,13 +37,13 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-      android:id="@+id/recordGradesHistoryRecylcerView"
+      android:id="@+id/recordGradeHistoryRecylcerView"
       android:layout_width="match_parent"
       android:layout_height="350dp"
       android:layout_weight="0"/>
 
     <ProgressBar
-      android:id="@+id/recordGradesHistoryProgressBar"
+      android:id="@+id/recordGradeHistoryProgressBar"
       style="?android:attr/progressBarStyleHorizontal"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"/>
