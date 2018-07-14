@@ -71,7 +71,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
     private Button reconnectButton;
     private RecyclerView recyclerView;
     private FirebaseRecyclerOptions firebaseRecyclerOptions;
-    private FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassRoomHomeSettingHolder> firebaseRecyclerAdapter;
+    private FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder> firebaseRecyclerAdapter;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -184,18 +184,18 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Class_List");
         firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<ClassroomHomeSettingRecyclerClass>().setQuery(ref, ClassroomHomeSettingRecyclerClass.class).build();
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassRoomHomeSettingHolder>(firebaseRecyclerOptions) {
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder>(firebaseRecyclerOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull ClassRoomHomeSettingHolder holder, int position, @NonNull ClassroomHomeSettingRecyclerClass model) {
+            protected void onBindViewHolder(@NonNull ClassroomHomeSettingHolder holder, int position, @NonNull ClassroomHomeSettingRecyclerClass model) {
                 holder.setCourseName(model.getName_Course());
             }
 
             @NonNull
             @Override
-            public ClassroomHomeSetting.ClassRoomHomeSettingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public ClassroomHomeSetting.ClassroomHomeSettingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.activity_class_room_home_setting_recyclerview_item, parent, false);
-                return new ClassroomHomeSetting.ClassRoomHomeSettingHolder(view1);
+                return new ClassroomHomeSetting.ClassroomHomeSettingHolder(view1);
             }
         };
 
@@ -867,11 +867,11 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
         }
     }
 
-    public static class ClassRoomHomeSettingHolder extends RecyclerView.ViewHolder {
+    public static class ClassroomHomeSettingHolder extends RecyclerView.ViewHolder {
         View mView;
         TextView coursenameTextView;
 
-        public ClassRoomHomeSettingHolder(View itemView) {
+        public ClassroomHomeSettingHolder(View itemView) {
             super(itemView);
             mView = itemView;
         }
@@ -899,4 +899,5 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
         firebaseRecyclerAdapter.stopListening();
     }
 }
+
 
