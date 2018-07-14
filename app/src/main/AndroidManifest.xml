@@ -99,7 +99,8 @@
             android:theme="@style/AppTheme.PopupTheme" />
         <activity android:name=".Activity.ClassroomHomeSetting" />
         <activity android:name=".Activity.AdminAddUserActivity" />
-        <activity android:name=".Activity.AdminSubjectSettingsActivity"></activity>
+        <activity android:name=".Activity.AdminSubjectSettingsActivity" />
+        <activity android:name=".Activity.SchoolListActivity"></activity>
     </application>
 
 </manifest>
