@@ -1,28 +1,20 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import au.edu.uow.fyp01.abas.Model.ListOfStudentsModel;
-import au.edu.uow.fyp01.abas.R;
-
-public class AdminAddStudentActivity extends Activity {
+public class AdminAddStudentActivity extends AppCompatActivity {
 
   private DatabaseReference dbref;
   private String classID;
@@ -230,7 +222,6 @@ public class AdminAddStudentActivity extends Activity {
       }
     }); // end on click
     */
-
 
   }
 }

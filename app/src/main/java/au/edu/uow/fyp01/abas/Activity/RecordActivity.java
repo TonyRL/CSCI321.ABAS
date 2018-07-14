@@ -1,9 +1,9 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import au.edu.uow.fyp01.abas.Model.StudentModel;
+import au.edu.uow.fyp01.abas.Model.SubjectModel;
+import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -22,11 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import au.edu.uow.fyp01.abas.Model.StudentModel;
-import au.edu.uow.fyp01.abas.Model.SubjectModel;
-import au.edu.uow.fyp01.abas.R;
-
-public class RecordActivity extends Activity {
+public class RecordActivity extends AppCompatActivity {
 
   private String sID;
   private String schID;
@@ -115,6 +113,36 @@ public class RecordActivity extends Activity {
 
   }
 
+  private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("Student").child(this.schID)
+        .child(this.classID);
+
+    query = dbref2.orderByChild("sid").equalTo(this.sID);
+    query.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
+
+          for (DataSnapshot node : dataSnapshot.getChildren()) {
+            StudentModel studentModel = node.getValue(StudentModel.class);
+            firebaseCallBack.onCallBack(studentModel);
+          }
+
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(StudentModel studentModel);
+  }
 
   public class SubjectModelViewHolder extends RecyclerView.ViewHolder {
 
@@ -147,6 +175,7 @@ public class RecordActivity extends Activity {
           args.putString("subjectname", subjectname);
           args.putString("subjectID", subjectID);
           args.putString("sID", sID);
+          args.putString("schID", schID);
           i.putExtras(args);
 
           startActivity(i);
@@ -154,37 +183,6 @@ public class RecordActivity extends Activity {
         }
       });
     }
-  }
-
-  private void StudentQueryClass(final FirebaseCallBack firebaseCallBack) {
-    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-    DatabaseReference dbref2 = db2.getReference().child("Student").child(this.schID)
-        .child(this.classID);
-
-    query = dbref2.orderByChild("sid").equalTo(this.sID);
-    query.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        if (dataSnapshot.exists()) {
-
-          for (DataSnapshot node : dataSnapshot.getChildren()) {
-            StudentModel studentModel = node.getValue(StudentModel.class);
-            firebaseCallBack.onCallBack(studentModel);
-          }
-
-        }
-      }
-
-      @Override
-      public void onCancelled(DatabaseError databaseError) {
-
-      }
-    });
-  }
-
-  private interface FirebaseCallBack {
-
-    void onCallBack(StudentModel studentModel);
   }
 
 

@@ -26,7 +26,9 @@ import android.view.MenuItem;
 import android.view.View;
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
+import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
+import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import org.altbeacon.beacon.BeaconManager;
@@ -65,10 +67,9 @@ public class MainActivity extends AppCompatActivity {
           startActivity(recordActivityIntent);
           break;
         case R.id.nav_setting:
-          Intent settingActivityIntent = new Intent(MainActivity.this, SettingActivity.class);
+          Intent settingActivityIntent = new Intent(MainActivity.this, ClassroomHomeSetting.class);
           startActivity(settingActivityIntent);
           break;
-
         case R.id.nav_logout:
           FirebaseAuth.getInstance().signOut();
           Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);

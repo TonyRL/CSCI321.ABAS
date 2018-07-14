@@ -1,9 +1,9 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
+import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
+
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import au.edu.uow.fyp01.abas.Model.CommentModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +30,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,13 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import au.edu.uow.fyp01.abas.Model.CommentModel;
-import au.edu.uow.fyp01.abas.Model.UserModel;
-import au.edu.uow.fyp01.abas.R;
-
-import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
-
-public class CommentListActivity extends Activity {
+public class CommentListActivity extends AppCompatActivity {
 
   private RecyclerView commentListRecyclerView;
   private DatabaseReference dbref;
@@ -185,6 +180,31 @@ public class CommentListActivity extends Activity {
     });
   }
 
+  private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
+
+    //get current user
+    String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
+    dbref2.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        userModel = dataSnapshot.getValue(UserModel.class);
+        firebaseCallBack.onCallBack(userModel);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(UserModel userModel);
+  }
 
   public class CommentModelViewHolder extends RecyclerView.ViewHolder {
 
@@ -293,32 +313,6 @@ public class CommentListActivity extends Activity {
       //end of confirmation
     }
     //</editor-fold>
-  }
-
-
-  private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
-
-    //get current user
-    String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-    DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
-    dbref2.addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        userModel = dataSnapshot.getValue(UserModel.class);
-        firebaseCallBack.onCallBack(userModel);
-      }
-
-      @Override
-      public void onCancelled(DatabaseError databaseError) {
-
-      }
-    });
-  }
-
-  private interface FirebaseCallBack {
-
-    void onCallBack(UserModel userModel);
   }
 
 }

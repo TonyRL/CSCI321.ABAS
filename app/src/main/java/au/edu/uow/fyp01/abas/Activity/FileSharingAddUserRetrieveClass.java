@@ -6,21 +6,21 @@ package au.edu.uow.fyp01.abas.Activity;
 
 public class FileSharingAddUserRetrieveClass {
 
-//    private String UID;
-    private String email;
-    private String fullname;
+  //    private String UID;
+  private String email;
+  private String fullname;
 
-    public FileSharingAddUserRetrieveClass(){
+  public FileSharingAddUserRetrieveClass() {
 
-    }
+  }
 
-    public FileSharingAddUserRetrieveClass(String fullname, String email) {
+  public FileSharingAddUserRetrieveClass(String fullname, String email) {
 //         this.UID = UID;
-        this.email = email;
-        this.fullname = fullname;
-    }
+    this.email = email;
+    this.fullname = fullname;
+  }
 
-//    public String getUID() {
+  //    public String getUID() {
 //        return UID;
 //    }
 //
@@ -28,20 +28,20 @@ public class FileSharingAddUserRetrieveClass {
 //        this.UID = UID;
 //    }
 //
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getFullName() {
-        return fullname;
-    }
+  public String getFullName() {
+    return fullname;
+  }
 
-    public void setFullName(String fullname) {
+  public void setFullName(String fullname) {
 
-        this.fullname = fullname;
-    }
+    this.fullname = fullname;
+  }
 }

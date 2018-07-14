@@ -28,12 +28,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
-public class FileReceiveHome extends AppCompatActivity {
+public class FileDownloadHome extends AppCompatActivity {
 
   //RecyclerView
   private RecyclerView fileRecyclerView;
-  private FirebaseRecyclerOptions<FileReceiveHomeRecyclerClass> firebaseOptions;
-  private FirebaseRecyclerAdapter<FileReceiveHomeRecyclerClass, FileReceiveHome.FileReceiveHomeHolder> firebaseRecyclerAdapter;
+  private FirebaseRecyclerOptions<FileDownloadHomeRecyclerClass> firebaseOptions;
+  private FirebaseRecyclerAdapter<FileDownloadHomeRecyclerClass, FileDownloadHome.FileReceiveHomeHolder> firebaseRecyclerAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,23 +43,24 @@ public class FileReceiveHome extends AppCompatActivity {
     fileRecyclerView = findViewById(R.id.activity_file_receive_home_recyclerview);
 
     fileRecyclerView.setHasFixedSize(true);
-    fileRecyclerView.setLayoutManager(new LinearLayoutManager(FileReceiveHome.this));
+    fileRecyclerView.setLayoutManager(new LinearLayoutManager(FileDownloadHome.this));
 
-//    fileRecyclerView.addItemDecoration(new FileReceiveHome.SpacesItemDecoration(5));
-    fileRecyclerView.addItemDecoration(new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+//    fileRecyclerView.addItemDecoration(new FileDownloadHome.SpacesItemDecoration(5));
+    fileRecyclerView.addItemDecoration(
+        new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
         .child("Received_Files").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-    firebaseOptions = new FirebaseRecyclerOptions.Builder<FileReceiveHomeRecyclerClass>().
-        setQuery(ref, FileReceiveHomeRecyclerClass.class).build();
+    firebaseOptions = new FirebaseRecyclerOptions.Builder<FileDownloadHomeRecyclerClass>().
+        setQuery(ref, FileDownloadHomeRecyclerClass.class).build();
 
     //to load the list
-    firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FileReceiveHomeRecyclerClass, FileReceiveHome.FileReceiveHomeHolder>(
+    firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FileDownloadHomeRecyclerClass, FileDownloadHome.FileReceiveHomeHolder>(
         firebaseOptions) {
       @Override
-      protected void onBindViewHolder(@NonNull final FileReceiveHome.FileReceiveHomeHolder holder,
-          int position, @NonNull FileReceiveHomeRecyclerClass model) {
+      protected void onBindViewHolder(@NonNull final FileDownloadHome.FileReceiveHomeHolder holder,
+          int position, @NonNull FileDownloadHomeRecyclerClass model) {
 
         //Beware
         //Highly faulty area
@@ -76,7 +77,7 @@ public class FileReceiveHome extends AppCompatActivity {
             //To download
             final String IDReference = holder.getID().trim();
 
-            Toast.makeText(FileReceiveHome.this, IDReference, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FileDownloadHome.this, IDReference, Toast.LENGTH_SHORT).show();
 
             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().
                 child("Received_Files").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
@@ -101,7 +102,8 @@ public class FileReceiveHome extends AppCompatActivity {
                       @Override
                       public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
-                        Toast.makeText(FileReceiveHome.this, "Downloading File", Toast.LENGTH_SHORT)
+                        Toast
+                            .makeText(FileDownloadHome.this, "Downloading File", Toast.LENGTH_SHORT)
                             .show();
                       }
                     });
@@ -119,15 +121,27 @@ public class FileReceiveHome extends AppCompatActivity {
 
       @NonNull
       @Override
-      public FileReceiveHome.FileReceiveHomeHolder onCreateViewHolder(@NonNull ViewGroup parent,
+      public FileDownloadHome.FileReceiveHomeHolder onCreateViewHolder(@NonNull ViewGroup parent,
           int viewType) {
         View view1 = LayoutInflater.from(parent.getContext())
             .inflate(R.layout.activity_file_receive_home_recyclerview, parent, false);
-        return new FileReceiveHome.FileReceiveHomeHolder(view1);
+        return new FileDownloadHome.FileReceiveHomeHolder(view1);
       }
     };
 
     fileRecyclerView.setAdapter(firebaseRecyclerAdapter);
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    firebaseRecyclerAdapter.startListening();
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    firebaseRecyclerAdapter.stopListening();
   }
 
   public static class FileReceiveHomeHolder extends RecyclerView.ViewHolder {
@@ -178,26 +192,13 @@ public class FileReceiveHome extends AppCompatActivity {
       //userFromDisplay.setText(sender);
     }
 
-    public void setID(String ID) {
-      this.ID = ID;
-    }
-
     public String getID() {
       return ID;
     }
-  }
 
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    firebaseRecyclerAdapter.startListening();
-  }
-
-  @Override
-  public void onStop() {
-    super.onStop();
-    firebaseRecyclerAdapter.stopListening();
+    public void setID(String ID) {
+      this.ID = ID;
+    }
   }
 
   public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
