@@ -51,7 +51,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -456,7 +455,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
             List<List<CourseWork>> courseWorkList = new ArrayList<>();
             List<List<List<StudentSubmission>>> studentSubmissionList = new ArrayList<>();
 
-
             if (courses != null) {
                 for (Course course : courses) {
                     names.add(course.getName());
@@ -580,52 +578,12 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
             DatabaseReference classListDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Class_List_Teacher_Reference").
                     child(FirebaseAuth.getInstance().getCurrentUser().getUid());
             final DatabaseReference classDetailsOnlyREF = FirebaseDatabase.getInstance().getReference().child("Classroom_List_General_Details");
-            final DatabaseReference classDetailsOnlyREF2 = FirebaseDatabase.getInstance().getReference().child("Classroom_List_General_Details");
-
             List<String> listOfCourseNames = output;
-            DatabaseReference studentDetailsListDBREF= FirebaseDatabase.getInstance().getReference().child("Classroom_Class_List_Teacher_Reference").
-                    child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
 
             boolean toBreak = false;
 
             /*In case no classroom*/
             if (listOfCourse == null) {
-
-                classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
-                            String UID = uidSnap.getKey().toString();
-                            for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
-                                if (uidSnap2.getKey().equals("Classroom_Details")) {
-                                    for(DataSnapshot uidSnap3: uidSnap2.getChildren()) {
-                                        if(uidSnap3.getKey().equals("ABAS_UID")) {
-                                            if (uidSnap3.getValue().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                                Toast.makeText(getApplicationContext(), UID, Toast.LENGTH_LONG).show();
-                                        classDetailsOnlyREF.child(UID).removeValue();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        classDetailsOnlyREF.removeEventListener(this);
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                SystemClock.sleep(500);
-
-                classroomLinkedAccountDBREF.child("Class_List").removeValue();
-                classListDBREF.removeValue();
-
 
                 Map accountDetailsMap = new HashMap();
                 accountDetailsMap.put("Gmail_Account", mCredential.getSelectedAccountName());
@@ -642,6 +600,37 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                     }
                 });
 
+                classroomLinkedAccountDBREF.child("Class_List").removeValue();
+                classListDBREF.removeValue();
+
+                classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
+                            boolean toNotBreak = true;
+                            String UID = uidSnap.getKey().toString();
+                            for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
+                                if (uidSnap2.getKey().equals("ABAS_UID")) {
+                                    if (uidSnap2.getValue().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                        DatabaseReference removeClassroomGeneralDBref = FirebaseDatabase.getInstance().getReference().
+                                                child("Classroom_List_General_Details");
+                                        removeClassroomGeneralDBref.child(UID).removeValue();
+                                    }
+                                }
+                            }
+                        }
+
+                        classDetailsOnlyREF.removeEventListener(this);
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                SystemClock.sleep(400);
 
                 //App stuff
                 //Disable button
@@ -662,40 +651,6 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
 
             else {
 
-                classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
-                            String UID = uidSnap.getKey().toString();
-                            for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
-                                if (uidSnap2.getKey().equals("Classroom_Details")) {
-                                    for(DataSnapshot uidSnap3: uidSnap2.getChildren()) {
-                                        if(uidSnap3.getKey().equals("ABAS_UID")) {
-                                            if (uidSnap3.getValue().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                                Toast.makeText(getApplicationContext(), UID, Toast.LENGTH_LONG).show();
-                                        classDetailsOnlyREF.child(UID).removeValue();
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        classDetailsOnlyREF.removeEventListener(this);
-
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-                SystemClock.sleep(500);
-
-                classroomLinkedAccountDBREF.child("Class_List").removeValue();
-                classListDBREF.removeValue();
-
                 /*Simple Account Link with Google*/
                 Map accountDetailsMap = new HashMap();
                 accountDetailsMap.put("Gmail_Account", mCredential.getSelectedAccountName());
@@ -713,11 +668,45 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                 });
                  /*Simple Account Link with Google - END*/
 
+                classroomLinkedAccountDBREF.child("Class_List").removeValue();
+                classListDBREF.removeValue();
+
+                classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
+                            boolean toNotBreak = true;
+                            String UID = uidSnap.getKey().toString();
+                            for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
+                                if (uidSnap2.getKey().equals("ABAS_UID")) {
+                                    if (uidSnap2.getValue().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                        DatabaseReference removeClassroomGeneralDBref = FirebaseDatabase.getInstance().getReference().
+                                                child("Classroom_List_General_Details");
+                                        removeClassroomGeneralDBref.child(UID).removeValue();
+                                        toNotBreak = false;
+                                    }
+                                }
+                            }
+                        }
+                        classDetailsOnlyREF.removeEventListener(this);
+
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                SystemClock.sleep(400);
 
                 int counterNumberOfCourseCounter = 0;
                 for (Course courseObject : listOfCourse) {
+                    DatabaseReference classroomLinkedAccountTeachersDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Linked_Account_Teachers").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     List<Teacher> teacherListPerCourse = listOfTeacherIDs.get(counterNumberOfCourseCounter);
+
                     Teacher teacherObject = (Teacher) teacherListPerCourse.get(0);
+
+                    //Toast.makeText(classRoomHomeSetting.this, "Is teacher!.:" + teacherObject.getProfile().getEmailAddress(), Toast.LENGTH_LONG).show();
 
                     if (teacherObject.getProfile().getEmailAddress() == null) {
                         Map accountDetailsUpdateMap = new HashMap();
@@ -739,8 +728,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                         Map classListDetailGeneralMap = new HashMap();
                         classListDetailGeneralMap.put("Name_Course", courseObject.getName());
                         classListDetailGeneralMap.put("Classroom_ClassID", courseObject.getId());
-                        classListDetailGeneralMap.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
-                        classListDetailGeneralMap.put("Classroom_Teacher_ID", teacherObject2.getUserId());
+                        classListDetailGeneralMap.put("Classroom_Teacher_UID", teacherObject2.getProfile().getEmailAddress());
                         classListDetailGeneralMap.put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         classListDetailGeneralMap.put("Section", courseObject.getSection());
 
@@ -757,12 +745,11 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                         Map classListDetailIndepentdentMap = new HashMap();
                         classListDetailIndepentdentMap.put("Name_Course", courseObject.getName());
                         classListDetailIndepentdentMap.put("Classroom_ClassID", courseObject.getId());
-                        classListDetailIndepentdentMap.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
-                        classListDetailIndepentdentMap.put("Classroom_Teacher_ID", teacherObject2.getUserId());
+                        classListDetailIndepentdentMap.put("Classroom_Teacher_UID", teacherObject2.getProfile().getEmailAddress());
                         classListDetailIndepentdentMap.put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
                         classListDetailIndepentdentMap.put("Section", courseObject.getSection());
 
-                        classListDBREF.child(courseObject.getId()).child("Classroom_Details").updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
+                        classListDBREF.child(courseObject.getId()).updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                 if (databaseError != null) {
@@ -772,7 +759,7 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                         });
 
 
-                        classDetailsOnlyREF.child(courseObject.getId()).child("Classroom_Details").updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
+                        classDetailsOnlyREF.child(courseObject.getId()).updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                 if (databaseError != null) {
@@ -780,51 +767,9 @@ public class classRoomHomeSetting extends Activity implements EasyPermissions.Pe
                                 }
                             }
                         });
-
-
-                        List <Student> studentList = listOfSTDIDs.get(counterNumberOfCourseCounter);
-                        if(studentList!=null) {
-                            int submissionCounter = 0;
-                            for (Student std : studentList) {
-
-                                Map studentInClassDetails = new HashMap();
-
-                                studentInClassDetails.put("Classroom_ID", std.getUserId());
-                                studentInClassDetails.put("Gmail_Account", std.getProfile().getEmailAddress());
-                                studentInClassDetails.put("Classroom_Course_ID", std.getCourseId());
-                                studentInClassDetails.put("Name_Of_Student", std.getProfile().getName().getFullName());
-                                studentInClassDetails.put("Teacher_Classroom_ID", teacherObject2.getUserId());
-                                studentInClassDetails.put("Teacher_Gmail_Account", teacherObject2.getProfile().getEmailAddress());
-                                studentInClassDetails.put("Assigned_Status","false");
-                                studentInClassDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-                                studentDetailsListDBREF.child(courseObject.getId()).child("Student_List").child(std.getUserId()).updateChildren(studentInClassDetails, new DatabaseReference.CompletionListener() {
-                                    @Override
-                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                        if (databaseError != null) {
-                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                        }
-                                    }
-                                });
-
-                                classDetailsOnlyREF2.child(courseObject.getId()).child("Student_List").child(std.getUserId()).
-                                        updateChildren(studentInClassDetails, new DatabaseReference.CompletionListener() {
-                                            @Override
-                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                if (databaseError != null) {
-                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                }
-                                            }
-                                        });
-
-                                submissionCounter++;
-                            }
-
-
-
-                        }
 
                     }
+
                     counterNumberOfCourseCounter++;
                 }
                 //App stuff
