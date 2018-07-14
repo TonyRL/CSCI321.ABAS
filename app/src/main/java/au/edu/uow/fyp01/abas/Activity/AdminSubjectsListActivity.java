@@ -149,20 +149,6 @@ public class AdminSubjectsListActivity extends Activity {
 
                                 //push to database
                                 dbref.child(subjectID).updateChildren(addToDatabase);
-
-                                //default subject settings
-                                DatabaseReference dbref2 = db.getReference().child("SubjectSettings")
-                                        .child(schID).child(subjectID);
-
-                                Map<String, Object> subjectRatios = new HashMap<>();
-
-                                subjectRatios.put("assignmentratio", "25");
-                                subjectRatios.put("quizratio", "25");
-                                subjectRatios.put("testratio", "25");
-                                subjectRatios.put("examratio", "25");
-
-                                dbref2.updateChildren(subjectRatios);
-
                             }
                         });
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -255,20 +241,173 @@ public class AdminSubjectsListActivity extends Activity {
             subjectNameBtn.setText(subjectname);
 
             //<editor-fold desc="Remove subject from school">
-            subjectNameBtn.setOnClickListener(new View.OnClickListener() {
+            subjectNameBtn.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(getApplicationContext(), AdminSubjectSettingsActivity.class);
+                public boolean onLongClick(View v) {
+                    //Ask for user confirmation
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminSubjectsListActivity.this);
+                    builder1.setMessage("Remove subject from school?");
+                    builder1.setCancelable(true);
 
-                    //Passing 'subjectID','schID' to AdminSettingsAcitivity
-                    Bundle args = new Bundle();
-                    args.putString("subjectID", subjectID);
-                    args.putString("schID", schID);
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //Delete Subject->StudentID->SubjectID
+                                    dbref.child(subjectID).removeValue();
 
-                    i.putExtras(args);
+                                    //TODO delete subject from records and comments as well
+                                    //QUERY TO REMOVE SUBJECT FROM ALL STUDENTS IN SCHOOL
+                                    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+                                    final DatabaseReference dbref2 = db2.getReference().child("Subject")
+                                            .child(schID);
+                                    dbref2.addChildEventListener(new ChildEventListener() {
+                                        @Override
+                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    startActivity(i);
+                                            if (dataSnapshot.exists()){
+                                                //Subject -> SchID -> ClassID
+                                                for (DataSnapshot classIDnode : dataSnapshot.getChildren()){
+                                                    if (classIDnode.exists()){
 
+
+                                                        //Subject -> SchID -> ClassID -> StudentID
+                                                        for (DataSnapshot studentIDnode : classIDnode.getChildren()){
+
+                                                            SubjectModel subjectModel =
+                                                                    studentIDnode.getValue(SubjectModel.class);
+
+                                                            if (subjectModel.getSubjectID().equals(subjectID)){
+                                                                studentIDnode.getRef().removeValue();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });//end query
+
+                                    //QUERY TO REMOVE SUBJECT RECORDS FROM STUDENT
+                                    FirebaseDatabase db3 = FirebaseDatabase.getInstance();
+                                    final DatabaseReference dbref3 = db3.getReference().child("Record");
+                                    dbref3.addChildEventListener(new ChildEventListener() {
+                                        @Override
+                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                            if (dataSnapshot.exists()){
+                                                //Record->StudentID
+                                                for (DataSnapshot studentIDnode : dataSnapshot.getChildren()){
+                                                    if (studentIDnode.exists()){
+                                                        //Record->StudentID->SubjectID
+                                                        for (DataSnapshot subjectIDnode : studentIDnode.getChildren()){
+
+                                                            if (subjectIDnode.getKey().toString().equals(subjectID)){
+                                                                subjectIDnode.getRef().removeValue();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });//end query
+
+                                    //QUERY TO REMOVE SUBJECTS FROM COMMENTS
+                                    //QUERY TO REMOVE SUBJECT RECORDS FROM STUDENT
+                                    FirebaseDatabase db4 = FirebaseDatabase.getInstance();
+                                    final DatabaseReference dbref4 = db4.getReference().child("Comment");
+                                    dbref3.addChildEventListener(new ChildEventListener() {
+                                        @Override
+                                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                            if (dataSnapshot.exists()){
+                                                //Record->StudentID
+                                                for (DataSnapshot studentIDnode : dataSnapshot.getChildren()){
+                                                    if (studentIDnode.exists()){
+                                                        //Record->StudentID->SubjectID
+                                                        for (DataSnapshot subjectIDnode : studentIDnode.getChildren()){
+                                                            if (subjectIDnode.getKey().toString().equals(subjectID)){
+                                                                subjectIDnode.getRef().removeValue();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                        }
+
+                                        @Override
+                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });//end query
+
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                    //end of confirmation
+                    return true;
                 }
             });
             //</editor-fold>

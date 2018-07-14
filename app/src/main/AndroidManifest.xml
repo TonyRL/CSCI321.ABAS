@@ -101,8 +101,7 @@
             android:name=".PopupSearchBeaconActivity"
             android:theme="@style/AppTheme.PopupTheme" />
         <activity android:name=".Activity.classRoomHomeSetting" />
-        <activity android:name=".Activity.AdminAddUserActivity" />
-        <activity android:name=".Activity.AdminSubjectSettingsActivity"></activity>
+        <activity android:name=".Activity.AdminAddUserActivity"></activity>
     </application>
 
 </manifest>

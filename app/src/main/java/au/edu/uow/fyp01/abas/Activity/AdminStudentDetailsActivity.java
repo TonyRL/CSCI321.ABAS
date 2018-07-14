@@ -88,8 +88,10 @@ public class AdminStudentDetailsActivity extends Activity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
+                        Log.d(TAG, "dataSnapShot ID: " + dataSnapshot.getKey().toString());
                         for (DataSnapshot node : dataSnapshot.getChildren()) {
 
+                            Log.d(TAG, "node ID: " + node.getKey().toString());
                             //get the node in BeaconModel
                             BeaconModel beaconModel = node.getValue(BeaconModel.class);
                             beaconID = beaconModel.getBeaconID();
