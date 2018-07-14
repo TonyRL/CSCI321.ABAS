@@ -10,6 +10,16 @@
     android:orientation="vertical">
 
 
+    <TextView
+      android:id="@+id/studentListTextView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/DarkerPurplishBlue"
+      android:text="Students"
+      android:textAlignment="center"
+      android:textColor="@color/White"
+      android:textSize="18sp"/>
+
     <android.support.v7.widget.RecyclerView
       android:id="@+id/studentListRecyclerView"
       android:layout_width="match_parent"

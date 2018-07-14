@@ -11,17 +11,19 @@ public class UserModel {
   public String schID;
   public String title;
   public String usertype;
+  public String emailsuffix;
 
   public UserModel() {
 
   }
 
   public UserModel(String email, String fullname, String schID, String title,
-                  String usertype) {
+                  String emailsuffix, String usertype) {
     this.email = email;
     this.fullname = fullname;
     this.schID = schID;
     this.title = title;
+    this.emailsuffix = emailsuffix;
     this.usertype = usertype;
   }
 
@@ -55,6 +57,14 @@ public class UserModel {
 
   public String getTitle() {
     return title;
+  }
+
+  public void setEmailsuffix(String emailsuffix) {
+    this.emailsuffix = emailsuffix;
+  }
+
+  public String getEmailsuffix() {
+    return emailsuffix;
   }
 
   public void setUsertype(String usertype) {

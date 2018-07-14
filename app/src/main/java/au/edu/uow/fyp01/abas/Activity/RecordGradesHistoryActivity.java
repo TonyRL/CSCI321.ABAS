@@ -1,9 +1,9 @@
 package au.edu.uow.fyp01.abas.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,19 +12,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import au.edu.uow.fyp01.abas.Model.RecordModel;
-import au.edu.uow.fyp01.abas.R;
+
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class RecordGradeHistoryActivity extends AppCompatActivity {
+import au.edu.uow.fyp01.abas.Model.RecordModel;
+import au.edu.uow.fyp01.abas.R;
+
+public class RecordGradesHistoryActivity extends Activity {
 
   private FirebaseDatabase db;
   private DatabaseReference dbref;
 
-  private RecyclerView recordGradeHistoryRecyclerView;
+  private RecyclerView recordGradesHistoryRecyclerView;
   private FirebaseRecyclerOptions<RecordModel> options;
   private FirebaseRecyclerAdapter<RecordModel, RecordModelViewHolder> firebaseRecyclerAdapter;
 
@@ -34,24 +36,24 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_recordgradshistory);
+    setContentView(R.layout.activity_recordgradeshistory);
 
     Bundle bundle = getIntent().getExtras();
     //Grabbing args
     sID = bundle.getString("sID");
     subjectID = bundle.getString("subjectID");
 
-    final ProgressBar recordGradeHistoryProgressBar = findViewById(
-        R.id.recordGradeHistoryProgressBar);
-    recordGradeHistoryProgressBar.setIndeterminate(true);
+    final ProgressBar recordGradesHistoryProgressBar = findViewById(
+        R.id.recordGradesHistoryProgressBar);
+    recordGradesHistoryProgressBar.setIndeterminate(true);
 
     //set up the database
     db = FirebaseDatabase.getInstance();
     dbref = db.getReference().child("Record").child(sID).child(subjectID);
 
-    recordGradeHistoryRecyclerView = findViewById(R.id.recordGradeHistoryRecylcerView);
-    recordGradeHistoryRecyclerView.setHasFixedSize(true);
-    recordGradeHistoryRecyclerView.setLayoutManager
+    recordGradesHistoryRecyclerView = findViewById(R.id.recordGradesHistoryRecylcerView);
+    recordGradesHistoryRecyclerView.setHasFixedSize(true);
+    recordGradesHistoryRecyclerView.setLayoutManager
         (new LinearLayoutManager(getApplicationContext()));
 
     //set options
@@ -82,8 +84,8 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
           }
         };
 
-    recordGradeHistoryRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    recordGradeHistoryProgressBar.setVisibility(View.GONE);
+    recordGradesHistoryRecyclerView.setAdapter(firebaseRecyclerAdapter);
+    recordGradesHistoryProgressBar.setVisibility(View.GONE);
 
     Button recordAddBtn = findViewById(R.id.recordAddBtn);
     recordAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +171,7 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
     }
 
     public void setButton() {
-      //points to recyclermodellayout_grade
+      //points to recyclermodellayout_grades
       //The button is for each record
       final Button recordButtonView = mView.findViewById(R.id.editGradeBtn);
       recordButtonView.setOnClickListener(new View.OnClickListener() {
