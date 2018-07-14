@@ -132,6 +132,18 @@ public class FileDownloadHome extends AppCompatActivity {
     fileRecyclerView.setAdapter(firebaseRecyclerAdapter);
   }
 
+  @Override
+  public void onStart() {
+    super.onStart();
+    firebaseRecyclerAdapter.startListening();
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    firebaseRecyclerAdapter.stopListening();
+  }
+
   public static class FileReceiveHomeHolder extends RecyclerView.ViewHolder {
 
     View mView;
@@ -180,26 +192,13 @@ public class FileDownloadHome extends AppCompatActivity {
       //userFromDisplay.setText(sender);
     }
 
-    public void setID(String ID) {
-      this.ID = ID;
-    }
-
     public String getID() {
       return ID;
     }
-  }
 
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    firebaseRecyclerAdapter.startListening();
-  }
-
-  @Override
-  public void onStop() {
-    super.onStop();
-    firebaseRecyclerAdapter.stopListening();
+    public void setID(String ID) {
+      this.ID = ID;
+    }
   }
 
   public class SpacesItemDecoration extends RecyclerView.ItemDecoration {

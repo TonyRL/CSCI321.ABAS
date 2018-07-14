@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -65,23 +66,13 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class ClassroomHomeSetting extends Activity implements EasyPermissions.PermissionCallbacks {
-
-  GoogleAccountCredential mCredential;
-  private TextView accountTextView;
-  private TextView statusTextView;
-  private Button mCallApiButton;
-  private Button reconnectButton;
-  private RecyclerView recyclerView;
-  private FirebaseRecyclerOptions firebaseRecyclerOptions;
-  private FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder> firebaseRecyclerAdapter;
-  ProgressDialog mProgress;
+public class ClassroomHomeSetting extends AppCompatActivity implements
+    EasyPermissions.PermissionCallbacks {
 
   static final int REQUEST_ACCOUNT_PICKER = 1000;
   static final int REQUEST_AUTHORIZATION = 1001;
   static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
   static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
   private static final String BUTTON_TEXT = "Connect to Classroom";
   private static final String PREF_ACCOUNT_NAME = "accountName";
   private static final String[] SCOPES = {ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS,
@@ -89,6 +80,15 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
       ClassroomScopes.CLASSROOM_ANNOUNCEMENTS, ClassroomScopes.CLASSROOM_ROSTERS,
       ClassroomScopes.CLASSROOM_COURSES, ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS,
       ClassroomScopes.CLASSROOM_PROFILE_EMAILS, ClassroomScopes.CLASSROOM_PROFILE_PHOTOS};
+  GoogleAccountCredential mCredential;
+  ProgressDialog mProgress;
+  private TextView accountTextView;
+  private TextView statusTextView;
+  private Button mCallApiButton;
+  private Button reconnectButton;
+  private RecyclerView recyclerView;
+  private FirebaseRecyclerOptions firebaseRecyclerOptions;
+  private FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder> firebaseRecyclerAdapter;
 
   /**
    * Create the main activity.
@@ -405,6 +405,40 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
         connectionStatusCode,
         REQUEST_GOOGLE_PLAY_SERVICES);
     dialog.show();
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    firebaseRecyclerAdapter.startListening();
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    firebaseRecyclerAdapter.stopListening();
+  }
+
+  public static class ClassroomHomeSettingHolder extends RecyclerView.ViewHolder {
+
+    View mView;
+    TextView coursenameTextView;
+
+    public ClassroomHomeSettingHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
+    }
+
+    //        public void setCourse_ID(String Course_ID){
+//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+//            coursenameTextView.setText(Course_ID);
+//        }
+    public void setCourseName(String Name_Course) {
+      coursenameTextView = mView
+          .findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+      coursenameTextView.setText(Name_Course);
+    }
+
   }
 
   /**
@@ -858,39 +892,5 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
         Toast.makeText(ClassroomHomeSetting.this, "Request cancelled.", Toast.LENGTH_LONG).show();
       }
     }
-  }
-
-  public static class ClassroomHomeSettingHolder extends RecyclerView.ViewHolder {
-
-    View mView;
-    TextView coursenameTextView;
-
-    public ClassroomHomeSettingHolder(View itemView) {
-      super(itemView);
-      mView = itemView;
-    }
-
-    //        public void setCourse_ID(String Course_ID){
-//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-//            coursenameTextView.setText(Course_ID);
-//        }
-    public void setCourseName(String Name_Course) {
-      coursenameTextView = mView
-          .findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-      coursenameTextView.setText(Name_Course);
-    }
-
-  }
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    firebaseRecyclerAdapter.startListening();
-  }
-
-  @Override
-  public void onStop() {
-    super.onStop();
-    firebaseRecyclerAdapter.stopListening();
   }
 }
