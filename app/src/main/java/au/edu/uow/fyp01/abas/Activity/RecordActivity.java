@@ -47,6 +47,7 @@ public class RecordActivity extends Activity {
     setContentView(R.layout.activity_record);
     Bundle bundle = getIntent().getExtras();
 
+    //grabbing args from
     sID = bundle.getString("sID");
     schID = bundle.getString("schID");
     classID = bundle.getString("classID");
@@ -142,11 +143,12 @@ public class RecordActivity extends Activity {
           //<editor-fold desc="Transaction to move to 'RecordOverviewFragment'">
           Intent i = new Intent(getApplicationContext(), RecordOverviewActivity.class);
 
-          //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
+          //Passing 'subjectname','sID' and 'subjectID', 'schID' to RecordOverviewFragment
           Bundle args = new Bundle();
           args.putString("subjectname", subjectname);
           args.putString("subjectID", subjectID);
           args.putString("sID", sID);
+          args.putString("schID", schID);
           i.putExtras(args);
 
           startActivity(i);

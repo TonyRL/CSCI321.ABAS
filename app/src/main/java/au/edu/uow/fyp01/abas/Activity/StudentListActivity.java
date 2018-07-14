@@ -146,10 +146,10 @@ public class StudentListActivity extends Activity {
         @Override
         public void onClick(View v) {
 
-          //<editor-fold desc="Transaction to move to 'RecordFragment'">
+          //<editor-fold desc="Transaction to move to 'RecordActivity'">
           Intent i = new Intent(getApplicationContext(), RecordActivity.class);
 
-          //Passing 'sID','classID','schID' to RecordFragment
+          //Passing 'sID','classID','schID' to RecordActivity
           Bundle args = new Bundle();
           args.putString("sID", sID);
           args.putString("classID", classID);
