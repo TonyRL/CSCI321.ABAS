@@ -3,46 +3,46 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="au.edu.uow.fyp01.abas.Activity.classRoomHomeSetting">
+  tools:context="au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting">
 
   <Button
-      android:id="@+id/class_room_home_api_button_1"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentStart="true"
-      android:layout_marginBottom="180dp"
-      android:layout_x="1dp"
-      android:layout_y="186dp"
-      android:text="Change Account to Classroom"
-      tools:layout_editor_absoluteX="138dp"
-      tools:layout_editor_absoluteY="39dp" />
+    android:id="@+id/class_room_home_api_button_1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="180dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:layout_x="1dp"
+    android:layout_y="186dp"
+    android:text="Change Account to Classroom"
+    tools:layout_editor_absoluteX="138dp"
+    tools:layout_editor_absoluteY="39dp"/>
 
   <Button
-      android:id="@+id/class_room_home_api_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentStart="true"
-      android:layout_marginBottom="180dp"
-      android:layout_x="0dp"
-      android:layout_y="129dp"
-      android:text="Call API"
-      tools:layout_editor_absoluteX="138dp"
-      tools:layout_editor_absoluteY="39dp" />
+    android:id="@+id/class_room_home_api_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="180dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:layout_x="0dp"
+    android:layout_y="129dp"
+    android:text="Call API"
+    tools:layout_editor_absoluteX="138dp"
+    tools:layout_editor_absoluteY="39dp"/>
 
-    <TextView
-        android:id="@+id/class_room_home_text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
-        android:layout_x="29dp"
-        android:layout_y="47dp"
-        android:text="Google Account:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="16sp" />
+  <TextView
+    android:id="@+id/class_room_home_text1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="58dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_x="29dp"
+    android:layout_y="47dp"
+    android:text="Google Account:"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="16sp"/>
 
   <TextView
     android:id="@+id/class_room_home_gmail_textview"
@@ -79,22 +79,22 @@
     tools:layout_editor_absoluteY="5dp"/>
 
   <android.support.v7.widget.RecyclerView
-      android:id="@+id/acitivity_class_room_home_setting_recyclerview"
-      android:layout_width="match_parent"
-      android:layout_height="219dp"
-      android:layout_x="0dp"
-      android:layout_y="291dp"
-      tools:layout_editor_absoluteX="8dp"
-      tools:layout_editor_absoluteY="242dp" />
+    android:id="@+id/acitivity_class_room_home_setting_recyclerview"
+    android:layout_width="match_parent"
+    android:layout_height="219dp"
+    android:layout_x="0dp"
+    android:layout_y="291dp"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="242dp"/>
 
   <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_x="8dp"
-      android:layout_y="256dp"
-      android:text="Classroom:"
-      android:textColor="@android:color/black"
-      tools:layout_editor_absoluteX="5dp"
-      tools:layout_editor_absoluteY="257dp" />
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="8dp"
+    android:layout_y="256dp"
+    android:text="Classroom:"
+    android:textColor="@android:color/black"
+    tools:layout_editor_absoluteX="5dp"
+    tools:layout_editor_absoluteY="257dp"/>
 
 </AbsoluteLayout>

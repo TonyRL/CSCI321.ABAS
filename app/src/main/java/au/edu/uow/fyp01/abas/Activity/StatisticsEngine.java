@@ -30,7 +30,7 @@ public class StatisticsEngine {
     // EXAMS
     private ArrayList<RecordModel> examList;
 
-    public StatisticsEngine(ArrayList<RecordModel> recordList){
+    public StatisticsEngine(ArrayList<RecordModel> recordList1){
 
         //initialize all of the arrays
         recordList = new ArrayList<RecordModel>();
@@ -40,7 +40,7 @@ public class StatisticsEngine {
         examList = new ArrayList<RecordModel>();
 
         //grab the recordList from RecordOverviewActivity
-        this.recordList = recordList;
+        this.recordList = recordList1;
 
         sortRecords();
     }
@@ -477,6 +477,23 @@ public class StatisticsEngine {
 
             return Double.toString(average);
         }
+    }
+
+
+    public ArrayList<RecordModel> getAssignmentList() {
+        return assignmentList;
+    }
+
+    public ArrayList<RecordModel> getQuizList() {
+        return quizList;
+    }
+
+    public ArrayList<RecordModel> getTestList() {
+        return testList;
+    }
+
+    public ArrayList<RecordModel> getExamList() {
+        return examList;
     }
 
 }

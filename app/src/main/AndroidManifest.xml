@@ -36,34 +36,31 @@
             android:name=".SignUpActivity"
             android:label="SignUpActivityy" />
         <activity
-            android:name=".SettingActivity"
-            android:label="SettingActivity" />
-        <activity
-            android:name=".SearchBeaconActivity"
-            android:label="SearchBeaconActivity" />
+            android:name=".Activity.SearchBeaconActivity"
+            android:label="Search Beacon" />
         <activity
             android:name=".Activity.ClassListActivity"
-            android:label="Activity.ClassListActivity" />
+            android:label="Class List" />
         <activity
             android:name=".Activity.StudentListActivity"
-            android:label="Activity.StudentListActivity" />
+            android:label="Student List" />
         <activity
             android:name=".Activity.RecordActivity"
-            android:label="Activity.RecordActivity" />
+            android:label="Student Record" />
         <activity
             android:name=".Activity.RecordOverviewActivity"
-            android:label="Activity.RecordOverviewActivity" />
+            android:label="Record Overview" />
         <activity
             android:name=".Activity.CommentListActivity"
-            android:label="Activity.CommentListActivity" />
+            android:label="Student Comment" />
         <activity
             android:name=".Activity.FileSharingHome"
             android:label="Activity.FileSharingHome" />
         <activity
             android:name=".Activity.FileSharingAdd"
-            android:label="Activity.FileSharingAdd" />
+            android:label="Share File" />
         <activity
-            android:name=".Activity.FileReceiveHome"
+            android:name=".Activity.FileDownloadHome"
             android:label="Download File" />
         <activity
             android:name=".Activity.AdminClassListActivity"
@@ -82,10 +79,10 @@
             android:label="Activity.AdminStudentSubjectListActivity" />
         <activity
             android:name=".Activity.AdminManageMenu"
-            android:label="Activity.AdminManageMenu" />
+            android:label="Admin Helper" />
         <activity
-            android:name=".Activity.RecordGradesHistoryActivity"
-            android:label="Activity.RecordGradesHistoryActivity" />
+            android:name=".Activity.RecordGradeHistoryActivity"
+            android:label="Grade History" />
         <activity
             android:name=".Activity.RecordAddNewGradeActivity"
             android:label="Activity.RecordAddNewGradeActivity" />
@@ -98,10 +95,12 @@
         <activity android:name=".Activity.AdminManageClassSubjectsActivity" />
         <activity android:name=".Activity.AdminClassOptionsActivity" />
         <activity
-            android:name=".PopupSearchBeaconActivity"
+            android:name=".Activity.PopupSearchBeaconActivity"
             android:theme="@style/AppTheme.PopupTheme" />
-        <activity android:name=".Activity.classRoomHomeSetting" />
-        <activity android:name=".Activity.AdminAddUserActivity"></activity>
+        <activity android:name=".Activity.ClassroomHomeSetting" />
+        <activity android:name=".Activity.AdminAddUserActivity" />
+        <activity android:name=".Activity.AdminSubjectSettingsActivity" />
+        <activity android:name=".Activity.SchoolListActivity"></activity>
     </application>
 
 </manifest>
