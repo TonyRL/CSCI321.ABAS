@@ -28,7 +28,6 @@ public class AdminAddUserActivity extends AppCompatActivity {
   private String uID;
   private FirebaseAuth auth;
   private String schID;
-  private String emailsuffix;
 
   //spinner(drop-down) data
   private String[] titles = {"Mr.", "Ms.", "Mrs.", "Dr."};
@@ -50,14 +49,12 @@ public class AdminAddUserActivity extends AppCompatActivity {
     uID = auth.getInstance().getCurrentUser().getUid();
 
     schID = "";
-    emailsuffix = "";
 
     UserQueryClass(new FirebaseCallBack() {
       @Override
       public void onCallBack(UserModel userModel) {
         //mother spawns the school ID (schID)
         schID = userModel.getSchID();
-        emailsuffix = userModel.getEmailsuffix();
 
         //instantiate db
         db = FirebaseDatabase.getInstance();
