@@ -185,6 +185,7 @@ public class SchoolListActivity extends Activity {
 
                                     addToDatabase.put("userID", uID);
                                     addToDatabase.put("fullname", userModel.getFullname());
+                                    addToDatabase.put("title", userModel.getTitle());
 
                                     dbref2.updateChildren(addToDatabase);
 

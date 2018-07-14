@@ -3,6 +3,7 @@ package au.edu.uow.fyp01.abas.Model;
 public class SchoolInfoModel {
     public String schID;
     public String schoolname;
+    public String title;
 
     public SchoolInfoModel(){}
 
@@ -25,5 +26,13 @@ public class SchoolInfoModel {
 
     public String getSchoolname() {
         return schoolname;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
