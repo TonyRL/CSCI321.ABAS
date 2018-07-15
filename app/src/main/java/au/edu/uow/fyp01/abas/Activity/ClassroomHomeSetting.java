@@ -479,6 +479,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                     } else {
                         stdlist.add(null);
                     }
+
                     ListCourseWorkResponse courseWorkResponse = mService.courses().courseWork().list(course.getId()).execute();
                     List<CourseWork> courseWorkList1 = courseWorkResponse.getCourseWork();
                     if (courseWorkList1 != null) {
@@ -494,12 +495,13 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                 courseWorkList.add(courseWorkList1);
                             } else {
                                 stdsublist.add(null);
-                                studentSubmissionList.add(stdsublist);
+                                studentSubmissionList.add(null);
                                 courseWorkList.add(courseWorkList1);
                             }
                         }
                     } else {
                         courseWorkList.add(null);
+                        studentSubmissionList.add(null);
                     }
                 }
             }
@@ -782,20 +784,57 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                             }
                         });
 
+                        List<CourseWork> courseWorkList = listOfCourseWork.get(counterNumberOfCourseCounter);
+                        if (courseWorkList != null) {
+                            for (CourseWork coursework : courseWorkList) {
+
+                                Map courseworkMapDetails = new HashMap();
+
+                                courseworkMapDetails.put("Coursework_Name", coursework.getTitle());
+                                courseworkMapDetails.put("Due_Date", coursework.getDueDate().getDay() + "-" + coursework.getDueDate().getMonth() + "-" + coursework.getDueDate().getYear());
+                                courseworkMapDetails.put("Due_Time", coursework.getDueTime().getHours() + "-" + coursework.getDueTime().getMinutes());
+                                courseworkMapDetails.put("Description", coursework.getDescription());
+                                courseworkMapDetails.put("Classroom_Teacher_ID", teacherObject2.getUserId());
+                                courseworkMapDetails.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
+                                courseworkMapDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                courseworkMapDetails.put("Classroom_Course_ID", courseObject.getId());
+                                courseworkMapDetails.put("Coursework_ID", coursework.getId());
+                                courseworkMapDetails.put("Max_Points", coursework.getMaxPoints());
+                                courseworkMapDetails.put("type", "assignment");
+
+                                classListDBREF.child(courseObject.getId()).child("Course_Work_Details").child(coursework.getId())
+                                        .updateChildren(courseworkMapDetails, new DatabaseReference.CompletionListener() {
+                                            @Override
+                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                if (databaseError != null) {
+                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
+                                                }
+                                            }
+                                        });
+                                classDetailsOnlyREF2.child(courseObject.getId()).child("Course_Work_Details").child(coursework.getId()).
+                                        updateChildren(courseworkMapDetails, new DatabaseReference.CompletionListener() {
+                                            @Override
+                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                if (databaseError != null) {
+                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
+                                                }
+                                            }
+                                        });
+                            }
+                        }
 
                         List<Student> studentList = listOfSTDIDs.get(counterNumberOfCourseCounter);
                         if (studentList != null) {
                             int submissionCounter = 0;
                             for (Student std : studentList) {
-
                                 Map studentInClassDetails = new HashMap();
 
-                                studentInClassDetails.put("Classroom_ID", std.getUserId());
+                                studentInClassDetails.put("Classroom_User_UID", std.getUserId());
                                 studentInClassDetails.put("Gmail_Account", std.getProfile().getEmailAddress());
                                 studentInClassDetails.put("Classroom_Course_ID", std.getCourseId());
                                 studentInClassDetails.put("Name_Of_Student", std.getProfile().getName().getFullName());
                                 studentInClassDetails.put("Teacher_Classroom_ID", teacherObject2.getUserId());
-                                studentInClassDetails.put("Teacher_Gmail_Account", teacherObject2.getProfile().getEmailAddress());
+                                studentInClassDetails.put("Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
                                 studentInClassDetails.put("Assigned_Status", "false");
                                 studentInClassDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
@@ -818,7 +857,50 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                             }
                                         });
 
-                                submissionCounter++;
+                                    }
+                                    submissionCounter++;
+                                }
+
+                        List<List<StudentSubmission>> stdSubmissionsListOfList = listOfStudentSubmission.get(counterNumberOfCourseCounter);
+                        if (stdSubmissionsListOfList != null) {
+                            for (List<StudentSubmission> stdsubList : stdSubmissionsListOfList) {
+                                if(stdsubList!=null) {
+                                    for (StudentSubmission stdsub : stdsubList) {
+                                        Map submissionDetails = new HashMap();
+                                        submissionDetails.put("Classroom_Student_UID", stdsub.getUserId());
+                                        submissionDetails.put("Classroom_Course_Id", stdsub.getCourseId());
+                                        submissionDetails.put("Draft_Grade", stdsub.getDraftGrade());
+                                        submissionDetails.put("Classroom_Coursework_ID", stdsub.getCourseWorkId());
+                                        submissionDetails.put("Classroom_Submission_ID", stdsub.getId());
+                                        submissionDetails.put("Grade", stdsub.getAssignedGrade());
+                                        submissionDetails.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
+                                        submissionDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        submissionDetails.put("Assigned_Status", "false");
+                                        submissionDetails.put("IsLate", stdsub.getLate());
+
+
+                                        studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId())
+                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
+                                                    @Override
+                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                        if (databaseError != null) {
+                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
+                                                        }
+                                                    }
+                                                });
+
+                                        classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId())
+                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
+                                                    @Override
+                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                        if (databaseError != null) {
+                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                }
+
                             }
 
 
