@@ -7,7 +7,7 @@
   android:rowCount="2">
 
   <Button
-    android:id="@+id/adminManageMenuRegisterBtn"
+    android:id="@+id/adminManageMenuRequestsBtn"
     android:layout_width="190dp"
     android:layout_height="100dp"
     android:layout_column="0"
