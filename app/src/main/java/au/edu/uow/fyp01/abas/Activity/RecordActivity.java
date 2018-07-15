@@ -1,5 +1,6 @@
 package au.edu.uow.fyp01.abas.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -26,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class RecordActivity extends AppCompatActivity {
 
+  private ProgressDialog progressDialog;
+
   private String sID;
   private String schID;
   private String classID;
@@ -49,8 +52,7 @@ public class RecordActivity extends AppCompatActivity {
     schID = bundle.getString("schID");
     classID = bundle.getString("classID");
 
-    final ProgressBar recordProgressBar = findViewById(R.id.recordProgressBar);
-    recordProgressBar.setIndeterminate(true);
+    showProgressDialog();
 
     StudentQueryClass(new FirebaseCallBack() {
       @Override
@@ -105,7 +107,7 @@ public class RecordActivity extends AppCompatActivity {
 
         recordRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
-        recordProgressBar.setVisibility(View.GONE);
+        hideProgressDialog();
 
       }
     });
@@ -182,6 +184,21 @@ public class RecordActivity extends AppCompatActivity {
           //</editor-fold>
         }
       });
+    }
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
     }
   }
 
