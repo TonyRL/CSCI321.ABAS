@@ -44,25 +44,18 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-      android:id="@+id/adminStudentSubjectRecyclerView"
-      android:layout_width="match_parent"
-      android:layout_height="350dp"
-      android:layout_weight="0">
-
-    </android.support.v7.widget.RecyclerView>
-
     <TextView
       android:id="@+id/textView6"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="Tap and hold a subject to remove"/>
-
-    <ProgressBar
-      android:id="@+id/adminStudentSubjectProgressBar"
-      style="?android:attr/progressBarStyleHorizontal"
+    <android.support.v7.widget.RecyclerView
+      android:id="@+id/adminStudentSubjectRecyclerView"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="match_parent"
+      android:layout_weight="0">
+
+    </android.support.v7.widget.RecyclerView>
 
   </LinearLayout>
 

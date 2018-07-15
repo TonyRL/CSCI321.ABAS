@@ -2,6 +2,7 @@ package au.edu.uow.fyp01.abas.Activity;
 
 import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ import java.util.UUID;
 
 public class CommentListActivity extends AppCompatActivity {
 
+  private ProgressDialog progressDialog;
+
   private RecyclerView commentListRecyclerView;
   private DatabaseReference dbref;
   private FirebaseRecyclerOptions<CommentModel> options;
@@ -63,8 +66,7 @@ public class CommentListActivity extends AppCompatActivity {
     subjectname = bundle.getString("subjectname");
     subjectID = bundle.getString("subjectID");
 
-    final ProgressBar commentListProgressBar = findViewById(R.id.commentListProgressBar);
-    commentListProgressBar.setIndeterminate(true);
+    showProgressDialog();
 
     //Setup userModel
     UserQueryClass(new FirebaseCallBack() {
@@ -111,7 +113,7 @@ public class CommentListActivity extends AppCompatActivity {
         commentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
 
         firebaseRecyclerAdapter.startListening();
-        commentListProgressBar.setVisibility(View.GONE);
+        hideProgressDialog();
 
         //<editor-fold desc="Add button for new comments">
         Button commentListAddBtn = findViewById(R.id.commentListAddBtn);
@@ -313,6 +315,21 @@ public class CommentListActivity extends AppCompatActivity {
       //end of confirmation
     }
     //</editor-fold>
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
   }
 
 }

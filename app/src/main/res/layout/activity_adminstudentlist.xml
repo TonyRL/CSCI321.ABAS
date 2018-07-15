@@ -56,16 +56,10 @@
     <android.support.v7.widget.RecyclerView
       android:id="@+id/adminStudentListRecyclerView"
       android:layout_width="match_parent"
-      android:layout_height="350dp"
+      android:layout_height="390dp"
       android:layout_weight="0">
 
     </android.support.v7.widget.RecyclerView>
-
-    <ProgressBar
-      android:id="@+id/adminStudentListProgressBar"
-      style="?android:attr/progressBarStyleHorizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
 
     <Button
       android:id="@+id/adminClassOptionsBtn"
