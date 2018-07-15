@@ -1,5 +1,6 @@
 package au.edu.uow.fyp01.abas.Activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AdminStudentListActivity extends AppCompatActivity {
 
+  private ProgressDialog progressDialog;
+
   private RecyclerView adminStudentListRecyclerView;
   private DatabaseReference dbref;
   private FirebaseRecyclerOptions<StudentModel> options;
@@ -43,12 +46,11 @@ public class AdminStudentListActivity extends AppCompatActivity {
     classID = bundle.getString("classID");
     schID = bundle.getString("schID");
 
+    showProgressDialog();
+
     //Instantiate the database
     db = FirebaseDatabase.getInstance();
 
-    //Progress bar
-    ProgressBar adminStudentListProgressBar = findViewById(R.id.adminStudentListProgressBar);
-    adminStudentListProgressBar.setIndeterminate(true);
 
     //RecyclerView
     adminStudentListRecyclerView = findViewById(R.id.adminStudentListRecyclerView);
@@ -86,7 +88,7 @@ public class AdminStudentListActivity extends AppCompatActivity {
         };
 
     adminStudentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    adminStudentListProgressBar.setVisibility(View.GONE);
+    hideProgressDialog();
 
     //<editor-fold desc="Add Button for new students in a class">
     Button adminStudentListAddBtn = findViewById(R.id.adminStudentListAddBtn);
@@ -255,7 +257,20 @@ public class AdminStudentListActivity extends AppCompatActivity {
         }
       });
     }
+  }
 
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
 
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
   }
 }

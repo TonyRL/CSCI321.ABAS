@@ -2,6 +2,7 @@ package au.edu.uow.fyp01.abas.Activity;
 
 import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,6 +36,8 @@ import java.util.UUID;
 
 public class AdminClassListActivity extends AppCompatActivity {
 
+  private ProgressDialog progressDialog;
+
   private RecyclerView adminClassListRecyclerView;
   private DatabaseReference dbref;
   private FirebaseRecyclerOptions<SchoolModel> options;
@@ -52,13 +55,13 @@ public class AdminClassListActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_adminclasslist);
 
+    showProgressDialog();
+
     //get current user
     uID = auth.getInstance().getCurrentUser().getUid();
 
     schID = "";
 
-    final ProgressBar adminClassListProgressBar = findViewById(R.id.adminClassListProgressBar);
-    adminClassListProgressBar.setIndeterminate(true);
 
     UserQueryClass(new FirebaseCallBack() {
       @Override
@@ -106,7 +109,7 @@ public class AdminClassListActivity extends AppCompatActivity {
 
         adminClassListRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
-        adminClassListProgressBar.setVisibility(View.GONE);
+        hideProgressDialog();
 
         //<editor-fold desc="Add new class button">
         Button adminClassListAddBtn = findViewById(R.id.adminClassListAddBtn);
@@ -226,7 +229,21 @@ public class AdminClassListActivity extends AppCompatActivity {
         }
       });
     }
+  }
 
 
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
   }
 }

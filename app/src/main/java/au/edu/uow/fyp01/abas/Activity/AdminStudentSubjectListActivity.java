@@ -1,5 +1,6 @@
 package au.edu.uow.fyp01.abas.Activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AdminStudentSubjectListActivity extends AppCompatActivity {
+
+  private ProgressDialog progressDialog;
 
   private String schID;
   private String sID;
@@ -66,9 +69,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
     TextView adminStudentSubjectNameTextView = findViewById(R.id.adminStudentSubjectNameTextView);
     adminStudentSubjectNameTextView.setText(firstname + " " + lastname + "'s Subjects");
 
-    final ProgressBar adminStudentSubjectListProgressBar = findViewById(
-        R.id.adminStudentSubjectProgressBar);
-    adminStudentSubjectListProgressBar.setIndeterminate(true);
+    showProgressDialog();
 
     //Arrays for spinner
     subjectsList = new ArrayList<>();
@@ -118,7 +119,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
 
         adminStudentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
-        adminStudentSubjectListProgressBar.setVisibility(View.GONE);
+        hideProgressDialog();
 
         //<editor-fold desc="Add button for subjects">
         Button adminStudentSubjectAddBtn = findViewById(R.id.adminStudentSubjectAddBtn);
@@ -298,6 +299,21 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
         }
       });
       //</editor-fold>
+    }
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
     }
   }
 }

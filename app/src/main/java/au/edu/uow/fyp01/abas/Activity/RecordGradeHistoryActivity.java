@@ -1,5 +1,6 @@
 package au.edu.uow.fyp01.abas.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RecordGradeHistoryActivity extends AppCompatActivity {
 
+  private ProgressDialog progressDialog;
+
   private FirebaseDatabase db;
   private DatabaseReference dbref;
 
@@ -34,16 +37,14 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_recordgradshistory);
+    setContentView(R.layout.activity_recordgradehistory);
 
     Bundle bundle = getIntent().getExtras();
     //Grabbing args
     sID = bundle.getString("sID");
     subjectID = bundle.getString("subjectID");
 
-    final ProgressBar recordGradeHistoryProgressBar = findViewById(
-        R.id.recordGradeHistoryProgressBar);
-    recordGradeHistoryProgressBar.setIndeterminate(true);
+    showProgressDialog();
 
     //set up the database
     db = FirebaseDatabase.getInstance();
@@ -83,7 +84,7 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
         };
 
     recordGradeHistoryRecyclerView.setAdapter(firebaseRecyclerAdapter);
-    recordGradeHistoryProgressBar.setVisibility(View.GONE);
+    hideProgressDialog();
 
     Button recordAddBtn = findViewById(R.id.recordAddBtn);
     recordAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +198,21 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
           //</editor-fold>
         }
       });
+    }
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
     }
   }
 }

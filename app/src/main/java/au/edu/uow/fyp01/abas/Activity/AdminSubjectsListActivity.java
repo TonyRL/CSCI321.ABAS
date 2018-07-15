@@ -1,6 +1,7 @@
 package au.edu.uow.fyp01.abas.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -43,6 +44,8 @@ import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 
 public class AdminSubjectsListActivity extends Activity {
 
+  private ProgressDialog progressDialog;
+
   private RecyclerView adminSubjectRecyclerView;
   private FirebaseDatabase db;
   private DatabaseReference dbref;
@@ -65,8 +68,7 @@ public class AdminSubjectsListActivity extends Activity {
 
     schID = "";
 
-    final ProgressBar adminSubjectProgressBar = findViewById(R.id.adminSubjectProgressBar);
-    adminSubjectProgressBar.setIndeterminate(true);
+    showProgressDialog();
 
     UserQueryClass(new FirebaseCallBack() {
       @Override
@@ -115,7 +117,7 @@ public class AdminSubjectsListActivity extends Activity {
 
         adminSubjectRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
-        adminSubjectProgressBar.setVisibility(View.GONE);
+        hideProgressDialog();
 
         //<editor-fold desc="Add new subjectbutton">
         Button adminSubjectAddBtn = findViewById(R.id.adminSubjectAddBtn);
@@ -293,5 +295,20 @@ public class AdminSubjectsListActivity extends Activity {
     }
 
 
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
   }
 }
