@@ -1,106 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="au.edu.uow.fyp01.abas">
+  package="au.edu.uow.fyp01.abas">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+  <uses-permission android:name="android.permission.BLUETOOTH"/>
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+  <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity
+      android:name=".LoginActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="Main Activity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SignUpActivity"
-            android:label="SignUpActivityy" />
-        <activity
-            android:name=".Activity.SearchBeaconActivity"
-            android:label="Search Beacon" />
-        <activity
-            android:name=".Activity.ClassListActivity"
-            android:label="Class List" />
-        <activity
-            android:name=".Activity.StudentListActivity"
-            android:label="Student List" />
-        <activity
-            android:name=".Activity.RecordActivity"
-            android:label="Student Record" />
-        <activity
-            android:name=".Activity.RecordOverviewActivity"
-            android:label="Record Overview" />
-        <activity
-            android:name=".Activity.CommentListActivity"
-            android:label="Student Comment" />
-        <activity
-            android:name=".Activity.FileSharingHome"
-            android:label="Activity.FileSharingHome" />
-        <activity
-            android:name=".Activity.FileSharingAdd"
-            android:label="Share File" />
-        <activity
-            android:name=".Activity.FileDownloadHome"
-            android:label="Download File" />
-        <activity
-            android:name=".Activity.AdminClassListActivity"
-            android:label="Activity.AdminClassListActivity" />
-        <activity
-            android:name=".Activity.AdminStudentListActivity"
-            android:label="Activity.AdminStudentListActivity" />
-        <activity
-            android:name=".Activity.AdminAddStudentActivity"
-            android:label="Activity.AdminAddStudentActivity" />
-        <activity
-            android:name=".Activity.AdminStudentDetailsActivity"
-            android:label="Activity.AdminStudentDetailsActivity" />
-        <activity
-            android:name=".Activity.AdminStudentSubjectListActivity"
-            android:label="Activity.AdminStudentSubjectListActivity" />
-        <activity
-            android:name=".Activity.AdminManageMenu"
-            android:label="Admin Helper" />
-        <activity
-            android:name=".Activity.RecordGradeHistoryActivity"
-            android:label="Grade History" />
-        <activity
-            android:name=".Activity.RecordAddNewGradeActivity"
-            android:label="Activity.RecordAddNewGradeActivity" />
-        <activity
-            android:name=".Activity.RecordEditGradeActivity"
-            android:label="Activity.RecordEditGradeActivity" />
-        <activity
-            android:name=".Activity.AdminSubjectsListActivity"
-            android:label="Activity.AdminSubjectsListActivity" />
-        <activity android:name=".Activity.AdminManageClassSubjectsActivity" />
-        <activity android:name=".Activity.AdminClassOptionsActivity" />
-        <activity
-            android:name=".Activity.PopupSearchBeaconActivity"
-            android:theme="@style/AppTheme.PopupTheme" />
-        <activity android:name=".Activity.ClassroomHomeSetting" />
-        <activity android:name=".Activity.AdminAddUserActivity" />
-        <activity android:name=".Activity.AdminSubjectSettingsActivity" />
-        <activity android:name=".Activity.SchoolListActivity"></activity>
-    </application>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+      android:label="Main Activity"
+      android:name=".MainActivity"
+      android:theme="@style/AppTheme.NoActionBar"/>
+    <activity
+      android:label="SignUpActivityy"
+      android:name=".SignUpActivity"/>
+    <activity
+      android:label="Search Beacon"
+      android:name=".Activity.SearchBeaconActivity"/>
+    <activity
+      android:label="Class List"
+      android:name=".Activity.ClassListActivity"/>
+    <activity
+      android:label="Student List"
+      android:name=".Activity.StudentListActivity"/>
+    <activity
+      android:label="Student Record"
+      android:name=".Activity.RecordActivity"/>
+    <activity
+      android:label="Record Overview"
+      android:name=".Activity.RecordOverviewActivity"/>
+    <activity
+      android:label="Student Comment"
+      android:name=".Activity.CommentListActivity"/>
+    <activity
+      android:label="Activity.FileSharingHome"
+      android:name=".Activity.FileSharingHome"/>
+    <activity
+      android:label="Share File"
+      android:name=".Activity.FileSharingAdd"/>
+    <activity
+      android:label="Download File"
+      android:name=".Activity.FileDownloadHome"/>
+    <activity
+      android:label="Activity.AdminClassListActivity"
+      android:name=".Activity.AdminClassListActivity"/>
+    <activity
+      android:label="Activity.AdminStudentListActivity"
+      android:name=".Activity.AdminStudentListActivity"/>
+    <activity
+      android:label="Activity.AdminAddStudentActivity"
+      android:name=".Activity.AdminAddStudentActivity"/>
+    <activity
+      android:label="Activity.AdminStudentDetailsActivity"
+      android:name=".Activity.AdminStudentDetailsActivity"/>
+    <activity
+      android:label="Activity.AdminStudentSubjectListActivity"
+      android:name=".Activity.AdminStudentSubjectListActivity"/>
+    <activity
+      android:label="Admin Helper"
+      android:name=".Activity.AdminManageMenu"/>
+    <activity
+      android:label="Grade History"
+      android:name=".Activity.RecordGradeHistoryActivity"/>
+    <activity
+      android:label="Activity.RecordAddNewGradeActivity"
+      android:name=".Activity.RecordAddNewGradeActivity"/>
+    <activity
+      android:label="Activity.RecordEditGradeActivity"
+      android:name=".Activity.RecordEditGradeActivity"/>
+    <activity
+      android:label="Activity.AdminSubjectsListActivity"
+      android:name=".Activity.AdminSubjectsListActivity"/>
+    <activity android:name=".Activity.AdminManageClassSubjectsActivity"/>
+    <activity android:name=".Activity.AdminClassOptionsActivity"/>
+    <activity
+      android:name=".Activity.PopupSearchBeaconActivity"
+      android:theme="@style/AppTheme.PopupTheme"/>
+    <activity android:name=".Activity.ClassroomHomeSetting"/>
+    <activity android:name=".Activity.AdminAddUserActivity"/>
+    <activity android:name=".Activity.AdminSubjectSettingsActivity"/>
+    <activity android:name=".Activity.SchoolListActivity"/>
+    <activity android:name=".Activity.AdminManageRequestsActivity">
+    </activity>
+  </application>
 
 </manifest>

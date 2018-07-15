@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import au.edu.uow.fyp01.abas.R;
 
@@ -28,6 +29,15 @@ public class AdminManageMenu extends AppCompatActivity {
       @Override
       public void onClick(View v) {
         Intent i = new Intent(getApplicationContext(), AdminSubjectsListActivity.class);
+        startActivity(i);
+      }
+    });
+
+    Button adminManageRequestMenu = findViewById(R.id.adminManageMenuRequestsBtn);
+    adminManageRequestMenu.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Intent i = new Intent(getApplicationContext(), AdminManageRequestsActivity.class);
         startActivity(i);
       }
     });

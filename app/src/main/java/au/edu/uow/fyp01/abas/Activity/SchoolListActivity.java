@@ -97,16 +97,13 @@ public class SchoolListActivity extends Activity {
                         };
 
                 schoolListRecyclerView.setAdapter(adapter);
+                adapter.startListening();
                 hideProgressDialog();
-            }
-        });
+
+            } //end callback
+        }); //end query
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        adapter.startListening();
-    }
 
     private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
 
@@ -186,6 +183,7 @@ public class SchoolListActivity extends Activity {
                                     addToDatabase.put("userID", uID);
                                     addToDatabase.put("fullname", userModel.getFullname());
                                     addToDatabase.put("title", userModel.getTitle());
+                                    addToDatabase.put("staffID", userModel.getStaffID());
 
                                     dbref2.updateChildren(addToDatabase);
 
