@@ -1,15 +1,13 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
-import android.app.DownloadManager.Request;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminManageRequestsActivity extends Activity {
+public class AdminManageRequestsActivity extends AppCompatActivity {
 
   private ProgressDialog progressDialog;
 
@@ -39,7 +37,7 @@ public class AdminManageRequestsActivity extends Activity {
   private DatabaseReference dbref;
   private FirebaseRecyclerOptions<RequestListModel> options;
   private FirebaseRecyclerAdapter<RequestListModel,
-        RequestListModelViewHolder> adapter;
+      RequestListModelViewHolder> adapter;
 
   //user metadata
   private FirebaseAuth auth;
@@ -57,8 +55,6 @@ public class AdminManageRequestsActivity extends Activity {
 
     //get current user
     uID = auth.getInstance().getCurrentUser().getUid();
-
-
 
     UserQueryClass(new FirebaseCallBack() {
       @Override
@@ -153,7 +149,6 @@ public class AdminManageRequestsActivity extends Activity {
     String staffID;
 
 
-
     public RequestListModelViewHolder(View itemView) {
       super(itemView);
       mView = itemView;
@@ -175,7 +170,7 @@ public class AdminManageRequestsActivity extends Activity {
       this.staffID = staffID;
     }
 
-    public void setButton(){
+    public void setButton() {
       //e.g. Mr. John Smith (abc123)
       String temp = title
           + " "
@@ -249,10 +244,8 @@ public class AdminManageRequestsActivity extends Activity {
               });
           builder1.setNeutralButton(
               "Reject",
-              new DialogInterface.OnClickListener()
-              {
-                public void onClick(DialogInterface dialog, int id)
-                {
+              new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
                   //change user status
                   DatabaseReference dbref5 = db.getReference()
                       .child("User")
@@ -273,7 +266,6 @@ public class AdminManageRequestsActivity extends Activity {
                       .show();
                 }
               });
-
 
           builder1.setNegativeButton(
               "Cancel",
