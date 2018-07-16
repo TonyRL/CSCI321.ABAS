@@ -110,7 +110,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (recordList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int highest = 0;
@@ -135,7 +135,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (recordList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int lowest = 100;
@@ -158,7 +158,7 @@ public class StatisticsEngine {
         //In case there is no records found for this particular subject
         if (recordList.size() == 0) {
 
-            return "Record not found!";
+            return "Record \nnot found!";
 
         } else {
             double average = 0;
@@ -186,7 +186,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (assignmentList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int highest = 0;
@@ -211,7 +211,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (assignmentList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int lowest = 100;
@@ -234,7 +234,7 @@ public class StatisticsEngine {
         //In case there is no records found for this particular subject
         if (assignmentList.size() == 0) {
 
-            return "Record not found!";
+            return "Record \nnot found!";
 
         } else {
             double average = 0;
@@ -261,7 +261,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (quizList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int highest = 0;
@@ -286,7 +286,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (quizList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int lowest = 100;
@@ -309,7 +309,7 @@ public class StatisticsEngine {
         //In case there is no records found for this particular subject
         if (quizList.size() == 0) {
 
-            return "Record not found!";
+            return "Record \nnot found!";
 
         } else {
             double average = 0;
@@ -337,7 +337,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (testList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int highest = 0;
@@ -362,7 +362,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (testList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int lowest = 100;
@@ -385,7 +385,7 @@ public class StatisticsEngine {
         //In case there is no records found for this particular subject
         if (testList.size() == 0) {
 
-            return "Record not found!";
+            return "Record \nnot found!";
 
         } else {
             double average = 0;
@@ -413,7 +413,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (examList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int highest = 0;
@@ -438,7 +438,7 @@ public class StatisticsEngine {
 
         //In case there is no records found for this particular subject
         if (examList.size() == 0) {
-            return "Record not found!";
+            return "Record \nnot found!";
         }
 
         int lowest = 100;
@@ -461,7 +461,7 @@ public class StatisticsEngine {
         //In case there is no records found for this particular subject
         if (examList.size() == 0) {
 
-            return "Record not found!";
+            return "Record \nnot found!";
 
         } else {
             double average = 0;

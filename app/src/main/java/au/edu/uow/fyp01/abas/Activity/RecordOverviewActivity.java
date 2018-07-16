@@ -1,6 +1,7 @@
 package au.edu.uow.fyp01.abas.Activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +50,8 @@ public class RecordOverviewActivity extends Activity {
     private ArrayList<RecordModel> testList;
     private ArrayList<RecordModel> examList;
 
+    private Button toDisplayStatButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +72,7 @@ public class RecordOverviewActivity extends Activity {
         testList = new ArrayList<RecordModel>();
         examList = new ArrayList<RecordModel>();
 
+        toDisplayStatButton = findViewById(R.id.activity_recordoverview_dialog_statistic_button_display);
 
         final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
         recordOverviewProgressBar.setIndeterminate(true);
@@ -98,7 +103,7 @@ public class RecordOverviewActivity extends Activity {
                             ||  Initialize the StatisticsEngine here
                             ||
                             */
-                            StatisticsEngine statisticsEngine = new StatisticsEngine(recordList);
+                            final StatisticsEngine statisticsEngine = new StatisticsEngine(recordList);
                             assignmentList = statisticsEngine.getAssignmentList();
                             quizList = statisticsEngine.getQuizList();
                             testList = statisticsEngine.getTestList();
@@ -113,7 +118,7 @@ public class RecordOverviewActivity extends Activity {
                             double assignmentratio = Double.parseDouble(subjectSettingsModel.getAssignmentratio());
                             double quizratio = Double.parseDouble(subjectSettingsModel.getQuizratio());
                             double testratio = Double.parseDouble(subjectSettingsModel.getTestratio());
-                            double examratio = Double.parseDouble(subjectSettingsModel.getExamratio());
+                            final double examratio = Double.parseDouble(subjectSettingsModel.getExamratio());
 
                             //In case there is no records found for this particular subject
                             if (recordList.size() == 0) {
@@ -160,9 +165,6 @@ public class RecordOverviewActivity extends Activity {
                                         totaltest * testratio / 100 +
                                         totalexam * examratio / 100;
 
-
-
-
                             }
 
                             /*
@@ -170,6 +172,9 @@ public class RecordOverviewActivity extends Activity {
                             ||  Views for grades (stats) goes under here
                             ||
                             */
+
+                            Toast.makeText(getApplicationContext(),"Overall:"+ overall, Toast.LENGTH_LONG).show();
+
                             //Subject
                             TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
                             recordOverviewSubject.setText(subjectname);
@@ -191,6 +196,38 @@ public class RecordOverviewActivity extends Activity {
 
                             //Latest Comment
                             Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
+
+                            toDisplayStatButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    RecordOverviewActivityStatisticsDialog recordOverviewActivityStatisticsDialog = new RecordOverviewActivityStatisticsDialog();
+
+                                    recordOverviewActivityStatisticsDialog.setExamHighestGrade(statisticsEngine.findExamHighestGrade());
+                                    recordOverviewActivityStatisticsDialog.setExamLowestGrade(statisticsEngine.findExamLowestGrade());
+                                    recordOverviewActivityStatisticsDialog.setExamAverageGrade(statisticsEngine.findExamAverageGrade());
+
+                                    recordOverviewActivityStatisticsDialog.setTestHighest(statisticsEngine.findTestHighestGrade());
+                                    recordOverviewActivityStatisticsDialog.setTestLowest(statisticsEngine.findTestLowestGrade());
+                                    recordOverviewActivityStatisticsDialog.setTestAverage(statisticsEngine.findTestAverageGrade());
+
+                                    recordOverviewActivityStatisticsDialog.setQuizHighest(statisticsEngine.findQuizHighestGrade());
+                                    recordOverviewActivityStatisticsDialog.setQuizLowest(statisticsEngine.findQuizLowestGrade());
+                                    recordOverviewActivityStatisticsDialog.setQuizAverage(statisticsEngine.findQuizAverageGrade());
+
+                                    recordOverviewActivityStatisticsDialog.setOverallHighestGrade(statisticsEngine.findOverallHighestGrade());
+                                    recordOverviewActivityStatisticsDialog.setOverallLowestGrade(statisticsEngine.findOverallLowestGrade());
+                                    recordOverviewActivityStatisticsDialog.setOverallAverageGrade(overall.toString());
+
+                                    recordOverviewActivityStatisticsDialog.setAssignmentHighest(statisticsEngine.findAssignmentHighestGrade());
+                                    recordOverviewActivityStatisticsDialog.setAssignmentLowest(statisticsEngine.findAssignmentLowestGrade());
+                                    recordOverviewActivityStatisticsDialog.setAssignmentAverage(statisticsEngine.findAssignmentAverageGrade());
+
+
+                                    FragmentManager fragmentManager = getFragmentManager();
+                                    recordOverviewActivityStatisticsDialog.setOverall(overall.toString());
+                                    recordOverviewActivityStatisticsDialog.show(fragmentManager,"MyDialog");
+                                }
+                            });
 
                             /*
                             ||
