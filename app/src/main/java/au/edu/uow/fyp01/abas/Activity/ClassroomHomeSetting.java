@@ -64,7 +64,17 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class ClassroomHomeSetting extends Activity implements EasyPermissions.PermissionCallbacks {
 
+    static final int REQUEST_ACCOUNT_PICKER = 1000;
+    static final int REQUEST_AUTHORIZATION = 1001;
+    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
+    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
+    private static final String BUTTON_TEXT = "Connect to Classroom";
+    private static final String PREF_ACCOUNT_NAME = "accountName";
+    private static final String[] SCOPES = {ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS, ClassroomScopes.CLASSROOM_COURSEWORK_ME,
+            ClassroomScopes.CLASSROOM_ANNOUNCEMENTS, ClassroomScopes.CLASSROOM_ROSTERS, ClassroomScopes.CLASSROOM_COURSES, ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS,
+            ClassroomScopes.CLASSROOM_PROFILE_EMAILS, ClassroomScopes.CLASSROOM_PROFILE_PHOTOS};
     GoogleAccountCredential mCredential;
+    ProgressDialog mProgress;
     private TextView accountTextView;
     private TextView statusTextView;
     private Button mCallApiButton;
@@ -72,18 +82,6 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
     private RecyclerView recyclerView;
     private FirebaseRecyclerOptions firebaseRecyclerOptions;
     private FirebaseRecyclerAdapter<ClassroomHomeSettingRecyclerClass, ClassroomHomeSettingHolder> firebaseRecyclerAdapter;
-    ProgressDialog mProgress;
-
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
-    static final int REQUEST_AUTHORIZATION = 1001;
-    static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
-    static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
-
-    private static final String BUTTON_TEXT = "Connect to Classroom";
-    private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = {ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS, ClassroomScopes.CLASSROOM_COURSEWORK_ME,
-            ClassroomScopes.CLASSROOM_ANNOUNCEMENTS, ClassroomScopes.CLASSROOM_ROSTERS, ClassroomScopes.CLASSROOM_COURSES, ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS,
-            ClassroomScopes.CLASSROOM_PROFILE_EMAILS, ClassroomScopes.CLASSROOM_PROFILE_PHOTOS};
 
     /**
      * Create the main activity.
@@ -395,6 +393,38 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        firebaseRecyclerAdapter.stopListening();
+    }
+
+    public static class ClassroomHomeSettingHolder extends RecyclerView.ViewHolder {
+        View mView;
+        TextView coursenameTextView;
+
+        public ClassroomHomeSettingHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        //        public void setCourse_ID(String Course_ID){
+//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+//            coursenameTextView.setText(Course_ID);
+//        }
+        public void setCourseName(String Name_Course) {
+            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+            coursenameTextView.setText(Name_Course);
+        }
+
     }
 
     /**
@@ -718,7 +748,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
 
                 int counterNumberOfCourseCounter = 0;
-                for (Course courseObject : listOfCourse) {
+                for (final Course courseObject : listOfCourse) {
                     List<Teacher> teacherListPerCourse = listOfTeacherIDs.get(counterNumberOfCourseCounter);
                     Teacher teacherObject = (Teacher) teacherListPerCourse.get(0);
 
@@ -783,6 +813,76 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                 }
                             }
                         });
+
+                        DatabaseReference schoolIDDBREF = FirebaseDatabase.getInstance().getReference()
+                                .child("User");
+
+                        schoolIDDBREF.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                                addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snap2 : dataSnapshot.getChildren()) {
+                                            if (snap2.getKey().equals("schID")) {
+                                                if (!snap2.getValue().equals(null)) {
+                                                    final String schID = snap2.getValue().toString();
+                                                    DatabaseReference dbRefClass = FirebaseDatabase.getInstance().getReference()
+                                                            .child("School");
+                                                    dbRefClass.child(schID).addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                                            for (DataSnapshot snapshotClassID : dataSnapshot.getChildren()) {
+                                                                String ABASclassRoomKey = snapshotClassID.getKey();
+                                                                for (DataSnapshot snapshotClassID2:snapshotClassID.getChildren()) {
+                                                                    if(snapshotClassID2.getKey().equals("classname")){
+                                                                    final String ABASclassRoom = snapshotClassID2.getValue().toString();
+
+                                                                    if (courseObject.getSection().equals(ABASclassRoom)) {
+                                                                        Toast.makeText(getApplicationContext(), "corecct Section/Class: " + ABASclassRoom, Toast.LENGTH_LONG).show();
+
+                                                                        DatabaseReference subejctDBREF = FirebaseDatabase.getInstance().getReference()
+                                                                                .child("ListOfSubjects");
+                                                                        subejctDBREF.child(schID).addValueEventListener(new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                                for (DataSnapshot snapShotSubjectID : dataSnapshot.getChildren()) {
+                                                                                    String subjectID = snapShotSubjectID.getKey().toString();
+                                                                                    if (subjectID.equals(courseObject.getName())) {
+                                                                                Toast.makeText(getApplicationContext(), "Correct Section & Class: " + subjectID+ "-"+ABASclassRoom ,Toast.LENGTH_LONG).show();
+                                                                                    }
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onCancelled(DatabaseError databaseError) {
+
+                                                                            }
+                                                                        });
+//                                                                DatabaseReference subjectDBREF = FirebaseDatabase.getInstance().getReference().child("Student");
+//                                                                subjectDBREF.child()
+                                                                        //In case classes don't match -> Classroom &
+                                                                    } else {
+//                                                                        Toast.makeText(getApplicationContext(), "Incorecct Section/Class: " + ABASclassRoom, Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
 
                         List<CourseWork> courseWorkList = listOfCourseWork.get(counterNumberOfCourseCounter);
                         if (courseWorkList != null) {
@@ -857,14 +957,14 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                             }
                                         });
 
-                                    }
-                                    submissionCounter++;
-                                }
+                            }
+                            submissionCounter++;
+                        }
 
                         List<List<StudentSubmission>> stdSubmissionsListOfList = listOfStudentSubmission.get(counterNumberOfCourseCounter);
                         if (stdSubmissionsListOfList != null) {
                             for (List<StudentSubmission> stdsubList : stdSubmissionsListOfList) {
-                                if(stdsubList!=null) {
+                                if (stdsubList != null) {
                                     for (StudentSubmission stdsub : stdsubList) {
                                         Map submissionDetails = new HashMap();
                                         submissionDetails.put("Classroom_Student_UID", stdsub.getUserId());
@@ -909,6 +1009,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                     }
                     counterNumberOfCourseCounter++;
                 }
+
+                autoConnectClass();
                 //App stuff
                 //Disable button
                 accountTextView.setText(mCredential.getSelectedAccountName());
@@ -947,38 +1049,12 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                 Toast.makeText(ClassroomHomeSetting.this, "Request cancelled.", Toast.LENGTH_LONG).show();
             }
         }
-    }
 
-    public static class ClassroomHomeSettingHolder extends RecyclerView.ViewHolder {
-        View mView;
-        TextView coursenameTextView;
+        public void autoConnectClass() {
 
-        public ClassroomHomeSettingHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
         }
 
-        //        public void setCourse_ID(String Course_ID){
-//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-//            coursenameTextView.setText(Course_ID);
-//        }
-        public void setCourseName(String Name_Course) {
-            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-            coursenameTextView.setText(Name_Course);
-        }
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        firebaseRecyclerAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        firebaseRecyclerAdapter.stopListening();
     }
 }
 
