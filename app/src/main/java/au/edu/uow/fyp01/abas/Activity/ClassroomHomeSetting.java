@@ -898,9 +898,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                 if (stdsubList != null) {
                                     for (final StudentSubmission stdsub : stdsubList) {
 
-
-
-                                        DatabaseReference courseWorkDetails = FirebaseDatabase.getInstance()
+                                        final DatabaseReference courseWorkDetails = FirebaseDatabase.getInstance()
                                                 .getReference().child("Classroom_Class_List_Teacher_Reference").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                                         courseWorkDetails.child(stdsub.getCourseId()).addValueEventListener(new ValueEventListener() {
@@ -908,85 +906,119 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                             public void onDataChange(DataSnapshot dataSnapshot) {
                                                 for(DataSnapshot snapCourseDetail : dataSnapshot.getChildren()){
                                                     if(snapCourseDetail.getKey().equals("Course_Work_Details")){
-                                                        for(DataSnapshot snapCourseWorkID : snapCourseDetail.getChildren()){
+                                                        for(final DataSnapshot snapCourseWorkID : snapCourseDetail.getChildren()){
                                                             if(snapCourseWorkID.getKey().equals(stdsub.getCourseWorkId())){
 
-                                                                String Coursework_Name = "";
-                                                                String Description = "";
-                                                                String Due_Date = "";
-                                                                String Due_Time = "";
-                                                                String Max_Points = "";
-                                                                String type = "";
+                                                                courseWorkDetails.child(stdsub.getCourseId()).addValueEventListener(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                                                        for(DataSnapshot snapCourseDetailstd : dataSnapshot.getChildren()){
+                                                                            if(snapCourseDetailstd.getKey().equals("Student_List")){
+                                                                                for(DataSnapshot snapStudentIDstd : snapCourseDetailstd.getChildren() ){
+                                                                                    if(snapStudentIDstd.getKey().equals(stdsub.getUserId())){
+                                                                                        String Coursework_Name = "";
+                                                                                        String Description = "";
+                                                                                        String Due_Date = "";
+                                                                                        String Due_Time = "";
+                                                                                        String Max_Points = "";
+                                                                                        String type = "";
+                                                                                        String Gmail_Account = "";
+                                                                                        String Name_Of_Student = "";
+                                                                                        for(DataSnapshot detailsSnapStudentIDstd: snapStudentIDstd.getChildren()){
+                                                                                            if(detailsSnapStudentIDstd.getKey().equals("Gmail_Account")){
+                                                                                                Gmail_Account = detailsSnapStudentIDstd.getValue().toString();
+                                                                                            }
+                                                                                            if(detailsSnapStudentIDstd.getKey().equals("Name_Of_Student")){
+                                                                                                Name_Of_Student = detailsSnapStudentIDstd.getValue().toString();
+                                                                                            }
+                                                                                        }
 
-                                                                for(DataSnapshot selectDetailCourseWork : snapCourseWorkID.getChildren()){
-                                                                    if(selectDetailCourseWork.getKey().equals("Coursework_Name")){
-                                                                        Coursework_Name = selectDetailCourseWork.getValue().toString();
+                                                                                        for(DataSnapshot selectDetailCourseWork : snapCourseWorkID.getChildren()){
+                                                                                            if(selectDetailCourseWork.getKey().equals("Coursework_Name")){
+                                                                                                Coursework_Name = selectDetailCourseWork.getValue().toString();
 //                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Coursework_Name, Toast.LENGTH_LONG).show();
 
-                                                                    }
-                                                                    if(selectDetailCourseWork.getKey().equals("Description")){
-                                                                        Description = selectDetailCourseWork.getValue().toString();
+                                                                                            }
+                                                                                            if(selectDetailCourseWork.getKey().equals("Description")){
+                                                                                                Description = selectDetailCourseWork.getValue().toString();
 //                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Description, Toast.LENGTH_LONG).show();
 
-                                                                    }
-                                                                    if(selectDetailCourseWork.getKey().equals("Due_Date")){
-                                                                        Due_Date = selectDetailCourseWork.getValue().toString();
+                                                                                            }
+                                                                                            if(selectDetailCourseWork.getKey().equals("Due_Date")){
+                                                                                                Due_Date = selectDetailCourseWork.getValue().toString();
 //                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Due_Date, Toast.LENGTH_LONG).show();
 
-                                                                    }
-                                                                    if(selectDetailCourseWork.getKey().equals("Due_Time")){
-                                                                        Due_Time = selectDetailCourseWork.getValue().toString();
+                                                                                            }
+                                                                                            if(selectDetailCourseWork.getKey().equals("Due_Time")){
+                                                                                                Due_Time = selectDetailCourseWork.getValue().toString();
 //                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Due_Time, Toast.LENGTH_LONG).show();
 
-                                                                    }
-                                                                    if(selectDetailCourseWork.getKey().equals("Max_Points")){
-                                                                        Max_Points = selectDetailCourseWork.getValue().toString();
+                                                                                            }
+                                                                                            if(selectDetailCourseWork.getKey().equals("Max_Points")){
+                                                                                                Max_Points = selectDetailCourseWork.getValue().toString();
 //                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Max_Points, Toast.LENGTH_LONG).show();
 
-                                                                    }
-                                                                    if(selectDetailCourseWork.getKey().equals("type")){
-                                                                        type = selectDetailCourseWork.getValue().toString();
+                                                                                            }
+                                                                                            if(selectDetailCourseWork.getKey().equals("type")){
+                                                                                                type = selectDetailCourseWork.getValue().toString();
 //                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + type, Toast.LENGTH_LONG).show();
 
+                                                                                            }
+                                                                                        }
+                                                                                        final Map submissionDetails = new HashMap();
+                                                                                        submissionDetails.put("Classroom_Student_UID", stdsub.getUserId());
+                                                                                        submissionDetails.put("Classroom_Course_Id", stdsub.getCourseId());
+                                                                                        submissionDetails.put("Draft_Grade", stdsub.getDraftGrade());
+                                                                                        submissionDetails.put("Classroom_Coursework_ID", stdsub.getCourseWorkId());
+                                                                                        submissionDetails.put("Classroom_Submission_ID", stdsub.getId());
+                                                                                        submissionDetails.put("Grade", stdsub.getAssignedGrade());
+                                                                                        submissionDetails.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
+                                                                                        submissionDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                                                        submissionDetails.put("Assigned_Status", "false");
+                                                                                        submissionDetails.put("IsLate", stdsub.getLate());
+                                                                                        submissionDetails.put("Coursework_Name",Coursework_Name);
+                                                                                        submissionDetails.put("Description",Description);
+                                                                                        submissionDetails.put("Due_Date",Due_Date);
+                                                                                        submissionDetails.put("Due_Time",Due_Time);
+                                                                                        submissionDetails.put("Max_Points",Max_Points);
+                                                                                        submissionDetails.put("type",type);
+                                                                                        submissionDetails.put("Gmail_Account",Gmail_Account);
+                                                                                        submissionDetails.put("Name_Of_Student",Name_Of_Student);
+
+
+                                                                                        studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId())
+                                                                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
+                                                                                                    @Override
+                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                                                                        if (databaseError != null) {
+                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
+
+                                                                                        classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId())
+                                                                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
+                                                                                                    @Override
+                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                                                                        if (databaseError != null) {
+                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
+
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
                                                                     }
-                                                                }
-                                                                final Map submissionDetails = new HashMap();
-                                                                submissionDetails.put("Classroom_Student_UID", stdsub.getUserId());
-                                                                submissionDetails.put("Classroom_Course_Id", stdsub.getCourseId());
-                                                                submissionDetails.put("Draft_Grade", stdsub.getDraftGrade());
-                                                                submissionDetails.put("Classroom_Coursework_ID", stdsub.getCourseWorkId());
-                                                                submissionDetails.put("Classroom_Submission_ID", stdsub.getId());
-                                                                submissionDetails.put("Grade", stdsub.getAssignedGrade());
-                                                                submissionDetails.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
-                                                                submissionDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                                submissionDetails.put("Assigned_Status", "false");
-                                                                submissionDetails.put("IsLate", stdsub.getLate());
-                                                                submissionDetails.put("Coursework_Name",Coursework_Name);
-                                                                submissionDetails.put("Description",Description);
-                                                                submissionDetails.put("Due_Date",Due_Date);
-                                                                submissionDetails.put("Due_Time",Due_Time);
-                                                                submissionDetails.put("Max_Points",Max_Points);
-                                                                submissionDetails.put("type",type);
 
-                                                                studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId())
-                                                                        .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
-                                                                            @Override
-                                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                if (databaseError != null) {
-                                                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                }
-                                                                            }
-                                                                        });
+                                                                    @Override
+                                                                    public void onCancelled(DatabaseError databaseError) {
 
-                                                                classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId())
-                                                                        .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
-                                                                            @Override
-                                                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                if (databaseError != null) {
-                                                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                }
-                                                                            }
-                                                                        });
+                                                                    }
+                                                                });
+
+
                                                             }
                                                         }
 
@@ -1285,6 +1317,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                                 String Due_Time = "";
                                                                                                                 String Max_Points = "";
                                                                                                                 String type = "assignment";
+                                                                                                                String Gmail_Account ="";
+                                                                                                                String Name_Of_Student = "";
 
 
                                                                                                                 for (DataSnapshot snapShotSubmissionDetails : snapShotSubmissionsID.getChildren()) {
@@ -1330,6 +1364,12 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                                     if(snapShotSubmissionDetails.getKey().equals("Max_Points")){
                                                                                                                         Max_Points= snapShotSubmissionDetails.getValue().toString();
                                                                                                                     }
+                                                                                                                    if(snapShotSubmissionDetails.getKey().equals("Gmail_Account")){
+                                                                                                                        Gmail_Account = snapShotSubmissionDetails.getValue().toString();
+                                                                                                                    }
+                                                                                                                    if(snapShotSubmissionDetails.getKey().equals("Name_Of_Student")){
+                                                                                                                        Name_Of_Student = snapShotSubmissionDetails.getValue().toString();
+                                                                                                                    }
                                                                                                                 }
                                                                                                                 Map submissionDetailsMap = new HashMap();
                                                                                                                 submissionDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
@@ -1347,6 +1387,9 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                                 submissionDetailsMap.put("Due_Time", Due_Time);
                                                                                                                 submissionDetailsMap.put("Max_Points", Max_Points);
                                                                                                                 submissionDetailsMap.put("type", type);
+                                                                                                                submissionDetailsMap.put("Gmail_Account", Gmail_Account);
+                                                                                                                submissionDetailsMap.put("Name_Of_Student", Name_Of_Student);
+
 
                                                                                                                 addException2.child(schID).child(ABASclassRoom).child(subjectID).child("Submissions").
                                                                                                                         child(snapShotSubmissionsID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
@@ -1608,6 +1651,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                 String Due_Time = "";
                                                                                                 String Max_Points = "";
                                                                                                 String type = "assignment";
+                                                                                                String Gmail_Account = "";
+                                                                                                String Name_Of_Student = "";
 
                                                                                                 for (DataSnapshot snapShotSubmissionDetails : snapShotSubmissionsID.getChildren()) {
                                                                                                     if (snapShotSubmissionDetails.getKey().equals("ABAS_Teacher_UID")) {
@@ -1652,6 +1697,12 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                     if(snapShotSubmissionDetails.getKey().equals("Max_Points")){
                                                                                                         Max_Points= snapShotSubmissionDetails.getValue().toString();
                                                                                                     }
+                                                                                                    if(snapShotSubmissionDetails.getKey().equals("Gmail_Account")){
+                                                                                                        Gmail_Account = snapShotSubmissionDetails.getValue().toString();
+                                                                                                    }
+                                                                                                    if(snapShotSubmissionDetails.getKey().equals("Name_Of_Student")){
+                                                                                                        Name_Of_Student = snapShotSubmissionDetails.getValue().toString();
+                                                                                                    }
                                                                                                 }
                                                                                                 Map submissionDetailsMap = new HashMap();
                                                                                                 submissionDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
@@ -1669,6 +1720,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                 submissionDetailsMap.put("Due_Time", Due_Time);
                                                                                                 submissionDetailsMap.put("Max_Points", Max_Points);
                                                                                                 submissionDetailsMap.put("type", type);
+                                                                                                submissionDetailsMap.put("Gmail_Account", Gmail_Account);
+                                                                                                submissionDetailsMap.put("Name_Of_Student", Name_Of_Student);
 
                                                                                                 addException2.child(courseObject.getId()).child("Submissions").
                                                                                                         child(snapShotSubmissionsID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
