@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -336,7 +337,7 @@ public class RecordOverviewActivity extends Activity {
 
         final Button classroomConnect = findViewById(R.id.activity_recordoverview_classroom_button);
         DatabaseReference classRoomRef = FirebaseDatabase.getInstance().getReference()
-                .child("Classroom_User_Matching_ABAS");
+                .child("Classroom_User_Matching_ABAS_UID");
 
         classroomConnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,7 +346,7 @@ public class RecordOverviewActivity extends Activity {
             }
         });
 
-        classRoomRef.addValueEventListener(new ValueEventListener() {
+        classRoomRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapSchoolID : dataSnapshot.getChildren()) {
