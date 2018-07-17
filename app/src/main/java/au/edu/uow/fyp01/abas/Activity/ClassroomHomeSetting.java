@@ -986,7 +986,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                         submissionDetails.put("Name_Of_Student",Name_Of_Student);
 
 
-                                                                                        studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId()).child(stdsub.getId())
+                                                                                        studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getId())
                                                                                                 .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
                                                                                                     @Override
                                                                                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -996,7 +996,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                     }
                                                                                                 });
 
-                                                                                        classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getUserId()).child(stdsub.getId())
+                                                                                        classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getId())
                                                                                                 .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
                                                                                                     @Override
                                                                                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -1301,8 +1301,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
                                                                                                         }
                                                                                                         if (snapshotKeyValueOfType.getKey().equals("Submissions")) {
-                                                                                                                for (DataSnapshot snapShotSubmissionsID : snapshotKeyValueOfType.getChildren()) {
-                                                                                                                    for (DataSnapshot snapSubID : snapShotSubmissionsID.getChildren()){
+                                                                                                                    for (DataSnapshot snapSubID : snapshotKeyValueOfType.getChildren()){
 
                                                                                                                         String ABAS_Teacher_UID = "";
                                                                                                                     String Assigned_Status = "";
@@ -1394,7 +1393,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
 
                                                                                                                     addException2.child(schID).child(ABASclassRoom).child(subjectID).child("Submissions").
-                                                                                                                            child(snapShotSubmissionsID.getKey()).child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
+                                                                                                                            child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
                                                                                                                         @Override
                                                                                                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                                                                                                             if (databaseError != null) {
@@ -1402,8 +1401,8 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                                             }
                                                                                                                         }
                                                                                                                     });
-                                                                                                                    addException.child(schID).child(ABASclassRoom).child(subjectID).child("Submissions").
-                                                                                                                            child(snapShotSubmissionsID.getKey()).child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
+                                                                                                                    addException.child(schID).child(ABASclassRoom).child(subjectID).child("Submissions")
+                                                                                                                        .child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
                                                                                                                         @Override
                                                                                                                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                                                                                                             if (databaseError != null) {
@@ -1414,7 +1413,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
 
                                                                                                                 }
-                                                                                                        }
+
                                                                                                         }
                                                                                                     }
                                                                                                 }
@@ -1638,8 +1637,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
                                                                                             }
                                                                                         } if(detailSnap.getKey().equals("Submissions")) {
-                                                                                            for (DataSnapshot snapShotSubmissionsID : detailSnap.getChildren()) {
-                                                                                                for(DataSnapshot snapSubID:snapShotSubmissionsID.getChildren()){
+                                                                                                for(DataSnapshot snapSubID:detailSnap.getChildren()){
                                                                                                 String ABAS_Teacher_UID = "";
                                                                                                 String Assigned_Status = "";
                                                                                                 String Classroom_Course_Id = "";
@@ -1728,7 +1726,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                 submissionDetailsMap.put("Name_Of_Student", Name_Of_Student);
 
                                                                                                 addException2.child(courseObject.getId()).child("Submissions").
-                                                                                                        child(snapShotSubmissionsID.getKey()).child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
+                                                                                                        child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
                                                                                                     @Override
                                                                                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                                                                                         if (databaseError != null) {
@@ -1737,7 +1735,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
                                                                                                     }
                                                                                                 });
                                                                                                 addException.child(courseObject.getId()).child("Submissions").
-                                                                                                        child(snapShotSubmissionsID.getKey()).child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
+                                                                                                        child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
                                                                                                     @Override
                                                                                                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                                                                                         if (databaseError != null) {
@@ -1748,7 +1746,7 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
 
 
                                                                                             }
-                                                                                        }
+
                                                                                         }
 
 
