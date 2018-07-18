@@ -16,6 +16,7 @@ import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
 import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
+import au.edu.uow.fyp01.abas.Activity.SettingsBufferPage;
 import au.edu.uow.fyp01.abas.Activity.SchoolListActivity;
 import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.Model.UserModel;
