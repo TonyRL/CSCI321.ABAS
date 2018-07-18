@@ -162,6 +162,23 @@ public class RecordOverviewActivity extends Activity {
                                     }
                                 }
 
+                                if (!assignmentList.isEmpty()) {
+                                  totalassignment =
+                                      totalassignment / (double) (assignmentList.size());
+                                }
+
+                                if (!quizList.isEmpty()) {
+                                  totalquiz = totalquiz / ((double) quizList.size());
+                                }
+
+                                if (!testList.isEmpty()) {
+                                  totaltest = totaltest / ((double) testList.size());
+                                }
+
+                                if (!examList.isEmpty()) {
+                                  totalexam = totalexam / ((double) examList.size());
+                                }
+
                                 //weigh the marks
                                 overall = totalassignment * assignmentratio / 100 +
                                         totalquiz * quizratio / 100 +
@@ -175,8 +192,6 @@ public class RecordOverviewActivity extends Activity {
                             ||  Views for grades (stats) goes under here
                             ||
                             */
-
-                            Toast.makeText(getApplicationContext(), "Overall:" + overall, Toast.LENGTH_LONG).show();
 
                             //Subject
                             TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
