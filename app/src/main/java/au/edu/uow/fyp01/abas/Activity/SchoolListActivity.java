@@ -1,12 +1,11 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
+import au.edu.uow.fyp01.abas.Model.SchoolInfoModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,214 +24,211 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import au.edu.uow.fyp01.abas.Model.SchoolInfoModel;
-import au.edu.uow.fyp01.abas.Model.UserModel;
-import au.edu.uow.fyp01.abas.R;
+public class SchoolListActivity extends AppCompatActivity {
 
-public class SchoolListActivity extends Activity {
+  private ProgressDialog progressDialog;
 
-    private ProgressDialog progressDialog;
+  private RecyclerView schoolListRecyclerView;
+  private FirebaseDatabase db;
+  private DatabaseReference dbref;
+  private FirebaseRecyclerOptions<SchoolInfoModel> options;
+  private FirebaseRecyclerAdapter<SchoolInfoModel,
+      SchoolInfoModelViewHolder> adapter;
 
-    private RecyclerView schoolListRecyclerView;
-    private FirebaseDatabase db;
-    private DatabaseReference dbref;
-    private FirebaseRecyclerOptions<SchoolInfoModel> options;
-    private FirebaseRecyclerAdapter<SchoolInfoModel,
-                SchoolInfoModelViewHolder> adapter;
-
-    //user metadata
-    private FirebaseAuth auth;
-    private String uID;
-    private UserModel userModel;
+  //user metadata
+  private FirebaseAuth auth;
+  private String uID;
+  private UserModel userModel;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schoollist);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_schoollist);
 
-        showProgressDialog();
+    showProgressDialog();
 
-        //get current user
-        uID = auth.getInstance().getCurrentUser().getUid();
+    //get current user
+    uID = auth.getInstance().getCurrentUser().getUid();
 
-        //instantiate db
-        db = FirebaseDatabase.getInstance();
-        dbref = db.getReference().child("SchoolInfo");
+    //instantiate db
+    db = FirebaseDatabase.getInstance();
+    dbref = db.getReference().child("SchoolInfo");
 
-        UserQueryClass(new FirebaseCallBack() {
-            @Override
-            public void onCallBack(UserModel userModel1) {
-                userModel = userModel1;
+    UserQueryClass(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(UserModel userModel1) {
+        userModel = userModel1;
 
-                //Recyclerview
-                schoolListRecyclerView = findViewById(R.id.schoolListRecyclerView);
-                schoolListRecyclerView.setHasFixedSize(true);
-                schoolListRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        //Recyclerview
+        schoolListRecyclerView = findViewById(R.id.schoolListRecyclerView);
+        schoolListRecyclerView.setHasFixedSize(true);
+        schoolListRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                //dbref set in order by SCHOOL NAME
-                options = new FirebaseRecyclerOptions.Builder<SchoolInfoModel>().
-                        setQuery(dbref.orderByChild("schoolname"),
-                                SchoolInfoModel.class).build();
+        //dbref set in order by SCHOOL NAME
+        options = new FirebaseRecyclerOptions.Builder<SchoolInfoModel>().
+            setQuery(dbref.orderByChild("schoolname"),
+                SchoolInfoModel.class).build();
 
-                adapter =
-                        new FirebaseRecyclerAdapter<SchoolInfoModel, SchoolInfoModelViewHolder>(options) {
-                            @Override
-                            protected void onBindViewHolder(@NonNull SchoolInfoModelViewHolder holder, int position, @NonNull SchoolInfoModel model) {
-                                //bind object
-                                holder.setSchID(model.getSchID());
-                                holder.setSchoolname(model.getSchoolname());
-                            }
+        adapter =
+            new FirebaseRecyclerAdapter<SchoolInfoModel, SchoolInfoModelViewHolder>(options) {
+              @Override
+              protected void onBindViewHolder(@NonNull SchoolInfoModelViewHolder holder,
+                  int position, @NonNull SchoolInfoModel model) {
+                //bind object
+                holder.setSchID(model.getSchID());
+                holder.setSchoolname(model.getSchoolname());
+              }
 
-                            @NonNull
-                            @Override
-                            public SchoolInfoModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                                View view1 = LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.recyclermodellayout_singlebutton,
-                                                parent,false);
-                                return new SchoolInfoModelViewHolder(view1);
-                            }
-                        };
+              @NonNull
+              @Override
+              public SchoolInfoModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                  int viewType) {
+                View view1 = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.recyclermodellayout_singlebutton,
+                        parent, false);
+                return new SchoolInfoModelViewHolder(view1);
+              }
+            };
 
-                schoolListRecyclerView.setAdapter(adapter);
-                adapter.startListening();
-                hideProgressDialog();
+        schoolListRecyclerView.setAdapter(adapter);
+        adapter.startListening();
+        hideProgressDialog();
 
-            } //end callback
-        }); //end query
+      } //end callback
+    }); //end query
+  }
+
+
+  private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
+
+    //get current user
+    String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    FirebaseDatabase db2 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
+    dbref2.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        userModel = dataSnapshot.getValue(UserModel.class);
+        firebaseCallBack.onCallBack(userModel);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(UserModel userModel);
+  }
+
+
+  public class SchoolInfoModelViewHolder extends RecyclerView.ViewHolder {
+
+    View mView;
+    String schID;
+    String schoolname;
+
+    public SchoolInfoModelViewHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
     }
 
-
-    private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
-
-        //get current user
-        String uID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-        DatabaseReference dbref2 = db2.getReference().child("User").child(uID);
-        dbref2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userModel = dataSnapshot.getValue(UserModel.class);
-                firebaseCallBack.onCallBack(userModel);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+    public void setSchID(String schID) {
+      this.schID = schID;
     }
 
+    public void setSchoolname(final String schoolname) {
+      this.schoolname = schoolname;
 
-    private interface FirebaseCallBack {
+      final Button schoolBtn = mView.findViewById(R.id.modelSingleBtn);
 
-        void onCallBack(UserModel userModel);
-    }
+      //set up name
+      schoolBtn.setText(schoolname);
 
+      schoolBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          //Ask for user confirmation
+          AlertDialog.Builder builder1 = new AlertDialog.Builder(
+              SchoolListActivity.this);
+          String tempstring = "Send a request to " +
+              schoolname + " ?";
+          builder1.setMessage(tempstring);
+          builder1.setCancelable(true);
 
-    public class SchoolInfoModelViewHolder extends RecyclerView.ViewHolder {
+          builder1.setPositiveButton(
+              "Yes",
+              new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
 
-        View mView;
-        String schID;
-        String schoolname;
+                  //send a request to school's request list
+                  DatabaseReference dbref2 = db.getReference()
+                      .child("RequestList")
+                      .child(schID)
+                      .child(uID);
 
-        public SchoolInfoModelViewHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
+                  //handle user input into database
+                  Map<String, Object> addToDatabase = new HashMap<>();
 
-        public void setSchID(String schID) {
-            this.schID = schID;
-        }
+                  addToDatabase.put("userID", uID);
+                  addToDatabase.put("fullname", userModel.getFullname());
+                  addToDatabase.put("title", userModel.getTitle());
+                  addToDatabase.put("staffID", userModel.getStaffID());
 
-        public void setSchoolname(final String schoolname) {
-            this.schoolname = schoolname;
+                  dbref2.updateChildren(addToDatabase);
 
-            final Button schoolBtn = mView.findViewById(R.id.modelSingleBtn);
+                  //Set user's status to 'waiting'
+                  DatabaseReference dbref3 = db.getReference()
+                      .child("User")
+                      .child(uID);
 
-            //set up name
-            schoolBtn.setText(schoolname);
+                  dbref3.child("status").setValue("waiting");
 
-            schoolBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Ask for user confirmation
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                            SchoolListActivity.this);
-                    String tempstring = "Send a request to " +
-                                        schoolname + " ?";
-                    builder1.setMessage(tempstring);
-                    builder1.setCancelable(true);
+                  Toast.makeText(SchoolListActivity.this, "Request sent",
+                      Toast.LENGTH_SHORT)
+                      .show();
 
-                    builder1.setPositiveButton(
-                            "Yes",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+                  finish();
 
-                                    //send a request to school's request list
-                                    DatabaseReference dbref2 = db.getReference()
-                                            .child("RequestList")
-                                            .child(schID)
-                                            .child(uID);
-
-                                    //handle user input into database
-                                    Map<String, Object> addToDatabase = new HashMap<>();
-
-                                    addToDatabase.put("userID", uID);
-                                    addToDatabase.put("fullname", userModel.getFullname());
-                                    addToDatabase.put("title", userModel.getTitle());
-                                    addToDatabase.put("staffID", userModel.getStaffID());
-
-                                    dbref2.updateChildren(addToDatabase);
-
-                                    //Set user's status to 'waiting'
-                                    DatabaseReference dbref3 = db.getReference()
-                                            .child("User")
-                                            .child(uID);
-
-                                    dbref3.child("status").setValue("waiting");
-
-                                    Toast.makeText(SchoolListActivity.this, "Request sent",
-                                            Toast.LENGTH_SHORT)
-                                            .show();
-
-                                    finish();
-
-                                }
-                            });
-
-                    builder1.setNegativeButton(
-                            "No",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                    //end of confirmation
                 }
-            });
-        }
-    }
+              });
 
-    private void showProgressDialog() {
-        if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage("Loading...");
-        }
-        progressDialog.show();
-    }
+          builder1.setNegativeButton(
+              "No",
+              new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                  dialog.cancel();
+                }
+              });
 
-    private void hideProgressDialog() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
+          AlertDialog alert11 = builder1.create();
+          alert11.show();
+          //end of confirmation
         }
+      });
     }
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
 }
