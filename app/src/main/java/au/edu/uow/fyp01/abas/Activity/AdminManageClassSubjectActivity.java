@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class AdminManageClassSubjectsActivity extends AppCompatActivity {
+public class AdminManageClassSubjectActivity extends AppCompatActivity {
 
   private String schID;
 
@@ -39,7 +39,7 @@ public class AdminManageClassSubjectsActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminmanageclasssubjects);
+    setContentView(R.layout.activity_adminmanageclasssubject);
 
     Bundle bundle = getIntent().getExtras();
     schID = bundle.getString("schID");
@@ -90,13 +90,13 @@ public class AdminManageClassSubjectsActivity extends AppCompatActivity {
             //the rest of the code
             final Spinner subjectSpinner = findViewById(R.id.subjectSpinner);
             ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(
-                AdminManageClassSubjectsActivity.this,
+                AdminManageClassSubjectActivity.this,
                 android.R.layout.simple_spinner_dropdown_item, subjectsList);
             subjectSpinner.setAdapter(adapter1);
 
             final Spinner classSpinner = findViewById(R.id.classSpinner);
             ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(
-                AdminManageClassSubjectsActivity.this,
+                AdminManageClassSubjectActivity.this,
                 android.R.layout.simple_spinner_dropdown_item, classesList);
             classSpinner.setAdapter(adapter2);
 
@@ -106,7 +106,7 @@ public class AdminManageClassSubjectsActivity extends AppCompatActivity {
               public void onClick(View v) {
                 //Ask for user confirmation
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                    AdminManageClassSubjectsActivity.this);
+                    AdminManageClassSubjectActivity.this);
                 builder1.setMessage("Add subject to class?");
                 builder1.setCancelable(true);
 
@@ -172,13 +172,13 @@ public class AdminManageClassSubjectsActivity extends AppCompatActivity {
                             //</editor-fold>
                           }); // end new db ref
 
-                          Toast.makeText(AdminManageClassSubjectsActivity.this,
+                          Toast.makeText(AdminManageClassSubjectActivity.this,
                               "Added " + subjectSpinner.getSelectedItem().toString() +
                                   " to class " + schoolModel.getClassname(), Toast.LENGTH_SHORT)
                               .show();
 
                         } catch (Exception e) {
-                          Toast.makeText(AdminManageClassSubjectsActivity.this,
+                          Toast.makeText(AdminManageClassSubjectActivity.this,
                               "Please ensure all options are picked properly", Toast.LENGTH_SHORT)
                               .show();
                         }
