@@ -99,45 +99,37 @@
         </LinearLayout>
 
         <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/recordOverviewAverageGrade"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-          <TextView
-              android:id="@+id/recordOverviewAverageGrade"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="20dp"
-              android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
           <TextView
-              android:id="@+id/recordOverviewHighestGrade"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:id="@+id/recordOverviewHighestGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="20dp"
-              android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
           <TextView
-              android:id="@+id/recordOverviewLowestGrade"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
-
-          <Button
-              android:id="@+id/activity_recordoverview_classroom_button"
-              android:layout_width="wrap_content"
-              android:layout_height="60dp"
-              android:layout_gravity="center"
-              android:text="Connect Classroom"
-              android:textAlignment="center" />
+            android:id="@+id/recordOverviewLowestGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
         </LinearLayout>
       </LinearLayout>
 

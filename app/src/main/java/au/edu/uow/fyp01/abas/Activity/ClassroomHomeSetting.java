@@ -415,10 +415,20 @@ public class ClassroomHomeSetting extends AppCompatActivity implements
     View mView;
     TextView coursenameTextView;
 
-        public void setCourseName(String Name_Course) {
-            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-            coursenameTextView.setText(Name_Course);
-        }
+    public ClassroomHomeSettingHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
+    }
+
+    //        public void setCourse_ID(String Course_ID){
+//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+//            coursenameTextView.setText(Course_ID);
+//        }
+    public void setCourseName(String Name_Course) {
+      coursenameTextView = mView
+          .findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
+      coursenameTextView.setText(Name_Course);
+    }
 
   }
 
@@ -623,9 +633,9 @@ public class ClassroomHomeSetting extends AppCompatActivity implements
       /*In case no classroom*/
       if (listOfCourse == null) {
 
-            List<String> listOfCourseNames = output;
-            final DatabaseReference studentDetailsListDBREF = FirebaseDatabase.getInstance().getReference().child("Classroom_Class_List_Teacher_Reference").
-                    child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
 
             for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
               String UID = uidSnap.getKey().toString();
@@ -832,26 +842,21 @@ public class ClassroomHomeSetting extends AppCompatActivity implements
                       }
                     });
 
-                        classroomLinkedAccountDBREF.child("Account_Details").updateChildren(accountDetailsUpdateMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if (databaseError != null) {
-                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                }
-                            }
-                        });
-                    } else {
-                        final Teacher teacherObject2 = (Teacher) teacherListPerCourse.get(0);
+            DatabaseReference schoolIDDBREF = FirebaseDatabase.getInstance().getReference()
+                .child("User");
 
-                        final Map classListDetailGeneralMap = new HashMap();
-                        classListDetailGeneralMap.put("Name_Course", courseObject.getName());
-                        classListDetailGeneralMap.put("Classroom_ClassID", courseObject.getId());
-                        classListDetailGeneralMap.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
-                        classListDetailGeneralMap.put("Classroom_Teacher_ID", teacherObject2.getUserId());
-                        classListDetailGeneralMap.put("ABAS_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        classListDetailGeneralMap.put("Section", courseObject.getSection());
-
-                        classroomLinkedAccountDBREF.child("Class_List").child(courseObject.getId()).updateChildren(classListDetailGeneralMap, new DatabaseReference.CompletionListener() {
+            schoolIDDBREF.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+                addValueEventListener(new ValueEventListener() {
+                  @Override
+                  public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snap2 : dataSnapshot.getChildren()) {
+                      if (snap2.getKey().equals("schID")) {
+                        if (!snap2.getValue().equals(null)) {
+                          final String schID = snap2.getValue().toString();
+                          DatabaseReference dbRefClass = FirebaseDatabase.getInstance()
+                              .getReference()
+                              .child("School");
+                          dbRefClass.child(schID).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                               for (DataSnapshot snapshotClassID : dataSnapshot.getChildren()) {
@@ -890,53 +895,22 @@ public class ClassroomHomeSetting extends AppCompatActivity implements
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
-
-                        classDetailsOnlyREF.child(courseObject.getId()).child("Classroom_Details").updateChildren(classListDetailIndepentdentMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if (databaseError != null) {
-                                    Log.d("Chat_Log", databaseError.getMessage().toString());
+                                            }
+                                          });
+//                                                                DatabaseReference subjectDBREF = FirebaseDatabase.getInstance().getReference().child("Student");
+//                                                                subjectDBREF.child()
+                                      //In case classes don't match -> Classroom &
+                                    } else {
+//                                                                        Toast.makeText(getApplicationContext(), "Incorecct Section/Class: " + ABASclassRoom, Toast.LENGTH_LONG).show();
+                                    }
+                                  }
                                 }
+                              }
                             }
-                        });
 
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        List<CourseWork> courseWorkList = listOfCourseWork.get(counterNumberOfCourseCounter);
-                        if (courseWorkList != null) {
-                            for (CourseWork coursework : courseWorkList) {
-
-                                Map courseworkMapDetails = new HashMap();
-
-                                courseworkMapDetails.put("Coursework_Name", coursework.getTitle());
-                                courseworkMapDetails.put("Due_Date", coursework.getDueDate().getDay() + "-" + coursework.getDueDate().getMonth() + "-" + coursework.getDueDate().getYear());
-                                courseworkMapDetails.put("Due_Time", coursework.getDueTime().getHours() + ":" + coursework.getDueTime().getMinutes());
-                                courseworkMapDetails.put("Description", coursework.getDescription());
-                                courseworkMapDetails.put("Classroom_Teacher_ID", teacherObject2.getUserId());
-                                courseworkMapDetails.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
-                                courseworkMapDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                courseworkMapDetails.put("Classroom_Course_ID", courseObject.getId());
-                                courseworkMapDetails.put("Coursework_ID", coursework.getId());
-                                courseworkMapDetails.put("Max_Points", coursework.getMaxPoints());
-                                courseworkMapDetails.put("type", "assignment");
-
-                                classListDBREF.child(courseObject.getId()).child("Course_Work_Details").child(coursework.getId())
-                                        .updateChildren(courseworkMapDetails, new DatabaseReference.CompletionListener() {
-                                            @Override
-                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                if (databaseError != null) {
-                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                }
-                                            }
-                                        });
-                                classDetailsOnlyREF2.child(courseObject.getId()).child("Course_Work_Details").child(coursework.getId()).
-                                        updateChildren(courseworkMapDetails, new DatabaseReference.CompletionListener() {
-                                            @Override
-                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                if (databaseError != null) {
-                                                    Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                }
-                                            }
-                                        });
                             }
                           });
                         }
@@ -1001,951 +975,150 @@ public class ClassroomHomeSetting extends AppCompatActivity implements
               }
             }
 
-                        List<List<StudentSubmission>> stdSubmissionsListOfList = listOfStudentSubmission.get(counterNumberOfCourseCounter);
-                        if (stdSubmissionsListOfList != null) {
-                            for (List<StudentSubmission> stdsubList : stdSubmissionsListOfList) {
-                                if (stdsubList != null) {
-                                    for (final StudentSubmission stdsub : stdsubList) {
+            List<Student> studentList = listOfSTDIDs.get(counterNumberOfCourseCounter);
+            if (studentList != null) {
+              int submissionCounter = 0;
+              for (Student std : studentList) {
+                Map studentInClassDetails = new HashMap();
 
-                                        final DatabaseReference courseWorkDetails = FirebaseDatabase.getInstance()
-                                                .getReference().child("Classroom_Class_List_Teacher_Reference").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                studentInClassDetails.put("Classroom_User_UID", std.getUserId());
+                studentInClassDetails.put("Gmail_Account", std.getProfile().getEmailAddress());
+                studentInClassDetails.put("Classroom_Course_ID", std.getCourseId());
+                studentInClassDetails
+                    .put("Name_Of_Student", std.getProfile().getName().getFullName());
+                studentInClassDetails.put("Teacher_Classroom_ID", teacherObject2.getUserId());
+                studentInClassDetails
+                    .put("Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
+                studentInClassDetails.put("Assigned_Status", "false");
+                studentInClassDetails
+                    .put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                                        courseWorkDetails.child(stdsub.getCourseId()).addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                for(DataSnapshot snapCourseDetail : dataSnapshot.getChildren()){
-                                                    if(snapCourseDetail.getKey().equals("Course_Work_Details")){
-                                                        for(final DataSnapshot snapCourseWorkID : snapCourseDetail.getChildren()){
-                                                            if(snapCourseWorkID.getKey().equals(stdsub.getCourseWorkId())){
-
-                                                                courseWorkDetails.child(stdsub.getCourseId()).addValueEventListener(new ValueEventListener() {
-                                                                    @Override
-                                                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                        for(DataSnapshot snapCourseDetailstd : dataSnapshot.getChildren()){
-                                                                            if(snapCourseDetailstd.getKey().equals("Student_List")){
-                                                                                for(DataSnapshot snapStudentIDstd : snapCourseDetailstd.getChildren() ){
-                                                                                    if(snapStudentIDstd.getKey().equals(stdsub.getUserId())){
-                                                                                        String Coursework_Name = "";
-                                                                                        String Description = "";
-                                                                                        String Due_Date = "";
-                                                                                        String Due_Time = "";
-                                                                                        String Max_Points = "";
-                                                                                        String type = "";
-                                                                                        String Gmail_Account = "";
-                                                                                        String Name_Of_Student = "";
-                                                                                        for(DataSnapshot detailsSnapStudentIDstd: snapStudentIDstd.getChildren()){
-                                                                                            if(detailsSnapStudentIDstd.getKey().equals("Gmail_Account")){
-                                                                                                Gmail_Account = detailsSnapStudentIDstd.getValue().toString();
-                                                                                            }
-                                                                                            if(detailsSnapStudentIDstd.getKey().equals("Name_Of_Student")){
-                                                                                                Name_Of_Student = detailsSnapStudentIDstd.getValue().toString();
-                                                                                            }
-                                                                                        }
-
-                                                                                        for(DataSnapshot selectDetailCourseWork : snapCourseWorkID.getChildren()){
-                                                                                            if(selectDetailCourseWork.getKey().equals("Coursework_Name")){
-                                                                                                Coursework_Name = selectDetailCourseWork.getValue().toString();
-//                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Coursework_Name, Toast.LENGTH_LONG).show();
-
-                                                                                            }
-                                                                                            if(selectDetailCourseWork.getKey().equals("Description")){
-                                                                                                Description = selectDetailCourseWork.getValue().toString();
-//                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Description, Toast.LENGTH_LONG).show();
-
-                                                                                            }
-                                                                                            if(selectDetailCourseWork.getKey().equals("Due_Date")){
-                                                                                                Due_Date = selectDetailCourseWork.getValue().toString();
-//                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Due_Date, Toast.LENGTH_LONG).show();
-
-                                                                                            }
-                                                                                            if(selectDetailCourseWork.getKey().equals("Due_Time")){
-                                                                                                Due_Time = selectDetailCourseWork.getValue().toString();
-//                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Due_Time, Toast.LENGTH_LONG).show();
-
-                                                                                            }
-                                                                                            if(selectDetailCourseWork.getKey().equals("Max_Points")){
-                                                                                                Max_Points = selectDetailCourseWork.getValue().toString();
-//                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + Max_Points, Toast.LENGTH_LONG).show();
-
-                                                                                            }
-                                                                                            if(selectDetailCourseWork.getKey().equals("type")){
-                                                                                                type = selectDetailCourseWork.getValue().toString();
-//                                                                        Toast.makeText(getApplicationContext(), selectDetailCourseWork.getKey() +":" + type, Toast.LENGTH_LONG).show();
-
-                                                                                            }
-                                                                                        }
-                                                                                        final Map submissionDetails = new HashMap();
-                                                                                        submissionDetails.put("Classroom_Student_UID", stdsub.getUserId());
-                                                                                        submissionDetails.put("Classroom_Course_Id", stdsub.getCourseId());
-                                                                                        submissionDetails.put("Draft_Grade", stdsub.getDraftGrade());
-                                                                                        submissionDetails.put("Classroom_Coursework_ID", stdsub.getCourseWorkId());
-                                                                                        submissionDetails.put("Classroom_Submission_ID", stdsub.getId());
-                                                                                        submissionDetails.put("Grade", stdsub.getAssignedGrade());
-                                                                                        submissionDetails.put("Classroom_Teacher_Google_Account", teacherObject2.getProfile().getEmailAddress());
-                                                                                        submissionDetails.put("ABAS_Teacher_UID", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                                                        submissionDetails.put("Assigned_Status", "false");
-                                                                                        submissionDetails.put("IsLate", stdsub.getLate());
-                                                                                        submissionDetails.put("Coursework_Name",Coursework_Name);
-                                                                                        submissionDetails.put("Description",Description);
-                                                                                        submissionDetails.put("Due_Date",Due_Date);
-                                                                                        submissionDetails.put("Due_Time",Due_Time);
-                                                                                        submissionDetails.put("Max_Points",Max_Points);
-                                                                                        submissionDetails.put("type",type);
-                                                                                        submissionDetails.put("Gmail_Account",Gmail_Account);
-                                                                                        submissionDetails.put("Name_Of_Student",Name_Of_Student);
-
-
-                                                                                        studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getId())
-                                                                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-
-                                                                                        classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions").child(stdsub.getId())
-                                                                                                .updateChildren(submissionDetails, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-
-                                                                    @Override
-                                                                    public void onCancelled(DatabaseError databaseError) {
-
-                                                                    }
-                                                                });
-
-
-                                                            }
-                                                        }
-
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
-
-
-                                    }
-                                }
-
-                            }
-
-
+                studentDetailsListDBREF.child(courseObject.getId()).child("Student_List")
+                    .child(std.getUserId()).updateChildren(studentInClassDetails,
+                    new DatabaseReference.CompletionListener() {
+                      @Override
+                      public void onComplete(DatabaseError databaseError,
+                          DatabaseReference databaseReference) {
+                        if (databaseError != null) {
+                          Log.d("Chat_Log", databaseError.getMessage().toString());
                         }
-
-                        DatabaseReference schoolIDDBREF = FirebaseDatabase.getInstance().getReference()
-                                .child("User");
-
-                        schoolIDDBREF.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
-                                addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        for (DataSnapshot snap2 : dataSnapshot.getChildren()) {
-                                            if (snap2.getKey().equals("schID")) {
-                                                if (!snap2.getValue().equals(null)) {
-                                                    final String schID = snap2.getValue().toString();
-                                                    DatabaseReference dbRefClass = FirebaseDatabase.getInstance().getReference()
-                                                            .child("School");
-                                                    dbRefClass.child(schID).addValueEventListener(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                                            for (final DataSnapshot snapshotClassID : dataSnapshot.getChildren()) {
-                                                                String ABASclassRoomKey = snapshotClassID.getKey();
-                                                                for (final DataSnapshot snapshotClassID2 : snapshotClassID.getChildren()) {
-                                                                    if (snapshotClassID2.getKey().equals("classname")) {
-                                                                        final String ABASclassRoom = snapshotClassID2.getValue().toString();
-
-                                                                        if (courseObject.getSection().equals(ABASclassRoom)) {
-
-                                                                            DatabaseReference subejctDBREF = FirebaseDatabase.getInstance().getReference()
-                                                                                    .child("ListOfSubjects");
-                                                                            subejctDBREF.child(schID).addValueEventListener(new ValueEventListener() {
-                                                                                @Override
-                                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                                    for (DataSnapshot snapShotSubjectID : dataSnapshot.getChildren()) {
-                                                                                        final String subjectID = snapShotSubjectID.getKey().toString();
-                                                                                        if (subjectID.equals(courseObject.getName())) {
-
-                                                                                            final DatabaseReference addException = FirebaseDatabase.getInstance().getReference()
-                                                                                                    .child("Classroom_User_Matching_ABAS_UID")
-                                                                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-
-
-                                                                                            classListDetailGeneralMap.put("ABAS_School_ID", schID);
-                                                                                            classListDetailGeneralMap.put("ABAS_Classroom_ID", ABASclassRoom);
-
-                                                                                            addException.child(schID).child(ABASclassRoom).child(subjectID).child("Details").updateChildren(classListDetailGeneralMap, new DatabaseReference.CompletionListener() {
-                                                                                                @Override
-                                                                                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                    if (databaseError != null) {
-                                                                                                        Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                    }
-                                                                                                }
-                                                                                            });
-
-                                                                                            final DatabaseReference addException2 = FirebaseDatabase.getInstance().getReference()
-                                                                                                    .child("Classroom_User_Matching_ABAS");
-
-                                                                                            addException2.child(schID).child(ABASclassRoom).child(subjectID).child("Details").updateChildren(classListDetailGeneralMap, new DatabaseReference.CompletionListener() {
-                                                                                                @Override
-                                                                                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                    if (databaseError != null) {
-                                                                                                        Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                    }
-                                                                                                }
-                                                                                            });
-
-                                                                                            DatabaseReference courseSUBMISSIONDB =
-                                                                                                    FirebaseDatabase.getInstance().getReference()
-                                                                                                            .child("Classroom_Class_List_Teacher_Reference")
-                                                                                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
-                                                                                                            child(courseObject.getId());
-                                                                                            courseSUBMISSIONDB.addValueEventListener(new ValueEventListener() {
-                                                                                                @Override
-                                                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                                                    for (DataSnapshot snapshotKeyValueOfType : dataSnapshot.getChildren()) {
-                                                                                                        if (snapshotKeyValueOfType.getKey().equals("Course_Work_Details")) {
-
-                                                                                                            for (DataSnapshot snapCourseWorkID : snapshotKeyValueOfType.getChildren()) {
-                                                                                                                String ABAS_Teacher_UID = "";
-                                                                                                                String Classroom_Course_ID = "";
-                                                                                                                String Classroom_Teacher_Google_Account = "";
-                                                                                                                String Classroom_Teacher_ID = "";
-                                                                                                                String Coursework_ID = "";
-                                                                                                                String Coursework_Name = "";
-                                                                                                                String Description = "";
-                                                                                                                String Due_Date = "";
-                                                                                                                String Due_Time = "";
-                                                                                                                String Max_Points = "";
-                                                                                                                String type = "";
-
-                                                                                                                for (DataSnapshot snapCourseWorkDetails : snapCourseWorkID.getChildren()) {
-
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("ABAS_Teacher_UID")) {
-                                                                                                                        ABAS_Teacher_UID = snapCourseWorkDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Classroom_Course_ID")) {
-
-                                                                                                                        Classroom_Course_ID = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Classroom_Teacher_Google_Account")) {
-
-                                                                                                                        Classroom_Teacher_Google_Account = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Classroom_Teacher_ID")) {
-
-                                                                                                                        Classroom_Teacher_ID = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Coursework_ID")) {
-
-                                                                                                                        Coursework_ID = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Coursework_Name")) {
-
-                                                                                                                        Coursework_Name = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Description")) {
-
-                                                                                                                        Description = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                                    }
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Due_Date")) {
-
-                                                                                                                        Due_Date = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                                    }
-
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Due_Time")) {
-
-                                                                                                                        Due_Time = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                                    }
-
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("Max_Points")) {
-
-                                                                                                                        Max_Points = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                                    }
-
-                                                                                                                    if (snapCourseWorkDetails.getKey().equals("type")) {
-
-                                                                                                                        type = snapCourseWorkDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                Map courseWorkDetailsMap = new HashMap();
-                                                                                                                courseWorkDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
-                                                                                                                courseWorkDetailsMap.put("Classroom_Course_ID", Classroom_Course_ID);
-                                                                                                                courseWorkDetailsMap.put("Classroom_Teacher_Google_Account", Classroom_Teacher_Google_Account);
-                                                                                                                courseWorkDetailsMap.put("Classroom_Teacher_ID", Classroom_Teacher_ID);
-                                                                                                                courseWorkDetailsMap.put("Coursework_ID", Coursework_ID);
-                                                                                                                courseWorkDetailsMap.put("Coursework_Name", Coursework_Name);
-                                                                                                                courseWorkDetailsMap.put("Description", Description);
-                                                                                                                courseWorkDetailsMap.put("Due_Date", Due_Date);
-                                                                                                                courseWorkDetailsMap.put("Due_Time", Due_Time);
-                                                                                                                courseWorkDetailsMap.put("Max_Points", Max_Points);
-                                                                                                                courseWorkDetailsMap.put("type", type);
-
-
-                                                                                                                addException2.child(schID).child(ABASclassRoom).child(subjectID).child("Course_Work_Details").child(snapCourseWorkID.getKey()).updateChildren(courseWorkDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                                    @Override
-                                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                                        if (databaseError != null) {
-                                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                });
-                                                                                                                addException.child(schID).child(ABASclassRoom).child(subjectID).child("Course_Work_Details").child(snapCourseWorkID.getKey()).updateChildren(courseWorkDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                                    @Override
-                                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                                        if (databaseError != null) {
-                                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                });
-
-                                                                                                            }
-
-
-                                                                                                        }
-                                                                                                        if (snapshotKeyValueOfType.getKey().equals("Student_List")) {
-                                                                                                            for (DataSnapshot snapStudentListID : snapshotKeyValueOfType.getChildren()) {
-                                                                                                                String ABAS_Teacher_UID = "";
-                                                                                                                String Assigned_Status = "";
-                                                                                                                String Classroom_Course_ID = "";
-                                                                                                                String Classroom_User_UID = "";
-                                                                                                                String Gmail_Account = "";
-                                                                                                                String Name_Of_Student = "";
-                                                                                                                String Teacher_Classroom_ID = "";
-                                                                                                                String Teacher_Google_Account = "";
-
-                                                                                                                for (DataSnapshot snapStudentListDetails : snapStudentListID.getChildren()) {
-                                                                                                                    if (snapStudentListDetails.getKey().equals("ABAS_Teacher_UID")) {
-                                                                                                                        ABAS_Teacher_UID = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Assigned_Status")) {
-                                                                                                                        Assigned_Status = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Classroom_Course_ID")) {
-                                                                                                                        Classroom_Course_ID = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Classroom_User_UID")) {
-                                                                                                                        Classroom_User_UID = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Gmail_Account")) {
-                                                                                                                        Gmail_Account = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Name_Of_Student")) {
-                                                                                                                        Name_Of_Student = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Teacher_Classroom_ID")) {
-                                                                                                                        Teacher_Classroom_ID = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                    if (snapStudentListDetails.getKey().equals("Teacher_Google_Account")) {
-                                                                                                                        Teacher_Google_Account = snapStudentListDetails.getValue().toString();
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                Map studentListDetailsMap = new HashMap();
-                                                                                                                studentListDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
-                                                                                                                studentListDetailsMap.put("Classroom_Course_ID", Classroom_Course_ID);
-                                                                                                                studentListDetailsMap.put("Assigned_Status", Assigned_Status);
-                                                                                                                studentListDetailsMap.put("Classroom_Course_ID", Classroom_Course_ID);
-                                                                                                                studentListDetailsMap.put("Classroom_User_UID", Classroom_User_UID);
-                                                                                                                studentListDetailsMap.put("Gmail_Account", Gmail_Account);
-                                                                                                                studentListDetailsMap.put("Name_Of_Student", Name_Of_Student);
-                                                                                                                studentListDetailsMap.put("Teacher_Classroom_ID", Teacher_Classroom_ID);
-                                                                                                                studentListDetailsMap.put("Teacher_Google_Account", Teacher_Google_Account);
-
-
-                                                                                                                addException2.child(schID).child(ABASclassRoom).child(subjectID).child("Student_List").
-                                                                                                                        child(snapStudentListID.getKey()).updateChildren(studentListDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                                    @Override
-                                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                                        if (databaseError != null) {
-                                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                });
-
-                                                                                                                addException.child(schID).child(ABASclassRoom).child(subjectID).child("Student_List").
-                                                                                                                        child(snapStudentListID.getKey()).updateChildren(studentListDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                                    @Override
-                                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                                        if (databaseError != null) {
-                                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                });
-
-
-                                                                                                            }
-
-
-                                                                                                        }
-                                                                                                        if (snapshotKeyValueOfType.getKey().equals("Submissions")) {
-                                                                                                                    for (DataSnapshot snapSubID : snapshotKeyValueOfType.getChildren()){
-
-                                                                                                                        String ABAS_Teacher_UID = "";
-                                                                                                                    String Assigned_Status = "";
-                                                                                                                    String Classroom_Course_Id = "";
-                                                                                                                    String Classroom_Coursework_ID = "";
-                                                                                                                    String Classroom_Student_UID = "";
-                                                                                                                    String Classroom_Submission_ID = "";
-                                                                                                                    String Classroom_Teacher_Google_Account = "";
-                                                                                                                    String Draft_Grade = "";
-                                                                                                                    String Grade = "";
-                                                                                                                    String Coursework_Name = "";
-                                                                                                                    String Description = "";
-                                                                                                                    String Due_Date = "";
-                                                                                                                    String Due_Time = "";
-                                                                                                                    String Max_Points = "";
-                                                                                                                    String type = "assignment";
-                                                                                                                    String Gmail_Account = "";
-                                                                                                                    String Name_Of_Student = "";
-
-
-                                                                                                                    for (DataSnapshot snapShotSubmissionDetails : snapSubID.getChildren()) {
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("ABAS_Teacher_UID")) {
-                                                                                                                            ABAS_Teacher_UID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Assigned_Status")) {
-                                                                                                                            Assigned_Status = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Classroom_Course_Id")) {
-                                                                                                                            Classroom_Course_Id = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Classroom_Coursework_ID")) {
-                                                                                                                            Classroom_Coursework_ID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Classroom_Student_UID")) {
-                                                                                                                            Classroom_Student_UID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Classroom_Submission_ID")) {
-                                                                                                                            Classroom_Submission_ID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Classroom_Teacher_Google_Account")) {
-                                                                                                                            Classroom_Teacher_Google_Account = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Draft_Grade")) {
-                                                                                                                            Draft_Grade = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Grade")) {
-                                                                                                                            Grade = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Coursework_Name")) {
-                                                                                                                            Coursework_Name = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Description")) {
-                                                                                                                            Description = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Due_Date")) {
-                                                                                                                            Due_Date = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Due_Time")) {
-                                                                                                                            Due_Time = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Max_Points")) {
-                                                                                                                            Max_Points = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Gmail_Account")) {
-                                                                                                                            Gmail_Account = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                        if (snapShotSubmissionDetails.getKey().equals("Name_Of_Student")) {
-                                                                                                                            Name_Of_Student = snapShotSubmissionDetails.getValue().toString();
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                    Map submissionDetailsMap = new HashMap();
-                                                                                                                    submissionDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
-                                                                                                                    submissionDetailsMap.put("Assigned_Status", Assigned_Status);
-                                                                                                                    submissionDetailsMap.put("Classroom_Course_Id", Classroom_Course_Id);
-                                                                                                                    submissionDetailsMap.put("Classroom_Coursework_ID", Classroom_Coursework_ID);
-                                                                                                                    submissionDetailsMap.put("Classroom_Student_UID", Classroom_Student_UID);
-                                                                                                                    submissionDetailsMap.put("Classroom_Submission_ID", Classroom_Submission_ID);
-                                                                                                                    submissionDetailsMap.put("Classroom_Teacher_Google_Account", Classroom_Teacher_Google_Account);
-                                                                                                                    submissionDetailsMap.put("Draft_Grade", Draft_Grade);
-                                                                                                                    submissionDetailsMap.put("Grade", Grade);
-                                                                                                                    submissionDetailsMap.put("Coursework_Name", Coursework_Name);
-                                                                                                                    submissionDetailsMap.put("Description", Description);
-                                                                                                                    submissionDetailsMap.put("Due_Date", Due_Date);
-                                                                                                                    submissionDetailsMap.put("Due_Time", Due_Time);
-                                                                                                                    submissionDetailsMap.put("Max_Points", Max_Points);
-                                                                                                                    submissionDetailsMap.put("type", type);
-                                                                                                                    submissionDetailsMap.put("Gmail_Account", Gmail_Account);
-                                                                                                                    submissionDetailsMap.put("Name_Of_Student", Name_Of_Student);
-
-
-                                                                                                                    addException2.child(schID).child(ABASclassRoom).child(subjectID).child("Submissions").
-                                                                                                                            child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                                        @Override
-                                                                                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                                            if (databaseError != null) {
-                                                                                                                                Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    });
-                                                                                                                    addException.child(schID).child(ABASclassRoom).child(subjectID).child("Submissions")
-                                                                                                                        .child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                                        @Override
-                                                                                                                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                                            if (databaseError != null) {
-                                                                                                                                Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    });
-
-
-                                                                                                                }
-
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-
-                                                                                                @Override
-                                                                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                                                                }
-                                                                                            });
-
-
-                                                                                        }
-                                                                                    }
-                                                                                }
-
-                                                                                @Override
-                                                                                public void onCancelled(DatabaseError databaseError) {
-
-                                                                                }
-                                                                            });
-//                                                                DatabaseReference subjectDBREF = FirebaseDatabase.getInstance().getReference().child("Student");
-//                                                                subjectDBREF.child()
-                                                                            //In case classes don't match -> Classroom &
-                                                                        }
-                                                                        if (!courseObject.getSection().equals(ABASclassRoom)) {
-
-                                                                            final DatabaseReference addException = FirebaseDatabase.getInstance().getReference()
-                                                                                    .child("Classroom_User_No_Matches_ABAS_UID")
-                                                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-
-                                                                            final DatabaseReference addException2 = FirebaseDatabase.getInstance().getReference()
-                                                                                    .child("Classroom_User_No_Matches_ABAS");
-
-
-
-                                                                            final DatabaseReference courseDetails = FirebaseDatabase.getInstance()
-                                                                                    .getReference().child("Classroom_Class_List_Teacher_Reference");
-
-                                                                            courseDetails.child(courseObject.getId()).addValueEventListener(new ValueEventListener() {
-                                                                                @Override
-                                                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                                                    for (DataSnapshot detailSnap : dataSnapshot.getChildren()) {
-                                                                                        if (detailSnap.getKey().equals("Course_Work_Details")) {
-                                                                                            for (DataSnapshot snapCourseWorkID : detailSnap.getChildren()) {
-                                                                                                String ABAS_Teacher_UID = "";
-                                                                                                String Classroom_Course_ID = "";
-                                                                                                String Classroom_Teacher_Google_Account = "";
-                                                                                                String Classroom_Teacher_ID = "";
-                                                                                                String Coursework_ID = "";
-                                                                                                String Coursework_Name = "";
-                                                                                                String Description = "";
-                                                                                                String Due_Date = "";
-                                                                                                String Due_Time = "";
-                                                                                                String Max_Points = "";
-                                                                                                String type = "";
-
-                                                                                                for (DataSnapshot snapCourseWorkDetails : snapCourseWorkID.getChildren()) {
-
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("ABAS_Teacher_UID")) {
-                                                                                                        ABAS_Teacher_UID = snapCourseWorkDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Classroom_Course_ID")) {
-
-                                                                                                        Classroom_Course_ID = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Classroom_Teacher_Google_Account")) {
-
-                                                                                                        Classroom_Teacher_Google_Account = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Classroom_Teacher_ID")) {
-
-                                                                                                        Classroom_Teacher_ID = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Coursework_ID")) {
-
-                                                                                                        Coursework_ID = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Coursework_Name")) {
-
-                                                                                                        Coursework_Name = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Description")) {
-
-                                                                                                        Description = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                    }
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Due_Date")) {
-
-                                                                                                        Due_Date = snapCourseWorkDetails.getValue().toString();
-
-
-                                                                                                    }
-
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Due_Time")) {
-
-                                                                                                        Due_Time = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                    }
-
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("Max_Points")) {
-
-                                                                                                        Max_Points = snapCourseWorkDetails.getValue().toString();
-
-                                                                                                    }
-
-                                                                                                    if (snapCourseWorkDetails.getKey().equals("type")) {
-
-                                                                                                        type = snapCourseWorkDetails.getValue().toString();
-                                                                                                    }
-                                                                                                }
-
-                                                                                                Map courseWorkDetailsMap = new HashMap();
-                                                                                                courseWorkDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
-                                                                                                courseWorkDetailsMap.put("Classroom_Course_ID", Classroom_Course_ID);
-                                                                                                courseWorkDetailsMap.put("Classroom_Teacher_Google_Account", Classroom_Teacher_Google_Account);
-                                                                                                courseWorkDetailsMap.put("Classroom_Teacher_ID", Classroom_Teacher_ID);
-                                                                                                courseWorkDetailsMap.put("Coursework_ID", Coursework_ID);
-                                                                                                courseWorkDetailsMap.put("Coursework_Name", Coursework_Name);
-                                                                                                courseWorkDetailsMap.put("Description", Description);
-                                                                                                courseWorkDetailsMap.put("Due_Date", Due_Date);
-                                                                                                courseWorkDetailsMap.put("Due_Time", Due_Time);
-                                                                                                courseWorkDetailsMap.put("Max_Points", Max_Points);
-                                                                                                courseWorkDetailsMap.put("type", type);
-
-
-                                                                                                addException2.child(courseObject.getId()).child("Course_Work_Details").child(snapCourseWorkID.getKey()).updateChildren(courseWorkDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-                                                                                                addException.child(courseObject.getId()).child("Course_Work_Details").child(snapCourseWorkID.getKey()).updateChildren(courseWorkDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-
-                                                                                            }
-                                                                                        } if(detailSnap.getKey().equals("Student_List")){
-                                                                                            for (DataSnapshot snapStudentListID : detailSnap.getChildren()) {
-                                                                                                String ABAS_Teacher_UID = "";
-                                                                                                String Assigned_Status = "";
-                                                                                                String Classroom_Course_ID = "";
-                                                                                                String Classroom_User_UID = "";
-                                                                                                String Gmail_Account = "";
-                                                                                                String Name_Of_Student = "";
-                                                                                                String Teacher_Classroom_ID = "";
-                                                                                                String Teacher_Google_Account = "";
-
-                                                                                                for (DataSnapshot snapStudentListDetails : snapStudentListID.getChildren()) {
-                                                                                                    if (snapStudentListDetails.getKey().equals("ABAS_Teacher_UID")) {
-                                                                                                        ABAS_Teacher_UID = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Assigned_Status")) {
-                                                                                                        Assigned_Status = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Classroom_Course_ID")) {
-                                                                                                        Classroom_Course_ID = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Classroom_User_UID")) {
-                                                                                                        Classroom_User_UID = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Gmail_Account")) {
-                                                                                                        Gmail_Account = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Name_Of_Student")) {
-                                                                                                        Name_Of_Student = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Teacher_Classroom_ID")) {
-                                                                                                        Teacher_Classroom_ID = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapStudentListDetails.getKey().equals("Teacher_Google_Account")) {
-                                                                                                        Teacher_Google_Account = snapStudentListDetails.getValue().toString();
-                                                                                                    }
-                                                                                                }
-
-                                                                                                Map studentListDetailsMap = new HashMap();
-                                                                                                studentListDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
-                                                                                                studentListDetailsMap.put("Classroom_Course_ID", Classroom_Course_ID);
-                                                                                                studentListDetailsMap.put("Assigned_Status", Assigned_Status);
-                                                                                                studentListDetailsMap.put("Classroom_Course_ID", Classroom_Course_ID);
-                                                                                                studentListDetailsMap.put("Classroom_User_UID", Classroom_User_UID);
-                                                                                                studentListDetailsMap.put("Gmail_Account", Gmail_Account);
-                                                                                                studentListDetailsMap.put("Name_Of_Student", Name_Of_Student);
-                                                                                                studentListDetailsMap.put("Teacher_Classroom_ID", Teacher_Classroom_ID);
-                                                                                                studentListDetailsMap.put("Teacher_Google_Account", Teacher_Google_Account);
-
-
-                                                                                                addException2.child(courseObject.getId()).child("Student_List").
-                                                                                                        child(snapStudentListID.getKey()).updateChildren(studentListDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-
-                                                                                                addException.child(courseObject.getId()).child("Student_List").
-                                                                                                        child(snapStudentListID.getKey()).updateChildren(studentListDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-
-                                                                                            }
-                                                                                        } if(detailSnap.getKey().equals("Submissions")) {
-                                                                                                for(DataSnapshot snapSubID:detailSnap.getChildren()){
-                                                                                                String ABAS_Teacher_UID = "";
-                                                                                                String Assigned_Status = "";
-                                                                                                String Classroom_Course_Id = "";
-                                                                                                String Classroom_Coursework_ID = "";
-                                                                                                String Classroom_Student_UID = "";
-                                                                                                String Classroom_Submission_ID = "";
-                                                                                                String Classroom_Teacher_Google_Account = "";
-                                                                                                String Draft_Grade = "";
-                                                                                                String Grade = "";
-                                                                                                String Coursework_Name = "";
-                                                                                                String Description = "";
-                                                                                                String Due_Date = "";
-                                                                                                String Due_Time = "";
-                                                                                                String Max_Points = "";
-                                                                                                String type = "assignment";
-                                                                                                String Gmail_Account = "";
-                                                                                                String Name_Of_Student = "";
-
-                                                                                                for (DataSnapshot snapShotSubmissionDetails : snapSubID.getChildren()) {
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("ABAS_Teacher_UID")) {
-                                                                                                        ABAS_Teacher_UID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Assigned_Status")) {
-                                                                                                        Assigned_Status = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Classroom_Course_Id")) {
-                                                                                                        Classroom_Course_Id = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Classroom_Coursework_ID")) {
-                                                                                                        Classroom_Coursework_ID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Classroom_Student_UID")) {
-                                                                                                        Classroom_Student_UID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Classroom_Submission_ID")) {
-                                                                                                        Classroom_Submission_ID = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Classroom_Teacher_Google_Account")) {
-                                                                                                        Classroom_Teacher_Google_Account = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Draft_Grade")) {
-                                                                                                        Draft_Grade = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Grade")) {
-                                                                                                        Grade = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Coursework_Name")) {
-                                                                                                        Coursework_Name = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Description")) {
-                                                                                                        Description = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Due_Date")) {
-                                                                                                        Due_Date = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Due_Time")) {
-                                                                                                        Due_Time = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Max_Points")) {
-                                                                                                        Max_Points = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Gmail_Account")) {
-                                                                                                        Gmail_Account = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                    if (snapShotSubmissionDetails.getKey().equals("Name_Of_Student")) {
-                                                                                                        Name_Of_Student = snapShotSubmissionDetails.getValue().toString();
-                                                                                                    }
-                                                                                                }
-                                                                                                Map submissionDetailsMap = new HashMap();
-                                                                                                submissionDetailsMap.put("ABAS_Teacher_UID", ABAS_Teacher_UID);
-                                                                                                submissionDetailsMap.put("Assigned_Status", Assigned_Status);
-                                                                                                submissionDetailsMap.put("Classroom_Course_Id", Classroom_Course_Id);
-                                                                                                submissionDetailsMap.put("Classroom_Coursework_ID", Classroom_Coursework_ID);
-                                                                                                submissionDetailsMap.put("Classroom_Student_UID", Classroom_Student_UID);
-                                                                                                submissionDetailsMap.put("Classroom_Submission_ID", Classroom_Submission_ID);
-                                                                                                submissionDetailsMap.put("Classroom_Teacher_Google_Account", Classroom_Teacher_Google_Account);
-                                                                                                submissionDetailsMap.put("Draft_Grade", Draft_Grade);
-                                                                                                submissionDetailsMap.put("Grade", Grade);
-                                                                                                submissionDetailsMap.put("Coursework_Name", Coursework_Name);
-                                                                                                submissionDetailsMap.put("Description", Description);
-                                                                                                submissionDetailsMap.put("Due_Date", Due_Date);
-                                                                                                submissionDetailsMap.put("Due_Time", Due_Time);
-                                                                                                submissionDetailsMap.put("Max_Points", Max_Points);
-                                                                                                submissionDetailsMap.put("type", type);
-                                                                                                submissionDetailsMap.put("Gmail_Account", Gmail_Account);
-                                                                                                submissionDetailsMap.put("Name_Of_Student", Name_Of_Student);
-
-                                                                                                addException2.child(courseObject.getId()).child("Submissions").
-                                                                                                        child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-                                                                                                addException.child(courseObject.getId()).child("Submissions").
-                                                                                                        child(snapSubID.getKey()).updateChildren(submissionDetailsMap, new DatabaseReference.CompletionListener() {
-                                                                                                    @Override
-                                                                                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                                                                        if (databaseError != null) {
-                                                                                                            Log.d("Chat_Log", databaseError.getMessage().toString());
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
-
-
-                                                                                            }
-
-                                                                                        }
-
-
-                                                                                    }
-                                                                                }
-
-
-                                                                            @Override
-                                                                            public void onCancelled(DatabaseError databaseError){
-
-                                                                            }
-                                                                        });
-
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled (DatabaseError
-                                                    databaseError){
-
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-                                }
-
-                        @Override
-                        public void onCancelled (DatabaseError databaseError){
-
-                        }
+                      }
                     });
 
-                }
+                classDetailsOnlyREF2.child(courseObject.getId()).child("Student_List")
+                    .child(std.getUserId()).
+                    updateChildren(studentInClassDetails,
+                        new DatabaseReference.CompletionListener() {
+                          @Override
+                          public void onComplete(DatabaseError databaseError,
+                              DatabaseReference databaseReference) {
+                            if (databaseError != null) {
+                              Log.d("Chat_Log", databaseError.getMessage().toString());
+                            }
+                          }
+                        });
 
-
-                counterNumberOfCourseCounter++;
+              }
+              submissionCounter++;
             }
 
+            List<List<StudentSubmission>> stdSubmissionsListOfList = listOfStudentSubmission
+                .get(counterNumberOfCourseCounter);
+            if (stdSubmissionsListOfList != null) {
+              for (List<StudentSubmission> stdsubList : stdSubmissionsListOfList) {
+                if (stdsubList != null) {
+                  for (StudentSubmission stdsub : stdsubList) {
+                    Map submissionDetails = new HashMap();
+                    submissionDetails.put("Classroom_Student_UID", stdsub.getUserId());
+                    submissionDetails.put("Classroom_Course_Id", stdsub.getCourseId());
+                    submissionDetails.put("Draft_Grade", stdsub.getDraftGrade());
+                    submissionDetails.put("Classroom_Coursework_ID", stdsub.getCourseWorkId());
+                    submissionDetails.put("Classroom_Submission_ID", stdsub.getId());
+                    submissionDetails.put("Grade", stdsub.getAssignedGrade());
+                    submissionDetails.put("Classroom_Teacher_Google_Account",
+                        teacherObject2.getProfile().getEmailAddress());
+                    submissionDetails.put("ABAS_Teacher_UID",
+                        FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    submissionDetails.put("Assigned_Status", "false");
+                    submissionDetails.put("IsLate", stdsub.getLate());
 
-            autoConnectClass();
-            //App stuff
-            //Disable button
-            accountTextView.setText(mCredential.getSelectedAccountName());
-            accountTextView.setTextColor(Color.GREEN);
-            statusTextView.setText("Connected");
-            statusTextView.setTextColor(Color.GREEN);
-            mCallApiButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(ClassroomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG).show();
+                    studentDetailsListDBREF.child(stdsub.getCourseId()).child("Submissions")
+                        .child(stdsub.getUserId())
+                        .updateChildren(submissionDetails,
+                            new DatabaseReference.CompletionListener() {
+                              @Override
+                              public void onComplete(DatabaseError databaseError,
+                                  DatabaseReference databaseReference) {
+                                if (databaseError != null) {
+                                  Log.d("Chat_Log", databaseError.getMessage().toString());
+                                }
+                              }
+                            });
+
+                    classDetailsOnlyREF2.child(stdsub.getCourseId()).child("Submissions")
+                        .child(stdsub.getUserId())
+                        .updateChildren(submissionDetails,
+                            new DatabaseReference.CompletionListener() {
+                              @Override
+                              public void onComplete(DatabaseError databaseError,
+                                  DatabaseReference databaseReference) {
+                                if (databaseError != null) {
+                                  Log.d("Chat_Log", databaseError.getMessage().toString());
+                                }
+                              }
+                            });
+                  }
                 }
-            });
-            mCallApiButton.setTextColor(Color.GREEN);
-            mProgress.hide();
-
+              }
+            }
+          }
+          counterNumberOfCourseCounter++;
         }
 
+        autoConnectClass();
+        //App stuff
+        //Disable button
+        accountTextView.setText(mCredential.getSelectedAccountName());
+        accountTextView.setTextColor(Color.GREEN);
+        statusTextView.setText("Connected");
+        statusTextView.setTextColor(Color.GREEN);
+        mCallApiButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+            Toast.makeText(ClassroomHomeSetting.this, "Already Connected", Toast.LENGTH_LONG)
+                .show();
+          }
+        });
+        mCallApiButton.setTextColor(Color.GREEN);
+        mProgress.hide();
+
+      }
     }
 
     @Override
     protected void onCancelled() {
-        mProgress.hide();
-        if (mLastError != null) {
-            if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
-                showGooglePlayServicesAvailabilityErrorDialog(
-                        ((GooglePlayServicesAvailabilityIOException) mLastError)
-                                .getConnectionStatusCode());
-            } else if (mLastError instanceof UserRecoverableAuthIOException) {
-                startActivityForResult(
-                        ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                        ClassroomHomeSetting.REQUEST_AUTHORIZATION);
-            } else {
-                Toast.makeText(ClassroomHomeSetting.this, "The following error occurred:\n"
-                        + mLastError.getMessage(), Toast.LENGTH_LONG).show();
-            }
+      mProgress.hide();
+      if (mLastError != null) {
+        if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
+          showGooglePlayServicesAvailabilityErrorDialog(
+              ((GooglePlayServicesAvailabilityIOException) mLastError)
+                  .getConnectionStatusCode());
+        } else if (mLastError instanceof UserRecoverableAuthIOException) {
+          startActivityForResult(
+              ((UserRecoverableAuthIOException) mLastError).getIntent(),
+              ClassroomHomeSetting.REQUEST_AUTHORIZATION);
         } else {
-            Toast.makeText(ClassroomHomeSetting.this, "Request cancelled.", Toast.LENGTH_LONG).show();
+          Toast.makeText(ClassroomHomeSetting.this, "The following error occurred:\n"
+              + mLastError.getMessage(), Toast.LENGTH_LONG).show();
         }
+      } else {
+        Toast.makeText(ClassroomHomeSetting.this, "Request cancelled.", Toast.LENGTH_LONG).show();
+      }
     }
 
     public void autoConnectClass() {
-
     }
-
-
-}
+  }
 }
 
 
