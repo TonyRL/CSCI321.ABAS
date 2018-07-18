@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
         //fragmentClass = fileFragment.class;
         break;
       case R.id.nav_record:
-        //TODO ClassList no longer a fragment
         fragmentClass = HomeFragment.class;
         break;
       default:
