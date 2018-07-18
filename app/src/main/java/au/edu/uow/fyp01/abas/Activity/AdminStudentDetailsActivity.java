@@ -44,6 +44,7 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
   private String classname;
   private String sID;
   private String beaconID;
+  private String oldBeaconID;
 
   private StudentModel studentModel;
 
@@ -147,6 +148,8 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
               adminStudentDetailsBeaconID.setText("Beacon not set!");
             } else {
               adminStudentDetailsBeaconID.setText(beaconID);
+              //hold old beacon (the original)
+              oldBeaconID = beaconID;
             }
 
             FirebaseDatabase db2 = FirebaseDatabase.getInstance();
@@ -190,6 +193,8 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                 adminStudentDetailsEditBtn.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
+
+
                     //GET TEXT FROM INPUT FIRST
                     String firstname = adminStudentDetailsFirstName.getText().toString();
                     String lastname = adminStudentDetailsLastName.getText().toString();
@@ -206,7 +211,10 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                     //update children of Student->SchID->ClassID->StudentID
                     dbref.updateChildren(addToDatabase);
 
+
+
                     //FIX THE BEACONID
+                    beaconID = adminStudentDetailsBeaconID.getText().toString();
                     FirebaseDatabase db1 = FirebaseDatabase.getInstance();
                     DatabaseReference dbref1 = db1.getReference().child("Beacon").child(schID)
                         .child(beaconID);
@@ -218,6 +226,16 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                     addToBeacon.put("sid", sID);
                     //push to Beacon node
                     dbref1.updateChildren(addToBeacon);
+
+                    //REMOVE OLD BEACON
+
+                    if (oldBeaconID != null) {
+                      DatabaseReference dbref2 = db.getReference().child("Beacon").child(schID)
+                          .child(oldBeaconID);
+                      dbref2.removeValue();
+                    }
+
+
 
                     Toast.makeText(AdminStudentDetailsActivity.this, "Student details saved",
                         Toast.LENGTH_SHORT)
@@ -244,6 +262,11 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                         "Yes",
                         new DialogInterface.OnClickListener() {
                           public void onClick(DialogInterface dialog, int id) {
+
+                            //Delete Beacon->SchID->BeaconID
+                            DatabaseReference dbref1 = db.getReference().child("Beacon").child(schID)
+                                .child(beaconID);
+                            dbref1.removeValue();
                             //Delete Student->SchID->ClassID->StudentID
                             dbref.removeValue();
 
