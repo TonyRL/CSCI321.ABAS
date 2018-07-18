@@ -15,6 +15,7 @@ import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
 import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
+import au.edu.uow.fyp01.abas.Activity.SettingsBufferPage;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 
@@ -51,8 +52,8 @@ public class HomeFragment extends Fragment {
           startActivity(recordActivityIntent);
           break;
         case R.id.settingBtn:
-          Intent classroomSetting = new Intent(getActivity(), ClassroomHomeSetting.class);
-          startActivity(classroomSetting);
+          Intent Setting = new Intent(getActivity(), SettingsBufferPage.class);
+          startActivity(Setting);
           break;
         default:
           break;

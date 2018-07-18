@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,7 @@ public class RecordOverviewActivity extends Activity {
     private ArrayList<RecordModel> recordList;
     private ArrayList<CommentModel> commentList;
     private String schID;
+    private String classID;
 
     private SubjectSettingsModel subjectSettingsModel;
 
@@ -63,6 +65,8 @@ public class RecordOverviewActivity extends Activity {
         subjectname = bundle.getString("subjectname");
         subjectID = bundle.getString("subjectID");
         schID = bundle.getString("schID");
+        classID = bundle.getString("classID");
+
 
         recordList = new ArrayList<RecordModel>();
         commentList = new ArrayList<CommentModel>();
@@ -124,7 +128,6 @@ public class RecordOverviewActivity extends Activity {
                             if (recordList.size() == 0) {
 
 
-
                             } else {
                                 overall = 0.0;
                                 double total = 0;
@@ -177,8 +180,8 @@ public class RecordOverviewActivity extends Activity {
                                 }
 
                                 //weigh the marks
-                                overall = totalassignment * assignmentratio/100 +
-                                        totalquiz  * quizratio / 100 +
+                                overall = totalassignment * assignmentratio / 100 +
+                                        totalquiz * quizratio / 100 +
                                         totaltest * testratio / 100 +
                                         totalexam * examratio / 100;
 
@@ -240,7 +243,7 @@ public class RecordOverviewActivity extends Activity {
 
                                     FragmentManager fragmentManager = getFragmentManager();
                                     recordOverviewActivityStatisticsDialog.setOverall(overall.toString());
-                                    recordOverviewActivityStatisticsDialog.show(fragmentManager,"MyDialog");
+                                    recordOverviewActivityStatisticsDialog.show(fragmentManager, "MyDialog");
                                 }
                             });
 
@@ -347,6 +350,83 @@ public class RecordOverviewActivity extends Activity {
         });
         //</editor-fold>
 
+        final Button classroomConnect = findViewById(R.id.activity_recordoverview_classroom_button);
+        DatabaseReference classRoomRef = FirebaseDatabase.getInstance().getReference()
+                .child("Classroom_User_Matching_ABAS_UID");
+
+        classroomConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Didn't work", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        classRoomRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapSchoolID : dataSnapshot.getChildren()) {
+                    if (snapSchoolID.getKey().equals(schID)) {
+                        for (final DataSnapshot snapClassID : snapSchoolID.getChildren()) {
+                            DatabaseReference reference = FirebaseDatabase.getInstance()
+                                    .getReference().child("School");
+                            reference.child(schID).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapClassSchoolID : dataSnapshot.getChildren()) {
+                                        if (snapClassSchoolID.getKey().equals(classID)) {
+//                                            Toast.makeText(getApplicationContext(), classID+":" + snapClassSchoolID.getKey(), Toast.LENGTH_LONG).show();
+                                            for (DataSnapshot snapClassDetails : snapClassSchoolID.getChildren()) {
+                                                if (snapClassDetails.getKey().equals("classname")) {
+                                                    final String className = snapClassDetails.getValue().toString();
+                                                    if (snapClassID.getKey().equals(className)) {
+                                                        Toast.makeText(getApplicationContext(), "subID:" + subjectID, Toast.LENGTH_LONG).show();
+                                                        for (DataSnapshot snapSubjectID : snapClassID.getChildren()) {
+                                                            if(snapSubjectID.getKey().equals(subjectID)){
+                                                                classroomConnect.setEnabled(true);
+                                                                classroomConnect.setOnClickListener(new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View view) {
+                                                                        Toast.makeText(getApplicationContext(), "Can Connect!", Toast.LENGTH_LONG).show();
+                                                                        Intent i = new Intent(getApplicationContext(), RecordOverviewActivityClassroomMatch.class);
+
+                                                                        //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
+                                                                        Bundle args = new Bundle();
+                                                                        args.putString("subjectname", subjectname);
+                                                                        args.putString("subjectID", subjectID);
+                                                                        args.putString("sID", sID);
+                                                                        args.putString("schID", schID);
+                                                                        args.putString("classID", classID);
+                                                                        args.putString("className",className);
+                                                                        i.putExtras(args);
+
+                                                                        startActivity(i);
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /*
