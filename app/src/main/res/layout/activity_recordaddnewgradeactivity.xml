@@ -34,7 +34,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_weight="0"
-        android:background="@drawable/ic_check_black_24dp"
+        android:background="@drawable/ic_check"
         android:backgroundTint="@color/White"
         android:textAppearance="@style/TextAppearance.AppCompat"/>
 

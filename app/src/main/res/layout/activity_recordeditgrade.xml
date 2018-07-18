@@ -41,7 +41,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_weight="0"
-        android:background="@drawable/ic_delete_24dp"
+        android:background="@drawable/ic_delete"
         android:backgroundTint="@color/White"
         android:textAppearance="@style/TextAppearance.AppCompat"/>
 
