@@ -416,10 +416,6 @@ public class ClassroomHomeSetting extends Activity implements EasyPermissions.Pe
             mView = itemView;
         }
 
-        //        public void setCourse_ID(String Course_ID){
-//            coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
-//            coursenameTextView.setText(Course_ID);
-//        }
         public void setCourseName(String Name_Course) {
             coursenameTextView = mView.findViewById(R.id.activity_class_room_setting_recyclerview_item_classroom_name);
             coursenameTextView.setText(Name_Course);

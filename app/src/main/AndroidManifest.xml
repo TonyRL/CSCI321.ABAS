@@ -103,7 +103,10 @@
         <activity android:name=".Activity.SchoolListActivity" />
         <activity android:name=".Activity.AdminManageRequestsActivity" />
         <activity android:name=".Activity.RecordOverviewActivityStatisticsDialog" />
-        <activity android:name=".Activity.RecordOverviewActivityClassroomMatch"></activity>
+        <activity android:name=".Activity.RecordOverviewActivityClassroomMatch" />
+        <activity android:name=".Activity.AdminManageMenuStaff" />
+        <activity android:name=".Activity.AdminManageMenuStaffDialog" />
+        <activity android:name=".Activity.SettingsBufferPage"></activity>
     </application>
 
 </manifest>

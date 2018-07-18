@@ -35,4 +35,13 @@
     <string name="home">Home</string>
     <string name="classes">Classes</string>
 
+    <string name="user_type_prompt">Choose a User Type:</string>
+
+    <string-array name="user_type_arrays">
+        <item>Admin</item>
+        <item>Teacher</item>
+
+    </string-array>
+
+
 </resources>
