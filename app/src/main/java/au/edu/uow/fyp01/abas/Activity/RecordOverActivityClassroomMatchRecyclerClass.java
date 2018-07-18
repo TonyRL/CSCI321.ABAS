@@ -14,6 +14,16 @@ public class RecordOverActivityClassroomMatchRecyclerClass {
     private String Gmail_Account;
     private String Grade;
 
+    public String getClassroom_Submission_ID() {
+        return Classroom_Submission_ID;
+    }
+
+    public void setClassroom_Submission_ID(String classroom_Submission_ID) {
+        Classroom_Submission_ID = classroom_Submission_ID;
+    }
+
+    private String Classroom_Submission_ID;
+
 
     public RecordOverActivityClassroomMatchRecyclerClass() {
 
