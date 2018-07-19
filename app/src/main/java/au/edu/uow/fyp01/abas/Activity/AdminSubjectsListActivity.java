@@ -81,8 +81,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
 
         //set options
         options = new FirebaseRecyclerOptions.Builder<ListOfSubjectsModel>().
-            setQuery(dbref.orderByChild("subjectname"), ListOfSubjectsModel.class)
-            .build();
+            setQuery(dbref.orderByChild("subjectname"), ListOfSubjectsModel.class).build();
 
         firebaseRecyclerAdapter =
             new FirebaseRecyclerAdapter<ListOfSubjectsModel, ListOfSubjectsModelViewHolder>(
@@ -217,7 +216,6 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
   }
 
   private interface FirebaseCallBack {
-
     void onCallBack(UserModel userModel);
   }
 

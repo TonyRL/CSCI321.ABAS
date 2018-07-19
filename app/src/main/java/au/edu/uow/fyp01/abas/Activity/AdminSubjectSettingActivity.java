@@ -73,16 +73,16 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
   private void SubjectSettingsQueryClass(final FirebaseCallBack firebaseCallBack) {
 
     FirebaseDatabase db2 = FirebaseDatabase.getInstance();
-    DatabaseReference dbref2 = db2.getReference().child("SubjectSettings")
-        .child(schID).child(subjectID);
+    DatabaseReference dbref2 = db2.getReference().child("SubjectSettings").child(schID)
+        .child(subjectID);
 
     dbref2.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         if (dataSnapshot.exists()) {
 
-          SubjectSettingsModel subjectSettingsModel =
-              dataSnapshot.getValue(SubjectSettingsModel.class);
+          SubjectSettingsModel subjectSettingsModel = dataSnapshot
+              .getValue(SubjectSettingsModel.class);
           firebaseCallBack.onCallBack(subjectSettingsModel);
 
 
@@ -98,9 +98,7 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
   }
 
   private interface FirebaseCallBack {
-
     void onCallBack(SubjectSettingsModel subjectSettingsModel);
-
   }
 
   @Override
