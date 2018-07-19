@@ -117,9 +117,9 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
           @Override
           public void onClick(View v) {
 
-            //<editor-fold desc="move to AdminManageClassSubjectsActivity.class>
+            //<editor-fold desc="move to AdminManageClassSubjectActivity.class>
 
-            Intent i = new Intent(getApplicationContext(), AdminManageClassSubjectsActivity.class);
+            Intent i = new Intent(getApplicationContext(), AdminManageClassSubjectActivity.class);
 
             Bundle args = new Bundle();
 
