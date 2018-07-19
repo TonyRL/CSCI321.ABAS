@@ -1,5 +1,8 @@
 package au.edu.uow.fyp01.abas.fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
 import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.Activity.SettingsBufferPage;
+import au.edu.uow.fyp01.abas.Activity.SchoolListActivity;
 import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.Model.UserModel;
 import au.edu.uow.fyp01.abas.R;
@@ -35,29 +38,19 @@ public class HomeFragment extends Fragment {
   private CardView settingBtn;
   private CardView downloadFileBtn;
 
+  private ProgressDialog progressDialog;
+
   private FirebaseDatabase db;
   private DatabaseReference dbRef;
 
   private boolean isUserRegistered = false;
-  private boolean needChecking = true;
 
   private View.OnClickListener onClickListener = new OnClickListener() {
     @Override
     public void onClick(View v) {
-      // Checking registration status
-      if (!isUserRegistered && needChecking) {
-        checkUserRegistration(new FirebaseCallBack() {
-          @Override
-          public void onCallBack(UserModel userModel) {
-            needChecking = false;
-            if (userModel.getStatus().equals("registered")) {
-              isUserRegistered = true;
-            }
-          }
-        });
-      } else {
-        navigationView = getActivity().findViewById(R.id.nav_view);
-        // Create a new fragment and specify the fragment to show based on nav item clicked
+      navigationView = getActivity().findViewById(R.id.nav_view);
+      // Create a new fragment and specify the fragment to show based on nav item clicked
+      if (isUserRegistered) {
         switch (v.getId()) {
           case R.id.searchBtn:
             Intent searchBeaconActivityIntent = new Intent(getActivity(),
@@ -83,6 +76,17 @@ public class HomeFragment extends Fragment {
           default:
             break;
         }
+      } else {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Error").setMessage("Unregistered user!");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            dialogInterface.cancel();
+          }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
       }
     }
   };
@@ -121,7 +125,38 @@ public class HomeFragment extends Fragment {
 
     getActivity().setTitle("Home");
 
+    //Checking reg status
     db = FirebaseDatabase.getInstance();
+    showProgressDialog();
+    checkUserRegistration(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(UserModel userModel) {
+        hideProgressDialog();
+        if (userModel.getStatus().equals("registered")) {
+          isUserRegistered = true;
+        } else {
+          AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+          builder.setMessage("Your account has not registered to any school" +
+              "\nWould you like to register now?");
+          builder.setCancelable(true);
+          builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              Intent intent = new Intent(getActivity(), SchoolListActivity.class);
+              startActivity(intent);
+            }
+          });
+          builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              dialogInterface.cancel();
+            }
+          });
+          AlertDialog dialog = builder.create();
+          dialog.show();
+        }
+      }
+    });
 
     View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -138,5 +173,21 @@ public class HomeFragment extends Fragment {
     settingBtn.setOnClickListener(onClickListener);
 
     return view;
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(getContext());
+      progressDialog.setIndeterminate(true);
+      progressDialog.setCancelable(false);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
   }
 }
