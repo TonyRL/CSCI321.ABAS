@@ -26,10 +26,10 @@ import android.view.MenuItem;
 import android.view.View;
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
+import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
-import au.edu.uow.fyp01.abas.Activity.SettingsBufferPage;
-import au.edu.uow.fyp01.abas.Fragment.HomeFragment;
+import au.edu.uow.fyp01.abas.fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import org.altbeacon.beacon.BeaconManager;
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
       switch (id) {
         case R.id.nav_home:
-          swapFragment(R.id.nav_home);
+          //swapFragment(R.id.nav_home);
           break;
         case R.id.nav_search_beacon:
           Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
           startActivity(recordActivityIntent);
           break;
         case R.id.nav_setting:
-          Intent settingActivityIntent = new Intent(MainActivity.this, SettingsBufferPage.class);
+          Intent settingActivityIntent = new Intent(MainActivity.this, ClassroomHomeSetting.class);
           startActivity(settingActivityIntent);
           break;
         case R.id.nav_logout:
@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 //    recordBtn.setOnClickListener(onClickListener);
 //    settingBtn.setOnClickListener(onClickListener);
 
-    //TODO Replace with search beacon
     FloatingActionButton searchBeaconFab = findViewById(R.id.searchBeaconFab);
     searchBeaconFab.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -253,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
         //fragmentClass = fileFragment.class;
         break;
       case R.id.nav_record:
-        //TODO ClassList changed to Activity
         fragmentClass = HomeFragment.class;
         break;
       default:

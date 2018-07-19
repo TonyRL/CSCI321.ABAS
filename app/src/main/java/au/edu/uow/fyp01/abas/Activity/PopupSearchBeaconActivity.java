@@ -7,7 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import au.edu.uow.fyp01.abas.Adapter.DialogRecyclerViewAdapter;
+import au.edu.uow.fyp01.abas.adapter.DialogRecyclerViewAdapter;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
 import java.util.ArrayList;
