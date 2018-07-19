@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/adminStudentListAddBtn"
+    android:icon="@drawable/ic_add"
+    android:onClick="addNewStudent"
+    android:title="Add a new student"
+    app:showAsAction="ifRoom">
+  </item>
+  <item
+    android:id="@+id/adminStudentListDeleteClassBtn"
+    android:icon="@drawable/ic_delete"
+    android:onClick="deleteClass"
+    android:title="Delete this class"
+    app:showAsAction="ifRoom">
+  </item>
+</menu>

@@ -33,7 +33,7 @@
       android:name=".MainActivity"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity
-      android:label="SignUpActivityy"
+      android:label="Sign Up"
       android:name=".SignUpActivity"/>
     <activity
       android:label="Search Beacon"
@@ -48,7 +48,7 @@
       android:label="Student Record"
       android:name=".Activity.RecordActivity"/>
     <activity
-      android:label="Record Overview"
+      android:label="Grade Overview"
       android:name=".Activity.RecordOverviewActivity"/>
     <activity
       android:label="Student Comment"
@@ -95,7 +95,9 @@
     <activity
       android:label="Manage Class Subject"
       android:name=".Activity.AdminManageClassSubjectActivity"/>
-    <activity android:name=".Activity.AdminClassOptionsActivity"/>
+    <activity
+      android:label="Class Option"
+      android:name=".Activity.AdminClassOptionsActivity"/>
     <activity
       android:name=".Activity.PopupSearchBeaconActivity"
       android:theme="@style/AppTheme.PopupTheme"/>
@@ -107,12 +109,17 @@
       android:label="Subject Setting"
       android:name=".Activity.AdminSubjectSettingActivity"/>
     <activity android:name=".Activity.SchoolListActivity"/>
-    <activity android:name=".Activity.AdminManageRequestsActivity"></activity>
-    <activity android:name=".Activity.RecordOverviewActivityStatisticsDialog"></activity>
-        <activity android:name=".Activity.RecordOverviewActivityClassroomMatch" />
-        <activity android:name=".Activity.AdminManageMenuStaff" />
-        <activity android:name=".Activity.AdminManageMenuStaffDialog" />
-        <activity android:name=".Activity.SettingsBufferPage"></activity>
-    </application>
+    <activity
+      android:label="List of Request"
+      android:name=".Activity.AdminManageRequestsActivity"/>
+    <activity android:name=".Activity.RecordOverviewActivityClassroomMatch"/>
+    <activity
+      android:label="List of Staff Memeber"
+      android:name=".Activity.AdminManageMenuStaff"/>
+    <activity android:name=".Activity.AdminManageMenuStaffDialog"/>
+    <activity
+      android:label="Setting"
+      android:name=".Activity.SettingsBufferPage"/>
+  </application>
 
 </manifest>

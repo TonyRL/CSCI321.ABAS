@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment {
       progressDialog = new ProgressDialog(getContext());
       progressDialog.setIndeterminate(true);
       progressDialog.setCancelable(false);
-      progressDialog.setMessage("Loading...");
+      progressDialog.setMessage("Checking your account access");
     }
     progressDialog.show();
   }

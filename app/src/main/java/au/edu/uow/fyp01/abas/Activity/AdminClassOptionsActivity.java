@@ -175,7 +175,7 @@ public class AdminClassOptionsActivity extends AppCompatActivity {
             //BUTTON BUILDER SET STYLE HERE
             AlertDialog.Builder builder = new AlertDialog.Builder(AdminClassOptionsActivity.this,
                 THEME_DEVICE_DEFAULT_DARK);
-            builder.setTitle("Add new class: ");
+            builder.setTitle("New classname: ");
 
             // Set up the input
             final EditText input = new EditText(getApplicationContext());
@@ -204,8 +204,7 @@ public class AdminClassOptionsActivity extends AppCompatActivity {
 
                 //Toast for success
                 Toast.makeText(AdminClassOptionsActivity.this,
-                    "Class renamed to " + input_Text, Toast.LENGTH_SHORT)
-                    .show();
+                    "Class renamed to " + input_Text, Toast.LENGTH_SHORT).show();
               }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -301,6 +300,4 @@ public class AdminClassOptionsActivity extends AppCompatActivity {
     void onCallBack(List<String> classesList,
         Map<String, SchoolModel> classesMap);
   }
-
-
 }

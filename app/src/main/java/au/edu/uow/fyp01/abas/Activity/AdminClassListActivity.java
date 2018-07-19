@@ -14,11 +14,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import au.edu.uow.fyp01.abas.Model.SchoolModel;
 import au.edu.uow.fyp01.abas.Model.UserModel;
 import au.edu.uow.fyp01.abas.R;
@@ -61,7 +62,6 @@ public class AdminClassListActivity extends AppCompatActivity {
     uID = auth.getInstance().getCurrentUser().getUid();
 
     schID = "";
-
 
     UserQueryClass(new FirebaseCallBack() {
       @Override
@@ -110,57 +110,6 @@ public class AdminClassListActivity extends AppCompatActivity {
         adminClassListRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
         hideProgressDialog();
-
-        //<editor-fold desc="Add new class button">
-        Button adminClassListAddBtn = findViewById(R.id.adminClassListAddBtn);
-        adminClassListAddBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            //BUTTON BUILDER SET STYLE HERE
-            AlertDialog.Builder builder = new AlertDialog.Builder(AdminClassListActivity.this,
-                THEME_DEVICE_DEFAULT_DARK);
-            builder.setTitle("Add new class: ");
-
-            // Set up the input
-            final EditText input = new EditText(getApplicationContext());
-            input.setTextColor(Color.BLACK);
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-
-                //get the user input for comment
-                String input_Text = input.getText().toString();
-
-                //create a new unique comment ID
-                String classID = UUID.randomUUID().toString();
-
-                //handle user input into database input
-                Map<String, Object> addToDatabase = new HashMap<>();
-
-                addToDatabase.put("classname", input_Text);
-                addToDatabase.put("classID", classID);
-
-                //push to database
-                dbref.child(classID).updateChildren(addToDatabase);
-              }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-              }
-            });
-
-            builder.show();
-          }
-        });
-        //</editor-fold>
-
       }
     });
   }
@@ -184,7 +133,6 @@ public class AdminClassListActivity extends AppCompatActivity {
 
 
   private interface FirebaseCallBack {
-
     void onCallBack(UserModel userModel);
   }
 
@@ -213,7 +161,6 @@ public class AdminClassListActivity extends AppCompatActivity {
         public void onClick(View v) {
 
           //<editor-fold desc="Transaction to move to 'AdminStudentListActivity'">
-
           Intent i = new Intent(getApplicationContext(), AdminStudentListActivity.class);
 
           //Passing 'classID' & 'schID' to AdminStudentListFragment
@@ -224,7 +171,6 @@ public class AdminClassListActivity extends AppCompatActivity {
           i.putExtras(args);
 
           startActivity(i);
-
           //</editor-fold>
         }
       });
@@ -246,4 +192,56 @@ public class AdminClassListActivity extends AppCompatActivity {
       progressDialog.dismiss();
     }
   }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_adminclasslist, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Add new class button">
+  public void addNewClass(MenuItem mi) {
+    //BUTTON BUILDER SET STYLE HERE
+    AlertDialog.Builder builder = new AlertDialog.Builder(AdminClassListActivity.this,
+        THEME_DEVICE_DEFAULT_DARK);
+    builder.setTitle("Add new class: ");
+
+    // Set up the input
+    final EditText input = new EditText(getApplicationContext());
+    input.setTextColor(Color.BLACK);
+    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+
+    // Set up the buttons
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+
+        //get the user input for comment
+        String input_Text = input.getText().toString();
+
+        //create a new unique comment ID
+        String classID = UUID.randomUUID().toString();
+
+        //handle user input into database input
+        Map<String, Object> addToDatabase = new HashMap<>();
+
+        addToDatabase.put("classname", input_Text);
+        addToDatabase.put("classID", classID);
+
+        //push to database
+        dbref.child(classID).updateChildren(addToDatabase);
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+
+    builder.show();
+  }
+  //</editor-fold>
 }

@@ -194,7 +194,6 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
 
-
                     //GET TEXT FROM INPUT FIRST
                     String firstname = adminStudentDetailsFirstName.getText().toString();
                     String lastname = adminStudentDetailsLastName.getText().toString();
@@ -210,8 +209,6 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                     addToDatabase.put("sid", sID);
                     //update children of Student->SchID->ClassID->StudentID
                     dbref.updateChildren(addToDatabase);
-
-
 
                     //FIX THE BEACONID
                     beaconID = adminStudentDetailsBeaconID.getText().toString();
@@ -234,8 +231,6 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                           .child(oldBeaconID);
                       dbref2.removeValue();
                     }
-
-
 
                     Toast.makeText(AdminStudentDetailsActivity.this, "Student details saved",
                         Toast.LENGTH_SHORT)
@@ -264,8 +259,8 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                           public void onClick(DialogInterface dialog, int id) {
 
                             //Delete Beacon->SchID->BeaconID
-                            DatabaseReference dbref1 = db.getReference().child("Beacon").child(schID)
-                                .child(beaconID);
+                            DatabaseReference dbref1 = db.getReference().child("Beacon")
+                                .child(schID).child(beaconID);
                             dbref1.removeValue();
                             //Delete Student->SchID->ClassID->StudentID
                             dbref.removeValue();
