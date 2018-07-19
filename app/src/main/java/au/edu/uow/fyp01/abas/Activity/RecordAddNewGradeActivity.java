@@ -5,9 +5,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,6 +30,11 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
 
   private FirebaseDatabase db;
   private DatabaseReference dbref;
+
+  EditText recordNewNameEditView;
+  EditText recordNewGradeEditView;
+  TextView recordNewDateTextView;
+  Spinner recordNewTypeSpinner;
 
   private String sID;
   private String subjectID;
@@ -56,19 +62,14 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
     dbref = db.getReference().child("Record").child(sID)
         .child(subjectID);
 
-    final EditText recordNewNameEditView = findViewById(R.id.recordNewNameEditView);
+    recordNewNameEditView = findViewById(R.id.recordNewNameEditView);
+    recordNewGradeEditView = findViewById(R.id.recordNewGradeEditView);
+    recordNewDateTextView = findViewById(R.id.recordNewDateTextView);
 
-    final EditText recordNewGradeEditView = findViewById(R.id.recordNewGradeEditView);
-
-    final TextView recordNewDateTextView = findViewById(R.id.recordNewDateTextView);
-
-    final Spinner recordNewTypeSpinner = findViewById(R.id.recordNewTypeSpinner);
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-        RecordAddNewGradeActivity.this,
+    recordNewTypeSpinner = findViewById(R.id.recordNewTypeSpinner);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(RecordAddNewGradeActivity.this,
         android.R.layout.simple_spinner_dropdown_item, gradetypes);
     recordNewTypeSpinner.setAdapter(adapter);
-
-    //Set up date picker dialog
 
     //initialize date (default: TODAY/NOW)
     DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -76,6 +77,7 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
     setDate(dateFormat.format(todaysdate));
     setTimestamp(todaysdate.getTime());
 
+    //Set up date picker dialog
     final DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener() {
       @Override
       public void onDateSet(DatePicker view, int year1, int month1, int dayOfMonth1) {
@@ -97,8 +99,6 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
 
         //set the textview to show new date
         recordNewDateTextView.setText(dateInString);
-
-
       }
     };
 
@@ -113,56 +113,6 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
             myCalendar.get(Calendar.DAY_OF_MONTH)).show();
       }
     });
-
-    Button recordAddGradeBtn = findViewById(R.id.recordAddGradeBtn);
-    recordAddGradeBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        //Ask for user confirmation
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(RecordAddNewGradeActivity.this);
-        builder1.setMessage("Add New Record?");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-            "Yes",
-            new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int id) {
-                Map<String, Object> addToDatabase = new HashMap<>();
-
-                //create a new unique record ID
-                String recordID = UUID.randomUUID().toString();
-
-                addToDatabase.put("date", date);
-                addToDatabase.put("grade", recordNewGradeEditView.getText().toString());
-                addToDatabase.put("recordID", recordID);
-                addToDatabase.put("timestamp", timestamp);
-                addToDatabase.put("gradename", recordNewNameEditView.getText().toString());
-                addToDatabase.put("type", recordNewTypeSpinner.getSelectedItem().toString());
-
-                dbref.child(recordID).updateChildren(addToDatabase);
-
-                Toast.makeText(RecordAddNewGradeActivity.this, "Added new grade record",
-                    Toast.LENGTH_SHORT)
-                    .show();
-                finish();
-              }
-            });
-
-        builder1.setNegativeButton(
-            "No",
-            new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-              }
-            });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-        //end of confirmation
-      }
-    });
-
-
   }
 
   public void setDate(String date) {
@@ -173,5 +123,48 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
     this.timestamp = timestamp;
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_recordaddnewgrade, menu);
+    return true;
+  }
 
+  public void confirmAddNewGrade(MenuItem mi) {
+    //Ask for user confirmation
+    AlertDialog.Builder builder1 = new AlertDialog.Builder(RecordAddNewGradeActivity.this);
+    builder1.setMessage("Add New Record?");
+    builder1.setCancelable(true);
+
+    builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        Map<String, Object> addToDatabase = new HashMap<>();
+
+        //create a new unique record ID
+        String recordID = UUID.randomUUID().toString();
+
+        addToDatabase.put("date", date);
+        addToDatabase.put("grade", recordNewGradeEditView.getText().toString());
+        addToDatabase.put("recordID", recordID);
+        addToDatabase.put("timestamp", timestamp);
+        addToDatabase.put("gradename", recordNewNameEditView.getText().toString());
+        addToDatabase.put("type", recordNewTypeSpinner.getSelectedItem().toString());
+
+        dbref.child(recordID).updateChildren(addToDatabase);
+
+        Toast.makeText(RecordAddNewGradeActivity.this, "Added new grade record",
+            Toast.LENGTH_SHORT).show();
+        finish();
+      }
+    });
+
+    builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        dialog.cancel();
+      }
+    });
+
+    AlertDialog alert11 = builder1.create();
+    alert11.show();
+    //end of confirmation
+  }
 }

@@ -8,10 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import au.edu.uow.fyp01.abas.Model.RecordModel;
 import au.edu.uow.fyp01.abas.R;
@@ -85,28 +86,6 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
 
     recordGradeHistoryRecyclerView.setAdapter(firebaseRecyclerAdapter);
     hideProgressDialog();
-
-    Button recordAddBtn = findViewById(R.id.recordAddBtn);
-    recordAddBtn.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        //<editor-fold desc="Transaction to move to 'RecordAddNewGradeActivity'">
-        Intent i = new Intent(getApplicationContext(), RecordAddNewGradeActivity.class);
-
-        //Passing args to RecordEditGradeActivity
-        Bundle args = new Bundle();
-        args.putString("sID", sID);
-        args.putString("subjectID", subjectID);
-
-        i.putExtras(args);
-
-        startActivity(i);
-
-        //</editor-fold>
-      }
-    });
-
-
   }
 
 
@@ -215,4 +194,24 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
       progressDialog.dismiss();
     }
   }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_recordgradehistory, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Transaction to move to 'RecordAddNewGradeActivity'">
+  public void addRecord(MenuItem mi){
+    Intent i = new Intent(getApplicationContext(), RecordAddNewGradeActivity.class);
+
+    //Passing args to RecordEditGradeActivity
+    Bundle args = new Bundle();
+    args.putString("sID", sID);
+    args.putString("subjectID", subjectID);
+    i.putExtras(args);
+
+    startActivity(i);
+  }
+  //</editor-fold>
 }
