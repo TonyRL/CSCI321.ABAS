@@ -24,9 +24,13 @@ import java.util.Map;
 
 public class AdminSubjectSettingActivity extends AppCompatActivity {
 
-  //set up db
-  FirebaseDatabase db = FirebaseDatabase.getInstance();
+  FirebaseDatabase db;
+  DatabaseReference dbref;
 
+  EditText assignmentRatioEditText;
+  EditText quizRatioEditText;
+  EditText testRatioEditText;
+  EditText examRatioEditText;
   private String schID;
   private String subjectID;
   private SubjectSettingsModel subjectSettingsModel;
@@ -43,54 +47,28 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
     subjectID = bundle.getString("subjectID");
 
     //set up db
-    //final FirebaseDatabase db = FirebaseDatabase.getInstance();
-    final DatabaseReference dbref = db.getReference().child("SubjectSettings").child(schID)
-        .child(subjectID);
+    db = FirebaseDatabase.getInstance();
+    dbref = db.getReference().child("SubjectSettings").child(schID).child(subjectID);
 
     SubjectSettingsQueryClass(new FirebaseCallBack() {
       @Override
       public void onCallBack(SubjectSettingsModel subjectSettingsModel1) {
         subjectSettingsModel = subjectSettingsModel1;
 
-        final EditText assignmentRatioEditText = findViewById(R.id.assignmentRatioEditText);
+        assignmentRatioEditText = findViewById(R.id.assignmentRatioEditText);
         assignmentRatioEditText.setText(subjectSettingsModel.getAssignmentratio());
 
-        final EditText quizRatioEditText = findViewById(R.id.quizRatioEditText);
+        quizRatioEditText = findViewById(R.id.quizRatioEditText);
         quizRatioEditText.setText(subjectSettingsModel.getQuizratio());
 
-        final EditText testRatioEditText = findViewById(R.id.testRatioEditText);
+        testRatioEditText = findViewById(R.id.testRatioEditText);
         testRatioEditText.setText(subjectSettingsModel.getTestratio());
 
-        final EditText examRatioEditText = findViewById(R.id.examRatioEditText);
+        examRatioEditText = findViewById(R.id.examRatioEditText);
         examRatioEditText.setText(subjectSettingsModel.getExamratio());
 
         //Save Button
         Button subjectSettingsSaveBtn = findViewById(R.id.subjectSettingsSaveBtn);
-        subjectSettingsSaveBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View view) {
-            //GET TEXT FROM INPUT FIRST
-            String assignmentratio = assignmentRatioEditText.getText().toString();
-            String quizratio = quizRatioEditText.getText().toString();
-            String testratio = testRatioEditText.getText().toString();
-            String examratio = examRatioEditText.getText().toString();
-
-            //handle user input into database
-            Map<String, Object> addToDatabase = new HashMap<>();
-
-            addToDatabase.put("assignmentratio", assignmentratio);
-            addToDatabase.put("quizratio", quizratio);
-            addToDatabase.put("testratio", testratio);
-            addToDatabase.put("examratio", examratio);
-
-            //update children of SubjectSettings->SchID->Subject ID
-            dbref.updateChildren(addToDatabase);
-
-            Toast.makeText(AdminSubjectSettingActivity.this, "Subject settings saved",
-                Toast.LENGTH_SHORT)
-                .show();
-          }
-        });
 
         //Delete Button
         Button subjectSettingsDeleteBtn = findViewById(R.id.subjectSettingsDeleteBtn);
@@ -304,5 +282,31 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
     AlertDialog alert11 = builder1.create();
     alert11.show();
     //end of confirmation
+  }
+
+  //Save Button
+  public void saveChange(MenuItem mi) {
+    //GET TEXT FROM INPUT FIRST
+    String assignmentratio = assignmentRatioEditText.getText().toString();
+    String quizratio = quizRatioEditText.getText().toString();
+    String testratio = testRatioEditText.getText().toString();
+    String examratio = examRatioEditText.getText().toString();
+
+    //handle user input into database
+    Map<String, Object> addToDatabase = new HashMap<>();
+
+    addToDatabase.put("assignmentratio", assignmentratio);
+    addToDatabase.put("quizratio", quizratio);
+    addToDatabase.put("testratio", testratio);
+    addToDatabase.put("examratio", examratio);
+
+    //update children of SubjectSettings->SchID->Subject ID
+    dbref.updateChildren(addToDatabase);
+
+    Toast.makeText(AdminSubjectSettingActivity.this, "Subject settings saved", Toast.LENGTH_SHORT)
+        .show();
+
+    //Go back
+    finish();
   }
 }
