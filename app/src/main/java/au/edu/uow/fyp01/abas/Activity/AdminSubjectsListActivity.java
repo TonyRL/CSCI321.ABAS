@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -52,7 +54,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminsubjectslist);
+    setContentView(R.layout.activity_adminsubjectlist);
 
     //get current user
     uID = auth.getInstance().getCurrentUser().getUid();
@@ -79,8 +81,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
 
         //set options
         options = new FirebaseRecyclerOptions.Builder<ListOfSubjectsModel>().
-            setQuery(dbref.orderByChild("subjectname"), ListOfSubjectsModel.class)
-            .build();
+            setQuery(dbref.orderByChild("subjectname"), ListOfSubjectsModel.class).build();
 
         firebaseRecyclerAdapter =
             new FirebaseRecyclerAdapter<ListOfSubjectsModel, ListOfSubjectsModelViewHolder>(
@@ -110,74 +111,14 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
         firebaseRecyclerAdapter.startListening();
         hideProgressDialog();
 
-        //<editor-fold desc="Add new subjectbutton">
-        Button adminSubjectAddBtn = findViewById(R.id.adminSubjectAddBtn);
-        adminSubjectAddBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            //BUTTON BUILDER SET STYLE HERE
-            AlertDialog.Builder builder = new AlertDialog.Builder(AdminSubjectsListActivity.this,
-                THEME_DEVICE_DEFAULT_DARK);
-            builder.setTitle("Add new subject: ");
-
-            // Set up the input
-            final EditText input = new EditText(getApplicationContext());
-            input.setTextColor(Color.BLACK);
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-
-                //get the user input for comment
-                String input_Text = input.getText().toString();
-
-                //create a new unique comment ID
-                String subjectID = UUID.randomUUID().toString();
-
-                //handle user input into database input
-                Map<String, Object> addToDatabase = new HashMap<>();
-
-                addToDatabase.put("subjectname", input_Text);
-                addToDatabase.put("subjectID", subjectID);
-
-                //push to database
-                dbref.child(subjectID).updateChildren(addToDatabase);
-
-                //default subject settings
-                DatabaseReference dbref2 = db.getReference().child("SubjectSettings")
-                    .child(schID).child(subjectID);
-                Map<String, Object> subjectRatios = new HashMap<>();
-                subjectRatios.put("assignmentratio", "25");
-                subjectRatios.put("quizratio", "25");
-                subjectRatios.put("testratio", "25");
-                subjectRatios.put("examratio", "25");
-                dbref2.updateChildren(subjectRatios);
-              }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-              }
-            });
-
-            builder.show();
-          }
-        });
-        //</editor-fold>
-
         Button adminManageClassSubjectsBtn = findViewById(R.id.adminManageClassSubjectBtn);
         adminManageClassSubjectsBtn.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
 
-            //<editor-fold desc="move to AdminManageClassSubjectsActivity.class>
+            //<editor-fold desc="move to AdminManageClassSubjectActivity.class>
 
-            Intent i = new Intent(getApplicationContext(), AdminManageClassSubjectsActivity.class);
+            Intent i = new Intent(getApplicationContext(), AdminManageClassSubjectActivity.class);
 
             Bundle args = new Bundle();
 
@@ -194,6 +135,68 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
     }); //end query class
 
   }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_adminsubjectlist, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Add new subjectbutton">
+  public void addNewSubject(MenuItem mi) {
+    //BUTTON BUILDER SET STYLE HERE
+    AlertDialog.Builder builder = new AlertDialog.Builder(AdminSubjectsListActivity.this,
+        THEME_DEVICE_DEFAULT_DARK);
+    builder.setTitle("Add new subject: ");
+
+    // Set up the input
+    final EditText input = new EditText(getApplicationContext());
+    input.setTextColor(Color.BLACK);
+    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+
+    // Set up the buttons
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+
+        //get the user input for comment
+        String input_Text = input.getText().toString();
+
+        //create a new unique comment ID
+        String subjectID = UUID.randomUUID().toString();
+
+        //handle user input into database input
+        Map<String, Object> addToDatabase = new HashMap<>();
+
+        addToDatabase.put("subjectname", input_Text);
+        addToDatabase.put("subjectID", subjectID);
+
+        //push to database
+        dbref.child(subjectID).updateChildren(addToDatabase);
+
+        //default subject settings
+        DatabaseReference dbref2 = db.getReference().child("SubjectSettings")
+            .child(schID).child(subjectID);
+        Map<String, Object> subjectRatios = new HashMap<>();
+        subjectRatios.put("assignmentratio", "25");
+        subjectRatios.put("quizratio", "25");
+        subjectRatios.put("testratio", "25");
+        subjectRatios.put("examratio", "25");
+        dbref2.updateChildren(subjectRatios);
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+
+    builder.show();
+  }
+  //</editor-fold>
 
   private void UserQueryClass(final FirebaseCallBack firebaseCallBack) {
     FirebaseDatabase db2 = FirebaseDatabase.getInstance();
@@ -213,7 +216,6 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
   }
 
   private interface FirebaseCallBack {
-
     void onCallBack(UserModel userModel);
   }
 
@@ -268,9 +270,9 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
           Intent i = new Intent(getApplicationContext(),
-              AdminSubjectSettingsActivity.class);
+              AdminSubjectSettingActivity.class);
 
-          //passing 'subjectID', 'schID' to AdminSubjectSettingsActivity
+          //passing 'subjectID', 'schID' to AdminSubjectSettingActivity
           Bundle args = new Bundle();
           args.putString("subjectID", subjectID);
           args.putString("schID", schID);

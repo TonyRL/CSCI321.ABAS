@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/subjectSettingsSaveBtn"
+    android:icon="@drawable/ic_check"
+    android:onClick="saveChange"
+    android:title="Save changes"
+    app:showAsAction="ifRoom">
+  </item>
+  <item
+    android:id="@+id/subjectSettingsDeleteBtn"
+    android:icon="@drawable/ic_delete"
+    android:onClick="removeSubject"
+    android:title="Remove subject"
+    app:showAsAction="ifRoom">
+  </item>
+</menu>
