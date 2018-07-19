@@ -1,6 +1,7 @@
 package au.edu.uow.fyp01.abas.Activity;
 
-import android.app.Activity;
+import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -16,33 +18,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
+import au.edu.uow.fyp01.abas.Model.ListOfSubjectsModel;
+import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import au.edu.uow.fyp01.abas.Model.ListOfStudentsModel;
-import au.edu.uow.fyp01.abas.Model.ListOfSubjectsModel;
-import au.edu.uow.fyp01.abas.Model.SubjectModel;
-import au.edu.uow.fyp01.abas.Model.UserModel;
-import au.edu.uow.fyp01.abas.R;
-
-import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
-
-public class AdminSubjectsListActivity extends Activity {
+public class AdminSubjectsListActivity extends AppCompatActivity {
 
   private ProgressDialog progressDialog;
 
@@ -158,7 +149,7 @@ public class AdminSubjectsListActivity extends Activity {
 
                 //default subject settings
                 DatabaseReference dbref2 = db.getReference().child("SubjectSettings")
-                .child(schID).child(subjectID);
+                    .child(schID).child(subjectID);
                 Map<String, Object> subjectRatios = new HashMap<>();
                 subjectRatios.put("assignmentratio", "25");
                 subjectRatios.put("quizratio", "25");
@@ -277,7 +268,7 @@ public class AdminSubjectsListActivity extends Activity {
         @Override
         public void onClick(View view) {
           Intent i = new Intent(getApplicationContext(),
-                  AdminSubjectSettingsActivity.class);
+              AdminSubjectSettingsActivity.class);
 
           //passing 'subjectID', 'schID' to AdminSubjectSettingsActivity
           Bundle args = new Bundle();
@@ -289,7 +280,6 @@ public class AdminSubjectsListActivity extends Activity {
           startActivity(i);
         }
       });
-
 
       //</editor-fold>
     }
