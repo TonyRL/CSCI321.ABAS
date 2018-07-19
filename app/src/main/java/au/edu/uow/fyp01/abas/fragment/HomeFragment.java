@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
             startActivity(recordActivityIntent);
             break;
           case R.id.settingBtn:
-            Intent classroomSetting = new Intent(getActivity(), ClassroomHomeSetting.class);
+            Intent classroomSetting = new Intent(getActivity(), SettingsBufferPage.class);
             startActivity(classroomSetting);
             break;
           default:

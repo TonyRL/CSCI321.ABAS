@@ -24,4 +24,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:text="Classroom Settings" />
+
+    <Button
+        android:id="@+id/activity_settings_buffer_page_register_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_settings_buffer_page_classroom_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:text="Register to School" />
 </RelativeLayout>
