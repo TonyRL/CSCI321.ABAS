@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.AdminSubjectSettingsActivity">
+    tools:context=".Activity.AdminSubjectSettingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="0"
-                android:background="@drawable/ic_check_black_24dp"
+                android:background="@drawable/ic_check"
                 android:backgroundTint="@color/White" />
 
             <Button
@@ -42,7 +42,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_weight="0"
-                android:background="@drawable/ic_delete_24dp"
+                android:background="@drawable/ic_delete"
                 android:backgroundTint="@color/White"
                 android:textAppearance="@style/TextAppearance.AppCompat" />
 

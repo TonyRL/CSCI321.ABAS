@@ -1,22 +1,16 @@
-package au.edu.uow.fyp01.abas.Adapter;
+package au.edu.uow.fyp01.abas.adapter;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import au.edu.uow.fyp01.abas.Adapter.DialogRecyclerViewAdapter.BeaconViewHolder;
+import au.edu.uow.fyp01.abas.Activity.RecordActivity;
+import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.Model.BeaconModel;
 import au.edu.uow.fyp01.abas.Model.StudentModel;
 import au.edu.uow.fyp01.abas.Model.UserModel;
@@ -24,15 +18,21 @@ import au.edu.uow.fyp01.abas.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import org.altbeacon.beacon.Beacon;
 
-public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
 
-  private static final String TAG = "DialogRecyclerViewAdapter";
+  private static final String TAG = "RecyclerViewAdapter";
   private ArrayList<Beacon> mData = new ArrayList<>();
 
-//  public DialogRecyclerViewAdapter(ArrayList<Beacon> data) {
+//  public RecyclerViewAdapter(ArrayList<Beacon> data) {
 //    this.mData = data;
 //  }
 
@@ -40,7 +40,7 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
    * configures the layouts for the list item
    */
   @Override
-  public void onBindViewHolder(DialogRecyclerViewAdapter.BeaconViewHolder holder, int position) {
+  public void onBindViewHolder(BeaconViewHolder holder, int position) {
     Beacon beacon = mData.get(position);
 
     holder.proximity_uuid.setText(beacon.getId1().toString());
@@ -53,13 +53,11 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
    * inflate the layout for the list item
    */
   @Override
-  public DialogRecyclerViewAdapter.BeaconViewHolder onCreateViewHolder(ViewGroup parent,
-      int viewType) {
+  public BeaconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.activity_search_beacon_item, parent, false);
-    return new DialogRecyclerViewAdapter.BeaconViewHolder(view, mData);
+    return new BeaconViewHolder(view, mData);
   }
-
 
   /**
    * returns the size of the list
@@ -139,9 +137,9 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
                 BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
 
                 DatabaseReference dbref2 = db.getReference().child("Student")
-                        .child(beaconModel.getSchID())
-                        .child(beaconModel.getClassID())
-                        .child(beaconModel.getSid());
+                    .child(beaconModel.getSchID())
+                    .child(beaconModel.getClassID())
+                    .child(beaconModel.getSid());
 
                 dbref2.addValueEventListener(new ValueEventListener() {
                   @Override
@@ -150,7 +148,7 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
                       StudentModel studentModel = dataSnapshot.getValue(StudentModel.class);
                       //this shows the student ID and name owner of the beacon
                       String beaconInfo = studentModel.getSid() + ": " + studentModel.getFirstname()
-                              + " " + studentModel.getLastname();
+                          + " " + studentModel.getLastname();
                       mTv.setText(beaconInfo);
                     } else {
                       mTv.setText("Beacon not registered");
@@ -181,18 +179,71 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
     }
 
     @OnClick
-    void onClick(View view) {
-      // Bad approach:
-      // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
-      int position = getAdapterPosition();
-      String uuid = beacons.get(position).getId1().toString();
+    void onClick(final View view) {
+      //COMPLETED: grab user's SchID
+      //get user ID
+      FirebaseAuth auth = null;
+      String uID = auth.getInstance().getCurrentUser().getUid();
+
+      //set up db
+      final FirebaseDatabase db = FirebaseDatabase.getInstance();
+
+      //this one points to User nodes
+      DatabaseReference dbref1 = db.getReference().child("User").child(uID);
+      dbref1.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+
+          UserModel userModel = dataSnapshot.getValue(UserModel.class);
+          String schID = userModel.getSchID();
+          // Bad approach:
+          // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
+          int position = getAdapterPosition();
+          String uuid = beacons.get(position).getId1().toString();
+
+          DatabaseReference dbref = db.getReference().child("Beacon").child(schID).child(uuid);
+          dbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+              if (dataSnapshot.exists()) {
+
+                BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
+
+                //<editor-fold desc="Transaction to move to 'RecordFragment'">
+                Intent i = new Intent(itemView.getContext(), RecordActivity.class);
+                Log.d(TAG, "attempting to move");
+
+                //Passing 'subjectname','sID' and 'subjectID' to RecordOverviewFragment
+                Bundle args = new Bundle();
+                args.putString("classID", beaconModel.getClassID());
+                args.putString("schID", beaconModel.getSchID());
+                args.putString("sID", beaconModel.getSid());
+                i.putExtras(args);
+
+                view.getContext().startActivity(i);
+                //</editor-fold>
+
+              } else {
+                Toast.makeText(view.getContext(), "Beacon is not student ID",
+                    Toast.LENGTH_SHORT)
+                    .show();
+              }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+          }); //end inner query
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+      });//end query
 
       //Toast.makeText(itemView.getContext(), "You clicked " + uuid, Toast.LENGTH_SHORT).show();
-      Intent i = new Intent();
-      i.putExtra("UUID", uuid);
-
-      ((Activity) view.getContext()).setResult(Activity.RESULT_OK, i);
-      ((Activity) view.getContext()).finish();
     }
   }
 }

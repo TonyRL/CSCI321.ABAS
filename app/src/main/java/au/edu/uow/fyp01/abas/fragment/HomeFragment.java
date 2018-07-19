@@ -1,4 +1,4 @@
-package au.edu.uow.fyp01.abas.Fragment;
+package au.edu.uow.fyp01.abas.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
