@@ -41,8 +41,9 @@ public class SettingsBufferPage extends AppCompatActivity {
           public void onDataChange(DataSnapshot dataSnapshot) {
             for (DataSnapshot snap : dataSnapshot.getChildren()) {
               if (snap.getKey().equals("status")) {
-                if (snap.getValue().equals("registered")) {
+                if (!snap.getValue().equals("registered")) {
                   registerButton.setEnabled(true);
+                  classroomButton.setEnabled(false);
                   registerButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -51,11 +52,10 @@ public class SettingsBufferPage extends AppCompatActivity {
                     }
                   });
                 }
-                if (!snap.getValue().equals("registered")) {
+                if (snap.getValue().equals("registered")) {
                   registerButton.setEnabled(false);
                   Toast.makeText(getApplicationContext(),
-                      "Not Registered!\nPlease have your account registered", Toast.LENGTH_LONG)
-                      .show();
+                      "You cannot register to any school twice!", Toast.LENGTH_LONG).show();
                 }
               }
             }
