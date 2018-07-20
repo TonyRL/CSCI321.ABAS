@@ -13,11 +13,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import au.edu.uow.fyp01.abas.Model.CommentModel;
 import au.edu.uow.fyp01.abas.Model.UserModel;
@@ -114,70 +114,6 @@ public class CommentListActivity extends AppCompatActivity {
 
         firebaseRecyclerAdapter.startListening();
         hideProgressDialog();
-
-        //<editor-fold desc="Add button for new comments">
-        Button commentListAddBtn = findViewById(R.id.commentListAddBtn);
-        commentListAddBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            //BUTTON BUILDER SET STYLE HERE
-            AlertDialog.Builder builder = new AlertDialog.Builder(CommentListActivity.this,
-                THEME_DEVICE_DEFAULT_DARK);
-            builder.setTitle("Comment/Remark: ");
-
-            // Set up the input
-            final EditText input = new EditText(getApplicationContext());
-            input.setTextColor(Color.BLACK);
-            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                //Set up the data and timestamp
-                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = new Date();
-                //date in string
-                String strDate = dateFormat.format(date).toString();
-                long timestamp = date.getTime();
-
-                //get the user input for comment
-                String input_Text = input.getText().toString();
-
-                //create a new unique comment ID
-                String commentID = UUID.randomUUID().toString();
-
-                //handle user input into database input
-                Map<String, Object> addToDatabase = new HashMap<>();
-
-                //DONE Change TestUser to retrieved User's name
-                //<editor-fold desc="PROTOTYPE commentor is refered to as 'TestUser'>
-                addToDatabase.put("commentor", userModel.getFullname());
-                //</editor-fold>
-
-                addToDatabase.put("comment", input_Text);
-                addToDatabase.put("commentID", commentID);
-                addToDatabase.put("date", strDate);
-                addToDatabase.put("timestamp", timestamp);
-
-                //push to database
-                dbref.child(commentID).updateChildren(addToDatabase);
-              }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-              }
-            });
-
-            builder.show();
-          }
-        });
-        //</editor-fold>
-
       }
     });
   }
@@ -332,4 +268,68 @@ public class CommentListActivity extends AppCompatActivity {
     }
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_commentlist, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Add button for new comments">
+  public void addComment(MenuItem mi) {
+    //BUTTON BUILDER SET STYLE HERE
+    AlertDialog.Builder builder = new AlertDialog.Builder(CommentListActivity.this,
+        THEME_DEVICE_DEFAULT_DARK);
+    builder.setTitle("Comment/Remark: ");
+
+    // Set up the input
+    final EditText input = new EditText(getApplicationContext());
+    input.setTextColor(Color.BLACK);
+    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+
+    // Set up the buttons
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        //Set up the data and timestamp
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = new Date();
+        //date in string
+        String strDate = dateFormat.format(date);
+        long timestamp = date.getTime();
+
+        //get the user input for comment
+        String input_Text = input.getText().toString();
+
+        //create a new unique comment ID
+        String commentID = UUID.randomUUID().toString();
+
+        //handle user input into database input
+        Map<String, Object> addToDatabase = new HashMap<>();
+
+        //DONE Change TestUser to retrieved User's name
+        //<editor-fold desc="PROTOTYPE commentor is refered to as 'TestUser'>
+        addToDatabase.put("commentor", userModel.getFullname());
+        //</editor-fold>
+
+        addToDatabase.put("comment", input_Text);
+        addToDatabase.put("commentID", commentID);
+        addToDatabase.put("date", strDate);
+        addToDatabase.put("timestamp", timestamp);
+
+        //push to database
+        dbref.child(commentID).updateChildren(addToDatabase);
+      }
+    });
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+
+    builder.show();
+  }
+  //</editor-fold>
 }

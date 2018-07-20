@@ -108,7 +108,9 @@
     <activity
       android:label="Subject Setting"
       android:name=".Activity.AdminSubjectSettingActivity"/>
-    <activity android:name=".Activity.SchoolListActivity"/>
+    <activity
+      android:label="List of School"
+      android:name=".Activity.SchoolListActivity"/>
     <activity
       android:label="List of Request"
       android:name=".Activity.AdminManageRequestsActivity"/>
