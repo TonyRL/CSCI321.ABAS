@@ -146,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
 
   /**
    * Check if user enter proper credential
+   *
    * @return the form checking result
    */
   private boolean isFormValid() {

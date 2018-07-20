@@ -48,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
   private DatabaseReference dbRef;
 
   private ProgressDialog progressDialog;
-  
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
