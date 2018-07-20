@@ -46,7 +46,7 @@ public class AdminManageMenu extends AppCompatActivity {
     adminManageRequestMenu.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent i = new Intent(getApplicationContext(), AdminManageRequestsActivity.class);
+        Intent i = new Intent(getApplicationContext(), AdminManageRequestActivity.class);
         startActivity(i);
       }
     });

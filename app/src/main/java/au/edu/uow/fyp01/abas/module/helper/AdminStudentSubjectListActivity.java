@@ -57,7 +57,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
 
     Bundle bundle = getIntent().getExtras();
 
-    //Grabbing args (classID and schID from AdminStudentDetailsActivity)
+    //Grabbing args (classID and schID from AdminStudentDetailActivity)
     schID = bundle.getString("schID");
     sID = bundle.getString("sID");
     firstname = bundle.getString("firstname");

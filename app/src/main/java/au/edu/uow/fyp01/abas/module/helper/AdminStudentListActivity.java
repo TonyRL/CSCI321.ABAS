@@ -171,11 +171,11 @@ public class AdminStudentListActivity extends AppCompatActivity {
       studentButtonView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          //<editor-fold desc="Transaction to move to 'AdminStudentDetailsActivity'">
+          //<editor-fold desc="Transaction to move to 'AdminStudentDetailActivity'">
 
-          Intent i = new Intent(getApplicationContext(), AdminStudentDetailsActivity.class);
+          Intent i = new Intent(getApplicationContext(), AdminStudentDetailActivity.class);
 
-          //Passing 'sID','classID','schID' to AdminStudentDetailsActivity
+          //Passing 'sID','classID','schID' to AdminStudentDetailActivity
           Bundle args = new Bundle();
 
           args.putString("classID", classID);
