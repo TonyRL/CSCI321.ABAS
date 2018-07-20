@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
@@ -9,18 +10,18 @@
     android:id="@+id/nameTextView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="40dp"
+    android:layout_marginTop="12dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:text="@string/name"
     app:layout_constraintEnd_toStartOf="@+id/nameEditText"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="@+id/nameEditText"/>
   <EditText
     android:id="@+id/nameEditText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="16dp"
     android:layout_marginEnd="32dp"
     android:ems="10"
     android:hint="@string/first_name_last_name"
@@ -31,7 +32,7 @@
     android:id="@+id/emailEditText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="32dp"
     android:ems="10"
     android:hint="@string/email"
@@ -42,40 +43,40 @@
     android:id="@+id/emailTextView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="12dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:text="@string/email_w_colon"
     app:layout_constraintEnd_toStartOf="@+id/emailEditText"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/nameEditText"/>
+    app:layout_constraintTop_toTopOf="@+id/emailEditText"/>
   <EditText
     android:id="@+id/passwordEditText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="32dp"
     android:ems="10"
     android:hint="@string/password"
     android:inputType="textPassword"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/emailEditText"/>
+    app:layout_constraintTop_toBottomOf="@+id/staffIdEditText"/>
   <TextView
     android:id="@+id/passwordTextView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
+    android:layout_marginTop="12dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:text="@string/password_w_colon"
     app:layout_constraintEnd_toStartOf="@+id/passwordEditText"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/emailEditText"/>
+    app:layout_constraintTop_toTopOf="@+id/passwordEditText"/>
   <EditText
     android:id="@+id/confPasswordEditText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="32dp"
     android:ems="10"
     android:hint="@string/confirm_password"
@@ -104,4 +105,45 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"/>
+  <TextView
+    android:id="@+id/staffIdTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:text="@string/staff_id_w_colon"
+    app:layout_constraintEnd_toStartOf="@+id/staffIdEditText"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/staffIdEditText"/>
+  <EditText
+    android:id="@+id/staffIdEditText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="32dp"
+    android:ems="10"
+    android:hint="@string/staff_id"
+    android:inputType="textPersonName"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/titleSpinner"/>
+  <Spinner
+    android:id="@+id/titleSpinner"
+    android:layout_width="183dp"
+    android:layout_height="45dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="32dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/emailEditText"/>
+  <TextView
+    android:id="@+id/titleTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:text="@string/title_w_colon"
+    app:layout_constraintEnd_toStartOf="@+id/titleSpinner"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/titleSpinner"/>
 </android.support.constraint.ConstraintLayout>

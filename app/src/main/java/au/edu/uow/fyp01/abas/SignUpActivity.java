@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,11 +31,16 @@ public class SignUpActivity extends AppCompatActivity {
 
   private EditText nameText;
   private EditText emailText;
+  private EditText staffIdText;
+  private Spinner titleSpinner;
   private EditText passwordText;
   private EditText confPasswordText;
 
   private Button signUpBtn;
   private Button backBtn;
+
+  private String[] title = {"Mr.", "Mrs.", "Ms.", "Dr."};
+
   private View.OnClickListener onClickListener = new OnClickListener() {
     @SuppressLint("SetTextI18n")
     @Override
@@ -58,6 +65,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     nameText = findViewById(R.id.nameEditText);
     emailText = findViewById(R.id.emailEditText);
+    staffIdText = findViewById(R.id.staffIdEditText);
+    titleSpinner = findViewById(R.id.titleSpinner);
     passwordText = findViewById(R.id.passwordEditText);
     confPasswordText = findViewById(R.id.confPasswordEditText);
     signUpBtn = findViewById(R.id.signUpBtn);
@@ -67,6 +76,12 @@ public class SignUpActivity extends AppCompatActivity {
     backBtn.setOnClickListener(onClickListener);
 
     firebaseAuth = FirebaseAuth.getInstance();
+
+    ArrayAdapter<CharSequence> adapter = ArrayAdapter
+        .createFromResource(this, R.array.user_title_array, android.R.layout.simple_spinner_item);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    titleSpinner.setAdapter(adapter);
+    titleSpinner.setSelection(0);
   }
 
   private void signUp() {
@@ -88,11 +103,16 @@ public class SignUpActivity extends AppCompatActivity {
               dbRef.child("email").setValue(emailText.getText().toString());
               //noinspection SpellCheckingInspection
               dbRef.child("fullname").setValue(nameText.getText().toString());
+              dbRef.child("staffID").setValue(staffIdText.getText().toString());
+              dbRef.child("status").setValue("unregistered");
+              dbRef.child("title").setValue(titleSpinner.getSelectedItem().toString());
 
               hideProgressDialog();
 
               Intent mainActivityIntent = new Intent(SignUpActivity.this, MainActivity.class);
               startActivity(mainActivityIntent);
+              finish();
+              overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
             } else {
               Log.w(this.getClass().getSimpleName(), "createUserWithEmail:failure",
                   task.getException());
@@ -117,10 +137,17 @@ public class SignUpActivity extends AppCompatActivity {
     }
   }
 
+  @Override
+  public void onBackPressed() {
+    finish();
+    this.overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
+  }
+
   private boolean isFormValid() {
     boolean valid = true;
     String name = nameText.getText().toString();
     String email = emailText.getText().toString();
+    String staffId = staffIdText.getText().toString();
     String password = passwordText.getText().toString();
     String confPassword = confPasswordText.getText().toString();
 
@@ -139,6 +166,14 @@ public class SignUpActivity extends AppCompatActivity {
       valid = false;
     } else {
       emailText.setError(null);
+    }
+
+    if ((TextUtils.isEmpty(staffId)) && valid) {
+      staffIdText.setError("Please enter your ID");
+      staffIdText.requestFocus();
+      valid = false;
+    } else {
+      staffIdText.setError(null);
     }
 
     if (TextUtils.isEmpty(password) && valid) {

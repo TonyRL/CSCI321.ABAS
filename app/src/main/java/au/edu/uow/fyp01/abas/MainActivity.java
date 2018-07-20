@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginActivityIntent);
+            overridePendingTransition(R.anim.anim_slide_in_to_left, R.anim.anim_slide_out_to_left);
             finish();
             break;
 
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
           FirebaseAuth.getInstance().signOut();
           Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
           startActivity(loginActivityIntent);
+          overridePendingTransition(R.anim.anim_slide_in_to_left, R.anim.anim_slide_out_to_left);
           finish();
         } else if (item.getItemId() == R.id.nav_setting) {
           Intent settingActivityIntent = new Intent(MainActivity.this, SettingsBufferPage.class);
@@ -134,9 +136,13 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onClick(View view) {
         //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
-            SearchBeaconActivity.class);
-        startActivity(searchBeaconActivityIntent);
+        if (isUserRegistered) {
+          Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
+              SearchBeaconActivity.class);
+          startActivity(searchBeaconActivityIntent);
+        } else {
+          showUnregisteredUserWarning();
+        }
       }
     });
 
@@ -323,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private interface FirebaseCallBack {
+
     void onCallBack(UserModel userModel);
   }
 }
