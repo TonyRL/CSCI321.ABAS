@@ -55,6 +55,11 @@ public class SearchBeaconRecyclerDividerItemDecoration extends RecyclerView.Item
     }
   }
 
+  /**
+   * Change the orientation of recycler view
+   *
+   * @param orientation preferred orientation
+   */
   private void setOrientation(int orientation) {
     if (orientation != HORIZONTAL_LIST && orientation != VERTICAL_LIST) {
       throw new IllegalArgumentException("invalid orientation");

@@ -72,28 +72,33 @@ public class FileDownloadHome extends AppCompatActivity {
 
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
-            storageRef = storageRef.child("Shared_Files/"+model.getID());
-
+            storageRef = storageRef.child("Shared_Files/" + model.getID());
 
             try {
-             final File localFile = File.createTempFile(model.getFileName(),"."+model.getFile_Type(),getApplicationContext().getExternalFilesDir("Download"));
-              storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
+              final File localFile = File
+                  .createTempFile(model.getFileName(), "." + model.getFile_Type(),
+                      getApplicationContext().getExternalFilesDir("Download"));
+              storageRef.getFile(localFile)
+                  .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                      Toast.makeText(getApplicationContext(),
+                          Environment.getExternalStorageDirectory().getAbsolutePath(),
+                          Toast.LENGTH_LONG).show();
 
 //                  File fileN = new File(localFile,model.getFileName()+"."+model.getFile_Type())
 //                  File file =new File(Environment.getExternalStorageDirectory().getAbsolutePath(),fileN);
-                  DownloadManager downloadManager = (DownloadManager) getApplicationContext().getSystemService(DOWNLOAD_SERVICE);
-                  downloadManager.addCompletedDownload(localFile.getName(),localFile.getName(),true,"*/*",localFile.getAbsolutePath(),localFile.length(),true);
+                      DownloadManager downloadManager = (DownloadManager) getApplicationContext()
+                          .getSystemService(DOWNLOAD_SERVICE);
+                      downloadManager
+                          .addCompletedDownload(localFile.getName(), localFile.getName(), true,
+                              "*/*", localFile.getAbsolutePath(), localFile.length(), true);
 
-                }
-              });
+                    }
+                  });
             } catch (IOException e) {
               e.printStackTrace();
             }
-
-
 
 
           }
@@ -136,7 +141,7 @@ Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory()
     TextView timeExpireDisplay;
     String ID = null;
 
-    public FileReceiveHomeHolder(View itemView) {
+    FileReceiveHomeHolder(View itemView) {
       super(itemView);
       mView = itemView;
     }
@@ -177,7 +182,7 @@ Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory()
 
     private int halfSpace;
 
-    public SpacesItemDecoration(int space) {
+    SpacesItemDecoration(int space) {
       this.halfSpace = space / 2;
     }
 
