@@ -25,15 +25,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import au.edu.uow.fyp01.abas.module.auth.LoginActivity;
-import au.edu.uow.fyp01.abas.module.helper.AdminManageMenu;
-import au.edu.uow.fyp01.abas.module.record.ClassListActivity;
-import au.edu.uow.fyp01.abas.module.file.FileSharingHome;
-import au.edu.uow.fyp01.abas.module.setting.SchoolListActivity;
-import au.edu.uow.fyp01.abas.module.bluetooth.SearchBeaconActivity;
-import au.edu.uow.fyp01.abas.module.setting.SettingsBufferPage;
 import au.edu.uow.fyp01.abas.fragment.HomeFragment;
 import au.edu.uow.fyp01.abas.model.UserModel;
+import au.edu.uow.fyp01.abas.module.auth.LoginActivity;
+import au.edu.uow.fyp01.abas.module.bluetooth.SearchBeaconActivity;
+import au.edu.uow.fyp01.abas.module.file.FileSharingHome;
+import au.edu.uow.fyp01.abas.module.helper.AdminManageMenu;
+import au.edu.uow.fyp01.abas.module.record.ClassListActivity;
+import au.edu.uow.fyp01.abas.module.setting.SchoolListActivity;
+import au.edu.uow.fyp01.abas.module.setting.SettingsBufferPage;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,9 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
   protected static final String TAG = "MainActivity";
   private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-  private DrawerLayout drawer;
-  private Toolbar toolbar;
-  private NavigationView navigationView;
+
+  @BindView(R.id.toolbar)
+  Toolbar toolbar;
+  @BindView(R.id.drawer_layout)
+  DrawerLayout drawer;
+  @BindView(R.id.nav_view)
+  NavigationView navigationView;
+  @BindView(R.id.searchBeaconFab)
+  FloatingActionButton searchBeaconFab;
 
   private FirebaseDatabase db;
   private DatabaseReference dbRef;
@@ -127,33 +136,17 @@ public class MainActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    toolbar = findViewById(R.id.toolbar);
+    ButterKnife.bind(this);
+
     setSupportActionBar(toolbar);
 
     db = FirebaseDatabase.getInstance();
 
-    FloatingActionButton searchBeaconFab = findViewById(R.id.searchBeaconFab);
-    searchBeaconFab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-        if (isUserRegistered) {
-          Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
-              SearchBeaconActivity.class);
-          startActivity(searchBeaconActivityIntent);
-        } else {
-          showUnregisteredUserWarning();
-        }
-      }
-    });
-
-    drawer = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
     drawer.addDrawerListener(toggle);
     toggle.syncState();
 
-    navigationView = findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
     inflateHomeFragment(R.id.nav_home);
 
@@ -196,10 +189,29 @@ public class MainActivity extends AppCompatActivity {
     verifyLocation();
   }
 
+  /**
+   * One click to search beacon
+   */
+  @OnClick
+  public void clickSearchBeaconFab(View view) {
+    if (isUserRegistered) {
+      Intent searchBeaconActivityIntent = new Intent(MainActivity.this, SearchBeaconActivity.class);
+      startActivity(searchBeaconActivityIntent);
+    } else {
+      showUnregisteredUserWarning();
+    }
+  }
+
+  /**
+   * Hide admin helper from non-admin user
+   */
   private void hideAdminBtn() {
     navigationView.getMenu().findItem(R.id.nav_admin).setVisible(false);
   }
 
+  /**
+   * Check the device: whether location access is granted
+   */
   private void verifyLocation() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       // Android M Permission check
@@ -308,6 +320,9 @@ public class MainActivity extends AppCompatActivity {
     tx.replace(R.id.activity_main_content, fragment).addToBackStack(null).commit();
   }
 
+  /**
+   * Tell the user that their account are not linked to any school
+   */
   public void showUnregisteredUserWarning() {
     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Error").setMessage("Unregistered user!");
@@ -321,6 +336,11 @@ public class MainActivity extends AppCompatActivity {
     dialog.show();
   }
 
+  /**
+   * Check user account information stored on database
+   *
+   * @param firebaseCallBack the firebase database user data model
+   */
   private void checkUserAccount(final FirebaseCallBack firebaseCallBack) {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     dbRef = db.getReference().child("User").child(uid);
