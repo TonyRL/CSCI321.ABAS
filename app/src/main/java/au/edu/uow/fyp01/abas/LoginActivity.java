@@ -108,7 +108,8 @@ public class LoginActivity extends AppCompatActivity {
 
               Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
               startActivity(mainActivityIntent);
-              overridePendingTransition(R.anim.anim_slide_in_to_right, R.anim.anim_slide_out_to_right);
+              overridePendingTransition(R.anim.anim_slide_in_to_right,
+                  R.anim.anim_slide_out_to_right);
               finish();
             } else {
               if (task.getException() != null) {

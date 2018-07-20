@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="au.edu.uow.fyp01.abas.activity.SettingsBufferPage">
+
+  <TextView
+    android:id="@+id/textView48"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:text="Setting Options:"
+    android:textColor="@android:color/black"/>
+
+  <Button
+    android:id="@+id/activity_settings_buffer_page_classroom_btn"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="au.edu.uow.fyp01.abas.Activity.SettingsBufferPage">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="25dp"
+    android:layout_below="@+id/textView48"
+    android:layout_centerHorizontal="true"
+    android:text="Classroom Settings"/>
 
-    <TextView
-        android:id="@+id/textView48"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="Setting Options:"
-        android:textColor="@android:color/black" />
-
-    <Button
-        android:id="@+id/activity_settings_buffer_page_classroom_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView48"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:text="Classroom Settings" />
-
-    <Button
-        android:id="@+id/activity_settings_buffer_page_register_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_settings_buffer_page_classroom_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:text="Register to School" />
+  <Button
+    android:id="@+id/activity_settings_buffer_page_register_btn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="35dp"
+    android:layout_below="@+id/activity_settings_buffer_page_classroom_btn"
+    android:layout_centerHorizontal="true"
+    android:text="Register to School"/>
 </RelativeLayout>

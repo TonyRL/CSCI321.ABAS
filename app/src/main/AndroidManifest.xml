@@ -37,91 +37,91 @@
       android:name=".SignUpActivity"/>
     <activity
       android:label="Search Beacon"
-      android:name=".Activity.SearchBeaconActivity"/>
+      android:name=".activity.SearchBeaconActivity"/>
     <activity
       android:label="Class List"
-      android:name=".Activity.ClassListActivity"/>
+      android:name=".activity.ClassListActivity"/>
     <activity
       android:label="Student List"
-      android:name=".Activity.StudentListActivity"/>
+      android:name=".activity.StudentListActivity"/>
     <activity
       android:label="Student Record"
-      android:name=".Activity.RecordActivity"/>
+      android:name=".activity.RecordActivity"/>
     <activity
       android:label="Grade Overview"
-      android:name=".Activity.RecordOverviewActivity"/>
+      android:name=".activity.RecordOverviewActivity"/>
     <activity
       android:label="Student Comment"
-      android:name=".Activity.CommentListActivity"/>
+      android:name=".activity.CommentListActivity"/>
     <activity
       android:label="Activity.FileSharingHome"
-      android:name=".Activity.FileSharingHome"/>
+      android:name=".activity.FileSharingHome"/>
     <activity
       android:label="Share File"
-      android:name=".Activity.FileSharingAdd"/>
+      android:name=".activity.FileSharingAdd"/>
     <activity
       android:label="Download File"
-      android:name=".Activity.FileDownloadHome"/>
+      android:name=".activity.FileDownloadHome"/>
     <activity
       android:label="Class List"
-      android:name=".Activity.AdminClassListActivity"/>
+      android:name=".activity.AdminClassListActivity"/>
     <activity
       android:label="Student List"
-      android:name=".Activity.AdminStudentListActivity"/>
+      android:name=".activity.AdminStudentListActivity"/>
     <activity
       android:label="Add New Student"
-      android:name=".Activity.AdminAddStudentActivity"/>
+      android:name=".activity.AdminAddStudentActivity"/>
     <activity
       android:label="Student Detail"
-      android:name=".Activity.AdminStudentDetailsActivity"/>
+      android:name=".activity.AdminStudentDetailsActivity"/>
     <activity
       android:label="Activity.AdminStudentSubjectListActivity"
-      android:name=".Activity.AdminStudentSubjectListActivity"/>
+      android:name=".activity.AdminStudentSubjectListActivity"/>
     <activity
       android:label="Admin Helper"
-      android:name=".Activity.AdminManageMenu"/>
+      android:name=".activity.AdminManageMenu"/>
     <activity
       android:label="Grade History"
-      android:name=".Activity.RecordGradeHistoryActivity"/>
+      android:name=".activity.RecordGradeHistoryActivity"/>
     <activity
       android:label="Add New Grade"
-      android:name=".Activity.RecordAddNewGradeActivity"/>
+      android:name=".activity.RecordAddNewGradeActivity"/>
     <activity
       android:label="Edit Grade"
-      android:name=".Activity.RecordEditGradeActivity"/>
+      android:name=".activity.RecordEditGradeActivity"/>
     <activity
       android:label="Subject List"
-      android:name=".Activity.AdminSubjectsListActivity"/>
+      android:name=".activity.AdminSubjectsListActivity"/>
     <activity
       android:label="Manage Class Subject"
-      android:name=".Activity.AdminManageClassSubjectActivity"/>
+      android:name=".activity.AdminManageClassSubjectActivity"/>
     <activity
       android:label="Class Option"
-      android:name=".Activity.AdminClassOptionsActivity"/>
+      android:name=".activity.AdminClassOptionsActivity"/>
     <activity
-      android:name=".Activity.PopupSearchBeaconActivity"
+      android:name=".activity.PopupSearchBeaconActivity"
       android:theme="@style/AppTheme.PopupTheme"/>
     <activity
       android:label="Setting"
-      android:name=".Activity.ClassroomHomeSetting"/>
-    <activity android:name=".Activity.AdminAddUserActivity"/>
+      android:name=".activity.ClassroomHomeSetting"/>
+    <activity android:name=".activity.AdminAddUserActivity"/>
     <activity
       android:label="Subject Setting"
-      android:name=".Activity.AdminSubjectSettingActivity"/>
+      android:name=".activity.AdminSubjectSettingActivity"/>
     <activity
       android:label="List of School"
-      android:name=".Activity.SchoolListActivity"/>
+      android:name=".activity.SchoolListActivity"/>
     <activity
       android:label="List of Request"
-      android:name=".Activity.AdminManageRequestsActivity"/>
-    <activity android:name=".Activity.RecordOverviewActivityClassroomMatch"/>
+      android:name=".activity.AdminManageRequestsActivity"/>
+    <activity android:name=".activity.RecordOverviewActivityClassroomMatch"/>
     <activity
       android:label="List of Staff Member"
-      android:name=".Activity.AdminManageMenuStaff"/>
-    <activity android:name=".Activity.AdminManageMenuStaffDialog"/>
+      android:name=".activity.AdminManageMenuStaff"/>
+    <activity android:name=".activity.AdminManageMenuStaffDialog"/>
     <activity
       android:label="Setting"
-      android:name=".Activity.SettingsBufferPage"/>
+      android:name=".activity.SettingsBufferPage"/>
   </application>
 
 </manifest>

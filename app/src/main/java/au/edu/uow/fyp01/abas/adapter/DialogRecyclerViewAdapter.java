@@ -16,9 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import au.edu.uow.fyp01.abas.adapter.DialogRecyclerViewAdapter.BeaconViewHolder;
-import au.edu.uow.fyp01.abas.Model.BeaconModel;
-import au.edu.uow.fyp01.abas.Model.StudentModel;
-import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.model.BeaconModel;
+import au.edu.uow.fyp01.abas.model.StudentModel;
+import au.edu.uow.fyp01.abas.model.UserModel;
 import au.edu.uow.fyp01.abas.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
