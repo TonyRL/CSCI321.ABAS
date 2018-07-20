@@ -1,8 +1,8 @@
 # CSCI321.ABAS
 Account | Password | Role
 ------- | -------- | -------
-testacc1@test.com | test123 | -
-test123@test.com | test123 | -
+testacc1@test.com | test123 | Super Admin
+test123@test.com | test123 | Unregistered User
 
 
 Build status  
