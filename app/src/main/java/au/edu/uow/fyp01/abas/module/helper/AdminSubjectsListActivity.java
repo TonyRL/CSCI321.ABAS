@@ -54,7 +54,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminsubjectlist);
+    setContentView(R.layout.activity_admin_subject_list);
 
     //get current user
     uID = auth.getInstance().getCurrentUser().getUid();
@@ -101,7 +101,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
 
                 View view1 =
                     LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.recyclermodellayout_singlebutton,
+                        .inflate(R.layout.recycler_model_layout_single_button,
                             parent, false);
                 return new ListOfSubjectsModelViewHolder(view1);
               }
@@ -138,7 +138,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_adminsubjectlist, menu);
+    getMenuInflater().inflate(R.menu.menu_admin_subject_list, menu);
     return true;
   }
 

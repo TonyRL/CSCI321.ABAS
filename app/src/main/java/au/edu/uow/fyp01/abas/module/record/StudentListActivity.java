@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import au.edu.uow.fyp01.abas.model.StudentModel;
 import au.edu.uow.fyp01.abas.R;
-import au.edu.uow.fyp01.abas.module.record.RecordActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +33,7 @@ public class StudentListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_studentlist);
+    setContentView(R.layout.activity_student_list);
     Bundle bundle = getIntent().getExtras();
 
     //Grabbing args (classID and schID from ClassListFragment)
@@ -78,7 +77,7 @@ public class StudentListActivity extends AppCompatActivity {
           public StudentModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
               int viewType) {
             View view1 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                .inflate(R.layout.recycler_model_layout_single_button, parent, false);
             return new StudentModelViewHolder(view1);
           }
         };
@@ -131,7 +130,7 @@ public class StudentListActivity extends AppCompatActivity {
     }
 
     public void setButton() {
-      //points to recyclermodellayout_singlebutton
+      //points to recycler_model_layout_single_button
       //The button is for each student (e.g. 1A, 1B, 1C)
       final Button studentButtonView = mView.findViewById(R.id.modelSingleBtn);
 

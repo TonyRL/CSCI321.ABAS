@@ -55,7 +55,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_recordoverview);
+    setContentView(R.layout.activity_record_overview);
 
     Bundle bundle = getIntent().getExtras();
     //Grabbing args (sID, subject from RecordFragment)
@@ -579,7 +579,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_recordoverview, menu);
+    getMenuInflater().inflate(R.menu.menu_record_overview, menu);
     return true;
   }
 

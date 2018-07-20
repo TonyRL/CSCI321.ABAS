@@ -79,7 +79,7 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
           @Override
           public RecordModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view1 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclermodellayout_grade, parent, false);
+                .inflate(R.layout.recycler_model_layout_grade, parent, false);
             return new RecordModelViewHolder(view1);
           }
         };
@@ -149,7 +149,7 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
     }
 
     public void setButton() {
-      //points to recyclermodellayout_grade
+      //points to recycler_model_layout_grade
       //The button is for each record
       final Button recordButtonView = mView.findViewById(R.id.editGradeBtn);
       recordButtonView.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +197,7 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_recordgradehistory, menu);
+    getMenuInflater().inflate(R.menu.menu_record_grade_history, menu);
     return true;
   }
 

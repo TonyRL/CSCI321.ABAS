@@ -51,7 +51,7 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_recordaddnewgradeactivity);
+    setContentView(R.layout.activity_record_add_new_grade);
 
     Bundle bundle = getIntent().getExtras();
     sID = bundle.getString("sID");
@@ -125,7 +125,7 @@ public class RecordAddNewGradeActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_recordaddnewgrade, menu);
+    getMenuInflater().inflate(R.menu.menu_record_add_new_grade, menu);
     return true;
   }
 

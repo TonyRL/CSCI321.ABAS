@@ -25,7 +25,7 @@ public class AdminAddStudentActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminaddstudent);
+    setContentView(R.layout.activity_admin_add_student);
     Bundle bundle = getIntent().getExtras();
 
     //Grabbing args (classID and schID from AdminStudentListActivity)

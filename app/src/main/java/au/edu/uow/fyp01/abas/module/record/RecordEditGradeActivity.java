@@ -56,7 +56,7 @@ public class RecordEditGradeActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_recordeditgrade);
+    setContentView(R.layout.activity_record_edit_grade);
     Bundle bundle = getIntent().getExtras();
 
     sID = bundle.getString("sID");
@@ -174,7 +174,7 @@ public class RecordEditGradeActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_recordeditgrade, menu);
+    getMenuInflater().inflate(R.menu.menu_record_edit_grade, menu);
     return true;
   }
 

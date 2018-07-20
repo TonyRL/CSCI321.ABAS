@@ -49,7 +49,7 @@ public class AdminManageRequestsActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminmanagerequests);
+    setContentView(R.layout.activity_admin_manage_request);
 
     showProgressDialog();
 
@@ -98,7 +98,7 @@ public class AdminManageRequestsActivity extends AppCompatActivity {
               public RequestListModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton,
+                    .inflate(R.layout.recycler_model_layout_single_button,
                         parent, false);
                 return new RequestListModelViewHolder(view1);
               }

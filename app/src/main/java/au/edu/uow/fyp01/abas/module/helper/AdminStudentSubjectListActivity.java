@@ -53,7 +53,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminstudentsubjectlist);
+    setContentView(R.layout.activity_admin_student_subject_list);
 
     Bundle bundle = getIntent().getExtras();
 
@@ -111,7 +111,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
               public SubjectModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                    .inflate(R.layout.recycler_model_layout_single_button, parent, false);
                 return new SubjectModelViewHolder(view1);
               }
             };

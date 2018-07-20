@@ -43,7 +43,7 @@ public class AdminClassOptionsActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminclassoptions);
+    setContentView(R.layout.activity_admin_class_option);
 
     Bundle bundle = getIntent().getExtras();
 

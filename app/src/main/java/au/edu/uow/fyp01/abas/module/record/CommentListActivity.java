@@ -58,7 +58,7 @@ public class CommentListActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_commentlist);
+    setContentView(R.layout.activity_comment_list);
     Bundle bundle = getIntent().getExtras();
 
     //Grabbing args (sID and subject from RecordFragment)
@@ -105,7 +105,7 @@ public class CommentListActivity extends AppCompatActivity {
               public CommentModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_comment, parent, false);
+                    .inflate(R.layout.recycler_model_layout_comment, parent, false);
                 return new CommentModelViewHolder(view1);
               }
             };
@@ -270,7 +270,7 @@ public class CommentListActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_commentlist, menu);
+    getMenuInflater().inflate(R.menu.menu_comment_list, menu);
     return true;
   }
 

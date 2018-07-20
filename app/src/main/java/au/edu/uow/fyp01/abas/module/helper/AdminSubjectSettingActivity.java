@@ -36,7 +36,7 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminsubjectsetting);
+    setContentView(R.layout.activity_admin_subject_setting);
 
     Bundle bundle = getIntent().getExtras();
 
@@ -103,7 +103,7 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_adminsubjectsetting, menu);
+    getMenuInflater().inflate(R.menu.menu_admin_subject_setting, menu);
     return true;
   }
 

@@ -46,7 +46,7 @@ public class SchoolListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_schoollist);
+    setContentView(R.layout.activity_school_list);
 
     showProgressDialog();
 
@@ -86,7 +86,7 @@ public class SchoolListActivity extends AppCompatActivity {
               public SchoolInfoModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                    .inflate(R.layout.recycler_model_layout_single_button, parent, false);
                 return new SchoolInfoModelViewHolder(view1);
               }
             };

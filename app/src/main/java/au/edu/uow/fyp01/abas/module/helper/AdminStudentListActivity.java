@@ -39,7 +39,7 @@ public class AdminStudentListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminstudentlist);
+    setContentView(R.layout.activity_admin_student_list);
     Bundle bundle = getIntent().getExtras();
 
     //Grabbing args (classID and schID from ClassListActivity)
@@ -82,7 +82,7 @@ public class AdminStudentListActivity extends AppCompatActivity {
           public StudentModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
               int viewType) {
             View view1 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                .inflate(R.layout.recycler_model_layout_single_button, parent, false);
             return new StudentModelViewHolder(view1);
           }
         };
@@ -158,7 +158,7 @@ public class AdminStudentListActivity extends AppCompatActivity {
     }
 
     public void setButton() {
-      //points to recyclermodellayout_singlebutton
+      //points to recycler_model_layout_single_button
       //The button is for each student (e.g. 1A, 1B, 1C)
       final Button studentButtonView = mView.findViewById(R.id.modelSingleBtn);
 
@@ -211,7 +211,7 @@ public class AdminStudentListActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_adminstudentlist, menu);
+    getMenuInflater().inflate(R.menu.menu_admin_student_list, menu);
     return true;
   }
 

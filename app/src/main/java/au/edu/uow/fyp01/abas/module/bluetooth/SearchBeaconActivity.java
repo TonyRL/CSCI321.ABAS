@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter;
+import au.edu.uow.fyp01.abas.adapter.SearchBeaconRecyclerViewAdapter;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   private ArrayList<Beacon> mFoundBeacons = new ArrayList<>();
   private RecyclerView recyclerView;
-  private RecyclerViewAdapter adapter;
+  private SearchBeaconRecyclerViewAdapter adapter;
   private RecyclerView.LayoutManager layoutManager;
 
   private BeaconManager beaconManager;
@@ -47,12 +47,12 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
 
   private void initData() {
     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-    //adapter = new RecyclerViewAdapter(getData());
-    adapter = new RecyclerViewAdapter();
+    //adapter = new SearchBeaconRecyclerViewAdapter(getData());
+    adapter = new SearchBeaconRecyclerViewAdapter();
   }
 
   private void initView() {
-    recyclerView = findViewById(R.id.recyclerView);
+    recyclerView = findViewById(R.id.searchBeaconRecyclerView);
     recyclerView.setLayoutManager(layoutManager);
     recyclerView.setAdapter(adapter);
     recyclerView.setItemAnimator(new DefaultItemAnimator());

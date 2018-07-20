@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.module.record.RecordActivity;
-import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
+import au.edu.uow.fyp01.abas.adapter.SearchBeaconRecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.model.BeaconModel;
 import au.edu.uow.fyp01.abas.model.StudentModel;
 import au.edu.uow.fyp01.abas.model.UserModel;
@@ -27,12 +27,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import org.altbeacon.beacon.Beacon;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
+public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
 
-  private static final String TAG = "RecyclerViewAdapter";
+  private static final String TAG = "SearchBeaconAdapter";
   private ArrayList<Beacon> mData = new ArrayList<>();
 
-//  public RecyclerViewAdapter(ArrayList<Beacon> data) {
+//  public SearchBeaconRecyclerViewAdapter(ArrayList<Beacon> data) {
 //    this.mData = data;
 //  }
 

@@ -57,7 +57,7 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminstudentdetails);
+    setContentView(R.layout.activity_admin_student_detail);
 
     Bundle bundle = getIntent().getExtras();
 

@@ -43,7 +43,7 @@ public class AdminAddUserActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminadduser);
+    setContentView(R.layout.activity_admin_add_user);
 
     //get current user
     uID = auth.getInstance().getCurrentUser().getUid();

@@ -54,7 +54,7 @@ public class AdminClassListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminclasslist);
+    setContentView(R.layout.activity_admin_class_list);
 
     showProgressDialog();
 
@@ -102,7 +102,7 @@ public class AdminClassListActivity extends AppCompatActivity {
               public SchoolModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                    .inflate(R.layout.recycler_model_layout_single_button, parent, false);
                 return new SchoolModelViewHolder(view1);
               }
             };
@@ -151,7 +151,7 @@ public class AdminClassListActivity extends AppCompatActivity {
     }
 
     public void setClassname(final String classname) {
-      //points to recyclermodellayout_singlebutton
+      //points to recycler_model_layout_single_button
       //The button is for each class (e.g. 1A, 1B, 1C)
       final Button classNameButtonView = mView.findViewById(R.id.modelSingleBtn);
       classNameButtonView.setText(classname);
@@ -195,7 +195,7 @@ public class AdminClassListActivity extends AppCompatActivity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_adminclasslist, menu);
+    getMenuInflater().inflate(R.menu.menu_admin_class_list, menu);
     return true;
   }
 

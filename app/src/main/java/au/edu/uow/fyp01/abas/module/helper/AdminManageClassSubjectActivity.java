@@ -39,7 +39,7 @@ public class AdminManageClassSubjectActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_adminmanageclasssubject);
+    setContentView(R.layout.activity_admin_manage_class_subject);
 
     Bundle bundle = getIntent().getExtras();
     schID = bundle.getString("schID");

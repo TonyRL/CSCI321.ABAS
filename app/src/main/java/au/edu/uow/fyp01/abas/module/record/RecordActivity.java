@@ -99,7 +99,7 @@ public class RecordActivity extends AppCompatActivity {
               public SubjectModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                    .inflate(R.layout.recycler_model_layout_single_button, parent, false);
                 return new SubjectModelViewHolder(view1);
               }
             };

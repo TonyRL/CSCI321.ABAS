@@ -42,7 +42,7 @@ public class ClassListActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_classlist);
+    setContentView(R.layout.activity_class_list);
 
     //DONE retrieve schID from Users in database
     //<editor-fold desc="PROTOTYPE: schID directly refers to SchID1>
@@ -94,7 +94,7 @@ public class ClassListActivity extends AppCompatActivity {
               public SchoolModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
+                    .inflate(R.layout.recycler_model_layout_single_button, parent, false);
                 return new SchoolModelViewHolder(view1);
               }
             };
@@ -144,7 +144,7 @@ public class ClassListActivity extends AppCompatActivity {
     }
 
     public void setClassname(String classname) {
-      //points to recyclermodellayout_singlebutton
+      //points to recycler_model_layout_single_button
       //The button is for each class (e.g. 1A, 1B, 1C)
       final Button classNameButtonView = mView.findViewById(R.id.modelSingleBtn);
       classNameButtonView.setText(classname);
