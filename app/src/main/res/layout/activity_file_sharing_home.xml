@@ -3,7 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  tools:context="au.edu.uow.fyp01.abas.activity.FileSharingHome">
+  tools:context="au.edu.uow.fyp01.abas.module.file.FileSharingHome">
 
   <android.support.v7.widget.RecyclerView
     android:id="@+id/activity_file_sharing_home_recycler_view"
