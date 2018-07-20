@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Subject"/>
+        android:text="This student has no records for this particular subject!"/>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -79,6 +79,7 @@
             android:id="@+id/recordOverviewAverageGrade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Record not found!"
             android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
@@ -90,6 +91,7 @@
             android:id="@+id/recordOverviewHighestGrade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Record not found!"
             android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
@@ -101,6 +103,7 @@
             android:id="@+id/recordOverviewLowestGrade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Record not found!"
             android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <Button
@@ -157,11 +160,6 @@
           android:layout_weight="1"
           android:orientation="vertical">
 
-          <ProgressBar
-            android:id="@+id/recordOverviewProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
         </LinearLayout>
 
       </LinearLayout>
