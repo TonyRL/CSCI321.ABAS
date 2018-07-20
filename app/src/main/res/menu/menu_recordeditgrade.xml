@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-    android:id="@+id/subjectSettingsSaveBtn"
-    android:icon="@drawable/ic_check"
+    android:id="@+id/recordEditGradeSaveBtn"
+    android:icon="@drawable/ic_edit_white"
     android:onClick="saveGrade"
-    android:title="Save changes"
+    android:title="Add a new subject"
     app:showAsAction="ifRoom">
   </item>
   <item
-    android:id="@+id/subjectSettingsDeleteBtn"
+    android:id="@+id/recordEditGradeDeleteBtn"
     android:icon="@drawable/ic_delete"
-    android:onClick="removeSubject"
-    android:title="Remove subject"
+    android:onClick="deleteGrade"
+    android:title="Add a new subject"
     app:showAsAction="ifRoom">
   </item>
 </menu>

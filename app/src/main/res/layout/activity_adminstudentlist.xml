@@ -9,50 +9,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical">
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/PurplishBlue"
-        android:orientation="horizontal">
-
-        <TextView
-          android:id="@+id/textView5"
-          android:layout_width="143dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:background="@color/PurplishBlue"
-          android:text="Students"
-          android:textAlignment="center"
-          android:textAppearance="@style/TextAppearance.AppCompat"
-          android:textColor="@color/White"
-          android:textSize="18sp"/>
-
-        <Button
-          android:id="@+id/adminStudentListAddBtn"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:layout_weight="0"
-          android:background="@android:drawable/ic_input_add"
-          android:backgroundTint="@color/White"/>
-
-        <Button
-          android:id="@+id/adminStudentListDeleteClassBtn"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:layout_weight="0"
-          android:background="@drawable/ic_delete"
-          android:backgroundTint="@color/White"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-
-      </LinearLayout>
-
-    </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
       android:id="@+id/adminStudentListRecyclerView"
       android:layout_width="match_parent"

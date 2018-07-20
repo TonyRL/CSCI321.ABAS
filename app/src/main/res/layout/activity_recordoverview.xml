@@ -13,34 +13,6 @@
       android:layout_height="wrap_content"
       android:orientation="vertical">
 
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/ReallyDarkBlue"
-        android:orientation="horizontal">
-
-        <TextView
-          android:layout_width="300dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="0"
-          android:background="@color/ReallyDarkBlue"
-          android:text="Grade Overview"
-          android:textAlignment="center"
-          android:textAppearance="@style/TextAppearance.AppCompat"
-          android:textColor="@color/White"
-          android:textSize="18sp"/>
-
-        <Button
-          android:id="@+id/recordOverviewGradeHistoryBtn"
-          android:layout_width="50dp"
-          android:layout_height="50dp"
-          android:layout_weight="0"
-          android:background="@drawable/ic_format_list_bulleted_black_24dp"
-          android:backgroundTint="@color/White"
-          android:drawableTint="@color/White"/>
-
-      </LinearLayout>
-
       <TextView
         android:id="@+id/recordOverviewSubject"
         android:layout_width="match_parent"
@@ -54,90 +26,90 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="97dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+          android:layout_width="97dp"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
 
           <TextView
-              android:id="@+id/textView3"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Overall :"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Overall :"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="20dp"
-              android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
           <TextView
-              android:id="@+id/textView4"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Highest :"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Highest :"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="20dp"
-              android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
           <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Lowest :"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lowest :"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <Button
-              android:id="@+id/activity_recordoverview_dialog_statistic_button_display"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_weight="1"
-              android:text="Statistics"
-              android:textSize="12sp" />
+            android:id="@+id/activity_recordoverview_dialog_statistic_button_display"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Statistics"
+            android:textSize="12sp"/>
 
         </LinearLayout>
 
         <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/recordOverviewAverageGrade"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-          <TextView
-              android:id="@+id/recordOverviewAverageGrade"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="20dp"
-              android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
           <TextView
-              android:id="@+id/recordOverviewHighestGrade"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:id="@+id/recordOverviewHighestGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="20dp"
-              android:orientation="vertical"></LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="vertical"></LinearLayout>
 
           <TextView
-              android:id="@+id/recordOverviewLowestGrade"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:textAppearance="@style/TextAppearance.AppCompat" />
+            android:id="@+id/recordOverviewLowestGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat"/>
 
           <Button
-              android:id="@+id/activity_recordoverview_classroom_button"
-              android:layout_width="wrap_content"
-              android:layout_height="60dp"
-              android:layout_gravity="center"
-              android:text="Connect Classroom"
-              android:textAlignment="center" />
+            android:id="@+id/activity_recordoverview_classroom_button"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:text="Connect Classroom"
+            android:textAlignment="center"/>
         </LinearLayout>
       </LinearLayout>
 

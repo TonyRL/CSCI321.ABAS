@@ -26,7 +26,7 @@ public class SettingsBufferPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_buffer_page);
         
-        classroomButton = (Button) findViewById(R.id.activity_settings_buffer_page_classroom_btn);
+        classroomButton = findViewById(R.id.activity_settings_buffer_page_classroom_btn);
         classroomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,7 +37,7 @@ public class SettingsBufferPage extends AppCompatActivity {
             }
         });
 
-        registerButton = (Button) findViewById(R.id.activity_settings_buffer_page_register_btn);
+        registerButton = findViewById(R.id.activity_settings_buffer_page_register_btn);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User");
         ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

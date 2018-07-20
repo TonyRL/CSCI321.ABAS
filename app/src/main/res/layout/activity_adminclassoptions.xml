@@ -10,16 +10,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-      android:id="@+id/classListTextView2"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@color/PurplishBlue"
-      android:text="Class Options"
-      android:textAlignment="center"
-      android:textColor="@color/White"
-      android:textSize="18sp"/>
-
     <Button
       android:id="@+id/adminMoveAllStudentsBtn"
       android:layout_width="match_parent"

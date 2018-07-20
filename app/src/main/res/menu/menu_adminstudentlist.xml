@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <item
-    android:id="@+id/subjectSettingsSaveBtn"
-    android:icon="@drawable/ic_check"
-    android:onClick="saveGrade"
-    android:title="Save changes"
+    android:id="@+id/adminStudentListAddBtn"
+    android:icon="@drawable/ic_add"
+    android:onClick="addNewStudent"
+    android:title="Add a new student"
     app:showAsAction="ifRoom">
   </item>
   <item
-    android:id="@+id/subjectSettingsDeleteBtn"
+    android:id="@+id/adminStudentListDeleteClassBtn"
     android:icon="@drawable/ic_delete"
-    android:onClick="removeSubject"
-    android:title="Remove subject"
+    android:onClick="deleteClass"
+    android:title="Delete this class"
     app:showAsAction="ifRoom">
   </item>
 </menu>
