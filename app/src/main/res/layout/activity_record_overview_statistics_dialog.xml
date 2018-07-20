@@ -1,417 +1,416 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="au.edu.uow.fyp01.abas.Activity.RecordOverviewActivityStatisticsDialog">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="au.edu.uow.fyp01.abas.activity.RecordOverviewActivityStatisticsDialog">
 
-    <TextView
-        android:id="@+id/textView27"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="11dp"
-        android:layout_y="305dp"
-        android:text="Quizes Statistics:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView27"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="11dp"
+    android:layout_y="305dp"
+    android:text="Quizes Statistics:"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="15sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView42"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="14dp"
-        android:layout_y="408dp"
-        android:text="Assignments Statistics:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView42"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="14dp"
+    android:layout_y="408dp"
+    android:text="Assignments Statistics:"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="15sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="7dp"
-        android:layout_y="202dp"
-        android:text="Tests Statistics:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView38"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="7dp"
+    android:layout_y="202dp"
+    android:text="Tests Statistics:"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="15sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="8dp"
-        android:layout_y="97dp"
-        android:text="Exams Statistics:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView34"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="8dp"
+    android:layout_y="97dp"
+    android:text="Exams Statistics:"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="15sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="5dp"
-        android:layout_y="1dp"
-        android:text="Overall Statistics:"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView30"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="5dp"
+    android:layout_y="1dp"
+    android:text="Overall Statistics:"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="15sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="245dp"
-        android:layout_y="430dp"
-        android:text="Assign. Average\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="245dp"
+    android:layout_y="430dp"
+    android:text="Assign. Average\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView45"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="234dp"
-        android:layout_y="329dp"
-        android:text="Quiz Average\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView45"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="234dp"
+    android:layout_y="329dp"
+    android:text="Quiz Average\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView41"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="234dp"
-        android:layout_y="222dp"
-        android:text="Test Average\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView41"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="234dp"
+    android:layout_y="222dp"
+    android:text="Test Average\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="254dp"
-        android:layout_y="120dp"
-        android:text="Exam Average\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="254dp"
+    android:layout_y="120dp"
+    android:text="Exam Average\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView37"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="248dp"
-        android:layout_y="26dp"
-        android:text="Overall Average\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView37"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="248dp"
+    android:layout_y="26dp"
+    android:text="Overall Average\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView29"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="135dp"
-        android:layout_y="427dp"
-        android:text="Assign. Lowest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView29"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="135dp"
+    android:layout_y="427dp"
+    android:text="Assign. Lowest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView44"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="127dp"
-        android:layout_y="329dp"
-        android:text="Quiz Lowest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView44"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="127dp"
+    android:layout_y="329dp"
+    android:text="Quiz Lowest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView40"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="124dp"
-        android:layout_y="223dp"
-        android:text="Test Lowest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView40"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="124dp"
+    android:layout_y="223dp"
+    android:text="Test Lowest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView32"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="131dp"
-        android:layout_y="26dp"
-        android:text="Overall Lowest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView32"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="131dp"
+    android:layout_y="26dp"
+    android:text="Overall Lowest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView36"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="131dp"
-        android:layout_y="122dp"
-        android:text="Exams Lowest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView36"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="131dp"
+    android:layout_y="122dp"
+    android:text="Exams Lowest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="5dp"
-        android:layout_y="23dp"
-        android:text="Overall Highest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView28"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="5dp"
+    android:layout_y="23dp"
+    android:text="Overall Highest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView31"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="14dp"
-        android:layout_y="427dp"
-        android:text="Assign. Highest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView31"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="14dp"
+    android:layout_y="427dp"
+    android:text="Assign. Highest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView43"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="11dp"
-        android:layout_y="327dp"
-        android:text="Quiz Highest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView43"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="11dp"
+    android:layout_y="327dp"
+    android:text="Quiz Highest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView39"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="10dp"
-        android:layout_y="121dp"
-        android:text="Test Highest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView39"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="10dp"
+    android:layout_y="121dp"
+    android:text="Test Highest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/textView35"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="10dp"
-        android:layout_y="225dp"
-        android:text="Test Highest\n       Grade: "
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        android:textSize="13sp"
-        tools:layout_editor_absoluteX="12dp"
-        tools:layout_editor_absoluteY="73dp" />
+  <TextView
+    android:id="@+id/textView35"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="10dp"
+    android:layout_y="225dp"
+    android:text="Test Highest\n       Grade: "
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    android:textSize="13sp"
+    tools:layout_editor_absoluteX="12dp"
+    tools:layout_editor_absoluteY="73dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_OL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="138dp"
-        android:layout_y="69dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="67dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_OL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="138dp"
+    android:layout_y="69dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="67dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_OH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="11dp"
-        android:layout_y="69dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="70dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_OH"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="11dp"
+    android:layout_y="69dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="70dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_OA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="259dp"
-        android:layout_y="72dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="260dp"
-        tools:layout_editor_absoluteY="74dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_OA"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="259dp"
+    android:layout_y="72dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="260dp"
+    tools:layout_editor_absoluteY="74dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_TL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="128dp"
-        android:layout_y="272dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="178dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_TL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="128dp"
+    android:layout_y="272dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="178dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_TA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="242dp"
-        android:layout_y="268dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="178dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_TA"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="242dp"
+    android:layout_y="268dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="178dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_TH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="13dp"
-        android:layout_y="272dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="178dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_TH"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="13dp"
+    android:layout_y="272dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="178dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_QL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="130dp"
-        android:layout_y="377dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="372dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_QL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="130dp"
+    android:layout_y="377dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="372dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_QA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="238dp"
-        android:layout_y="378dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="372dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_QA"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="238dp"
+    android:layout_y="378dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="372dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_AL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="144dp"
-        android:layout_y="474dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="372dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_AL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="144dp"
+    android:layout_y="474dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="372dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_AA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="252dp"
-        android:layout_y="474dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="372dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_AA"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="252dp"
+    android:layout_y="474dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="372dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_AH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="21dp"
-        android:layout_y="476dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="372dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_AH"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="21dp"
+    android:layout_y="476dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="372dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_QH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="20dp"
-        android:layout_y="377dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="372dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_QH"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="20dp"
+    android:layout_y="377dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="372dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_EH"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="20dp"
-        android:layout_y="170dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="175dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_EH"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="20dp"
+    android:layout_y="170dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="175dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_EL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="145dp"
-        android:layout_y="169dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="175dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_EL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="145dp"
+    android:layout_y="169dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="175dp"/>
 
-    <TextView
-        android:id="@+id/activity_record_overview_statisitcs_dialog_EA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="265dp"
-        android:layout_y="170dp"
-        android:text="TextView"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="175dp" />
+  <TextView
+    android:id="@+id/activity_record_overview_statisitcs_dialog_EA"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="265dp"
+    android:layout_y="170dp"
+    android:text="TextView"
+    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="175dp"/>
 </AbsoluteLayout>

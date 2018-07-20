@@ -12,14 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
-import au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting;
-import au.edu.uow.fyp01.abas.Activity.FileDownloadHome;
-import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
-import au.edu.uow.fyp01.abas.Activity.SettingsBufferPage;
-import au.edu.uow.fyp01.abas.Activity.SchoolListActivity;
-import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
-import au.edu.uow.fyp01.abas.Model.UserModel;
+import au.edu.uow.fyp01.abas.activity.ClassListActivity;
+import au.edu.uow.fyp01.abas.activity.FileDownloadHome;
+import au.edu.uow.fyp01.abas.activity.FileSharingHome;
+import au.edu.uow.fyp01.abas.activity.SearchBeaconActivity;
+import au.edu.uow.fyp01.abas.activity.SettingsBufferPage;
+import au.edu.uow.fyp01.abas.model.UserModel;
 import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -91,7 +89,7 @@ public class HomeFragment extends Fragment {
     }
   };
 
-  private void checkUserRegistration(final FirebaseCallBack firebaseCallBack) {
+  private void checkUserAccount(final FirebaseCallBack firebaseCallBack) {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     dbRef = db.getReference().child("User").child(uid);
 
@@ -128,32 +126,12 @@ public class HomeFragment extends Fragment {
     //Checking reg status
     db = FirebaseDatabase.getInstance();
     showProgressDialog();
-    checkUserRegistration(new FirebaseCallBack() {
+    checkUserAccount(new FirebaseCallBack() {
       @Override
       public void onCallBack(UserModel userModel) {
         hideProgressDialog();
         if (userModel.getStatus().equals("registered")) {
           isUserRegistered = true;
-        } else {
-          AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-          builder.setMessage("Your account has not registered to any school" +
-              "\nWould you like to register now?");
-          builder.setCancelable(true);
-          builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-              Intent intent = new Intent(getActivity(), SchoolListActivity.class);
-              startActivity(intent);
-            }
-          });
-          builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-              dialogInterface.cancel();
-            }
-          });
-          AlertDialog dialog = builder.create();
-          dialog.show();
         }
       }
     });

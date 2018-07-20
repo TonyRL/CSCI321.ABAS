@@ -3,7 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="au.edu.uow.fyp01.abas.Activity.ClassroomHomeSetting">
+  tools:context="au.edu.uow.fyp01.abas.activity.ClassroomHomeSetting">
 
   <Button
     android:id="@+id/class_room_home_api_button_1"

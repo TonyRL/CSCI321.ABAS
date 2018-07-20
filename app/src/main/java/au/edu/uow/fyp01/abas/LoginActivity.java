@@ -1,6 +1,5 @@
 package au.edu.uow.fyp01.abas;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,16 +32,15 @@ public class LoginActivity extends AppCompatActivity {
   private Button cheatBtn;
 
   private View.OnClickListener onClickListener = new OnClickListener() {
-    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
       switch (v.getId()) {
         case R.id.loginBtn:
           login();
           break;
-//        case R.id.signUpBtn:
-//          signUp();
-//          break;
+        case R.id.signUpBtn:
+          signUp();
+          break;
 //        case R.id.cheatBtn:
 //          emailText.setText("test123@test.com");
 //          passwordText.setText("test123");
@@ -62,10 +60,10 @@ public class LoginActivity extends AppCompatActivity {
     emailText = findViewById(R.id.emailEditText);
     passwordText = findViewById(R.id.passwordEditText);
     loginBtn = findViewById(R.id.loginBtn);
-    //signUpBtn = findViewById(R.id.signUpBtn);
+    signUpBtn = findViewById(R.id.signUpBtn);
 
     loginBtn.setOnClickListener(onClickListener);
-    //signUpBtn.setOnClickListener(onClickListener);
+    signUpBtn.setOnClickListener(onClickListener);
 
     firebaseAuth = FirebaseAuth.getInstance();
   }
@@ -85,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
   private void signUp() {
     Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
     startActivity(signUpActivity);
+    this.overridePendingTransition(R.anim.anim_slide_in_to_left, R.anim.anim_slide_out_to_left);
   }
 
   private void login() {
@@ -109,6 +108,8 @@ public class LoginActivity extends AppCompatActivity {
 
               Intent mainActivityIntent = new Intent(LoginActivity.this, MainActivity.class);
               startActivity(mainActivityIntent);
+              overridePendingTransition(R.anim.anim_slide_in_to_right,
+                  R.anim.anim_slide_out_to_right);
               finish();
             } else {
               if (task.getException() != null) {

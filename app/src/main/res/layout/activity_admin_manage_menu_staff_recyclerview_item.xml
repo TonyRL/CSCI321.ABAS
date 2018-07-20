@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
+  <android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/ReallyDarkBlue">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/activity_admin_manage_menu_staff_recyclerview_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/ReallyDarkBlue">
+        android:text="fullname"
+        android:textColor="@color/White"
+        android:textSize="18sp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+      <TextView
+        android:id="@+id/activity_admin_manage_menu_staff_recyclerview_item_staffid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="staffID"
+        android:textColor="@color/White"
+        android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/activity_admin_manage_menu_staff_recyclerview_item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="fullname"
-                android:textColor="@color/White"
-                android:textSize="18sp" />
+      <TextView
+        android:id="@+id/activity_admin_manage_menu_staff_recyclerview_item_usertype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="usertype"
+        android:textColor="@color/White"
+        android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/activity_admin_manage_menu_staff_recyclerview_item_staffid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="staffID"
-                android:textColor="@color/White"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/activity_admin_manage_menu_staff_recyclerview_item_usertype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="usertype"
-                android:textColor="@color/White"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+  </android.support.v7.widget.CardView>
 </LinearLayout>

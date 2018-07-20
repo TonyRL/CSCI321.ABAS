@@ -4,80 +4,80 @@
   android:id="@+id/recordFrame"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
-  android:padding="12dp">
+  android:padding="12dp"
+  android:orientation="vertical">
 
   <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="General Information"
-      android:textColor="@android:color/black"
-      android:textSize="14sp"/>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="General Information"
+    android:textColor="@android:color/black"
+    android:textSize="14sp"/>
 
+  <LinearLayout
+    android:id="@+id/generalInformationLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <LinearLayout
-      android:id="@+id/generalInformationLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="vertical">
-      <LinearLayout
-        android:layout_width="match_parent"
+      android:orientation="horizontal">
+      <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="First name:  "
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-        <TextView
-          android:id="@+id/recordFirstNameTextView"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-      </LinearLayout>
-
-      <LinearLayout
-        android:layout_width="match_parent"
+        android:text="First name:  "
+        android:textAppearance="@style/TextAppearance.AppCompat"/>
+      <TextView
+        android:id="@+id/recordFirstNameTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Last name:  "
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-        <TextView
-          android:id="@+id/recordLastNameTextView"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-      </LinearLayout>
-
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp"
-        android:paddingBottom="12dp">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="Student ID:  "
-          android:textAppearance="@style/TextAppearance.AppCompat"/>
-
-        <TextView
-          android:id="@+id/recordSIDTextView"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"/>
-      </LinearLayout>
-
+        android:textAppearance="@style/TextAppearance.AppCompat"/>
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Academic Record"
-      android:textStyle="bold"
-      android:layout_marginBottom="6dp"
-      android:textAppearance="@style/TextAppearance.AppCompat"/>
+      android:orientation="horizontal">
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last name:  "
+        android:textAppearance="@style/TextAppearance.AppCompat"/>
+      <TextView
+        android:id="@+id/recordLastNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:paddingBottom="12dp"
+      android:orientation="horizontal">
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Student ID:  "
+        android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+      <TextView
+        android:id="@+id/recordSIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+  </LinearLayout>
+
+  <TextView
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:text="Academic Record"
+    android:textAppearance="@style/TextAppearance.AppCompat"/>
 
   <android.support.v7.widget.RecyclerView
     android:id="@+id/recordRecyclerView"
