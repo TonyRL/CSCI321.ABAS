@@ -1,6 +1,5 @@
 package au.edu.uow.fyp01.abas.module.auth;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.MainActivity;
 import au.edu.uow.fyp01.abas.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,56 +27,33 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
+  @BindView(R.id.nameEditText)
+  EditText nameText;
+  @BindView(R.id.emailEditText)
+  EditText emailText;
+  @BindView(R.id.titleSpinner)
+  Spinner titleSpinner;
+  @BindView(R.id.staffIdEditText)
+  EditText staffIdText;
+  @BindView(R.id.passwordEditText)
+  EditText passwordText;
+  @BindView(R.id.confPasswordEditText)
+  EditText confPasswordText;
+  @BindView(R.id.signUpBtn)
+  Button signUpBtn;
+  @BindView(R.id.backBtn)
+  Button backBtn;
+
   private FirebaseAuth firebaseAuth;
   private DatabaseReference dbRef;
 
   private ProgressDialog progressDialog;
-
-  private EditText nameText;
-  private EditText emailText;
-  private EditText staffIdText;
-  private Spinner titleSpinner;
-  private EditText passwordText;
-  private EditText confPasswordText;
-
-  private Button signUpBtn;
-  private Button backBtn;
-
-  private String[] title = {"Mr.", "Mrs.", "Ms.", "Dr."};
-
-  private View.OnClickListener onClickListener = new OnClickListener() {
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onClick(View v) {
-      switch (v.getId()) {
-        case R.id.signUpBtn:
-          signUp();
-          break;
-        case R.id.backBtn:
-          onBackPressed();
-          break;
-        default:
-          break;
-      }
-    }
-  };
-
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_sign_up);
-
-    nameText = findViewById(R.id.nameEditText);
-    emailText = findViewById(R.id.emailEditText);
-    staffIdText = findViewById(R.id.staffIdEditText);
-    titleSpinner = findViewById(R.id.titleSpinner);
-    passwordText = findViewById(R.id.passwordEditText);
-    confPasswordText = findViewById(R.id.confPasswordEditText);
-    signUpBtn = findViewById(R.id.signUpBtn);
-    backBtn = findViewById(R.id.backBtn);
-
-    signUpBtn.setOnClickListener(onClickListener);
-    backBtn.setOnClickListener(onClickListener);
+    ButterKnife.bind(this);
 
     firebaseAuth = FirebaseAuth.getInstance();
 
@@ -86,6 +64,9 @@ public class SignUpActivity extends AppCompatActivity {
     titleSpinner.setSelection(0);
   }
 
+  /**
+   * Sent all information to firebase database and login user to the application
+   */
   private void signUp() {
     if (!isFormValid()) {
       return;
@@ -125,6 +106,9 @@ public class SignUpActivity extends AppCompatActivity {
         });
   }
 
+  /**
+   * Show a progress dialog during internet connection
+   */
   private void showProgressDialog() {
     if (progressDialog == null) {
       progressDialog = new ProgressDialog(this);
@@ -134,12 +118,18 @@ public class SignUpActivity extends AppCompatActivity {
     progressDialog.show();
   }
 
+  /**
+   * Hide the progress dialog
+   */
   private void hideProgressDialog() {
     if (progressDialog != null && progressDialog.isShowing()) {
       progressDialog.dismiss();
     }
   }
 
+  /**
+   * Add animation when going back
+   */
   @Override
   public void onBackPressed() {
     finish();
@@ -204,6 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
         confPasswordText.setError(null);
       }
 
+      //Firebase password requirement
       if (password.length() <= 5 && valid) {
         passwordText.setText("");
         confPasswordText.setText("");
@@ -218,5 +209,22 @@ public class SignUpActivity extends AppCompatActivity {
 
     return valid;
 
+  }
+
+  /**
+   * Handle UI clicks
+   *
+   * @param view The trigger view object
+   */
+  @OnClick({R.id.signUpBtn, R.id.backBtn})
+  public void onViewClicked(View view) {
+    switch (view.getId()) {
+      case R.id.signUpBtn:
+        signUp();
+        break;
+      case R.id.backBtn:
+        onBackPressed();
+        break;
+    }
   }
 }

@@ -26,10 +26,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-  private ProgressDialog progressDialog;
-  private FirebaseAuth firebaseAuth;
-  private FirebaseUser firebaseUser;
-
   @BindView(R.id.emailEditText)
   EditText emailText;
   @BindView(R.id.passwordEditText)
@@ -38,6 +34,10 @@ public class LoginActivity extends AppCompatActivity {
   Button loginBtn;
   @BindView(R.id.signUpBtn)
   Button signUpBtn;
+
+  private ProgressDialog progressDialog;
+  private FirebaseAuth firebaseAuth;
+  private FirebaseUser firebaseUser;
 
   /**
    * Handle UI clicks
