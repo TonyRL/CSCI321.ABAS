@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.model.SubjectModel;
-import au.edu.uow.fyp01.abas.model.SubjectSettingsModel;
+import au.edu.uow.fyp01.abas.model.SubjectSettingModel;
 import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +31,7 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
   EditText examRatioEditText;
   private String schID;
   private String subjectID;
-  private SubjectSettingsModel subjectSettingsModel;
+  private SubjectSettingModel subjectSettingModel;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +50,20 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
 
     SubjectSettingsQueryClass(new FirebaseCallBack() {
       @Override
-      public void onCallBack(SubjectSettingsModel subjectSettingsModel1) {
-        subjectSettingsModel = subjectSettingsModel1;
+      public void onCallBack(SubjectSettingModel subjectSettingModel1) {
+        subjectSettingModel = subjectSettingModel1;
 
         assignmentRatioEditText = findViewById(R.id.assignmentRatioEditText);
-        assignmentRatioEditText.setText(subjectSettingsModel.getAssignmentratio());
+        assignmentRatioEditText.setText(subjectSettingModel.getAssignmentratio());
 
         quizRatioEditText = findViewById(R.id.quizRatioEditText);
-        quizRatioEditText.setText(subjectSettingsModel.getQuizratio());
+        quizRatioEditText.setText(subjectSettingModel.getQuizratio());
 
         testRatioEditText = findViewById(R.id.testRatioEditText);
-        testRatioEditText.setText(subjectSettingsModel.getTestratio());
+        testRatioEditText.setText(subjectSettingModel.getTestratio());
 
         examRatioEditText = findViewById(R.id.examRatioEditText);
-        examRatioEditText.setText(subjectSettingsModel.getExamratio());
+        examRatioEditText.setText(subjectSettingModel.getExamratio());
       } //end oncallback
     }); //end queryclass
 
@@ -81,9 +81,9 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
       public void onDataChange(DataSnapshot dataSnapshot) {
         if (dataSnapshot.exists()) {
 
-          SubjectSettingsModel subjectSettingsModel = dataSnapshot
-              .getValue(SubjectSettingsModel.class);
-          firebaseCallBack.onCallBack(subjectSettingsModel);
+          SubjectSettingModel subjectSettingModel = dataSnapshot
+              .getValue(SubjectSettingModel.class);
+          firebaseCallBack.onCallBack(subjectSettingModel);
 
 
         }
@@ -98,7 +98,7 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
   }
 
   private interface FirebaseCallBack {
-    void onCallBack(SubjectSettingsModel subjectSettingsModel);
+    void onCallBack(SubjectSettingModel subjectSettingModel);
   }
 
   @Override

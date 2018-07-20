@@ -1,17 +1,17 @@
 package au.edu.uow.fyp01.abas.model;
 
-public class SubjectSettingsModel {
+public class SubjectSettingModel {
 
     public String assignmentratio;
     public String quizratio;
     public String testratio;
     public String examratio;
 
-    public SubjectSettingsModel(){
+    public SubjectSettingModel(){
 
     }
 
-    public SubjectSettingsModel(String assignmentratio,
+    public SubjectSettingModel(String assignmentratio,
                                 String quizratio,
                                 String testratio,
                                 String examratio){

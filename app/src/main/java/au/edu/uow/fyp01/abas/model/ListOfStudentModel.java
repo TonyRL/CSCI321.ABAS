@@ -4,17 +4,17 @@ package au.edu.uow.fyp01.abas.model;
  * Created by Athens on 2018/05/21.
  */
 
-public class ListOfStudentsModel {
+public class ListOfStudentModel {
 
   public String firstname;
   public String lastname;
   public String sid;
 
-  public ListOfStudentsModel() {
+  public ListOfStudentModel() {
 
   }
 
-  public ListOfStudentsModel(String firstname, String lastname, String sid) {
+  public ListOfStudentModel(String firstname, String lastname, String sid) {
     this.firstname = firstname;
     this.lastname = lastname;
     this.sid = sid;

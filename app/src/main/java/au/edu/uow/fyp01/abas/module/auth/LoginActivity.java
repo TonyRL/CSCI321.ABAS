@@ -8,12 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.MainActivity;
 import au.edu.uow.fyp01.abas.R;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,49 +29,47 @@ public class LoginActivity extends AppCompatActivity {
   private ProgressDialog progressDialog;
   private FirebaseAuth firebaseAuth;
   private FirebaseUser firebaseUser;
-  private EditText emailText;
-  private EditText passwordText;
-  private Button loginBtn;
-  private Button signUpBtn;
-  private Button cheatBtn;
 
-  private View.OnClickListener onClickListener = new OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      switch (v.getId()) {
-        case R.id.loginBtn:
-          login();
-          break;
-        case R.id.signUpBtn:
-          signUp();
-          break;
-//        case R.id.cheatBtn:
-//          emailText.setText("test123@test.com");
-//          passwordText.setText("test123");
-//          login();
-        //break;
-        default:
-          break;
-      }
+  @BindView(R.id.emailEditText)
+  EditText emailText;
+  @BindView(R.id.passwordEditText)
+  EditText passwordText;
+  @BindView(R.id.loginBtn)
+  Button loginBtn;
+  @BindView(R.id.signUpBtn)
+  Button signUpBtn;
+
+  /**
+   * Handle UI clicks
+   *
+   * @param v The trigger View
+   */
+  @OnClick({R.id.loginBtn, R.id.signUpBtn})
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.loginBtn:
+        login();
+        break;
+      case R.id.signUpBtn:
+        signUp();
+        break;
+      default:
+        break;
     }
-  };
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
-
-    emailText = findViewById(R.id.emailEditText);
-    passwordText = findViewById(R.id.passwordEditText);
-    loginBtn = findViewById(R.id.loginBtn);
-    signUpBtn = findViewById(R.id.signUpBtn);
-
-    loginBtn.setOnClickListener(onClickListener);
-    signUpBtn.setOnClickListener(onClickListener);
+    ButterKnife.bind(this);
 
     firebaseAuth = FirebaseAuth.getInstance();
   }
 
+  /**
+   * Auto login if user didn't logout
+   */
   @Override
   protected void onStart() {
     super.onStart();
@@ -82,12 +82,18 @@ public class LoginActivity extends AppCompatActivity {
     }
   }
 
+  /**
+   * Go to sign up page
+   */
   private void signUp() {
     Intent signUpActivity = new Intent(LoginActivity.this, SignUpActivity.class);
     startActivity(signUpActivity);
     this.overridePendingTransition(R.anim.anim_slide_in_to_left, R.anim.anim_slide_out_to_left);
   }
 
+  /**
+   * Login into the application
+   */
   private void login() {
     if (!isFormValid()) {
       return;
@@ -138,6 +144,10 @@ public class LoginActivity extends AppCompatActivity {
         });
   }
 
+  /**
+   * Check if user enter proper credential
+   * @return the form checking result
+   */
   private boolean isFormValid() {
     boolean valid = true;
     String email = emailText.getText().toString();
@@ -162,6 +172,9 @@ public class LoginActivity extends AppCompatActivity {
     return valid;
   }
 
+  /**
+   * Show a progress dialog during internet connection
+   */
   private void showProgressDialog() {
     if (progressDialog == null) {
       progressDialog = new ProgressDialog(this);
@@ -171,6 +184,9 @@ public class LoginActivity extends AppCompatActivity {
     progressDialog.show();
   }
 
+  /**
+   * Hide the progress dialog
+   */
   private void hideProgressDialog() {
     if (progressDialog != null && progressDialog.isShowing()) {
       progressDialog.dismiss();

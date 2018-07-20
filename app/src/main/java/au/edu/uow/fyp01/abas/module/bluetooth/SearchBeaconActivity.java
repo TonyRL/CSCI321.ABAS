@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import au.edu.uow.fyp01.abas.adapter.SearchBeaconRecyclerViewAdapter;
 import au.edu.uow.fyp01.abas.R;
-import au.edu.uow.fyp01.abas.utils.RecyclerViewDividerItemDecoration;
+import au.edu.uow.fyp01.abas.utils.SearchBeaconRecyclerDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.altbeacon.beacon.Beacon;
@@ -57,7 +57,7 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     recyclerView.setAdapter(adapter);
     recyclerView.setItemAnimator(new DefaultItemAnimator());
     recyclerView.addItemDecoration(
-        new RecyclerViewDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        new SearchBeaconRecyclerDividerItemDecoration(this, LinearLayoutManager.VERTICAL));
   }
 
 //  private ArrayList<Beacon> getData() {

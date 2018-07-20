@@ -20,7 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import au.edu.uow.fyp01.abas.model.ListOfSubjectsModel;
+import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.UserModel;
 import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -42,8 +42,8 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
   private RecyclerView adminSubjectRecyclerView;
   private FirebaseDatabase db;
   private DatabaseReference dbref;
-  private FirebaseRecyclerOptions<ListOfSubjectsModel> options;
-  private FirebaseRecyclerAdapter<ListOfSubjectsModel, ListOfSubjectsModelViewHolder> firebaseRecyclerAdapter;
+  private FirebaseRecyclerOptions<ListOfSubjectModel> options;
+  private FirebaseRecyclerAdapter<ListOfSubjectModel, ListOfSubjectsModelViewHolder> firebaseRecyclerAdapter;
 
   //Current user's metadata
   private UserModel userModel;
@@ -80,15 +80,15 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
         dbref = db.getReference().child("ListOfSubjects").child(schID);
 
         //set options
-        options = new FirebaseRecyclerOptions.Builder<ListOfSubjectsModel>().
-            setQuery(dbref.orderByChild("subjectname"), ListOfSubjectsModel.class).build();
+        options = new FirebaseRecyclerOptions.Builder<ListOfSubjectModel>().
+            setQuery(dbref.orderByChild("subjectname"), ListOfSubjectModel.class).build();
 
         firebaseRecyclerAdapter =
-            new FirebaseRecyclerAdapter<ListOfSubjectsModel, ListOfSubjectsModelViewHolder>(
+            new FirebaseRecyclerAdapter<ListOfSubjectModel, ListOfSubjectsModelViewHolder>(
                 options) {
               @Override
               protected void onBindViewHolder(@NonNull ListOfSubjectsModelViewHolder holder,
-                  int position, @NonNull ListOfSubjectsModel model) {
+                  int position, @NonNull ListOfSubjectModel model) {
                 //bind object
                 holder.setSubjectID(model.getSubjectID());
                 holder.setSubjectname(model.getSubjectname());

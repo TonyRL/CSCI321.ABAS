@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import au.edu.uow.fyp01.abas.model.ListOfSubjectsModel;
+import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.SubjectModel;
 import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -48,7 +48,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
   private FirebaseRecyclerAdapter<SubjectModel, SubjectModelViewHolder> firebaseRecyclerAdapter;
 
   private List<String> subjectsList;
-  private Map<String, ListOfSubjectsModel> subjectsMap;
+  private Map<String, ListOfSubjectModel> subjectsMap;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
     ListOfSubjectsQueryClass(new FirebaseCallBack() {
       @Override
       public void onCallBack(List<String> subjectsList1,
-          Map<String, ListOfSubjectsModel> subjectsMap1) {
+          Map<String, ListOfSubjectModel> subjectsMap1) {
 
         //instantiate db
         db = FirebaseDatabase.getInstance();
@@ -150,10 +150,10 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
               @Override
               public void onClick(DialogInterface dialog, int which) {
                 //get the ListofSubjetsModel from map first
-                ListOfSubjectsModel listOfSubjectsModel = subjectsMap.get(
+                ListOfSubjectModel listOfSubjectModel = subjectsMap.get(
                     dropdown.getSelectedItem().toString());
                 //get the subject ID
-                String subjectID = listOfSubjectsModel.getSubjectID();
+                String subjectID = listOfSubjectModel.getSubjectID();
 
                 //put user input into database
                 final Map<String, Object> addToDatabase = new HashMap<>();
@@ -192,11 +192,11 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot.exists()) {
 
-          ListOfSubjectsModel listOfSubjectsModel =
-              dataSnapshot.getValue(ListOfSubjectsModel.class);
+          ListOfSubjectModel listOfSubjectModel =
+              dataSnapshot.getValue(ListOfSubjectModel.class);
 
-          subjectsList.add(listOfSubjectsModel.getSubjectname());
-          subjectsMap.put(listOfSubjectsModel.getSubjectname(), listOfSubjectsModel);
+          subjectsList.add(listOfSubjectModel.getSubjectname());
+          subjectsMap.put(listOfSubjectModel.getSubjectname(), listOfSubjectModel);
 
         }
 
@@ -231,7 +231,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
   private interface FirebaseCallBack {
 
     void onCallBack(List<String> subjectsList,
-        Map<String, ListOfSubjectsModel> subjectsMap);
+        Map<String, ListOfSubjectModel> subjectsMap);
   }
 
   public class SubjectModelViewHolder extends RecyclerView.ViewHolder {

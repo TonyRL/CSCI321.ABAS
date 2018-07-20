@@ -4,15 +4,15 @@ package au.edu.uow.fyp01.abas.model;
  * Created by Athens on 2018/04/30.
  */
 
-public class ListOfSubjectsModel {
+public class ListOfSubjectModel {
 
   public String subjectname;
   public String subjectID;
 
-  public ListOfSubjectsModel() {
+  public ListOfSubjectModel() {
   }
 
-  public ListOfSubjectsModel(String subjectname, String subjectID) {
+  public ListOfSubjectModel(String subjectname, String subjectID) {
     this.subjectname = subjectname;
     this.subjectID = subjectID;
   }

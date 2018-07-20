@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.model.CommentModel;
 import au.edu.uow.fyp01.abas.model.RecordModel;
-import au.edu.uow.fyp01.abas.model.SubjectSettingsModel;
+import au.edu.uow.fyp01.abas.model.SubjectSettingModel;
 import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -41,7 +41,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
   private String schID;
   private String classID;
 
-  private SubjectSettingsModel subjectSettingsModel;
+  private SubjectSettingModel subjectSettingModel;
 
   //these vars are used for finding the overall grade with weigh
   private Double overall;
@@ -98,7 +98,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
 
             if (dataSnapshot.exists()) {
 
-              subjectSettingsModel = dataSnapshot.getValue(SubjectSettingsModel.class);
+              subjectSettingModel = dataSnapshot.getValue(SubjectSettingModel.class);
 
                             /*
                             ||
@@ -118,10 +118,10 @@ public class RecordOverviewActivity extends AppCompatActivity {
                              */
 
               double assignmentratio = Double
-                  .parseDouble(subjectSettingsModel.getAssignmentratio());
-              double quizratio = Double.parseDouble(subjectSettingsModel.getQuizratio());
-              double testratio = Double.parseDouble(subjectSettingsModel.getTestratio());
-              final double examratio = Double.parseDouble(subjectSettingsModel.getExamratio());
+                  .parseDouble(subjectSettingModel.getAssignmentratio());
+              double quizratio = Double.parseDouble(subjectSettingModel.getQuizratio());
+              double testratio = Double.parseDouble(subjectSettingModel.getTestratio());
+              final double examratio = Double.parseDouble(subjectSettingModel.getExamratio());
 
               //In case there is no records found for this particular subject
               if (recordList.size() == 0) {

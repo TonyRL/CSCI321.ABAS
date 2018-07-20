@@ -169,7 +169,7 @@ public class AdminAddStudentActivity extends AppCompatActivity {
 
                         for (DataSnapshot node : dataSnapshot.getChildren()) {
                           //School's record of student, not classroom
-                          ListOfStudentsModel student1 = node.getValue(ListOfStudentsModel.class);
+                          ListOfStudentModel student1 = node.getValue(ListOfStudentModel.class);
 
                           //handle user input into database
                           Map<String, Object> addToDatabase = new HashMap<>();

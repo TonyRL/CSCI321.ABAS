@@ -11,7 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class SearchBeaconRecyclerDividerItemDecoration extends RecyclerView.ItemDecoration {
 
   private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
   private static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
@@ -28,7 +28,7 @@ public class RecyclerViewDividerItemDecoration extends RecyclerView.ItemDecorati
   /**
    * Getting default theme properties
    */
-  public RecyclerViewDividerItemDecoration(Context context, int orientation) {
+  public SearchBeaconRecyclerDividerItemDecoration(Context context, int orientation) {
     final TypedArray a = context.obtainStyledAttributes(ATTRS);
     divider = a.getDrawable(0);
     a.recycle();

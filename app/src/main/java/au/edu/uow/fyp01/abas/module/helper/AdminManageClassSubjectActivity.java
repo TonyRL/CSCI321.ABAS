@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-import au.edu.uow.fyp01.abas.model.ListOfSubjectsModel;
+import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.SchoolModel;
 import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.ChildEventListener;
@@ -31,7 +31,7 @@ public class AdminManageClassSubjectActivity extends AppCompatActivity {
   private String schID;
 
   private List<String> subjectsList;
-  private Map<String, ListOfSubjectsModel> subjectsMap;
+  private Map<String, ListOfSubjectModel> subjectsMap;
   private List<String> classesList;
   private Map<String, SchoolModel> classesMap;
 
@@ -58,11 +58,11 @@ public class AdminManageClassSubjectActivity extends AppCompatActivity {
       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot.exists()) {
 
-          ListOfSubjectsModel listOfSubjectsModel =
-              dataSnapshot.getValue(ListOfSubjectsModel.class);
+          ListOfSubjectModel listOfSubjectModel =
+              dataSnapshot.getValue(ListOfSubjectModel.class);
 
-          subjectsList.add(listOfSubjectsModel.getSubjectname());
-          subjectsMap.put(listOfSubjectsModel.getSubjectname(), listOfSubjectsModel);
+          subjectsList.add(listOfSubjectModel.getSubjectname());
+          subjectsMap.put(listOfSubjectModel.getSubjectname(), listOfSubjectModel);
 
         }
 
@@ -116,15 +116,15 @@ public class AdminManageClassSubjectActivity extends AppCompatActivity {
                       public void onClick(DialogInterface dialog, int id) {
 
                         try {
-                          //get the ListOfSubjectsModel from map
-                          ListOfSubjectsModel listOfSubjectsModel =
+                          //get the ListOfSubjectModel from map
+                          ListOfSubjectModel listOfSubjectModel =
                               subjectsMap.get(subjectSpinner.getSelectedItem().toString());
                           //get the SchoolModel from map
                           SchoolModel schoolModel =
                               classesMap.get(classSpinner.getSelectedItem().toString());
 
                           //get the subject ID
-                          final String subjectID = listOfSubjectsModel.getSubjectID();
+                          final String subjectID = listOfSubjectModel.getSubjectID();
                           //get the class ID
                           String classID = schoolModel.getClassID();
 
