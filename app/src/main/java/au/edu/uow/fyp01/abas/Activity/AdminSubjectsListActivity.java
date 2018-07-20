@@ -238,8 +238,6 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
       Button subjectNameButtonView = mView.findViewById(R.id.modelSingleBtn);
       subjectNameButtonView.setText(subjectname1);
       this.subjectname = subjectname1;
-
-
     }
   }
 

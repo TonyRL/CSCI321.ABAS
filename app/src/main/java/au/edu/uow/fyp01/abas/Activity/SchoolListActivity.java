@@ -35,8 +35,7 @@ public class SchoolListActivity extends AppCompatActivity {
   private FirebaseDatabase db;
   private DatabaseReference dbref;
   private FirebaseRecyclerOptions<SchoolInfoModel> options;
-  private FirebaseRecyclerAdapter<SchoolInfoModel,
-      SchoolInfoModelViewHolder> adapter;
+  private FirebaseRecyclerAdapter<SchoolInfoModel, SchoolInfoModelViewHolder> adapter;
 
   //user metadata
   private FirebaseAuth auth;
@@ -70,8 +69,7 @@ public class SchoolListActivity extends AppCompatActivity {
 
         //dbref set in order by SCHOOL NAME
         options = new FirebaseRecyclerOptions.Builder<SchoolInfoModel>().
-            setQuery(dbref.orderByChild("schoolname"),
-                SchoolInfoModel.class).build();
+            setQuery(dbref.orderByChild("schoolname"), SchoolInfoModel.class).build();
 
         adapter =
             new FirebaseRecyclerAdapter<SchoolInfoModel, SchoolInfoModelViewHolder>(options) {
@@ -88,8 +86,7 @@ public class SchoolListActivity extends AppCompatActivity {
               public SchoolInfoModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
                 View view1 = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.recyclermodellayout_singlebutton,
-                        parent, false);
+                    .inflate(R.layout.recyclermodellayout_singlebutton, parent, false);
                 return new SchoolInfoModelViewHolder(view1);
               }
             };
@@ -170,10 +167,8 @@ public class SchoolListActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
 
                   //send a request to school's request list
-                  DatabaseReference dbref2 = db.getReference()
-                      .child("RequestList")
-                      .child(schID)
-                      .child(uID);
+                  DatabaseReference dbref2 = db.getReference().child("RequestList")
+                      .child(schID).child(uID);
 
                   //handle user input into database
                   Map<String, Object> addToDatabase = new HashMap<>();
@@ -186,18 +181,13 @@ public class SchoolListActivity extends AppCompatActivity {
                   dbref2.updateChildren(addToDatabase);
 
                   //Set user's status to 'waiting'
-                  DatabaseReference dbref3 = db.getReference()
-                      .child("User")
-                      .child(uID);
+                  DatabaseReference dbref3 = db.getReference().child("User").child(uID);
 
                   dbref3.child("status").setValue("waiting");
 
-                  Toast.makeText(SchoolListActivity.this, "Request sent",
-                      Toast.LENGTH_SHORT)
+                  Toast.makeText(SchoolListActivity.this, "Request sent", Toast.LENGTH_SHORT)
                       .show();
-
                   finish();
-
                 }
               });
 

@@ -116,7 +116,7 @@
       android:name=".Activity.AdminManageRequestsActivity"/>
     <activity android:name=".Activity.RecordOverviewActivityClassroomMatch"/>
     <activity
-      android:label="List of Staff Memeber"
+      android:label="List of Staff Member"
       android:name=".Activity.AdminManageMenuStaff"/>
     <activity android:name=".Activity.AdminManageMenuStaffDialog"/>
     <activity

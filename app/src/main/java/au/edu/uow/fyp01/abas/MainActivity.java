@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -27,10 +28,17 @@ import android.view.View;
 import au.edu.uow.fyp01.abas.Activity.AdminManageMenu;
 import au.edu.uow.fyp01.abas.Activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.Activity.FileSharingHome;
+import au.edu.uow.fyp01.abas.Activity.SchoolListActivity;
 import au.edu.uow.fyp01.abas.Activity.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.Activity.SettingsBufferPage;
+import au.edu.uow.fyp01.abas.Model.UserModel;
 import au.edu.uow.fyp01.abas.fragment.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import org.altbeacon.beacon.BeaconManager;
 
 
@@ -42,50 +50,71 @@ public class MainActivity extends AppCompatActivity {
   private Toolbar toolbar;
   private NavigationView navigationView;
 
+  private FirebaseDatabase db;
+  private DatabaseReference dbRef;
+
+  private boolean isUserRegistered = false;
+  private boolean isAdmin = false;
+
   @SuppressWarnings("StatementWithEmptyBody")
   private NavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new OnNavigationItemSelectedListener() {
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
       // Handle navigation view item clicks here.
-      int id = item.getItemId();
 
-      switch (id) {
-        case R.id.nav_home:
-          //swapFragment(R.id.nav_home);
-          break;
-        case R.id.nav_search_beacon:
-          Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
-              SearchBeaconActivity.class);
-          startActivity(searchBeaconActivityIntent);
-          break;
-        case R.id.nav_file:
-          Intent fileActivityIntent = new Intent(MainActivity.this, FileSharingHome.class);
-          startActivity(fileActivityIntent);
-          break;
-        case R.id.nav_record:
-          Intent recordActivityIntent = new Intent(MainActivity.this, ClassListActivity.class);
-          startActivity(recordActivityIntent);
-          break;
-        case R.id.nav_setting:
-          Intent settingActivityIntent = new Intent(MainActivity.this, SettingsBufferPage.class);
-          startActivity(settingActivityIntent);
-          break;
-        case R.id.nav_logout:
+      if (isUserRegistered) {
+        int id = item.getItemId();
+        switch (id) {
+          case R.id.nav_home:
+            //inflateHomeFragment(R.id.nav_home);
+            break;
+          case R.id.nav_search_beacon:
+            Intent searchBeaconActivityIntent = new Intent(MainActivity.this,
+                SearchBeaconActivity.class);
+            startActivity(searchBeaconActivityIntent);
+            break;
+          case R.id.nav_file:
+            Intent fileActivityIntent = new Intent(MainActivity.this, FileSharingHome.class);
+            startActivity(fileActivityIntent);
+            break;
+          case R.id.nav_record:
+            Intent recordActivityIntent = new Intent(MainActivity.this, ClassListActivity.class);
+            startActivity(recordActivityIntent);
+            break;
+          case R.id.nav_setting:
+            Intent settingActivityIntent = new Intent(MainActivity.this, SettingsBufferPage.class);
+            startActivity(settingActivityIntent);
+            break;
+          case R.id.nav_logout:
+            FirebaseAuth.getInstance().signOut();
+            Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(loginActivityIntent);
+            finish();
+            break;
+
+          //Hide/Delete
+          case R.id.nav_admin:
+            Intent adminActivityIntent = new Intent(MainActivity.this, AdminManageMenu.class);
+            startActivity(adminActivityIntent);
+            break;
+
+          default:
+            break;
+        }
+      } else {
+        if (item.getItemId() == R.id.nav_logout) {
           FirebaseAuth.getInstance().signOut();
           Intent loginActivityIntent = new Intent(MainActivity.this, LoginActivity.class);
           startActivity(loginActivityIntent);
           finish();
-          break;
-
-        //Hide/Delete
-        case R.id.nav_admin:
-          Intent adminActivityIntent = new Intent(MainActivity.this, AdminManageMenu.class);
-          startActivity(adminActivityIntent);
-          break;
-
-        default:
-          break;
+        } else if (item.getItemId() == R.id.nav_setting) {
+          Intent settingActivityIntent = new Intent(MainActivity.this, SettingsBufferPage.class);
+          startActivity(settingActivityIntent);
+        } else {
+          showUnregisteredUserWarning();
+        }
       }
+
       drawer.closeDrawer(GravityCompat.START);
       return true;
     }
@@ -98,15 +127,7 @@ public class MainActivity extends AppCompatActivity {
     toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
-//    searchBtn = findViewById(R.id.searchBtn);
-//    fileBtn = findViewById(R.id.fileBtn);
-//    recordBtn = findViewById(R.id.recordBtn);
-//    settingBtn = findViewById(R.id.settingBtn);
-//
-//    searchBtn.setOnClickListener(onClickListener);
-//    fileBtn.setOnClickListener(onClickListener);
-//    recordBtn.setOnClickListener(onClickListener);
-//    settingBtn.setOnClickListener(onClickListener);
+    db = FirebaseDatabase.getInstance();
 
     FloatingActionButton searchBeaconFab = findViewById(R.id.searchBeaconFab);
     searchBeaconFab.setOnClickListener(new View.OnClickListener() {
@@ -127,26 +148,36 @@ public class MainActivity extends AppCompatActivity {
 
     navigationView = findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
-    swapFragment(R.id.nav_home);
+    inflateHomeFragment(R.id.nav_home);
 
-    this.getSupportFragmentManager().addOnBackStackChangedListener(
-        new FragmentManager.OnBackStackChangedListener() {
-          public void onBackStackChanged() {
-            Fragment current = getCurrentFragment();
-            if (current instanceof HomeFragment) {
-              navigationView.setCheckedItem(R.id.nav_home);
+    checkUserAccount(new FirebaseCallBack() {
+      @Override
+      public void onCallBack(UserModel userModel) {
+        if (userModel.getStatus().equals("registered")) {
+          isUserRegistered = true;
+        } else {
+          AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+          builder.setMessage("Your account has not registered to any school" +
+              "\nWould you like to register now?");
+          builder.setCancelable(true);
+          builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              Intent intent = new Intent(MainActivity.this, SchoolListActivity.class);
+              startActivity(intent);
             }
-            /* else if (current instanceof ClassListFragment) {
-              navigationView.setCheckedItem(R.id.nav_search_beacon);
-            } else if (current instanceof ClassListFragment) {
-              navigationView.setCheckedItem(R.id.nav_file);
+          });
+          builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+              dialogInterface.cancel();
             }
-            else if (current instanceof ClassListFragment) {
-              navigationView.setCheckedItem(R.id.nav_record);
-            }*/
-          }
-        });
-
+          });
+          AlertDialog dialog = builder.create();
+          dialog.show();
+        }
+      }
+    });
     verifyBluetooth();
     verifyLocation();
   }
@@ -163,14 +194,12 @@ public class MainActivity extends AppCompatActivity {
             "Please grant location access so this app can detect beacons in the background.");
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
           @TargetApi(23)
           @Override
           public void onDismiss(DialogInterface dialog) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 PERMISSION_REQUEST_COARSE_LOCATION);
           }
-
         });
         builder.show();
       }
@@ -217,14 +246,23 @@ public class MainActivity extends AppCompatActivity {
     if (drawer.isDrawerOpen(GravityCompat.START)) {
       drawer.closeDrawer(GravityCompat.START);
     } else {
-      if (getFragmentManager().getBackStackEntryCount() > 1) {
-        getFragmentManager().popBackStack();
-        //additional code
-      } else {
-        super.onBackPressed();
-      }
+      AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+      builder.setMessage("Do you want to exit the application?");
+      builder.setPositiveButton("Yes", new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          System.exit(0);
+        }
+      });
+      builder.setNegativeButton("No", new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          dialog.dismiss();
+        }
+      });
+      AlertDialog dialog = builder.create();
+      dialog.show();
     }
-
   }
 
   /**
@@ -235,29 +273,9 @@ public class MainActivity extends AppCompatActivity {
     return false;
   }
 
-  private void swapFragment(int itemId) {
+  private void inflateHomeFragment(int itemId) {
     Fragment fragment = null;
-    Class fragmentClass;
-
-    switch (itemId) {
-      case R.id.nav_home:
-        fragmentClass = HomeFragment.class;
-        break;
-      case R.id.nav_search_beacon:
-        fragmentClass = HomeFragment.class;
-        //fragmentClass = searchFragment.class;
-        break;
-      case R.id.nav_file:
-        fragmentClass = HomeFragment.class;
-        //fragmentClass = fileFragment.class;
-        break;
-      case R.id.nav_record:
-        fragmentClass = HomeFragment.class;
-        break;
-      default:
-        fragmentClass = HomeFragment.class;
-        break;
-    }
+    Class fragmentClass = HomeFragment.class;
 
     try {
       fragment = (Fragment) fragmentClass.newInstance();
@@ -272,7 +290,39 @@ public class MainActivity extends AppCompatActivity {
     tx.replace(R.id.activity_main_content, fragment).addToBackStack(null).commit();
   }
 
-  private Fragment getCurrentFragment() {
-    return this.getSupportFragmentManager().findFragmentById(R.id.activity_main_content);
+  public void showUnregisteredUserWarning() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    builder.setTitle("Error").setMessage("Unregistered user!");
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialogInterface, int i) {
+        dialogInterface.cancel();
+      }
+    });
+    AlertDialog dialog = builder.create();
+    dialog.show();
+  }
+
+  private void checkUserAccount(final FirebaseCallBack firebaseCallBack) {
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    dbRef = db.getReference().child("User").child(uid);
+
+    dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
+          UserModel userModel = dataSnapshot.getValue(UserModel.class);
+          firebaseCallBack.onCallBack(userModel);
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+      }
+    });
+  }
+
+  private interface FirebaseCallBack {
+    void onCallBack(UserModel userModel);
   }
 }
