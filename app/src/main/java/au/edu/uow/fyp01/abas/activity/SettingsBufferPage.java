@@ -18,6 +18,7 @@ public class SettingsBufferPage extends AppCompatActivity {
 
   private Button classroomButton;
   private Button registerButton;
+  private boolean isRegistered = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,9 @@ public class SettingsBufferPage extends AppCompatActivity {
     });
 
     registerButton = findViewById(R.id.activity_settings_buffer_page_register_btn);
+    registerButton.setEnabled(false);
+    classroomButton.setEnabled(false);
+
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User");
     ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -42,20 +46,14 @@ public class SettingsBufferPage extends AppCompatActivity {
             for (DataSnapshot snap : dataSnapshot.getChildren()) {
               if (snap.getKey().equals("status")) {
                 if (!snap.getValue().equals("registered")) {
+                  isRegistered = false;
                   registerButton.setEnabled(true);
                   classroomButton.setEnabled(false);
-                  registerButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                      Intent i = new Intent(getApplicationContext(), SchoolListActivity.class);
-                      startActivity(i);
-                    }
-                  });
                 }
                 if (snap.getValue().equals("registered")) {
+                  isRegistered = true;
                   registerButton.setEnabled(false);
-                  Toast.makeText(getApplicationContext(),
-                      "You cannot register to any school twice!", Toast.LENGTH_LONG).show();
+                  classroomButton.setEnabled(true);
                 }
               }
             }
@@ -66,6 +64,19 @@ public class SettingsBufferPage extends AppCompatActivity {
 
           }
         });
+
+    registerButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        if (!isRegistered) {
+          Intent i = new Intent(getApplicationContext(), SchoolListActivity.class);
+          startActivity(i);
+        } else {
+          Toast.makeText(getApplicationContext(),
+              "You cannot register to any school twice!", Toast.LENGTH_LONG).show();
+        }
+      }
+    });
 
   }
 }

@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
       public void onCallBack(UserModel userModel) {
         if (userModel.getUsertype() != null && userModel.getUsertype().equals("Admin")) {
           isAdmin = true;
-          navigationView.getMenu().findItem(R.id.nav_admin).setVisible(false);
+          navigationView.getMenu().findItem(R.id.nav_admin).setVisible(true);
         }
 
         if (userModel.getStatus().equals("registered")) {
