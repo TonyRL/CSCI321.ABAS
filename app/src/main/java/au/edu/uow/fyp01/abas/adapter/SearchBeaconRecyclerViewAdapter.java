@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import au.edu.uow.fyp01.abas.module.record.RecordActivity;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.adapter.SearchBeaconRecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.model.BeaconModel;
 import au.edu.uow.fyp01.abas.model.StudentModel;
 import au.edu.uow.fyp01.abas.model.UserModel;
-import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.module.record.RecordActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,7 +46,7 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
     holder.proximity_uuid.setText(beacon.getId1().toString());
     holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
     holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
-    holder.setmTv();
+    holder.setStudentName();
   }
 
   /**
@@ -98,9 +98,10 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
     @BindView(R.id.minor)
     TextView minor;
     @BindView(R.id.beaconUsername)
-    TextView mTv;
+    TextView studentName;
 
     ArrayList<Beacon> beacons;
+    String uuid;
 
     BeaconViewHolder(View itemView, ArrayList<Beacon> data) {
       super(itemView);
@@ -108,9 +109,11 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
       ButterKnife.bind(this, itemView);
     }
 
-    void setmTv() {
+    void setStudentName() {
       FirebaseAuth auth = null;
       String uID = auth.getInstance().getCurrentUser().getUid();
+      int position = getAdapterPosition();
+      uuid = beacons.get(position).getId1().toString();
 
       //set up db
       final FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -125,8 +128,6 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
           String schID = userModel.getSchID();
           // Bad approach:
           // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
-          int position = getAdapterPosition();
-          String uuid = beacons.get(position).getId1().toString();
 
           DatabaseReference dbref = db.getReference().child("Beacon").child(schID).child(uuid);
           dbref.addValueEventListener(new ValueEventListener() {
@@ -149,9 +150,9 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
                       //this shows the student ID and name owner of the beacon
                       String beaconInfo = studentModel.getSid() + ": " + studentModel.getFirstname()
                           + " " + studentModel.getLastname();
-                      mTv.setText(beaconInfo);
+                      studentName.setText(beaconInfo);
                     } else {
-                      mTv.setText("Beacon not registered");
+                      studentName.setText("Beacon not registered");
                     }
                   }
 
@@ -160,7 +161,6 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
 
                   }
                 });//end inner inner query
-
               }
             }
 
