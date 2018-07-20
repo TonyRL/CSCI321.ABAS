@@ -31,8 +31,8 @@ import au.edu.uow.fyp01.abas.activity.FileSharingHome;
 import au.edu.uow.fyp01.abas.activity.SchoolListActivity;
 import au.edu.uow.fyp01.abas.activity.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.activity.SettingsBufferPage;
-import au.edu.uow.fyp01.abas.model.UserModel;
 import au.edu.uow.fyp01.abas.fragment.HomeFragment;
+import au.edu.uow.fyp01.abas.model.UserModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -156,9 +156,16 @@ public class MainActivity extends AppCompatActivity {
     navigationView.setNavigationItemSelectedListener(onNavigationItemSelectedListener);
     inflateHomeFragment(R.id.nav_home);
 
+    hideAdminBtn();
+
     checkUserAccount(new FirebaseCallBack() {
       @Override
       public void onCallBack(UserModel userModel) {
+        if (userModel.getUsertype() != null && userModel.getUsertype().equals("Admin")) {
+          isAdmin = true;
+          navigationView.getMenu().findItem(R.id.nav_admin).setVisible(false);
+        }
+
         if (userModel.getStatus().equals("registered")) {
           isUserRegistered = true;
         } else {
@@ -186,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
     });
     verifyBluetooth();
     verifyLocation();
+  }
+
+  private void hideAdminBtn() {
+    navigationView.getMenu().findItem(R.id.nav_admin).setVisible(false);
   }
 
   private void verifyLocation() {
