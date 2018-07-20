@@ -75,7 +75,7 @@
       android:label="Student Detail"
       android:name=".module.helper.AdminStudentDetailActivity"/>
     <activity
-      android:label="Activity.AdminStudentSubjectListActivity"
+      android:label="Manage Student Subject"
       android:name=".module.helper.AdminStudentSubjectListActivity"/>
     <activity
       android:label="Admin Helper"
