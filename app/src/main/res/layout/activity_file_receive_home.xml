@@ -3,7 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  tools:context="au.edu.uow.fyp01.abas.activity.FileDownloadHome">
+  tools:context="au.edu.uow.fyp01.abas.module.file.FileDownloadHome">
 
   <android.support.v7.widget.RecyclerView
     android:id="@+id/activity_file_receive_home_recycler_view"

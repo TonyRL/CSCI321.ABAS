@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import au.edu.uow.fyp01.abas.activity.RecordActivity;
+import au.edu.uow.fyp01.abas.module.record.RecordActivity;
 import au.edu.uow.fyp01.abas.adapter.RecyclerViewAdapter.BeaconViewHolder;
 import au.edu.uow.fyp01.abas.model.BeaconModel;
 import au.edu.uow.fyp01.abas.model.StudentModel;

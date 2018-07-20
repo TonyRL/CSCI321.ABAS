@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import au.edu.uow.fyp01.abas.activity.ClassListActivity;
 import au.edu.uow.fyp01.abas.activity.FileDownloadHome;
 import au.edu.uow.fyp01.abas.activity.FileSharingHome;
-import au.edu.uow.fyp01.abas.activity.SearchBeaconActivity;
+import au.edu.uow.fyp01.abas.module.bluetooth.SearchBeaconActivity;
 import au.edu.uow.fyp01.abas.activity.SettingsBufferPage;
 import au.edu.uow.fyp01.abas.model.UserModel;
 import au.edu.uow.fyp01.abas.R;
