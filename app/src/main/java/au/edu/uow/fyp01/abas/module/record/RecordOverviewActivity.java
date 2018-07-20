@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.edu.uow.fyp01.abas.model.CommentModel;
@@ -75,9 +74,6 @@ public class RecordOverviewActivity extends AppCompatActivity {
 
     toDisplayStatButton = findViewById(
         R.id.activity_recordoverview_dialog_statistic_button_display);
-
-    final ProgressBar recordOverviewProgressBar = findViewById(R.id.recordOverviewProgressBar);
-    recordOverviewProgressBar.setIndeterminate(true);
 
     //-> RecordQueryClass
     RecordQueryClass(new RecordCallBack() {
@@ -191,6 +187,8 @@ public class RecordOverviewActivity extends AppCompatActivity {
                             ||
                             */
 
+
+
               //Subject
               TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
               recordOverviewSubject.setText(subjectname);
@@ -209,6 +207,13 @@ public class RecordOverviewActivity extends AppCompatActivity {
               //Lowest Grade
               TextView recordOverviewLowestGrade = findViewById(R.id.recordOverviewLowestGrade);
               recordOverviewLowestGrade.setText(findLowestGrade());
+
+              //null checking
+              if (recordList.isEmpty() || recordList == null){
+                recordOverviewAverageGrade.setText("Record not found!");
+                recordOverviewHighestGrade.setText("Record not found!");
+                recordOverviewLowestGrade.setText("Record not found!");
+              }
 
               //Latest Comment
               Button recordOverviewComments = findViewById(R.id.recordOverviewComments);
@@ -255,6 +260,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
                   FragmentManager fragmentManager = getFragmentManager();
                   recordOverviewActivityStatisticsDialog.setOverall(overall.toString());
                   recordOverviewActivityStatisticsDialog.show(fragmentManager, "MyDialog");
+
                 }
               });
 
@@ -326,7 +332,6 @@ public class RecordOverviewActivity extends AppCompatActivity {
                 recordOverviewGraph.getViewport().setScalable(true);
               }
 
-              recordOverviewProgressBar.setVisibility(View.GONE);
               //</editor-fold>
 
             }
