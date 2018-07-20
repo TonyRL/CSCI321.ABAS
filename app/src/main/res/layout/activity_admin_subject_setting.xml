@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".module.helper.AdminSubjectSettingActivity">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/textView25"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="Grade Ratios"/>
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="275dp"
+      android:layout_weight="0">
+
+      <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="20dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="25dp"
+          android:text="Assignment Ratio"
+          android:textAlignment="textEnd"
+          android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="30dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <TextView
+          android:id="@+id/textView11"
+          android:layout_width="match_parent"
+          android:layout_height="25dp"
+          android:text="Quiz Ratio"
+          android:textAlignment="textEnd"
+          android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="25dp"
+          android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+          android:id="@+id/textView13"
+          android:layout_width="match_parent"
+          android:layout_height="25dp"
+          android:text="Test Ratio"
+          android:textAlignment="textEnd"
+          android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="30dp"
+          android:orientation="vertical">
+
+        </LinearLayout>
+
+        <TextView
+          android:id="@+id/textView14"
+          android:layout_width="match_parent"
+          android:layout_height="25dp"
+          android:text="Exam Ratio"
+          android:textAlignment="textEnd"
+          android:textAppearance="@style/TextAppearance.AppCompat"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="30dp"
+          android:orientation="vertical">
+
+        </LinearLayout>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="20dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <EditText
+          android:id="@+id/assignmentRatioEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ems="10"
+          android:inputType="number|numberDecimal"
+          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="15dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <EditText
+          android:id="@+id/quizRatioEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ems="10"
+          android:inputType="number|numberDecimal"
+          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="15dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <EditText
+          android:id="@+id/testRatioEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ems="10"
+          android:inputType="number|numberDecimal"
+          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="15dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <EditText
+          android:id="@+id/examRatioEditText"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:ems="10"
+          android:inputType="number|numberDecimal"
+          android:textAppearance="@android:style/TextAppearance.Small.Inverse"/>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="15dp"
+          android:orientation="vertical"></LinearLayout>
+
+        <RelativeLayout
+          android:id="@+id/relativeLayout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        </RelativeLayout>
+
+      </LinearLayout>
+    </LinearLayout>
+
+  </LinearLayout>
+</FrameLayout>

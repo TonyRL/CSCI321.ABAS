@@ -7,22 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.adapter.DialogRecyclerViewAdapter.BeaconViewHolder;
+import au.edu.uow.fyp01.abas.model.BeaconModel;
+import au.edu.uow.fyp01.abas.model.StudentModel;
+import au.edu.uow.fyp01.abas.model.UserModel;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import au.edu.uow.fyp01.abas.adapter.DialogRecyclerViewAdapter.BeaconViewHolder;
-import au.edu.uow.fyp01.abas.model.BeaconModel;
-import au.edu.uow.fyp01.abas.model.StudentModel;
-import au.edu.uow.fyp01.abas.model.UserModel;
-import au.edu.uow.fyp01.abas.R;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import java.util.ArrayList;
 import org.altbeacon.beacon.Beacon;
 
@@ -45,7 +43,7 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
     holder.proximity_uuid.setText(beacon.getId1().toString());
     holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
     holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
-    holder.setmTv();
+    holder.setStudentName();
   }
 
   /**
@@ -99,9 +97,10 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
     @BindView(R.id.minor)
     TextView minor;
     @BindView(R.id.beaconUsername)
-    TextView mTv;
+    TextView studentName;
 
     ArrayList<Beacon> beacons;
+    String uuid;
 
     BeaconViewHolder(View itemView, ArrayList<Beacon> data) {
       super(itemView);
@@ -109,9 +108,11 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
       ButterKnife.bind(this, itemView);
     }
 
-    void setmTv() {
+    void setStudentName() {
       FirebaseAuth auth = null;
       String uID = auth.getInstance().getCurrentUser().getUid();
+      int position = getAdapterPosition();
+      uuid = beacons.get(position).getId1().toString();
 
       //set up db
       final FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -126,8 +127,6 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
           String schID = userModel.getSchID();
           // Bad approach:
           // See https://stackoverflow.com/questions/38574912/how-to-access-the-data-source-of-a-recyclerview-adapters-viewholder/38577915#38577915
-          int position = getAdapterPosition();
-          String uuid = beacons.get(position).getId1().toString();
 
           DatabaseReference dbref = db.getReference().child("Beacon").child(schID).child(uuid);
           dbref.addValueEventListener(new ValueEventListener() {
@@ -138,9 +137,9 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
                 BeaconModel beaconModel = dataSnapshot.getValue(BeaconModel.class);
 
                 DatabaseReference dbref2 = db.getReference().child("Student")
-                        .child(beaconModel.getSchID())
-                        .child(beaconModel.getClassID())
-                        .child(beaconModel.getSid());
+                    .child(beaconModel.getSchID())
+                    .child(beaconModel.getClassID())
+                    .child(beaconModel.getSid());
 
                 dbref2.addValueEventListener(new ValueEventListener() {
                   @Override
@@ -149,10 +148,10 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
                       StudentModel studentModel = dataSnapshot.getValue(StudentModel.class);
                       //this shows the student ID and name owner of the beacon
                       String beaconInfo = studentModel.getSid() + ": " + studentModel.getFirstname()
-                              + " " + studentModel.getLastname();
-                      mTv.setText(beaconInfo);
+                          + " " + studentModel.getLastname();
+                      studentName.setText(beaconInfo);
                     } else {
-                      mTv.setText("Beacon not registered");
+                      studentName.setText("Beacon not registered");
                     }
                   }
 
@@ -161,7 +160,6 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
 
                   }
                 });//end inner inner query
-
               }
             }
 
