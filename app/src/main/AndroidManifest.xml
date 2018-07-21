@@ -54,7 +54,7 @@
       android:label="Student Comment"
       android:name=".module.record.CommentListActivity"/>
     <activity
-      android:label="Activity.FileSharingHome"
+      android:label="Share File"
       android:name=".module.file.FileSharingHome"/>
     <activity
       android:label="Share File"
@@ -73,9 +73,9 @@
       android:name=".module.helper.AdminAddStudentActivity"/>
     <activity
       android:label="Student Detail"
-      android:name=".module.helper.AdminStudentDetailsActivity"/>
+      android:name=".module.helper.AdminStudentDetailActivity"/>
     <activity
-      android:label="Activity.AdminStudentSubjectListActivity"
+      android:label="Manage Student Subject"
       android:name=".module.helper.AdminStudentSubjectListActivity"/>
     <activity
       android:label="Admin Helper"
@@ -104,7 +104,6 @@
     <activity
       android:label="Setting"
       android:name=".module.setting.ClassroomHomeSetting"/>
-    <activity android:name=".module.helper.AdminAddUserActivity"/>
     <activity
       android:label="Subject Setting"
       android:name=".module.helper.AdminSubjectSettingActivity"/>
@@ -113,7 +112,7 @@
       android:name=".module.setting.SchoolListActivity"/>
     <activity
       android:label="List of Request"
-      android:name=".module.helper.AdminManageRequestsActivity"/>
+      android:name=".module.helper.AdminManageRequestActivity"/>
     <activity android:name=".module.record.RecordOverviewActivityClassroomMatch"/>
     <activity
       android:label="List of Staff Member"

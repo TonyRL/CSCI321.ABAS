@@ -9,16 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.SubjectModel;
-import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.ChildEventListener;
@@ -49,6 +50,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
 
   private List<String> subjectsList;
   private Map<String, ListOfSubjectModel> subjectsMap;
+  private Spinner dropdown;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +59,15 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
 
     Bundle bundle = getIntent().getExtras();
 
-    //Grabbing args (classID and schID from AdminStudentDetailsActivity)
+    //Grabbing args (classID and schID from AdminStudentDetailActivity)
     schID = bundle.getString("schID");
     sID = bundle.getString("sID");
     firstname = bundle.getString("firstname");
     lastname = bundle.getString("lastname");
     classID = bundle.getString("classID");
 
-    //Set the subject's textview (the title)
-    TextView adminStudentSubjectNameTextView = findViewById(R.id.adminStudentSubjectNameTextView);
-    adminStudentSubjectNameTextView.setText(firstname + " " + lastname + "'s Subjects");
+    //Set the subject's (the title)
+    getSupportActionBar().setTitle(firstname + " " + lastname + "'s Subjects");
 
     showProgressDialog();
 
@@ -119,67 +120,6 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
         adminStudentListRecyclerView.setAdapter(firebaseRecyclerAdapter);
         firebaseRecyclerAdapter.startListening();
         hideProgressDialog();
-
-        //<editor-fold desc="Add button for subjects">
-        Button adminStudentSubjectAddBtn = findViewById(R.id.adminStudentSubjectAddBtn);
-
-        adminStudentSubjectAddBtn.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(
-                AdminStudentSubjectListActivity.this);
-            builder.setTitle("Add subject to student: ");
-
-            //Set up the layout
-            LinearLayout layout = new LinearLayout(AdminStudentSubjectListActivity.this);
-
-            //set up the spinner as a drop down box
-            final Spinner dropdown = new Spinner(AdminStudentSubjectListActivity.this);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                AdminStudentSubjectListActivity.this,
-                android.R.layout.simple_spinner_dropdown_item, subjectsList);
-            dropdown.setAdapter(adapter);
-            //add dropdown to the dialog
-            layout.addView(dropdown);
-
-            builder.setView(layout);
-
-            //dialog's OK button
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                //get the ListofSubjetsModel from map first
-                ListOfSubjectModel listOfSubjectModel = subjectsMap.get(
-                    dropdown.getSelectedItem().toString());
-                //get the subject ID
-                String subjectID = listOfSubjectModel.getSubjectID();
-
-                //put user input into database
-                final Map<String, Object> addToDatabase = new HashMap<>();
-                addToDatabase.put("subjectname", dropdown.getSelectedItem().toString());
-                addToDatabase.put("subjectID", subjectID);
-
-                //new db ref
-                DatabaseReference dbref2 = db.getReference().child("Subject")
-                    .child(schID).child(classID).child(sID).child(subjectID);
-
-                dbref2.updateChildren(addToDatabase);
-              }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-              @Override
-              public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-              }
-            });
-
-            builder.show();
-          }
-        });
-        //</editor-fold>
-
       } //end oncallback
     }); //end queryclass
   }
@@ -315,4 +255,62 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
       progressDialog.dismiss();
     }
   }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_admin_student_subject_list, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Add button for subjects">
+  public void addNewSubject(MenuItem menuItem) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(AdminStudentSubjectListActivity.this);
+    builder.setTitle("Add subject to student: ");
+
+    //Set up the layout
+    LinearLayout layout = new LinearLayout(AdminStudentSubjectListActivity.this);
+
+    //set up the spinner as a drop down box
+    dropdown = new Spinner(AdminStudentSubjectListActivity.this);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(AdminStudentSubjectListActivity.this,
+        android.R.layout.simple_spinner_dropdown_item, subjectsList);
+    dropdown.setAdapter(adapter);
+    //add dropdown to the dialog
+    layout.addView(dropdown);
+
+    builder.setView(layout);
+
+    //dialog's OK button
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        //get the ListofSubjectModel from map first
+        ListOfSubjectModel listOfSubjectModel = subjectsMap
+            .get(dropdown.getSelectedItem().toString());
+        //get the subject ID
+        String subjectID = listOfSubjectModel.getSubjectID();
+
+        //put user input into database
+        final Map<String, Object> addToDatabase = new HashMap<>();
+        addToDatabase.put("subjectname", dropdown.getSelectedItem().toString());
+        addToDatabase.put("subjectID", subjectID);
+
+        //new db ref
+        DatabaseReference dbref2 = db.getReference().child("Subject").child(schID).child(classID)
+            .child(sID).child(subjectID);
+
+        dbref2.updateChildren(addToDatabase);
+      }
+    });
+
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+
+    builder.show();
+  }
+  //</editor-fold>
 }

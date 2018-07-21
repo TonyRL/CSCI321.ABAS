@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminManageRequestsActivity extends AppCompatActivity {
+public class AdminManageRequestActivity extends AppCompatActivity {
 
   private ProgressDialog progressDialog;
 
@@ -189,7 +189,7 @@ public class AdminManageRequestsActivity extends AppCompatActivity {
         public void onClick(View view) {
           //Ask for user confirmation
           AlertDialog.Builder builder1 = new AlertDialog.Builder(
-              AdminManageRequestsActivity.this);
+              AdminManageRequestActivity.this);
           String tempstring = "Options:";
           builder1.setMessage(tempstring);
           builder1.setCancelable(true);
@@ -236,7 +236,7 @@ public class AdminManageRequestsActivity extends AppCompatActivity {
 
                   dbref4.removeValue();
 
-                  Toast.makeText(AdminManageRequestsActivity.this, "User approved",
+                  Toast.makeText(AdminManageRequestActivity.this, "User approved",
                       Toast.LENGTH_SHORT)
                       .show();
 
@@ -261,7 +261,7 @@ public class AdminManageRequestsActivity extends AppCompatActivity {
 
                   dbref6.removeValue();
 
-                  Toast.makeText(AdminManageRequestsActivity.this, "User rejected",
+                  Toast.makeText(AdminManageRequestActivity.this, "User rejected",
                       Toast.LENGTH_SHORT)
                       .show();
                 }

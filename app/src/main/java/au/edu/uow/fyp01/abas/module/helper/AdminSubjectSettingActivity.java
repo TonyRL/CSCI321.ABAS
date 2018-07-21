@@ -40,7 +40,7 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
 
     Bundle bundle = getIntent().getExtras();
 
-    //Grabbing args (classID and schID from AdminStudentDetailsActivity)
+    //Grabbing args (classID and schID from AdminStudentDetailActivity)
     schID = bundle.getString("schID");
     subjectID = bundle.getString("subjectID");
 

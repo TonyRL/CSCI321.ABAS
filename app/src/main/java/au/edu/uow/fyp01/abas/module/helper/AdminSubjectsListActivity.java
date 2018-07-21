@@ -43,7 +43,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
   private FirebaseDatabase db;
   private DatabaseReference dbref;
   private FirebaseRecyclerOptions<ListOfSubjectModel> options;
-  private FirebaseRecyclerAdapter<ListOfSubjectModel, ListOfSubjectsModelViewHolder> firebaseRecyclerAdapter;
+  private FirebaseRecyclerAdapter<ListOfSubjectModel, ListOfSubjectModelViewHolder> firebaseRecyclerAdapter;
 
   //Current user's metadata
   private UserModel userModel;
@@ -84,10 +84,10 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
             setQuery(dbref.orderByChild("subjectname"), ListOfSubjectModel.class).build();
 
         firebaseRecyclerAdapter =
-            new FirebaseRecyclerAdapter<ListOfSubjectModel, ListOfSubjectsModelViewHolder>(
+            new FirebaseRecyclerAdapter<ListOfSubjectModel, ListOfSubjectModelViewHolder>(
                 options) {
               @Override
-              protected void onBindViewHolder(@NonNull ListOfSubjectsModelViewHolder holder,
+              protected void onBindViewHolder(@NonNull ListOfSubjectModelViewHolder holder,
                   int position, @NonNull ListOfSubjectModel model) {
                 //bind object
                 holder.setSubjectID(model.getSubjectID());
@@ -96,14 +96,14 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
 
               @NonNull
               @Override
-              public ListOfSubjectsModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+              public ListOfSubjectModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                   int viewType) {
 
                 View view1 =
                     LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.recycler_model_layout_single_button,
                             parent, false);
-                return new ListOfSubjectsModelViewHolder(view1);
+                return new ListOfSubjectModelViewHolder(view1);
               }
             };
 
@@ -241,14 +241,14 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
     }
   }
 
-  public class ListOfSubjectsModelViewHolder extends RecyclerView.ViewHolder {
+  public class ListOfSubjectModelViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
 
     String subjectname;
     String subjectID;
 
-    public ListOfSubjectsModelViewHolder(View itemView) {
+    public ListOfSubjectModelViewHolder(View itemView) {
       super(itemView);
       mView = itemView;
     }

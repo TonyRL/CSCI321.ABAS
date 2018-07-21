@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -17,11 +19,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
-import au.edu.uow.fyp01.abas.module.bluetooth.PopupSearchBeaconActivity;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.BeaconModel;
 import au.edu.uow.fyp01.abas.model.SchoolModel;
 import au.edu.uow.fyp01.abas.model.StudentModel;
-import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.module.bluetooth.PopupSearchBeaconActivity;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdminStudentDetailsActivity extends AppCompatActivity {
+public class AdminStudentDetailActivity extends AppCompatActivity {
 
   private FirebaseDatabase db;
   private DatabaseReference dbref;
@@ -53,6 +55,11 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
 
   private List<String> classesList;
   private Map<String, SchoolModel> classesMap;
+
+  EditText adminStudentDetailFirstName;
+  EditText adminStudentDetailLastName;
+  EditText adminStudentDetailClassNumber;
+  EditText adminStudentDetailID;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -171,120 +178,20 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                 }
 
                 //First name
-                final EditText adminStudentDetailsFirstName = findViewById(
-                    R.id.adminStudentDetailsFirstName);
-                adminStudentDetailsFirstName.setText(studentModel.getFirstname());
+                adminStudentDetailFirstName = findViewById(R.id.adminStudentDetailFirstName);
+                adminStudentDetailFirstName.setText(studentModel.getFirstname());
 
                 //Last name
-                final EditText adminStudentDetailsLastName = findViewById(
-                    R.id.adminStudentDetailsLastName);
-                adminStudentDetailsLastName.setText(studentModel.getLastname());
+                adminStudentDetailLastName = findViewById(R.id.adminStudentDetailLastName);
+                adminStudentDetailLastName.setText(studentModel.getLastname());
 
                 //Class number
-                final EditText adminStudentDetailsClassNumber = findViewById(
-                    R.id.adminStudentDetailsClassNumber);
-                adminStudentDetailsClassNumber.setText(studentModel.getClassnumber());
+                adminStudentDetailClassNumber = findViewById(R.id.adminStudentDetailClassNumber);
+                adminStudentDetailClassNumber.setText(studentModel.getClassnumber());
 
                 //Student ID
-                final EditText adminStudentDetailsID = findViewById(R.id.adminStudentDetailsID);
-                adminStudentDetailsID.setText(studentModel.getSid());
-
-                //<editor-fold desc="Edit student details button">
-                Button adminStudentDetailsEditBtn = findViewById(R.id.adminStudentDetailsEditBtn);
-                adminStudentDetailsEditBtn.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-
-                    //GET TEXT FROM INPUT FIRST
-                    String firstname = adminStudentDetailsFirstName.getText().toString();
-                    String lastname = adminStudentDetailsLastName.getText().toString();
-                    String classnumber = adminStudentDetailsClassNumber.getText().toString();
-                    String sID = adminStudentDetailsID.getText().toString();
-
-                    //handle user input into database
-                    Map<String, Object> addToDatabase = new HashMap<>();
-
-                    addToDatabase.put("classnumber", classnumber);
-                    addToDatabase.put("firstname", firstname);
-                    addToDatabase.put("lastname", lastname);
-                    addToDatabase.put("sid", sID);
-                    //update children of Student->SchID->ClassID->StudentID
-                    dbref.updateChildren(addToDatabase);
-
-                    //FIX THE BEACONID
-                    beaconID = adminStudentDetailsBeaconID.getText().toString();
-                    FirebaseDatabase db1 = FirebaseDatabase.getInstance();
-                    DatabaseReference dbref1 = db1.getReference().child("Beacon").child(schID)
-                        .child(beaconID);
-                    //this is for putting into Beacon node
-                    Map<String, Object> addToBeacon = new HashMap<>();
-                    addToBeacon.put("schID", schID);
-                    addToBeacon.put("beaconID", beaconID);
-                    addToBeacon.put("classID", classID);
-                    addToBeacon.put("sid", sID);
-                    //push to Beacon node
-                    dbref1.updateChildren(addToBeacon);
-
-                    //REMOVE OLD BEACON
-
-                    if (oldBeaconID != null) {
-                      DatabaseReference dbref2 = db.getReference().child("Beacon").child(schID)
-                          .child(oldBeaconID);
-                      dbref2.removeValue();
-                    }
-
-                    Toast.makeText(AdminStudentDetailsActivity.this, "Student details saved",
-                        Toast.LENGTH_SHORT)
-                        .show();
-
-                  }
-                });
-                //</editor-fold>
-
-                //<editor-fold desc="Remove student from class button">
-                Button adminStudentDetailsDeleteBtn = findViewById(
-                    R.id.adminStudentDetailsDeleteBtn);
-                adminStudentDetailsDeleteBtn.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                    //Ask for user confirmation
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(
-                        AdminStudentDetailsActivity.this);
-                    builder1
-                        .setMessage("Are you sure you want to remove the student from this class?");
-                    builder1.setCancelable(true);
-
-                    builder1.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                          public void onClick(DialogInterface dialog, int id) {
-
-                            //Delete Beacon->SchID->BeaconID
-                            DatabaseReference dbref1 = db.getReference().child("Beacon")
-                                .child(schID).child(beaconID);
-                            dbref1.removeValue();
-                            //Delete Student->SchID->ClassID->StudentID
-                            dbref.removeValue();
-
-                            //close activity
-                            finish();
-                          }
-                        });
-
-                    builder1.setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                          public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                          }
-                        });
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
-                    //end of confirmation
-                  }
-                });
-                //</editor-fold>
+                adminStudentDetailID = findViewById(R.id.adminStudentDetailID);
+                adminStudentDetailID.setText(studentModel.getSid());
 
                 //<editor-fold desc="Student's subjects button>
                 Button adminStudentDetailsSubjectsBtn = findViewById(
@@ -321,9 +228,9 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
                     // Better to use PopupWindow
-                    //startActivity(new Intent(AdminStudentDetailsActivity.this, PopupSearchBeaconActivity.class));
+                    //startActivity(new Intent(AdminStudentDetailActivity.this, PopupSearchBeaconActivity.class));
                     startActivityForResult(
-                        new Intent(AdminStudentDetailsActivity.this,
+                        new Intent(AdminStudentDetailActivity.this,
                             PopupSearchBeaconActivity.class),
                         1234);
                   }
@@ -336,16 +243,16 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(
-                        AdminStudentDetailsActivity.this);
+                        AdminStudentDetailActivity.this);
                     builder.setTitle("Move student to class: ");
 
                     //Set up the layout
-                    LinearLayout layout = new LinearLayout(AdminStudentDetailsActivity.this);
+                    LinearLayout layout = new LinearLayout(AdminStudentDetailActivity.this);
 
                     //set up the spinner as a drop down box
-                    final Spinner dropdown = new Spinner(AdminStudentDetailsActivity.this);
+                    final Spinner dropdown = new Spinner(AdminStudentDetailActivity.this);
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                        AdminStudentDetailsActivity.this,
+                        AdminStudentDetailActivity.this,
                         android.R.layout.simple_spinner_dropdown_item, classesList);
                     dropdown.setAdapter(adapter);
                     //add dropdown to the dialog
@@ -371,7 +278,7 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
                         moveClass(dbref, dbrefTo);
 
                         //Toast for success
-                        Toast.makeText(AdminStudentDetailsActivity.this,
+                        Toast.makeText(AdminStudentDetailActivity.this,
                             "Moved student to new class", Toast.LENGTH_SHORT)
                             .show();
                       }
@@ -485,7 +392,6 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
         System.out.println("Copy failed");
       }
 
-
     });
   }
 
@@ -494,4 +400,85 @@ public class AdminStudentDetailsActivity extends AppCompatActivity {
     void onCallBack(StudentModel studentModel);
   }
 
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_admin_student_detail, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Edit student details button">
+  public void saveStudentDetail(MenuItem mi) {
+    //GET TEXT FROM INPUT FIRST
+    String firstname = adminStudentDetailFirstName.getText().toString();
+    String lastname = adminStudentDetailLastName.getText().toString();
+    String classnumber = adminStudentDetailClassNumber.getText().toString();
+    String sID = adminStudentDetailID.getText().toString();
+
+    //handle user input into database
+    Map<String, Object> addToDatabase = new HashMap<>();
+
+    addToDatabase.put("classnumber", classnumber);
+    addToDatabase.put("firstname", firstname);
+    addToDatabase.put("lastname", lastname);
+    addToDatabase.put("sid", sID);
+    //update children of Student->SchID->ClassID->StudentID
+    dbref.updateChildren(addToDatabase);
+
+    //FIX THE BEACONID
+    beaconID = adminStudentDetailsBeaconID.getText().toString();
+    FirebaseDatabase db1 = FirebaseDatabase.getInstance();
+    DatabaseReference dbref1 = db1.getReference().child("Beacon").child(schID)
+        .child(beaconID);
+    //this is for putting into Beacon node
+    Map<String, Object> addToBeacon = new HashMap<>();
+    addToBeacon.put("schID", schID);
+    addToBeacon.put("beaconID", beaconID);
+    addToBeacon.put("classID", classID);
+    addToBeacon.put("sid", sID);
+    //push to Beacon node
+    dbref1.updateChildren(addToBeacon);
+
+    //REMOVE OLD BEACON
+    if (oldBeaconID != null) {
+      DatabaseReference dbref2 = db.getReference().child("Beacon").child(schID).child(oldBeaconID);
+      dbref2.removeValue();
+    }
+
+    Toast.makeText(AdminStudentDetailActivity.this, "Student details saved", Toast.LENGTH_SHORT)
+        .show();
+  }
+  //</editor-fold>
+
+  //<editor-fold desc="Remove student from class button">
+  public void removeStudent(MenuItem mi) {
+    //Ask for user confirmation
+    AlertDialog.Builder builder1 = new AlertDialog.Builder(
+        AdminStudentDetailActivity.this);
+    builder1
+        .setMessage("Are you sure you want to remove the student from this class?");
+    builder1.setCancelable(true);
+
+    builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        //Delete Beacon->SchID->BeaconID
+        DatabaseReference dbref1 = db.getReference().child("Beacon").child(schID).child(beaconID);
+        dbref1.removeValue();
+        //Delete Student->SchID->ClassID->StudentID
+        dbref.removeValue();
+        //close activity
+        finish();
+      }
+    });
+
+    builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        dialog.cancel();
+      }
+    });
+
+    AlertDialog alert11 = builder1.create();
+    alert11.show();
+    //end of confirmation
+  }
+  //</editor-fold>
 }
