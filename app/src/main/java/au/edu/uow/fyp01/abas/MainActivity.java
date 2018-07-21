@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
   /**
    * One click to search beacon
    */
-  @OnClick
+  @OnClick(R.id.searchBeaconFab)
   public void clickSearchBeaconFab(View view) {
     if (isUserRegistered) {
       Intent searchBeaconActivityIntent = new Intent(MainActivity.this, SearchBeaconActivity.class);

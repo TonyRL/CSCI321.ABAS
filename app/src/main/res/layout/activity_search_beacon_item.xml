@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="@dimen/common_item_height"
   android:background="?attr/selectableItemBackground"
@@ -41,6 +42,14 @@
     android:text="Minor"
     app:layout_constraintStart_toEndOf="@+id/major"
     app:layout_constraintTop_toBottomOf="@+id/proximity_uuid"/>
+  <TextView
+    android:id="@+id/distance"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:text="TextView"
+    app:layout_constraintStart_toEndOf="@+id/minor"
+    app:layout_constraintTop_toTopOf="@+id/major"/>
 </android.support.constraint.ConstraintLayout>
 
 

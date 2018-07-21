@@ -47,6 +47,7 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
     holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
     holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
     holder.setStudentName();
+    holder.distance.setText(Double.toString(beacon.getDistance()));
   }
 
   /**
@@ -99,6 +100,8 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
     TextView minor;
     @BindView(R.id.beaconUsername)
     TextView studentName;
+    @BindView(R.id.distance)
+    TextView distance;
 
     ArrayList<Beacon> beacons;
     String uuid;
