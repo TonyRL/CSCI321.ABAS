@@ -17,7 +17,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.SubjectModel;
@@ -67,9 +66,8 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
     lastname = bundle.getString("lastname");
     classID = bundle.getString("classID");
 
-    //Set the subject's textview (the title)
-    TextView adminStudentSubjectNameTextView = findViewById(R.id.adminStudentSubjectNameTextView);
-    adminStudentSubjectNameTextView.setText(firstname + " " + lastname + "'s Subjects");
+    //Set the subject's (the title)
+    getSupportActionBar().setTitle(firstname + " " + lastname + "'s Subjects");
 
     showProgressDialog();
 
@@ -286,7 +284,7 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        //get the ListofSubjetsModel from map first
+        //get the ListofSubjectModel from map first
         ListOfSubjectModel listOfSubjectModel = subjectsMap
             .get(dropdown.getSelectedItem().toString());
         //get the subject ID
