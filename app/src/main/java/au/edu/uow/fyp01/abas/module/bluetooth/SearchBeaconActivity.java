@@ -37,7 +37,7 @@ public class SearchBeaconActivity extends AppCompatActivity implements BeaconCon
     initView();
 
     beaconManager = BeaconManager.getInstanceForApplication(this);
-    beaconManager.setForegroundScanPeriod(3000);
+    beaconManager.setForegroundScanPeriod(2500);
     // Detect iBeacon only. No EddyStone, no AltBeacon
     beaconManager.getBeaconParsers().clear();
     beaconManager.getBeaconParsers()

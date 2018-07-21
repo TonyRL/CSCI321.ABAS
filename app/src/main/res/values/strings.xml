@@ -1,9 +1,4 @@
 <resources>
-
-
-  <string name="title_activity_file_home_actitivty">FileHomeActitivty</string>
-  <string name="title_activity_main2">Main2Activity</string>
-
   <string name="app_name">ABAS</string>
   <string name="login">Login</string>
   <string name="sign_up">Sign Up</string>
