@@ -47,7 +47,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:text="TextView"
+    android:text="Distance"
     app:layout_constraintStart_toEndOf="@+id/minor"
     app:layout_constraintTop_toTopOf="@+id/major"/>
 </android.support.constraint.ConstraintLayout>

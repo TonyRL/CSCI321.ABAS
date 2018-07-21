@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import org.altbeacon.beacon.Beacon;
 
 public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
@@ -43,6 +45,8 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
     holder.proximity_uuid.setText(beacon.getId1().toString());
     holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
     holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
+    holder.distance.setText(
+        String.valueOf((double) Math.round(beacon.getDistance() * 100.0) / 100.0) + "m away");
     holder.setStudentName();
   }
 
@@ -69,6 +73,12 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
   public void addBeacon(Beacon beacon) {
     if (mData != null) {
       mData.add(beacon);
+      Collections.sort(mData, new Comparator<Beacon>() {
+        @Override
+        public int compare(Beacon o1, Beacon o2) {
+          return Double.compare(o1.getDistance(), o2.getDistance());
+        }
+      });
       notifyDataSetChanged();
       //Log.d(TAG, "Beacon added: " + beacon.getId1());
     }
@@ -98,6 +108,8 @@ public class DialogRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHo
     TextView minor;
     @BindView(R.id.beaconUsername)
     TextView studentName;
+    @BindView(R.id.distance)
+    TextView distance;
 
     ArrayList<Beacon> beacons;
     String uuid;

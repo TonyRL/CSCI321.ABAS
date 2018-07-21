@@ -1,7 +1,9 @@
 package au.edu.uow.fyp01.abas.adapter;
 
 import android.content.Intent;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +27,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import org.altbeacon.beacon.Beacon;
 
 public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<BeaconViewHolder> {
@@ -46,8 +50,9 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
     holder.proximity_uuid.setText(beacon.getId1().toString());
     holder.major.setText(String.format("Major: %s", beacon.getId2().toString()));
     holder.minor.setText(String.format("Minor: %s", beacon.getId3().toString()));
+    holder.distance.setText(
+        String.valueOf((double) Math.round(beacon.getDistance() * 100.0) / 100.0) + "m away");
     holder.setStudentName();
-    holder.distance.setText(Double.toString(beacon.getDistance()));
   }
 
   /**
@@ -71,6 +76,12 @@ public class SearchBeaconRecyclerViewAdapter extends RecyclerView.Adapter<Beacon
   public void addBeacon(Beacon beacon) {
     if (mData != null) {
       mData.add(beacon);
+      Collections.sort(mData, new Comparator<Beacon>() {
+        @Override
+        public int compare(Beacon o1, Beacon o2) {
+          return Double.compare(o1.getDistance(), o2.getDistance());
+        }
+      });
       notifyDataSetChanged();
       //Log.d(TAG, "Beacon added: " + beacon.getId1());
     }
