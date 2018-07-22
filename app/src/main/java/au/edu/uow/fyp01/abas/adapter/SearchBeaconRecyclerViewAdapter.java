@@ -1,9 +1,7 @@
 package au.edu.uow.fyp01.abas.adapter;
 
 import android.content.Intent;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;

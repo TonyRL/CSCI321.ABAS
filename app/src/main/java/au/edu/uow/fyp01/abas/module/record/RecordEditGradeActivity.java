@@ -27,17 +27,14 @@ import java.util.Map;
 
 public class RecordEditGradeActivity extends AppCompatActivity {
 
-  private FirebaseDatabase db;
-  private DatabaseReference dbref;
-
   DatePickerDialog.OnDateSetListener datepicker;
   Spinner dropdown;
-
   EditText recordNameEditView;
   EditText recordGradeEditView;
   TextView recordDateTextView;
   TextView recordTypeTextView;
-
+  private FirebaseDatabase db;
+  private DatabaseReference dbref;
   private String sID;
   private String subjectID;
   private String recordID;

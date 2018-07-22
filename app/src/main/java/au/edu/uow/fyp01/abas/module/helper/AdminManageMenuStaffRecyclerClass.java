@@ -6,34 +6,34 @@ package au.edu.uow.fyp01.abas.module.helper;
 
 public class AdminManageMenuStaffRecyclerClass {
 
-    private String fullname;
-    private String usertype;
-    private String staffID;
+  private String fullname;
+  private String usertype;
+  private String staffID;
 
-    public String getStaffID() {
-        return staffID;
-    }
+  public AdminManageMenuStaffRecyclerClass() {
+  }
 
-    public void setStaffID(String staffID) {
-        this.staffID = staffID;
-    }
+  public String getStaffID() {
+    return staffID;
+  }
 
-    public AdminManageMenuStaffRecyclerClass() {
-    }
+  public void setStaffID(String staffID) {
+    this.staffID = staffID;
+  }
 
-    public String getFullname() {
-        return fullname;
-    }
+  public String getFullname() {
+    return fullname;
+  }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
+  public void setFullname(String fullname) {
+    this.fullname = fullname;
+  }
 
-    public String getUsertype() {
-        return usertype;
-    }
+  public String getUsertype() {
+    return usertype;
+  }
 
-    public void setUsertype(String usertype) {
-        this.usertype = usertype;
-    }
+  public void setUsertype(String usertype) {
+    this.usertype = usertype;
+  }
 }

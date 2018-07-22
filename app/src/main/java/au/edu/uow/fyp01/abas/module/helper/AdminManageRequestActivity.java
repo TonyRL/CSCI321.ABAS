@@ -14,9 +14,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.RequestListModel;
 import au.edu.uow.fyp01.abas.model.UserModel;
-import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -134,6 +134,20 @@ public class AdminManageRequestActivity extends AppCompatActivity {
     });
   }
 
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
 
   private interface FirebaseCallBack {
 
@@ -280,21 +294,6 @@ public class AdminManageRequestActivity extends AppCompatActivity {
           //end of confirmation
         }
       });
-    }
-  }
-
-  private void showProgressDialog() {
-    if (progressDialog == null) {
-      progressDialog = new ProgressDialog(this);
-      progressDialog.setIndeterminate(true);
-      progressDialog.setMessage("Loading...");
-    }
-    progressDialog.show();
-  }
-
-  private void hideProgressDialog() {
-    if (progressDialog != null && progressDialog.isShowing()) {
-      progressDialog.dismiss();
     }
   }
 

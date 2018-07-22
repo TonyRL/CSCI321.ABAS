@@ -99,12 +99,8 @@ public class FileDownloadHome extends AppCompatActivity {
             } catch (IOException e) {
               e.printStackTrace();
             }
-
-
           }
         });
-
-
       }
 
       @NonNull

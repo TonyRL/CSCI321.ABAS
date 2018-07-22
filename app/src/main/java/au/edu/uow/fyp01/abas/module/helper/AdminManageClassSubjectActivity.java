@@ -9,9 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.SchoolModel;
-import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,8 +61,8 @@ public class AdminManageClassSubjectActivity extends AppCompatActivity {
           ListOfSubjectModel listOfSubjectModel =
               dataSnapshot.getValue(ListOfSubjectModel.class);
 
-          subjectsList.add(listOfSubjectModel.getSubjectname());
-          subjectsMap.put(listOfSubjectModel.getSubjectname(), listOfSubjectModel);
+          subjectsList.add(listOfSubjectModel.getSubjectName());
+          subjectsMap.put(listOfSubjectModel.getSubjectName(), listOfSubjectModel);
 
         }
 

@@ -20,9 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.ListOfSubjectModel;
 import au.edu.uow.fyp01.abas.model.UserModel;
-import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,7 +91,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
                   int position, @NonNull ListOfSubjectModel model) {
                 //bind object
                 holder.setSubjectID(model.getSubjectID());
-                holder.setSubjectname(model.getSubjectname());
+                holder.setSubjectname(model.getSubjectName());
               }
 
               @NonNull
@@ -215,7 +215,23 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
     });
   }
 
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
+
   private interface FirebaseCallBack {
+
     void onCallBack(UserModel userModel);
   }
 
@@ -285,20 +301,5 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
     }
 
 
-  }
-
-  private void showProgressDialog() {
-    if (progressDialog == null) {
-      progressDialog = new ProgressDialog(this);
-      progressDialog.setIndeterminate(true);
-      progressDialog.setMessage("Loading...");
-    }
-    progressDialog.show();
-  }
-
-  private void hideProgressDialog() {
-    if (progressDialog != null && progressDialog.isShowing()) {
-      progressDialog.dismiss();
-    }
   }
 }

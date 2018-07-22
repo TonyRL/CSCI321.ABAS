@@ -41,7 +41,6 @@ public class FileSharingAddUserRetrieveClass {
   }
 
   public void setFullName(String fullname) {
-
     this.fullname = fullname;
   }
 }

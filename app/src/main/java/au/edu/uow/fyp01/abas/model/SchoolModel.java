@@ -17,21 +17,41 @@ public class SchoolModel {
     this.classname = classname;
   }
 
+  /**
+   * Get the class ID
+   *
+   * @return class ID
+   */
   //<editor-fold desc="classID setter and getter">
   public String getClassID() {
     return classID;
   }
 
+  /**
+   * Set the class ID
+   *
+   * @param classID the class ID
+   */
   public void setClassID(String classID) {
     this.classID = classID;
   }
   //</editor-fold>
 
+  /**
+   * Set the class name
+   *
+   * @param classname class name
+   */
   //<editor-fold desc="classname setter and getter">
-  public void setClassname() {
+  public void setClassname(String classname) {
     this.classname = classname;
   }
 
+  /**
+   * Get  the class name
+   *
+   * @return the class name
+   */
   public String getClassname() {
     return classname;
   }
