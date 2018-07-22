@@ -20,27 +20,57 @@ public class ListOfStudentModel {
     this.sid = sid;
   }
 
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
-
+  /**
+   * Get student first name
+   *
+   * @return student first name
+   */
   public String getFirstname() {
     return firstname;
   }
 
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
+  /**
+   * Set  student first name
+   *
+   * @param firstname student first name
+   */
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
 
+  /**
+   * Get student last name
+   *
+   * @return student last name
+   */
   public String getLastname() {
     return lastname;
   }
 
-  public void setSid(String sid) {
-    this.sid = sid;
+  /**
+   * Set  student last name
+   *
+   * @param lastname student last name
+   */
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
+  /**
+   * Get student ID
+   *
+   * @return student ID
+   */
   public String getSid() {
     return sid;
+  }
+
+  /**
+   * Set student ID
+   *
+   * @param sid student ID
+   */
+  public void setSid(String sid) {
+    this.sid = sid;
   }
 }

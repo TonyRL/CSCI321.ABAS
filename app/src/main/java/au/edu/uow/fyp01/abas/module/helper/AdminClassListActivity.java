@@ -20,9 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.SchoolModel;
 import au.edu.uow.fyp01.abas.model.UserModel;
-import au.edu.uow.fyp01.abas.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -131,53 +131,6 @@ public class AdminClassListActivity extends AppCompatActivity {
     });
   }
 
-
-  private interface FirebaseCallBack {
-    void onCallBack(UserModel userModel);
-  }
-
-  public class SchoolModelViewHolder extends RecyclerView.ViewHolder {
-
-    View mView;
-    String classID;
-
-    public SchoolModelViewHolder(View itemView) {
-      super(itemView);
-      mView = itemView;
-    }
-
-    public void setClassID(String classID) {
-      this.classID = classID;
-    }
-
-    public void setClassname(final String classname) {
-      //points to recycler_model_layout_single_button
-      //The button is for each class (e.g. 1A, 1B, 1C)
-      final Button classNameButtonView = mView.findViewById(R.id.modelSingleBtn);
-      classNameButtonView.setText(classname);
-
-      classNameButtonView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-          //<editor-fold desc="Transaction to move to 'AdminStudentListActivity'">
-          Intent i = new Intent(getApplicationContext(), AdminStudentListActivity.class);
-
-          //Passing 'classID' & 'schID' to AdminStudentListFragment
-          Bundle args = new Bundle();
-          args.putString("classname", classname);
-          args.putString("classID", classID);
-          args.putString("schID", schID);
-          i.putExtras(args);
-
-          startActivity(i);
-          //</editor-fold>
-        }
-      });
-    }
-  }
-
-
   private void showProgressDialog() {
     if (progressDialog == null) {
       progressDialog = new ProgressDialog(this);
@@ -242,6 +195,52 @@ public class AdminClassListActivity extends AppCompatActivity {
     });
 
     builder.show();
+  }
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(UserModel userModel);
+  }
+
+  public class SchoolModelViewHolder extends RecyclerView.ViewHolder {
+
+    View mView;
+    String classID;
+
+    public SchoolModelViewHolder(View itemView) {
+      super(itemView);
+      mView = itemView;
+    }
+
+    public void setClassID(String classID) {
+      this.classID = classID;
+    }
+
+    public void setClassname(final String classname) {
+      //points to recycler_model_layout_single_button
+      //The button is for each class (e.g. 1A, 1B, 1C)
+      final Button classNameButtonView = mView.findViewById(R.id.modelSingleBtn);
+      classNameButtonView.setText(classname);
+
+      classNameButtonView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+          //<editor-fold desc="Transaction to move to 'AdminStudentListActivity'">
+          Intent i = new Intent(getApplicationContext(), AdminStudentListActivity.class);
+
+          //Passing 'classID' & 'schID' to AdminStudentListFragment
+          Bundle args = new Bundle();
+          args.putString("classname", classname);
+          args.putString("classID", classID);
+          args.putString("schID", schID);
+          i.putExtras(args);
+
+          startActivity(i);
+          //</editor-fold>
+        }
+      });
+    }
   }
   //</editor-fold>
 }

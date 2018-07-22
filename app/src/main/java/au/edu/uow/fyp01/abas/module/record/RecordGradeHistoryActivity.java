@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import au.edu.uow.fyp01.abas.model.RecordModel;
 import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.model.RecordModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -101,6 +101,40 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
     firebaseRecyclerAdapter.stopListening();
   }
 
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_record_grade_history, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Transaction to move to 'RecordAddNewGradeActivity'">
+  public void addRecord(MenuItem mi) {
+    Intent i = new Intent(getApplicationContext(), RecordAddNewGradeActivity.class);
+
+    //Passing args to RecordEditGradeActivity
+    Bundle args = new Bundle();
+    args.putString("sID", sID);
+    args.putString("subjectID", subjectID);
+    i.putExtras(args);
+
+    startActivity(i);
+  }
+
   public class RecordModelViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
@@ -178,40 +212,6 @@ public class RecordGradeHistoryActivity extends AppCompatActivity {
         }
       });
     }
-  }
-
-  private void showProgressDialog() {
-    if (progressDialog == null) {
-      progressDialog = new ProgressDialog(this);
-      progressDialog.setIndeterminate(true);
-      progressDialog.setMessage("Loading...");
-    }
-    progressDialog.show();
-  }
-
-  private void hideProgressDialog() {
-    if (progressDialog != null && progressDialog.isShowing()) {
-      progressDialog.dismiss();
-    }
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_record_grade_history, menu);
-    return true;
-  }
-
-  //<editor-fold desc="Transaction to move to 'RecordAddNewGradeActivity'">
-  public void addRecord(MenuItem mi){
-    Intent i = new Intent(getApplicationContext(), RecordAddNewGradeActivity.class);
-
-    //Passing args to RecordEditGradeActivity
-    Bundle args = new Bundle();
-    args.putString("sID", sID);
-    args.putString("subjectID", subjectID);
-    i.putExtras(args);
-
-    startActivity(i);
   }
   //</editor-fold>
 }

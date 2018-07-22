@@ -17,19 +17,39 @@ public class ListOfSubjectModel {
     this.subjectID = subjectID;
   }
 
-  public void setSubjectID(String subjectID) {
-    this.subjectID = subjectID;
-  }
-
+  /**
+   * Get subject ID
+   *
+   * @return subject ID
+   */
   public String getSubjectID() {
     return subjectID;
   }
 
-  public void setSubjectname(String subjectname) {
-    this.subjectname = subjectname;
+  /**
+   * Set  subject ID
+   *
+   * @param subjectID subject ID
+   */
+  public void setSubjectID(String subjectID) {
+    this.subjectID = subjectID;
   }
 
-  public String getSubjectname() {
+  /**
+   * Get subject name
+   *
+   * @return subject name
+   */
+  public String getSubjectName() {
     return subjectname;
+  }
+
+  /**
+   * Set subject name
+   *
+   * @param subjectname subject name
+   */
+  public void setSubjectName(String subjectname) {
+    this.subjectname = subjectname;
   }
 }

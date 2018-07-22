@@ -28,14 +28,12 @@ import java.util.UUID;
 
 public class RecordAddNewGradeActivity extends AppCompatActivity {
 
-  private FirebaseDatabase db;
-  private DatabaseReference dbref;
-
   EditText recordNewNameEditView;
   EditText recordNewGradeEditView;
   TextView recordNewDateTextView;
   Spinner recordNewTypeSpinner;
-
+  private FirebaseDatabase db;
+  private DatabaseReference dbref;
   private String sID;
   private String subjectID;
   private String date;

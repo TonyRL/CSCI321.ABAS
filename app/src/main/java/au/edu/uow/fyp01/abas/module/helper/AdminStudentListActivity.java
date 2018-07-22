@@ -15,8 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import au.edu.uow.fyp01.abas.model.StudentModel;
 import au.edu.uow.fyp01.abas.R;
+import au.edu.uow.fyp01.abas.model.StudentModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -128,6 +128,81 @@ public class AdminStudentListActivity extends AppCompatActivity {
     firebaseRecyclerAdapter.stopListening();
   }
 
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_admin_student_list, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Add Button for new students in a class">
+  public void addNewStudent(MenuItem mi) {
+    //<editor-fold desc="Transaction to move to 'AdminAddStudentActivity'">
+    Intent i = new Intent(getApplicationContext(), AdminAddStudentActivity.class);
+
+    //Passing 'sID','classID','schID' to AdminAddStudentActivity
+    Bundle args = new Bundle();
+    args.putString("classID", classID);
+    args.putString("schID", schID);
+    args.putString("classname", classname);
+
+    i.putExtras(args);
+
+    startActivity(i);
+    //</editor-fold>
+  }
+
+  //<editor-fold desc="Delete class button">
+  //TODO What happens to the student when a class is deleted but having student in it
+  public void deleteClass(MenuItem mi) {
+    //Ask for user confirmation
+    AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminStudentListActivity.this);
+    builder1.setMessage("Are you sure you want to delete this class?");
+    builder1.setCancelable(true);
+
+    builder1.setPositiveButton(
+        "Yes",
+        new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            //Delete Student->SchID->ClassID
+            dbref.removeValue();
+            dbref = db.getReference().child("School").child(schID).child(classID);
+            //Delete School->SchID->ClassID
+            dbref.removeValue();
+
+            //close activity
+            finish();
+          }
+        });
+
+    builder1.setNegativeButton(
+        "No",
+        new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        });
+
+    AlertDialog alert11 = builder1.create();
+    alert11.show();
+    //end of confirmation
+  }
+  //</editor-fold>
+
   public class StudentModelViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
@@ -192,81 +267,6 @@ public class AdminStudentListActivity extends AppCompatActivity {
         }
       });
     }
-  }
-
-  private void showProgressDialog() {
-    if (progressDialog == null) {
-      progressDialog = new ProgressDialog(this);
-      progressDialog.setIndeterminate(true);
-      progressDialog.setMessage("Loading...");
-    }
-    progressDialog.show();
-  }
-
-  private void hideProgressDialog() {
-    if (progressDialog != null && progressDialog.isShowing()) {
-      progressDialog.dismiss();
-    }
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_admin_student_list, menu);
-    return true;
-  }
-
-  //<editor-fold desc="Add Button for new students in a class">
-  public void addNewStudent(MenuItem mi) {
-    //<editor-fold desc="Transaction to move to 'AdminAddStudentActivity'">
-    Intent i = new Intent(getApplicationContext(), AdminAddStudentActivity.class);
-
-    //Passing 'sID','classID','schID' to AdminAddStudentActivity
-    Bundle args = new Bundle();
-    args.putString("classID", classID);
-    args.putString("schID", schID);
-    args.putString("classname", classname);
-
-    i.putExtras(args);
-
-    startActivity(i);
-    //</editor-fold>
-  }
-  //</editor-fold>
-
-  //<editor-fold desc="Delete class button">
-  //TODO What happens to the student when a class is deleted but having student in it
-  public void deleteClass(MenuItem mi) {
-    //Ask for user confirmation
-    AlertDialog.Builder builder1 = new AlertDialog.Builder(AdminStudentListActivity.this);
-    builder1.setMessage("Are you sure you want to delete this class?");
-    builder1.setCancelable(true);
-
-    builder1.setPositiveButton(
-        "Yes",
-        new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            //Delete Student->SchID->ClassID
-            dbref.removeValue();
-            dbref = db.getReference().child("School").child(schID).child(classID);
-            //Delete School->SchID->ClassID
-            dbref.removeValue();
-
-            //close activity
-            finish();
-          }
-        });
-
-    builder1.setNegativeButton(
-        "No",
-        new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dialog.cancel();
-          }
-        });
-
-    AlertDialog alert11 = builder1.create();
-    alert11.show();
-    //end of confirmation
   }
   //</editor-fold>
 }

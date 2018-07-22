@@ -135,8 +135,8 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
           ListOfSubjectModel listOfSubjectModel =
               dataSnapshot.getValue(ListOfSubjectModel.class);
 
-          subjectsList.add(listOfSubjectModel.getSubjectname());
-          subjectsMap.put(listOfSubjectModel.getSubjectname(), listOfSubjectModel);
+          subjectsList.add(listOfSubjectModel.getSubjectName());
+          subjectsMap.put(listOfSubjectModel.getSubjectName(), listOfSubjectModel);
 
         }
 
@@ -166,6 +166,78 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
 
     });
 
+  }
+
+  private void showProgressDialog() {
+    if (progressDialog == null) {
+      progressDialog = new ProgressDialog(this);
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Loading...");
+    }
+    progressDialog.show();
+  }
+
+  private void hideProgressDialog() {
+    if (progressDialog != null && progressDialog.isShowing()) {
+      progressDialog.dismiss();
+    }
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_admin_student_subject_list, menu);
+    return true;
+  }
+
+  //<editor-fold desc="Add button for subjects">
+  public void addNewSubject(MenuItem menuItem) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(AdminStudentSubjectListActivity.this);
+    builder.setTitle("Add subject to student: ");
+
+    //Set up the layout
+    LinearLayout layout = new LinearLayout(AdminStudentSubjectListActivity.this);
+
+    //set up the spinner as a drop down box
+    dropdown = new Spinner(AdminStudentSubjectListActivity.this);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(AdminStudentSubjectListActivity.this,
+        android.R.layout.simple_spinner_dropdown_item, subjectsList);
+    dropdown.setAdapter(adapter);
+    //add dropdown to the dialog
+    layout.addView(dropdown);
+
+    builder.setView(layout);
+
+    //dialog's OK button
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        //get the ListofSubjectModel from map first
+        ListOfSubjectModel listOfSubjectModel = subjectsMap
+            .get(dropdown.getSelectedItem().toString());
+        //get the subject ID
+        String subjectID = listOfSubjectModel.getSubjectID();
+
+        //put user input into database
+        final Map<String, Object> addToDatabase = new HashMap<>();
+        addToDatabase.put("subjectname", dropdown.getSelectedItem().toString());
+        addToDatabase.put("subjectID", subjectID);
+
+        //new db ref
+        DatabaseReference dbref2 = db.getReference().child("Subject").child(schID).child(classID)
+            .child(sID).child(subjectID);
+
+        dbref2.updateChildren(addToDatabase);
+      }
+    });
+
+    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        dialog.cancel();
+      }
+    });
+
+    builder.show();
   }
 
   private interface FirebaseCallBack {
@@ -239,78 +311,6 @@ public class AdminStudentSubjectListActivity extends AppCompatActivity {
       });
       //</editor-fold>
     }
-  }
-
-  private void showProgressDialog() {
-    if (progressDialog == null) {
-      progressDialog = new ProgressDialog(this);
-      progressDialog.setIndeterminate(true);
-      progressDialog.setMessage("Loading...");
-    }
-    progressDialog.show();
-  }
-
-  private void hideProgressDialog() {
-    if (progressDialog != null && progressDialog.isShowing()) {
-      progressDialog.dismiss();
-    }
-  }
-
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_admin_student_subject_list, menu);
-    return true;
-  }
-
-  //<editor-fold desc="Add button for subjects">
-  public void addNewSubject(MenuItem menuItem) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(AdminStudentSubjectListActivity.this);
-    builder.setTitle("Add subject to student: ");
-
-    //Set up the layout
-    LinearLayout layout = new LinearLayout(AdminStudentSubjectListActivity.this);
-
-    //set up the spinner as a drop down box
-    dropdown = new Spinner(AdminStudentSubjectListActivity.this);
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(AdminStudentSubjectListActivity.this,
-        android.R.layout.simple_spinner_dropdown_item, subjectsList);
-    dropdown.setAdapter(adapter);
-    //add dropdown to the dialog
-    layout.addView(dropdown);
-
-    builder.setView(layout);
-
-    //dialog's OK button
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        //get the ListofSubjectModel from map first
-        ListOfSubjectModel listOfSubjectModel = subjectsMap
-            .get(dropdown.getSelectedItem().toString());
-        //get the subject ID
-        String subjectID = listOfSubjectModel.getSubjectID();
-
-        //put user input into database
-        final Map<String, Object> addToDatabase = new HashMap<>();
-        addToDatabase.put("subjectname", dropdown.getSelectedItem().toString());
-        addToDatabase.put("subjectID", subjectID);
-
-        //new db ref
-        DatabaseReference dbref2 = db.getReference().child("Subject").child(schID).child(classID)
-            .child(sID).child(subjectID);
-
-        dbref2.updateChildren(addToDatabase);
-      }
-    });
-
-    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-      }
-    });
-
-    builder.show();
   }
   //</editor-fold>
 }

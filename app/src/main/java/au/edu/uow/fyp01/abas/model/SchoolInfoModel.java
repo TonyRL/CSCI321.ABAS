@@ -1,38 +1,52 @@
 package au.edu.uow.fyp01.abas.model;
 
 public class SchoolInfoModel {
-    public String schID;
-    public String schoolname;
-    public String title;
 
-    public SchoolInfoModel(){}
+  public String schID;
+  public String schoolname;
+  public String title;
 
-    public SchoolInfoModel(String schID, String schoolname){
-        this.schID = schID;
-        this.schoolname = schoolname;
-    }
+  public SchoolInfoModel() {
+  }
 
-    public void setSchID(String schID) {
-        this.schID = schID;
-    }
+  public SchoolInfoModel(String schID, String schoolname) {
+    this.schID = schID;
+    this.schoolname = schoolname;
+  }
 
-    public String getSchID() {
-        return schID;
-    }
+  /**
+   * Get the school ID
+   *
+   * @return the school ID
+   */
+  public String getSchID() {
+    return schID;
+  }
 
-    public void setSchoolname(String schoolname) {
-        this.schoolname = schoolname;
-    }
+  /**
+   * Set the school ID
+   *
+   * @param schID the school ID
+   */
+  public void setSchID(String schID) {
+    this.schID = schID;
+  }
 
-    public String getSchoolname() {
-        return schoolname;
-    }
+  /**
+   * Get the school name
+   *
+   * @return the school name
+   */
+  public String getSchoolname() {
+    return schoolname;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
+  /**
+   * Set   the school name
+   *
+   * @param schoolname the school name
+   */
+  public void setSchoolname(String schoolname) {
+    this.schoolname = schoolname;
+  }
 }

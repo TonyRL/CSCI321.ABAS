@@ -38,28 +38,23 @@ import java.util.Map;
 
 public class AdminStudentDetailActivity extends AppCompatActivity {
 
+  EditText adminStudentDetailFirstName;
+  EditText adminStudentDetailLastName;
+  EditText adminStudentDetailClassNumber;
+  EditText adminStudentDetailID;
   private FirebaseDatabase db;
   private DatabaseReference dbref;
   private Query query;
-
   private String classID;
   private String schID;
   private String classname;
   private String sID;
   private String beaconID;
   private String oldBeaconID;
-
   private StudentModel studentModel;
-
   private EditText adminStudentDetailsBeaconID;
-
   private List<String> classesList;
   private Map<String, SchoolModel> classesMap;
-
-  EditText adminStudentDetailFirstName;
-  EditText adminStudentDetailLastName;
-  EditText adminStudentDetailClassNumber;
-  EditText adminStudentDetailID;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -395,11 +390,6 @@ public class AdminStudentDetailActivity extends AppCompatActivity {
     });
   }
 
-  private interface FirebaseCallBack {
-
-    void onCallBack(StudentModel studentModel);
-  }
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_admin_student_detail, menu);
@@ -447,7 +437,6 @@ public class AdminStudentDetailActivity extends AppCompatActivity {
     Toast.makeText(AdminStudentDetailActivity.this, "Student details saved", Toast.LENGTH_SHORT)
         .show();
   }
-  //</editor-fold>
 
   //<editor-fold desc="Remove student from class button">
   public void removeStudent(MenuItem mi) {
@@ -479,6 +468,12 @@ public class AdminStudentDetailActivity extends AppCompatActivity {
     AlertDialog alert11 = builder1.create();
     alert11.show();
     //end of confirmation
+  }
+  //</editor-fold>
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(StudentModel studentModel);
   }
   //</editor-fold>
 }

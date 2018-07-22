@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.CommentModel;
 import au.edu.uow.fyp01.abas.model.RecordModel;
 import au.edu.uow.fyp01.abas.model.SubjectSettingModel;
-import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -187,8 +187,6 @@ public class RecordOverviewActivity extends AppCompatActivity {
                             ||
                             */
 
-
-
               //Subject
               TextView recordOverviewSubject = findViewById(R.id.recordOverviewSubject);
               recordOverviewSubject.setText(subjectname);
@@ -209,7 +207,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
               recordOverviewLowestGrade.setText(findLowestGrade());
 
               //null checking
-              if (recordList.isEmpty() || recordList == null){
+              if (recordList.isEmpty() || recordList == null) {
                 recordOverviewAverageGrade.setText("Record not found!");
                 recordOverviewHighestGrade.setText("Record not found!");
                 recordOverviewLowestGrade.setText("Record not found!");
@@ -578,10 +576,6 @@ public class RecordOverviewActivity extends AppCompatActivity {
     });
   }
 
-  private interface RecordCallBack {
-    void onCallBack(ArrayList<RecordModel> recordList);
-  }
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_record_overview, menu);
@@ -589,7 +583,7 @@ public class RecordOverviewActivity extends AppCompatActivity {
   }
 
   //<editor-fold desc="Grades History button">
-  public void showGradeHistory(MenuItem mi){
+  public void showGradeHistory(MenuItem mi) {
     Intent i = new Intent(getApplicationContext(), RecordGradeHistoryActivity.class);
 
     Bundle args = new Bundle();
@@ -598,6 +592,11 @@ public class RecordOverviewActivity extends AppCompatActivity {
 
     i.putExtras(args);
     startActivity(i);
+  }
+
+  private interface RecordCallBack {
+
+    void onCallBack(ArrayList<RecordModel> recordList);
   }
   //</editor-fold>
 }

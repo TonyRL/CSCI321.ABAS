@@ -8,9 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+import au.edu.uow.fyp01.abas.R;
 import au.edu.uow.fyp01.abas.model.SubjectModel;
 import au.edu.uow.fyp01.abas.model.SubjectSettingModel;
-import au.edu.uow.fyp01.abas.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -95,10 +95,6 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
       }
     });
 
-  }
-
-  private interface FirebaseCallBack {
-    void onCallBack(SubjectSettingModel subjectSettingModel);
   }
 
   @Override
@@ -298,5 +294,10 @@ public class AdminSubjectSettingActivity extends AppCompatActivity {
 
     //Go back
     finish();
+  }
+
+  private interface FirebaseCallBack {
+
+    void onCallBack(SubjectSettingModel subjectSettingModel);
   }
 }

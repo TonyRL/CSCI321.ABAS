@@ -10,7 +10,7 @@ public class FileDownloadHomeRecyclerClass {
   private String Date_Expire;
   private String Time_Expire;
   private String Filename;
-      private String File_Type;
+  private String File_Type;
   private String ID;
 //    private String Sender;
 //    private String Link;
@@ -45,13 +45,13 @@ public class FileDownloadHomeRecyclerClass {
 //        Filename = fileName;
 //    }
 //
-    public String getFile_Type() {
-        return File_Type;
-    }
+  public String getFile_Type() {
+    return File_Type;
+  }
 
-    public void setFile_Type(String file_Type) {
-        File_Type = file_Type;
-    }
+  public void setFile_Type(String file_Type) {
+    File_Type = file_Type;
+  }
 
   public String getID() {
     return ID;
