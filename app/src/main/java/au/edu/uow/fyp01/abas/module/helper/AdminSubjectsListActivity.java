@@ -91,7 +91,7 @@ public class AdminSubjectsListActivity extends AppCompatActivity {
                   int position, @NonNull ListOfSubjectModel model) {
                 //bind object
                 holder.setSubjectID(model.getSubjectID());
-                holder.setSubjectname(model.getSubjectName());
+                holder.setSubjectname(model.getSubjectname());
               }
 
               @NonNull

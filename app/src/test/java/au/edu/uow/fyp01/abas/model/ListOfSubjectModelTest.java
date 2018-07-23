@@ -33,7 +33,7 @@ public class ListOfSubjectModelTest {
   @Test
   public void testGetSubjectName() {
     String expected = "English";
-    String actual = list.getSubjectName();
+    String actual = list.getSubjectname();
     Assert.assertEquals(expected, actual);
   }
 }

@@ -175,7 +175,7 @@ public class RecordEditGradeActivity extends AppCompatActivity {
     return true;
   }
 
-  public void saveGrade(MenuItem mi) {
+  public void addGrade(MenuItem mi) {
     Map<String, Object> addToDatabase = new HashMap<>();
 
     addToDatabase.put("date", date);

@@ -4,7 +4,7 @@
   <item
     android:id="@+id/subjectSettingsSaveBtn"
     android:icon="@drawable/ic_check"
-    android:onClick="saveGrade"
+    android:onClick="saveChange"
     android:title="Save changes"
     app:showAsAction="ifRoom">
   </item>
