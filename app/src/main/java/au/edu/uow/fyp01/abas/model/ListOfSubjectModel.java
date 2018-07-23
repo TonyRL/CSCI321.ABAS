@@ -40,7 +40,7 @@ public class ListOfSubjectModel {
    *
    * @return subject name
    */
-  public String getSubjectName() {
+  public String getSubjectname() {
     return subjectname;
   }
 
@@ -49,7 +49,7 @@ public class ListOfSubjectModel {
    *
    * @param subjectname subject name
    */
-  public void setSubjectName(String subjectname) {
+  public void setSubjectname(String subjectname) {
     this.subjectname = subjectname;
   }
 }

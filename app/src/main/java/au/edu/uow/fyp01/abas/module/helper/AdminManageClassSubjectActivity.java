@@ -61,8 +61,8 @@ public class AdminManageClassSubjectActivity extends AppCompatActivity {
           ListOfSubjectModel listOfSubjectModel =
               dataSnapshot.getValue(ListOfSubjectModel.class);
 
-          subjectsList.add(listOfSubjectModel.getSubjectName());
-          subjectsMap.put(listOfSubjectModel.getSubjectName(), listOfSubjectModel);
+          subjectsList.add(listOfSubjectModel.getSubjectname());
+          subjectsMap.put(listOfSubjectModel.getSubjectname(), listOfSubjectModel);
 
         }
 
