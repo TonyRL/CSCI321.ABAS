@@ -714,38 +714,38 @@ public class ClassroomHomeSetting extends AppCompatActivity implements
             .show();
       } else {
 
-        classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(DataSnapshot dataSnapshot) {
+//        classDetailsOnlyREF.addListenerForSingleValueEvent(new ValueEventListener() {
+//          @Override
+//          public void onDataChange(DataSnapshot dataSnapshot) {
 
-            for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
-              String UID = uidSnap.getKey().toString();
-              for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
-                if (uidSnap2.getKey().equals("Classroom_Details")) {
-                  for (DataSnapshot uidSnap3 : uidSnap2.getChildren()) {
-                    if (uidSnap3.getKey().equals("ABAS_UID")) {
-                      if (uidSnap3.getValue()
-                          .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        Toast.makeText(getApplicationContext(), UID, Toast.LENGTH_LONG).show();
-                        classDetailsOnlyREF.child(UID).removeValue();
-                      }
-                    }
-                  }
-                }
-              }
-            }
-
-            classDetailsOnlyREF.removeEventListener(this);
-
-          }
-
-          @Override
-          public void onCancelled(DatabaseError databaseError) {
-
-          }
-        });
-
-        SystemClock.sleep(500);
+//            for (DataSnapshot uidSnap : dataSnapshot.getChildren()) {
+//              String UID = uidSnap.getKey().toString();
+//              for (DataSnapshot uidSnap2 : uidSnap.getChildren()) {
+//                if (uidSnap2.getKey().equals("Classroom_Details")) {
+//                  for (DataSnapshot uidSnap3 : uidSnap2.getChildren()) {
+//                    if (uidSnap3.getKey().equals("ABAS_UID")) {
+//                      if (uidSnap3.getValue()
+//                          .equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+//                        Toast.makeText(getApplicationContext(), UID, Toast.LENGTH_LONG).show();
+//                        classDetailsOnlyREF.child(UID).removeValue();
+//                      }
+//                    }
+//                  }
+//                }
+//              }
+//            }
+//
+//            classDetailsOnlyREF.removeEventListener(this);
+//
+//          }
+//
+//          @Override
+//          public void onCancelled(DatabaseError databaseError) {
+//
+//          }
+//        });
+//
+//        SystemClock.sleep(500);
 
         classroomLinkedAccountDBREF.child("Class_List").removeValue();
         classListDBREF.removeValue();
