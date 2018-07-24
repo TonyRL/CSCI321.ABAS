@@ -44,7 +44,6 @@ public class AdminManageMenuStaff extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
         .child("Staff").child(schID);
 
-    Toast.makeText(getApplicationContext(), schID, Toast.LENGTH_LONG).show();
 
     firebaseRecyclerOptions = new FirebaseRecyclerOptions.Builder<AdminManageMenuStaffRecyclerClass>()
         .setQuery(databaseReference, AdminManageMenuStaffRecyclerClass.class).build();

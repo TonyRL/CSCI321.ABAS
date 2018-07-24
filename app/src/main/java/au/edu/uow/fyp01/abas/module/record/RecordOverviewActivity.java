@@ -376,8 +376,6 @@ public class RecordOverviewActivity extends AppCompatActivity {
                             if (snapClassDetails.getKey().equals("classname")) {
                               final String className = snapClassDetails.getValue().toString();
                               if (snapClassID.getKey().equals(className)) {
-                                Toast.makeText(getApplicationContext(), "subID:" + subjectID,
-                                    Toast.LENGTH_LONG).show();
                                 for (DataSnapshot snapSubjectID : snapClassID.getChildren()) {
                                   if (snapSubjectID.getKey().equals(subjectID)) {
                                     classroomConnect.setEnabled(true);
